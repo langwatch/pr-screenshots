@@ -1,0 +1,99 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  body { margin: 0; background: #0d1117; }
+  .frame {
+    background: #0d1117;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    padding: 18px 22px 24px 22px;
+    margin: 24px;
+    border: 1px solid #30363d;
+  }
+  .titlebar {
+    color: #8b949e;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    font-size: 12px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .red { background: #ff5f57; }
+  .yellow { background: #febc2e; }
+  .green { background: #28c840; }
+  pre {
+    color: #e6edf3;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.35;
+    margin: 0;
+    white-space: pre;
+    overflow: visible;
+  }
+</style></head>
+<body>
+  <div class="frame">
+    <div class="titlebar">
+      <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+      <div>langwatch claude (Path B / OTLP ingestion)</div>
+    </div>
+    <pre id="content">bash-5.3$ node /tmp/lw-codex-gemini/typescript-sdk/dist/cli/index.js claude
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+╭─── Claude Code v2.1.162 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                   │ Tips for getting started                                                                  │
+│                   Welcome back!                   │ Run /init to create a CLAUDE.md file with instructions for Claude                         │
+│                                                   │ ───────────────────────────────────────────────────────────────────────────────────────── │
+│                      ▐▛███▜▌                      │ What's new                                                                                │
+│                     ▝▜█████▛▘                     │ `claude agents --json` now includes `waitingFor` showing what a waiting session is block… │
+│                       ▘▘ ▝▝                       │ `--tools`: explicitly listing Grep/Glob now provides the dedicated search tools on nativ… │
+│                                                   │ `/effort` now confirms when your chosen level will persist as the default for new sessio… │
+│   Opus 4.7 with high effort · API Usage Billing   │ /release-notes for more                                                                   │
+│                   /private/tmp                    │                                                                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+ ⚠ Both claude.ai and ANTHROPIC_API_KEY set · auth may not work as expected
+   · to use claude.ai: Unset the ANTHROPIC_API_KEY environment variable, or claude /logout then say "No" to the API key approval before login.
+   · to use ANTHROPIC_API_KEY: claude /logout to sign out of claude.ai.
+ ⚠ 1 setup issue: MCP · /doctor
+
+❯ Reply EXACTLY this token and nothing else: PONG-CLAUDE-PATHB-INTERACTIVE-153655
+
+⏺ PONG-CLAUDE-PATHB-INTERACTIVE-153655
+
+✻ Brewed for 3s
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ accept edits on (shift+tab to cycle) · ← for agents                                                                           42133 tokens
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+  </div>
+</body></html>
