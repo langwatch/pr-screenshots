@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  body { margin: 0; background: #0d1117; }
+  .frame {
+    background: #0d1117;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    padding: 16px 22px 20px 22px;
+    margin: 24px;
+    border: 1px solid #30363d;
+  }
+  .titlebar {
+    color: #8b949e;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .red { background: #ff5f57; }
+  .yellow { background: #febc2e; }
+  .green { background: #28c840; }
+  pre {
+    color: #e6edf3;
+    font-family: "SF Mono", Menlo, Monaco, "DejaVu Sans Mono", Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+    line-height: 1.15;
+    margin: 0;
+    white-space: pre;
+    overflow: visible;
+  }
+</style></head>
+<body>
+  <div class="frame">
+    <div class="titlebar">
+      <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+      <div>langwatch login --device</div>
+    </div>
+    <pre id="content">[dotenv@17.3.1] injecting env (0) from .env <span style="opacity:0.6">-- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }</span>
+<span style="color:#3b8eea">🔐 LangWatch login</span>
+<span style="color:#666666">Control plane: http://localhost:5560</span>
+<span style="color:#666666">Mode: device session (will write ~/.langwatch/config.json)</span>
+
+<span style="color:#29b8db">Opening: http://localhost:5560/cli/auth?user_code=9F9J-A7MB</span>
+<span style="color:#666666">If your browser doesn't open, paste the URL above and enter code: </span><span style="color:#666666;font-weight:700">9F9J-A7MB</span>
+
+<span style="color:#29b8db">⠴</span> Waiting for you to approve in the browser
+</pre>
+  </div>
+</body></html>
