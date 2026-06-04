@@ -1,0 +1,62 @@
+bash-5.3$ node /tmp/lw-codex-gemini/typescript-sdk/dist/cli/index.js claude
+[dotenv@17.3.1] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+╭─── Claude Code v2.1.162 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                   │ Tips for getting started                                                                                                                        │
+│                   Welcome back!                   │ Run /init to create a CLAUDE.md file with instructions for Claude                                                                               │
+│                                                   │ ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│                      ▐▛███▜▌                      │ What's new                                                                                                                                      │
+│                     ▝▜█████▛▘                     │ `claude agents --json` now includes `waitingFor` showing what a waiting session is blocked on (e.g. permission prompt)                          │
+│                       ▘▘ ▝▝                       │ `--tools`: explicitly listing Grep/Glob now provides the dedicated search tools on native builds with embedded search (previously these names … │
+│                                                   │ `/effort` now confirms when your chosen level will persist as the default for new sessions                                                      │
+│   Opus 4.7 with high effort · API Usage Billing   │ /release-notes for more                                                                                                                         │
+│                   /private/tmp                    │                                                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+ ⚠ Both ANTHROPIC_AUTH_TOKEN and ANTHROPIC_API_KEY set · auth may not work as expected
+   · to use ANTHROPIC_AUTH_TOKEN: Unset the ANTHROPIC_API_KEY environment variable, or claude /logout then say "No" to the API key approval before login.
+   · to use ANTHROPIC_API_KEY: Unset the ANTHROPIC_AUTH_TOKEN environment variable.
+ ⚠ 1 setup issue: MCP · /doctor
+
+❯ Reply EXACTLY this token and nothing else: PONG-CLAUDE-PATHA-160446
+
+⏺ PONG-CLAUDE-PATHA-160446
+
+✻ Baked for 2s
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ accept edits on (shift+tab to cycle) · ← for agents                                                                                                                                 49287 tokens
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
