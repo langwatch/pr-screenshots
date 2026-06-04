@@ -1,0 +1,7 @@
+=== OPENCODE PATH A ===
+$ langwatch opencode run --model 'anthropic/claude-haiku-4-5-20251001' 'Reply EXACTLY: PONG-OPENCODE-A-143148'
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+[0m
+> build · claude-haiku-4-5-20251001
+[0m
+PONG-OPENCODE-A-143148
