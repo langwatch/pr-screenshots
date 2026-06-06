@@ -1,0 +1,28 @@
+Lane A QA — workbench live-execute REST grid against the customer's failing case
+================================================================================
+Endpoint: POST /api/evaluations/evaluators/downstream-exact-match-cezr9/evaluate
+Before the fix: ALL of these returned 400 "Validation error: Expected string, received boolean at output"
+
+1) bool true vs string "1"  (THE customer's case)
+   payload: {"data": {"output": true, "expected_output": "1"}}
+   response: {"status":"processed","score":1,"passed":true,"details":"true == 1"}
+
+2) bool false vs string "0"
+   payload: {"data": {"output": false, "expected_output": "0"}}
+   response: {"status":"processed","score":1,"passed":true,"details":"false == 0"}
+
+3) bool true vs string "true"  (parity with langwatch_nlp coercion)
+   payload: {"data": {"output": true, "expected_output": "true"}}
+   response: {"status":"processed","score":1,"passed":true,"details":"true == true"}
+
+4) number 42 vs string "42"
+   payload: {"data": {"output": 42, "expected_output": "42"}}
+   response: {"status":"processed","score":1,"passed":true,"details":"42 == 42"}
+
+5) bool true vs string "0"  (mismatch — must NOT falsely match)
+   payload: {"data": {"output": true, "expected_output": "0"}}
+   response: {"status":"processed","score":0,"passed":false,"details":"Expected:\n\t\"true\"\n\nTo be exactly equal to:\n\t\"0\""}
+
+6) string vs string baseline (no coercion needed)
+   payload: {"data": {"output": "hello", "expected_output": "hello"}}
+   response: {"status":"processed","score":1,"passed":true,"details":"hello == hello"}
