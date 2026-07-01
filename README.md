@@ -42,3 +42,24 @@ Then in your source-repo PR description:
 ```
 
 GitHub renders this inline in the PR body.
+
+## GIFs
+
+GIFs are welcome for animated evidence (e.g. `prove-them-wrong --gif`) — same layout, naming, and URL shape as screenshots; GitHub renders a `.gif` inline via `![](url)` exactly like a `.png`. One gif per claim, with the whole transition in the name:
+
+```
+pr-<number>/<your-path>/01-<claim-transition>.gif
+```
+
+Keep them light so the repo and PR pages stay fast:
+
+- ≤ 5 MB per gif
+- ≤ 1280px wide
+- ~1–2 fps for state-transition flows (`-loop 0`)
+
+Build from a sequence of stills with ffmpeg (palette 2-pass keeps UI text crisp):
+
+```bash
+ffmpeg -framerate 1.5 -pattern_type glob -i '*.png' -vf "scale=1280:-1:flags=lanczos,palettegen" -y /tmp/pal.png
+ffmpeg -framerate 1.5 -pattern_type glob -i '*.png' -i /tmp/pal.png -lavfi "scale=1280:-1:flags=lanczos[x];[x][1:v]paletteuse" -loop 0 01-flow.gif
+```
