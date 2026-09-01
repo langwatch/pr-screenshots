@@ -1,0 +1,14 @@
+[1m[38;2;173;127;168m▲ Next.js 16.3.4[39m[22m
+- Local:         http://localhost:3457
+- Network:       http://10.0.3.222:3457
+[32m[1m✓[22m[39m Ready in 144ms
+[32m[1m✓[22m[39m Running next.config.ts took 29ms
+[instrumentation] setupObservability called, default excludeHttpRequests preset active
+[route] tracerProvider constructor: Y
+[route] tracerProvider delegate constructor: Y
+[withSpan] post-process isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"6a7ac96dbc1d71b8","traceFlags":1}
+[withSpan] post-publish-smoke isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"836592aadc876dc7","traceFlags":1}
+[withSpan] get-user-profile isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"b52687d5829f33d6","traceFlags":1}
+[withSpan] delete-account isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"267f0c23591521fb","traceFlags":1}
+[withSpan] head-of-line isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"ede9872562a473ac","traceFlags":1}
+[withSpan] POST /v1/traces isRecording=true spanContext={"traceId":"9aee8c6917699a771a4ae92f93047b3c","spanId":"e209aadac2ccbc84","traceFlags":1}

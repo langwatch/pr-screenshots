@@ -1,0 +1,25 @@
+[2026-09-01T09:35:34.222Z] Collector listening on http://localhost:4319  (log file: /tmp/qa-pr7457/collector-AFTER.log)
+[2026-09-01T09:35:38.936Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2341
+[2026-09-01T09:35:38.936Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.939Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2040
+[2026-09-01T09:35:38.939Z]   MATCH span-name-bytes-present: "post-process"
+[2026-09-01T09:35:38.940Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2046
+[2026-09-01T09:35:38.940Z]   MATCH span-name-bytes-present: "post-publish-smoke"
+[2026-09-01T09:35:38.941Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2044
+[2026-09-01T09:35:38.941Z]   MATCH span-name-bytes-present: "get-user-profile"
+[2026-09-01T09:35:38.942Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2042
+[2026-09-01T09:35:38.942Z]   MATCH span-name-bytes-present: "delete-account"
+[2026-09-01T09:35:38.942Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2040
+[2026-09-01T09:35:38.942Z]   MATCH span-name-bytes-present: "head-of-line"
+[2026-09-01T09:35:38.943Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:35:38.943Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.973Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:35:38.973Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.973Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2364
+[2026-09-01T09:35:38.973Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.974Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2261
+[2026-09-01T09:35:38.974Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.975Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:35:38.975Z]   (no candidate span names found in this payload)
+[2026-09-01T09:35:38.977Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:35:38.977Z]   (no candidate span names found in this payload)
