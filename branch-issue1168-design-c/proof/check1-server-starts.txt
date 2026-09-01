@@ -1,0 +1,12 @@
+### CHECK 1: server starts, no startup-fatal ###
+$ docker ps -a --filter name=dc-proof
+dc-proof | Up 44 seconds | lw-clickhouse-designc:proof
+
+$ docker logs dc-proof | grep 'configuration rendered successfully'
+[render-config] configuration rendered successfully
+
+$ grep -c Fatal in logs (expect 0):
+0
+
+$ clickhouse-client SELECT version():
+server-up	25.10.2.65

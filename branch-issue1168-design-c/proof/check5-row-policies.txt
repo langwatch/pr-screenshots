@@ -1,0 +1,23 @@
+### CHECK 5: system.row_policies ###
+$ SELECT short_name, database, table FROM system.row_policies ORDER BY table
+    ┌─short_name─────┬─database──┬─table───────────────────────┐
+ 1. │ langwatch_lwql │ langwatch │ annotations_pg              │
+ 2. │ langwatch_lwql │ langwatch │ batch_evaluations_pg        │
+ 3. │ langwatch_lwql │ langwatch │ evaluation_analytics        │
+ 4. │ langwatch_lwql │ langwatch │ evaluation_analytics_rollup │
+ 5. │ langwatch_lwql │ langwatch │ evaluation_runs             │
+ 6. │ langwatch_lwql │ langwatch │ experiments_pg              │
+ 7. │ langwatch_lwql │ langwatch │ lwql_api_key_tenant_map     │
+ 8. │ langwatch_lwql │ langwatch │ projects_pg                 │
+ 9. │ langwatch_lwql │ langwatch │ prompt_versions_pg          │
+10. │ langwatch_lwql │ langwatch │ prompts_pg                  │
+11. │ langwatch_lwql │ langwatch │ simulation_runs             │
+12. │ langwatch_lwql │ langwatch │ stored_spans                │
+13. │ langwatch_lwql │ langwatch │ trace_analytics             │
+14. │ langwatch_lwql │ langwatch │ trace_analytics_rollup      │
+15. │ langwatch_lwql │ langwatch │ trace_summaries             │
+    └────────────────┴───────────┴─────────────────────────────┘
+
+-- total row policies (expect > 0), and the tenant-map self-policy present --
+15
+1

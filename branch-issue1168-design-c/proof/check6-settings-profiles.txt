@@ -1,0 +1,14 @@
+### CHECK 6: system.settings_profiles ###
+$ SELECT name, num_elements FROM system.settings_profiles ORDER BY name
+   ┌─name──────────────┬─num_elements─┐
+1. │ default           │           12 │
+2. │ lwql_restricted   │            9 │
+3. │ metabase_readonly │            5 │
+4. │ readonly          │            1 │
+5. │ readonly_safe     │            5 │
+   └───────────────────┴──────────────┘
+
+-- the 3 Design/access profiles present? --
+lwql_restricted
+metabase_readonly
+readonly_safe
