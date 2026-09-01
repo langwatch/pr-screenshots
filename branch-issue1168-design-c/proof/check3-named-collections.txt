@@ -1,0 +1,11 @@
+### CHECK 3: system.named_collections ###
+$ SELECT * FROM system.named_collections
+Row 1:
+──────
+name:         lwql_postgres
+collection:   {'database':'[HIDDEN]','host':'[HIDDEN]','password':'[HIDDEN]','port':'[HIDDEN]','user':'[HIDDEN]'}
+source:       CONFIG
+create_query: 
+
+-- key/value pairs for lwql_postgres (password auto-masked by CH) --
+lwql_postgres

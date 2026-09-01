@@ -1,0 +1,9 @@
+### CHECK 2: SHOW USERS ###
+$ SHOW USERS
+default
+langwatch_lwql
+langwatch_ops
+metabase_ro
+
+-- langwatch_lwql present? --
+langwatch_lwql

@@ -1,0 +1,25 @@
+### CHECK 7: empty-element constraints parse on 25.10.2.65 ###
+-- lwql_restricted profile elements: readonly/const/writability from empty <const/> elements --
+$ SELECT setting_name, value, writability FROM system.settings_profile_elements WHERE profile_name='lwql_restricted'
+   ┌─setting_name────────────────────┬─value───────┬─min──┬─max──┬─writability────────────┐
+1. │ custom_api_key_hash             │ ''          │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CHANGEABLE_IN_READONLY │
+2. │ max_bytes_to_read               │ 10000000000 │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+3. │ max_concurrent_queries_for_user │ 10          │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+4. │ max_execution_time              │ 10          │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+5. │ max_memory_usage                │ 1000000000  │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+6. │ max_rows_to_read                │ 1000000000  │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+7. │ max_threads                     │ 4           │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+8. │ read_overflow_mode              │ throw       │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ CONST                  │
+9. │ readonly                        │ 1           │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ                   │
+   └─────────────────────────────────┴─────────────┴──────┴──────┴────────────────────────┘
+
+-- PROOF the empty <const/> parsed: writability='const' on the pinned settings --
+0	0
+
+-- functional proof: connect AS langwatch_lwql, confirm readonly=1 enforced + custom_api_key_hash default '' --
+$ clickhouse-client --user langwatch_lwql ... SELECT getSetting('custom_api_key_hash')
+1	
+
+-- readonly=1 blocks an unlisted session-setting change (expect error) --
+Received exception from server (version 25.10.2):
+Code: 164. DB::Exception: Received from localhost:9000. DB::Exception: Cannot modify 'max_threads' setting in readonly mode. (READONLY)

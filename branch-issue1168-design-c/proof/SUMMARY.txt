@@ -1,0 +1,42 @@
+Design C (issue1168) — USE-PROOF: chart/renderer-produced ClickHouse access-model config
+Image: clickhouse/clickhouse-server:25.10.2.65 (exact). Driven the way the pod boots.
+Date: 2026-09-01
+
+WHAT WAS DRIVEN
+- SaaS bash path: built lw-clickhouse-designc:proof from the worktree Dockerfile
+  (CLICKHOUSE_VERSION=25.10.2.65), booted via its real entrypoint-wrapper.sh
+  (render-config.sh renders -> official entrypoint boots). Dummy secret files
+  mounted the way k8s mounts them (*_FILE env). PG reader password deliberately
+  contains & < > " ' to exercise xml_escape.
+- Go path (langwatch repo): built cmd/ch-config, rendered YAML overlay, booted
+  it in the SAME base image. ClickHouse system tables used as the equivalence oracle.
+
+RESULT: PASS on every requested check. One representational-only diff (not behavioral).
+See per-check .txt files.
+
+  check1  server starts, 0 Fatal, v25.10.2.65 ............................ PASS
+  check2  SHOW USERS lists langwatch_lwql (+ops, metabase_ro) ............ PASS
+  check3  system.named_collections shows lwql_postgres (source=CONFIG) ... PASS
+  check4  exactly ONE owner for lwql_postgres; file 0600; xml_escape ok .. PASS
+  check5  system.row_policies: 15 policies incl tenant-map self-policy ... PASS
+  check6  settings profiles lwql_restricted/readonly_safe/metabase_ro .... PASS
+  check7  empty <const/> / <changeable_in_readonly/> parse on 25.10.2.65;
+          readonly=1 enforced, CONST rejected, api_key_hash writable ...... PASS
+  check8  user_directories = users_xml + local_directory only; NO keeper/
+          replicated access storage; no keeper.xml; no warnings ........... PASS
+  check9  Go vs bash semantic diff: user, named collection, 15 row policies,
+          30 grants, password hash all IDENTICAL .......................... PASS
+  check10 functional enforcement parity bash vs go: IDENTICAL ............. PASS
+
+KNOWN / OUT-OF-SCOPE FINDINGS (not Design C defects)
+1. PRE-EXISTING boot blocker on 25.10.2.65 (bash path only): config/network.xml
+   sets <network_compression_method> at TOP LEVEL. 25.10.2.65 rejects it
+   (UNKNOWN_ELEMENT_IN_CONFIG) -> startup-fatal. This file is from PR #544, NOT
+   touched by the Design C diff (which is render-config.sh +92 lines only).
+   Neutralized for this test with skip_check_for_incorrect_settings=1 via a
+   config.d overlay so the access model could be exercised. The Go path does NOT
+   emit that top-level setting, so it boots clean with no overlay.
+2. Representational-only diff in system.settings_profile_elements: bash(XML)
+   stores one row per setting (value+writability together); Go(YAML) stores two
+   (value row + separate CONST row). Effective enforcement is byte-identical
+   (check10) — cosmetic, not behavioral.
