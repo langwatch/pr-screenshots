@@ -1,0 +1,41 @@
+Live-stack DB proof — psql against the running app's own database
+(lw_drop_btree_gist, served at https://app.drop-btree-gist.langwatch.localhost:1355)
+
+-- Step A: baseline — extension absent, index present
+SELECT count(*) AS btree_gist_installed FROM pg_extension WHERE extname = 'btree_gist';
+ btree_gist_installed
+----------------------
+                    0
+
+SELECT indexdef FROM pg_indexes WHERE indexname = 'IdentityMatch_one_open_link_key';
+ CREATE UNIQUE INDEX "IdentityMatch_one_open_link_key" ON public."IdentityMatch"
+   USING btree ("discoveredPersonId") WHERE ("validTo" IS NULL)
+
+-- Step B: seed a person
+INSERT INTO "DiscoveredPerson" (...) VALUES ('ptw-person-1', ...);
+INSERT 0 1
+
+-- Step C: first open link — succeeds
+INSERT INTO "IdentityMatch" (..., "validTo") VALUES ('ptw-link-open-1', ..., NULL);
+INSERT 0 1
+
+-- Step D: second open link, same person — REFUSED
+INSERT INTO "IdentityMatch" (..., "validTo") VALUES ('ptw-link-open-2', ..., NULL);
+ERROR:  duplicate key value violates unique constraint "IdentityMatch_one_open_link_key"
+DETAIL:  Key ("discoveredPersonId")=(ptw-person-1) already exists.
+(SQLSTATE 23505)
+
+-- Step E: a CLOSED link alongside the open one — succeeds (the rule only counts open links)
+INSERT INTO "IdentityMatch" (..., "validFrom", "validTo") VALUES ('ptw-link-closed-1', ..., now()-'3d', now()-'2d');
+INSERT 0 1
+
+-- Step F: invariant — nobody holds two open links
+SELECT count(*) FROM (SELECT "discoveredPersonId" FROM "IdentityMatch"
+  WHERE "validTo" IS NULL GROUP BY 1 HAVING count(*) > 1) t;
+ people_with_two_open_links
+----------------------------
+                          0
+
+-- Step G: cleanup — all ptw-* rows deleted
+DELETE 2
+DELETE 1
