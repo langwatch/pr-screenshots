@@ -1,0 +1,18 @@
+$ curl -s 127.0.0.1:7791/health | jq
+
+[
+  {
+    "plugin": "fakeok",
+    "lastEventAt": "2026-09-04T20:56:54.518784Z",
+    "cursor": "",
+    "lagSeconds": 0.543516,
+    "state": "ok"
+  },
+  {
+    "plugin": "template",
+    "lastEventAt": "2026-09-04T22:56:54.502187+02:00",
+    "cursor": "",
+    "lagSeconds": 0.560096958,
+    "state": "ok"
+  }
+]

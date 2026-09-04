@@ -1,0 +1,5 @@
+$ bin/supergraph status   # nothing running
+
+not running (127.0.0.1:7788)
+
+(exit 3)

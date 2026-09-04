@@ -1,0 +1,5 @@
+$ make build
+go build -ldflags "-X main.version=fbf665e" -o bin/supergraph ./cmd/supergraph
+
+$ bin/supergraph --version
+supergraph version fbf665e

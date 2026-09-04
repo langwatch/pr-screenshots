@@ -1,0 +1,20 @@
+$ SUPERGRAPH_TEMPLATE_PANIC=1 bin/supergraph --config config.toml serve   (canary=1s, lag=3s)
+
+{"level":"INFO","msg":"supergraph starting","version":"fbf665e"}
+{"level":"INFO","msg":"registered plugins","plugins":["fakeok","template"]}
+{"level":"INFO","msg":"listening","addr":"127.0.0.1:7791"}
+{"level":"INFO","msg":"core: plugin \"template\" panicked in Start: template: induced panic"}
+
+$ curl -s 127.0.0.1:7791/health | jq        # captured live, >3s after boot
+[
+  { "plugin": "fakeok",   "lastEventAt": "2026-09-04T22:57:33.642714+02:00", "lagSeconds": 0.05, "state": "ok" },
+  { "plugin": "template", "lastEventAt": "2026-09-04T20:57:24.641231Z",       "lagSeconds": 0,    "state": "stale" }
+]
+
+$ ps -p 945           # server process still alive (not exited)
+  945 SN   bin/supergraph ... serve
+
+$ bin/supergraph query '{ ping }'            # base query still answers  (exit 0)
+{
+  "ping": "ok"
+}

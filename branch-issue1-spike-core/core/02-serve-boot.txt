@@ -1,0 +1,5 @@
+$ bin/supergraph --config /tmp/sg-proof/config.toml serve
+
+{"time":"2026-09-04T22:56:35.494845+02:00","level":"INFO","msg":"supergraph starting","version":"fbf665e"}
+{"time":"2026-09-04T22:56:35.496957+02:00","level":"INFO","msg":"registered plugins","plugins":["fakeok","template"]}
+{"time":"2026-09-04T22:56:35.499416+02:00","level":"INFO","msg":"listening","addr":"127.0.0.1:7791"}
