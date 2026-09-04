@@ -1,0 +1,6 @@
+$ bin/supergraph --config config-nohost.toml serve   # config has no hostId
+
+{"time":"2026-09-04T22:57:17.160015+02:00","level":"INFO","msg":"supergraph starting","version":"fbf665e"}
+error: core: config /tmp/sg-proof/config-nohost.toml: hostId is required (no default allowed)
+
+(exit 1)

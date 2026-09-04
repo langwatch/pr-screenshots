@@ -1,0 +1,17 @@
+$ bin/supergraph query '{ templatePing health { plugin state lagSeconds } }'
+
+{
+  "templatePing": "pong from template",
+  "health": [
+    {
+      "plugin": "fakeok",
+      "state": "ok",
+      "lagSeconds": 0.098046
+    },
+    {
+      "plugin": "template",
+      "state": "ok",
+      "lagSeconds": 0.114739958
+    }
+  ]
+}
