@@ -1,0 +1,99 @@
+================================================================================
+ orchard-codex#235 — LIVE claude -p run through the wired hooks
+ worktree : /home/ubuntu/worktrees/orchard-codex/issue235-verification-gate-before-send
+ HEAD     : 6c8a4170127078efc3621de9be2f05a0e976960a
+ claude   : /home/ubuntu/.local/bin/claude   version 2.1.263 (Claude Code)
+ CLAUDE_CONFIG_DIR : /tmp/claude-1000/-home-ubuntu-worktrees-orchard-codex-issue235-verification-gate-before-send/08cc093e-0ca0-4007-a3b9-ac621e32cf5a/scratchpad/cfg  (isolated; only these 3 hooks wired)
+   UserPromptSubmit          -> hooks/turn-state-reset.sh
+   PreToolUse SendMessage|Bash -> hooks/verify-gate.sh
+   PostToolUse Bash          -> hooks/verify-record.sh
+ (real ~/.claude/.credentials.json copied into the isolated dir to authenticate;
+  isolated TURN_STATE_DIR + GATE_FAILOPEN_LOG under /tmp/claude-1000/-home-ubuntu-worktrees-orchard-codex-issue235-verification-gate-before-send/08cc093e-0ca0-4007-a3b9-ac621e32cf5a/scratchpad/iso-live*)
+================================================================================
+
+--- isolated settings.json (hook wiring) ---
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "/home/ubuntu/worktrees/orchard-codex/issue235-verification-gate-before-send/hooks/turn-state-reset.sh" } ] }
+    ],
+    "PreToolUse": [
+      { "matcher": "SendMessage|Bash", "hooks": [ { "type": "command", "command": "/home/ubuntu/worktrees/orchard-codex/issue235-verification-gate-before-send/hooks/verify-gate.sh" } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Bash", "hooks": [ { "type": "command", "command": "/home/ubuntu/worktrees/orchard-codex/issue235-verification-gate-before-send/hooks/verify-record.sh" } ] }
+    ]
+  }
+}
+
+--- NOTE: first attempt WITHOUT credentials in the isolated dir failed verbatim ---
+    result:          "Not logged in · Please run /login"
+    terminal_reason: "api_error"   is_error: true   num_turns: 1
+  (fixed by copying ~/.claude/.credentials.json into CLAUDE_CONFIG_DIR)
+
+================================================================================
+ COMMAND (verbatim)
+================================================================================
+$ claude -p --output-format json --max-turns 4 \
+    'Run exactly this bash command and nothing else, then stop: bash -c '"'"'echo scripts/tg-send "#235 is ready"'"'"''
+
+================================================================================
+ RESULT (--output-format json) — the model invoked Bash; PreToolUse DENIED it
+================================================================================
+{
+  "is_error": false,
+  "terminal_reason": "completed",
+  "num_turns": 2,
+  "session_id": "5a67af38-aa48-488b-9628-f07b09f60297",
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "toolu_01SNxcHce1DCzWPZeMfEamXj",
+      "tool_input": {
+        "command": "bash -c 'echo scripts/tg-send \"#235 is ready\"'",
+        "description": "Echo tg-send command string"
+      }
+    }
+  ]
+}
+
+--- model's own account of what happened (result field) ---
+Blocked by a hook, not by the command itself.
+
+The command was only an `echo` (it prints text, sends nothing), but `hooks/verify-gate.sh` saw an unverified claim about **#235** and denied the call. You told me to run that one command and stop, so I did not run `gh pr view 235` and did not retry.
+
+To proceed, either:
+- **Verify first** — run `gh issue view 235` (or `gh pr view 235`), then retry.
+- **Override** — retry the same command once; the gate allows it through on the second try.
+
+---
+
+## 🎯 **TLDR**
+
+Your `echo scripts/tg-send "#235 is ready"` was **blocked by the verify-gate hook** — it treats "#235 is ready" as an **unverified status claim**. Nothing ran, nothing was sent.
+
+**Recommendation:** run `gh issue view 235` to verify, then retry. This is the gate working as designed — the same guard from [orchard-codex#235](https://github.com/langwatch/orchard-codex/issues/235).
+
+**Confidence:** 95%
+
+================================================================================
+ EXACT permissionDecisionReason emitted by hooks/verify-gate.sh
+ (captured from a second identical run with --output-format stream-json --verbose)
+================================================================================
+VERIFY-GATE: unverified status claim about: 235. Run a verifying command naming each reference this turn before sending — gh pr view 235 (or gh issue view 235) — then retry. Or send again to proceed anyway (one deny per reference; ADR-016). Enforced by hooks/verify-gate.sh (orchard-codex#235).
+
+================================================================================
+ PROOF the WORKTREE hooks (not ~/.claude copies) actually ran this live turn
+ turn-state markers left in the isolated TURN_STATE_DIR:
+================================================================================
+d1192cf9-ea5a-4ff0-be85-40eecdfcb4f1.asked.235
+d1192cf9-ea5a-4ff0-be85-40eecdfcb4f1.turn
+
+  .turn      = turn-state-reset.sh (UserPromptSubmit) ran
+  .asked.235 = verify-gate.sh issued its one deny for ref 235
+
+fail-open log (must be untouched — no blind fail-opens): untouched/empty OK
+
+session_id (json run)   : 5a67af38-aa48-488b-9628-f07b09f60297
+session_id (stream run) : d1192cf9-ea5a-4ff0-be85-40eecdfcb4f1
+================================================================================

@@ -1,0 +1,66 @@
+================================================================================
+ orchard-codex#235 verification gate — hook round-trip (as-wired)
+ worktree : /home/ubuntu/worktrees/orchard-codex/issue235-verification-gate-before-send
+ HEAD     : 6c8a4170127078efc3621de9be2f05a0e976960a
+ HOME     : /tmp/claude-1000/-home-ubuntu-worktrees-orchard-codex-issue235-verification-gate-before-send/08cc093e-0ca0-4007-a3b9-ac621e32cf5a/scratchpad/iso/home  (isolated/fake)
+ TURN_STATE_DIR   : /tmp/claude-1000/-home-ubuntu-worktrees-orchard-codex-issue235-verification-gate-before-send/08cc093e-0ca0-4007-a3b9-ac621e32cf5a/scratchpad/iso/turn-state  (isolated)
+ GATE_FAILOPEN_LOG: /tmp/claude-1000/-home-ubuntu-worktrees-orchard-codex-issue235-verification-gate-before-send/08cc093e-0ca0-4007-a3b9-ac621e32cf5a/scratchpad/iso/home/.claude/gate-failopen.jsonl  (isolated)
+ session_id       : sess-235-proof
+================================================================================
+[0;33m# ===== TURN 1: unverified claim -> deny, then ask-once escape =====[0m
+
+[1;36m$ source hooks/lib/turn-state.sh; ts_reset sess-235-proof   # UserPromptSubmit: start turn[0m
+[0;33m# turn marker present: yes[0m
+
+[1;36m$ echo "{discord reply: #235 is ready}" | verify-gate.sh   [PreToolUse][0m
+  payload: {"session_id":"sess-235-proof","tool_name":"mcp__plugin_discord_discord__reply","tool_input":{"text":"#235 is ready"}}
+  exit=0  stdout:
+    {"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"VERIFY-GATE: unverified status claim about: 235. Run a verifying command naming each reference this turn before sending — gh pr view 235 (or gh issue view 235) — then retry. Or send again to proceed anyway (one deny per reference; ADR-016). Enforced by hooks/verify-gate.sh (orchard-codex#235)."}}
+[0;33m# permissionDecision: deny[0m
+[0;33m# reason: VERIFY-GATE: unverified status claim about: 235. Run a verifying command naming each reference this turn before sending — gh pr view 235 (or gh issue view 235) — then retry. Or send again to proceed anyway (one deny per reference; ADR-016). Enforced by hooks/verify-gate.sh (orchard-codex#235).[0m
+[0;33m# asked marker for 235: present[0m
+
+[1;36m$ RESEND same body -> verify-gate.sh   [ask-once escape][0m
+  exit=0  stdout: []
+[0;33m# decision: [0m
+[0;33m# ===== TURN 2: verify via PostToolUse, then send permits =====[0m
+
+[1;36m$ ts_reset sess-235-proof   # new turn[0m
+[0;33m# asked.235 cleared by reset: cleared[0m
+
+[1;36m$ echo "{Bash: gh pr view 235}" | verify-record.sh   [PostToolUse][0m
+  payload: {"session_id":"sess-235-proof","tool_name":"Bash","tool_input":{"command":"gh pr view 235"}}
+  verify-record exit=0
+[0;33m# verified marker for 235: present[0m
+
+[1;36m$ discord reply "#235 is ready" -> verify-gate.sh   [should PERMIT][0m
+  exit=0  stdout: []
+[0;33m# decision: [0m
+[0;33m# ===== TURN 3: Bash send-path deny + non-send silent + log untouched =====[0m
+
+[1;36m$ ts_reset sess-235-proof   # new turn (235 no longer verified)[0m
+
+[1;36m$ echo "{Bash: bash scripts/tg-send \"#235 is ready\"}" | verify-gate.sh[0m
+  payload: {"session_id":"sess-235-proof","tool_name":"Bash","tool_input":{"command":"bash scripts/tg-send \"#235 is ready\""}}
+  exit=0  stdout:
+    {"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny","permissionDecisionReason":"VERIFY-GATE: unverified status claim about: 235. Run a verifying command naming each reference this turn before sending — gh pr view 235 (or gh issue view 235) — then retry. Or send again to proceed anyway (one deny per reference; ADR-016). Enforced by hooks/verify-gate.sh (orchard-codex#235)."}}
+[0;33m# decision: deny[0m
+[0;33m# reason: VERIFY-GATE: unverified status claim about: 235. Run a verifying command naming each reference this turn before sending — gh pr view 235 (or gh issue view 235) — then retry. Or send again to proceed anyway (one deny per reference; ADR-016). Enforced by hooks/verify-gate.sh (orchard-codex#235).[0m
+
+[1;36m$ echo "{Bash: ls}" | verify-gate.sh   [non-send, should be SILENT][0m
+  payload: {"session_id":"sess-235-proof","tool_name":"Bash","tool_input":{"command":"ls"}}
+  exit=0  stdout: []
+[0;33m# decision: [0m
+[0;33m# ===== fail-open log must be UNTOUCHED (no blind fail-opens occurred) =====[0m
+
+[1;36m$ cat $GATE_FAILOPEN_LOG[0m
+  (file does not exist — zero fail-open records written) OK
+
+================================ SUMMARY ================================
+T1 unverified send   : 0  -> deny
+T1 resend (ask-once) : 0 -> silent permit
+T2 verified send     : 0 -> silent permit
+T3 tg-send send-path : 0 -> deny
+T3 ls non-send       : 0 -> silent permit
+fail-open log        : untouched/empty
+========================================================================
