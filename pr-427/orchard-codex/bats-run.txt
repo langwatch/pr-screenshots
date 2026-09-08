@@ -1,0 +1,99 @@
+$ bats hooks/tests/verify-gate.bats hooks/tests/verify-claims-lib.bats hooks/tests/gate-failopen.bats hooks/tests/no-auto-ntfy.bats
+HEAD: 6c8a4170127078efc3621de9be2f05a0e976960a
+
+1..93
+ok 1 AC2: discord reply with an unverified claim is DENIED
+ok 2 AC2: discord edit_message with an unverified claim is DENIED
+ok 3 AC2: SendMessage reads .message and is DENIED on an unverified claim
+ok 4 AC2: a matched send tool whose body extracts empty records body-unextractable
+ok 5 AC3: releases when a fresh verified marker exists
+ok 6 AC3: denies when only .turn exists (no verification)
+ok 7 AC4: PATH emptied (no jq) PERMITS and records exactly one no-jq line
+ok 8 AC4: verdict axis still DENIES a well-formed unverified claim
+ok 9 AC4: a non-send Bash call with no turn state records NOTHING and permits
+ok 10 AC4: a status claim with no turn state records reset-hook-never-ran and permits
+ok 11 AC5: unverified DENIES; same claim PERMITS after gh pr view through verify-record.sh
+ok 12 AC5: no gate invocation leaks into the real gate-failopen.jsonl
+ok 13 AC7: gh pr view 6444 marks verified.6444
+ok 14 AC7: a non-verifying command (ls) marks nothing
+ok 15 AC7: release is exit-status-independent (gh pr checks with nonzero exit still marks)
+ok 16 AC8: gh api read shape releases 235; a -f write shape does not; echo does not
+ok 17 AC9: verifying #6444 does not release a claim about #6397
+ok 18 AC10: 'I already read the thread on #235' PERMITS (no status term)
+ok 19 AC10: 'greenfield work on #235' PERMITS (no status term)
+ok 20 AC10: '#235 is ready' DENIES
+ok 21 AC10: 'use #123456 for the green background' DENIES (hex tradeoff pinned)
+ok 22 AC10: the regex engine is present in the gate's environment
+ok 23 AC11: two identical sends — first DENY, second PERMIT
+ok 24 AC11: a two-reference body denies ONCE naming both, and a resend PERMITS
+ok 25 AC11: the deny reason contains a literal 'gh ' command naming a reference
+ok 26 AC12: respond-gate and verify-gate each emit their own deny on one payload
+ok 27 AC12: composite 'npm run build && bash scripts/tg-send ...' is DENIED
+ok 28 AC13: bash scripts/tg-send with an unverified claim is DENIED
+ok 29 AC13: composite gh pr view && tg-send is DENIED
+ok 30 AC13: curl api.telegram.org with an unverified claim is DENIED
+ok 31 AC13: curl discord.com/api with an unverified claim is DENIED
+ok 32 AC13: a plain non-send Bash command with a status term PERMITS silently
+ok 33 AC14: 'lane langwatch_issue6397 is stuck' with no verification DENIES
+ok 34 AC14: PERMITS after a lane-liveness.sh payload naming the lane
+ok 35 AC14: a bare tmux list-sessions payload still DENIES the lane claim
+ok 36 AC14: 'which lane is green' with no extractable ref PERMITS
+ok 37 AC15: stale verified AND stale asked markers DENY; resend PERMITS on the fresh asked
+ok 38 AC15: a fresh verified marker PERMITS
+ok 39 AC16: VERIFY_GATE_DISABLE=1 PERMITS and records one disabled line
+ok 40 AC10: the named regex engine is present
+ok 41 AC10: 'ready' is a status term
+ok 42 AC10: 'already' does not trip \bready\b
+ok 43 AC10: 'greenfield' does not trip \bgreen\b
+ok 44 AC10: 'green' as a whole word is a status term
+ok 45 AC10: 'not started' is whitespace tolerant
+ok 46 AC10: 'not-started' is hyphen tolerant
+ok 47 AC10: every minimum status term is detected
+ok 48 AC10: a body with no status term is not a claim
+ok 49 extract: #N yields N
+ok 50 extract: a 6-digit hex #123456 resolves toward DENY (extracted like any ref)
+ok 51 extract: a GitHub PR URL yields its number
+ok 52 extract: a GitHub issue URL yields its number
+ok 53 extract: a langwatch_issue token is a first-class reference
+ok 54 AC14: 'lane <token>' captures only a token carrying _ or a digit
+ok 55 extract: deduped, first-seen order
+ok 56 AC8: gh pr view <N> releases N
+ok 57 AC8: gh pr checks <N> releases N
+ok 58 AC8: gh issue view <N> releases N
+ok 59 AC8: gh api read shape releases the reference in its path
+ok 60 AC8: gh api with -f (a write shape) releases nothing
+ok 61 AC8: gh api -X POST releases nothing
+ok 62 AC8: gh api -X GET still releases (explicit read)
+ok 63 AC8: echo releases nothing
+ok 64 AC8: gh pr list is inert (names no reference)
+ok 65 AC8: pr-ready-check.sh <owner> <repo> <N> releases N only
+ok 66 AC14: lane-liveness.sh <session> releases the session
+ok 67 AC14: bare lane-liveness.sh is inert
+ok 68 AC14: tmux has-session -t <session> releases the session
+ok 69 AC14: tmux list-sessions | grep <session> releases the session
+ok 70 AC14: bare tmux list-sessions is inert
+ok 71 AC13: scripts/tg-send is a send path
+ok 72 AC13: api.telegram.org is a send path
+ok 73 AC13: discord.com/api is a send path
+ok 74 AC13: a plain command is not a send path
+ok 75 case 1: respond-gate records reset-hook-never-ran under gate:"respond"
+ok 76 record shape: respond-gate's fail-open row carries this turn's session_id
+ok 77 record shape: a turn stuck in reset-hook-never-ran writes ONE ROW PER TOOL CALL for respond-gate, not one per turn
+ok 78 negative control: respond-gate does not record a delegated subagent
+ok 79 negative control: respond-gate does not record a non-assistant agent (out of audience)
+ok 80 negative control: respond-gate does not record on the compliance path
+ok 81 G5 bootstrap hole: respond-gate fails safely when hooks/lib/gate-failopen.sh is itself unreadable
+ok 82 case 4b: respond-gate records lib-unreadable:turn-state instead of releasing silently
+ok 83 case 4b: respond-gate records lib-unreadable:gate-audience instead of releasing silently
+ok 84 case 4b: respond-gate records lib-unreadable:gate-allowlist instead of releasing silently
+ok 85 no-jq ordering: respond-gate records no-jq instead of a silent, unrecordable exit
+ok 86 G6 install: a provisioned tree carries hooks/lib/gate-failopen.sh and every gate can source it
+ok 87 record integrity: a forged session_id cannot inject a key into the record
+ok 88 record integrity: a forged why cannot inject a key, including on the lib-unreadable arm
+ok 89 record integrity: a forged gate cannot inject a key
+ok 90 record integrity: a newline in any field cannot split one record into two lines
+ok 91 record integrity: an unrecognized why is quarantined, never silently dropped
+ok 92 record integrity: every real why value survives the closed set unchanged
+ok 93 no hook on an always-firing event calls ntfy (auto-paging is forbidden)
+
+exit=0
