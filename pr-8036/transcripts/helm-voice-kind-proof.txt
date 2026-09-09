@@ -1,0 +1,52 @@
+### chart HEAD
+f17f2d31e6 fix(helm): bind voice worker scenarios to a feature file, prose fixes
+### default render has no voice resources
+0
+### render with voice enabled (deployment, service, ingress only)
+3
+kind: Deployment
+  replicas: 1
+              containerPort: 3300
+              value: http://localhost:5560
+              value: http://localhost:5560
+            - name: VOICE_WORKER_ONLY
+            - name: VOICE_WS_PORT
+            - name: VOICE_PUBLIC_BASE_URL
+            - name: TWILIO_ACCOUNT_SID
+            - name: TWILIO_AUTH_TOKEN
+            - name: TWILIO_FROM_NUMBER
+kind: Service
+      targetPort: voice-ws
+# WebSocket-capable path: add any upgrade/timeout annotations your ingress
+kind: Ingress
+    - host: "voice.proof.langwatch.local"
+          - path: /twilio
+### apply to kind cluster voice-proof
+namespace/voice-proof created
+secret/twilio-proof created
+deployment.apps/lw-voice created
+service/lw-voice created
+ingress.networking.k8s.io/lw-voice created
+### resources in the cluster
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                       SELECTOR
+deployment.apps/lw-voice   0/1     1            0           3s    lw-voice     langwatch/langwatch:3.17.0   app.kubernetes.io/instance=lw,app.kubernetes.io/name=lw-voice
+
+NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR
+service/lw-voice   ClusterIP   10.96.116.108   <none>        3300/TCP   3s    app.kubernetes.io/instance=lw,app.kubernetes.io/name=lw-voice
+
+NAME                                 CLASS    HOSTS                         ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/lw-voice   <none>   voice.proof.langwatch.local             80      3s
+### voice worker container spec (env, port, replicas)
+1
+VOICE_WORKER_ONLY=true/
+VOICE_WS_PORT=3300/
+VOICE_PUBLIC_BASE_URL=https://voice.proof.langwatch.local/
+TWILIO_ACCOUNT_SID=twilio-proof/TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN=twilio-proof/TWILIO_AUTH_TOKEN
+TWILIO_FROM_NUMBER=twilio-proof/TWILIO_FROM_NUMBER
+[{"containerPort":3300,"name":"voice-ws","protocol":"TCP"}]
+[{"name":"voice-ws","port":3300,"protocol":"TCP","targetPort":"voice-ws"}]
+voice.proof.langwatch.local /twilio -> lw-voice:3300
+### pod (image pull is not expected to succeed offline; the object graph is the proof)
+NAME                        READY   STATUS         RESTARTS   AGE   IP           NODE                    NOMINATED NODE   READINESS GATES
+lw-voice-5f774cc57c-btcm5   0/1     ErrImagePull   0          3s    10.244.0.5   lw-full-control-plane   <none>           <none>

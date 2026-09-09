@@ -1,0 +1,319 @@
+---
+# Source: langwatch/templates/voice/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lw-voice
+  labels:
+    app.kubernetes.io/name: lw-voice
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/component: voice
+    
+    helm.sh/chart: langwatch-3.17.0
+    app.kubernetes.io/name: langwatch
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/version: "3.17.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: langwatch
+spec:
+  # Fixed at 1, not a value: the Twilio Media Streams WebSocket routes an
+  # in-flight call by nonce inside one process, so a second replica would
+  # split a call's frames across two processes with no shared state.
+  replicas: 1
+  # Recreate, not RollingUpdate: two replicas would each answer half a call's
+  # frames, so the old pod must fully terminate before the new one starts.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lw-voice
+      app.kubernetes.io/instance: lw
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: lw-voice
+        app.kubernetes.io/instance: lw
+        app.kubernetes.io/component: voice
+      annotations:
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 55
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: lw-voice
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          image: "langwatch/langwatch:3.17.0"
+          imagePullPolicy: "IfNotPresent"
+          workingDir: /app/platform/app
+          command: ['pnpm']
+          args: ['run', 'start:workers']
+          ports:
+            - name: voice-ws
+              containerPort: 3300
+              protocol: TCP
+          env:
+            
+            - name: NODE_ENV
+              value: production
+            
+            - name: BASE_HOST
+              value: http://localhost:5560
+            
+            
+            - name: NEXTAUTH_URL
+              value: http://localhost:5560
+            
+            - name: SKIP_ENV_VALIDATION
+              value: "false"
+            
+            - name: LANGWATCH_NLP_SERVICE
+              value: http://lw-langwatch-nlp:5561
+            - name: LANGEVALS_ENDPOINT
+              value: http://lw-langevals:5562
+            
+            # Engine code-block timeout (seconds), propagated to all processes that invoke
+            # nlpgo. Range-checked by the helper, which is why this is emitted through it
+            # and not read straight from values.
+            - name: NLPGO_ENGINE_CODE_BLOCK_TIMEOUT_SECONDS
+              value: "600"
+            
+            # PostgreSQL connection string
+            - name: PGUSER
+              value: "postgres"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lw-postgresql
+                  key: postgres-password
+            - name: PGHOST
+              value: "lw-postgresql"
+            - name: PGDATABASE
+              value: "langwatch"
+            - name: DATABASE_URL
+              value: "postgresql://$(PGUSER):$(PGPASSWORD)@$(PGHOST):5432/$(PGDATABASE)"
+            
+            # Redis connection string
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lw-redis
+                  key: redis-password
+            - name: REDIS_HOST
+              value: "lw-redis-master"
+            - name: REDIS_URL
+              value: "redis://:$(REDIS_PASSWORD)@$(REDIS_HOST):6379"
+            
+            # ClickHouse connection
+            
+            - name: CLICKHOUSE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lw-clickhouse
+                  key: url
+            
+            - name: CLICKHOUSE_BACKUP_METRICS_ENABLED
+              value: "false"
+            
+            
+            - name: LWQL_CLICKHOUSE_URL
+              value: "http://lw-clickhouse:8123"
+            - name: LWQL_CLICKHOUSE_USER
+              value: "langwatch_lwql"
+            - name: LWQL_DATABASE
+              value: "langwatch"
+            - name: LWQL_TENANT_SETTING
+              value: "custom_api_key_hash"
+            - name: LWQL_CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lw-clickhouse
+                  key: lwql_password
+                  optional: true
+            - name: LWQL_MANAGE_POSTGRES_READER
+              value: "true"
+            - name: LWQL_POSTGRES_READER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lw-clickhouse
+                  key: lwql_pg_password
+                  optional: true
+            
+            # Credentials encryption key
+            - name: CREDENTIALS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: langwatch-app-secrets
+                  key: credentialsEncryptionKey
+            
+            # Evaluators - Azure OpenAI Integration
+            
+            # Evaluators - Google AI Integration
+            
+            # Telemetry - Usage analytics collection
+            - name: DISABLE_USAGE_STATS
+              value: "false"
+            # Telemetry - Prometheus metrics collection
+            
+            # Dataplane Object Storage (shared between datasets and stored-objects;
+            # emitted under the legacy `dataplane` value key for
+            # backwards compatibility — the bucket/container carries BOTH dataset
+            # uploads and externalized scenario media in this release).
+            # Single-replica local-filesystem fallback for stored-objects. ONLY safe
+            # when replicaCount == 1 because pods don't share a filesystem; a
+            # multi-pod deployment will end up with each pod able to read only the
+            # subset of files it personally wrote. The chart enforces the single
+            # replica constraint via a validation rule and the PVC is RWO by
+            # default. NOT for production. Operators who need multi-replica MUST
+            # enable dataplane with a real object-storage backend.
+            - name: LANGWATCH_LOCAL_STORAGE_PATH
+              value: "/var/lib/langwatch/objects"
+            
+            # NextAuth secret. Lives in sharedEnv (not just the app Deployment) because
+            # BetterAuth initializes eagerly at import time across every consumer of the
+            # app image — workers and the dataset-s3-migration hook Job both pull in the
+            # same module graph, so any of them can crash with "You are using the default
+            # secret" if this is missing, regardless of whether that consumer's own logic
+            # ever touches auth. Same secretKeyRef precedence everywhere (explicit
+            # override -> existingSecret -> autogen).
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: langwatch-app-secrets
+                  key: nextAuthSecret
+            
+            # Enterprise license. Optional: without one the deployment runs the open
+            # source edition, which caps nothing it stores on your own infrastructure.
+            # Setting it here entitles the whole instance, so an operator does not have
+            # to activate a license per organization through the UI.
+            #
+            # In sharedEnv rather than the app Deployment because plan resolution runs in
+            # the workers too, and a worker that reads a different entitlement than the
+            # app would enforce different limits on the same organization.
+            
+            # Email gateway. Naming a provider is what turns email on. In sharedEnv rather
+            # than the app Deployment because scheduled reports and alert notifications are
+            # dispatched by the workers, so a workers pod without a gateway configured
+            # fails every send it is responsible for.
+            - name: SHUTDOWN_DRAIN_TIMEOUT_MS
+              value: "25000"
+
+            - name: OTEL_SERVICE_NAME
+              value: "langwatch-voice"
+
+            # Same value as the workers Deployment: even with
+            # VOICE_WORKER_ONLY=true consuming only the voice queue, the
+            # process still needs the app's callback base URL for the rest of
+            # the worker runtime it shares with the workers Deployment.
+            - name: LANGWATCH_ENDPOINT
+              value: http://lw-app:5560
+
+            # Env contract: langwatch/langwatch#8014 (voice-env-contract comment).
+            - name: VOICE_WORKER_ONLY
+              value: "true"
+            - name: VOICE_WS_PORT
+              value: "3300"
+            - name: VOICE_PUBLIC_BASE_URL
+              value: "https://voice.proof.langwatch.local"
+
+            - name: TWILIO_ACCOUNT_SID
+              valueFrom:
+                secretKeyRef:
+                  name: twilio-proof
+                  key: TWILIO_ACCOUNT_SID
+            - name: TWILIO_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: twilio-proof
+                  key: TWILIO_AUTH_TOKEN
+            - name: TWILIO_FROM_NUMBER
+              valueFrom:
+                secretKeyRef:
+                  name: twilio-proof
+                  key: TWILIO_FROM_NUMBER
+
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          volumeMounts:
+            - name: tmp-dir
+              mountPath: /tmp
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
+---
+# Source: langwatch/templates/voice/service.yaml
+# Service exposing the voice worker's Twilio Media Streams WebSocket port.
+apiVersion: v1
+kind: Service
+metadata:
+  name: lw-voice
+  labels:
+    app.kubernetes.io/name: lw-voice
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/component: voice
+    
+    helm.sh/chart: langwatch-3.17.0
+    app.kubernetes.io/name: langwatch
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/version: "3.17.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: langwatch
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3300
+      targetPort: voice-ws
+      protocol: TCP
+      name: voice-ws
+  selector:
+    app.kubernetes.io/name: lw-voice
+    app.kubernetes.io/instance: lw
+---
+# Source: langwatch/templates/voice/ingress.yaml
+# Fronts the voice worker's WebSocket port. Twilio Media Streams needs a
+# WebSocket-capable path: add any upgrade/timeout annotations your ingress
+# controller requires under voice.ingress.annotations (TLS termination is left
+# to your edge, same as the main ingress).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lw-voice
+  labels:
+    app.kubernetes.io/name: lw-voice
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/component: voice
+    
+    helm.sh/chart: langwatch-3.17.0
+    app.kubernetes.io/name: langwatch
+    app.kubernetes.io/instance: lw
+    app.kubernetes.io/version: "3.17.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: langwatch
+spec:
+  rules:
+    - host: "voice.proof.langwatch.local"
+      http:
+        paths:
+          - path: /twilio
+            pathType: Prefix
+            backend:
+              service:
+                name: lw-voice
+                port:
+                  number: 3300
