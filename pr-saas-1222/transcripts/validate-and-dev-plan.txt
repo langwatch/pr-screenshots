@@ -1,0 +1,53 @@
+langwatch-saas PR #1222 feat/voice-worker-infra, HEAD 73c56818, 2026-09-09T15:51Z
+
+=== 1. Format check and validate, both roots ===
+$ git fetch -q origin feat/voice-worker-infra && git checkout -q 73c568186b2d93d42dcba143c50aebc6ffc5c460
+HEAD 73c5681 fix(voice): mark Twilio locals sensitive, tighten voice_public_base_url validation
+
+$ terraform fmt -check -recursive infrastructure; echo exit=$?
+exit=0
+
+$ (cd infrastructure/runtime && terraform init -backend=false -input=false >/dev/null && terraform validate)
+Success! The configuration is valid, but there were some validation warnings
+
+$ (cd infrastructure && terraform init -backend=false -input=false >/dev/null && terraform validate)
+Success! The configuration is valid, but there were some validation warnings
+
+$ grep -n 'sensitive(' infrastructure/langwatch_voice.tf infrastructure/runtime/secrets.tf | grep twilio
+infrastructure/langwatch_voice.tf:71:  twilio_account_sid = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_account_sid[0].secret_string : "")
+infrastructure/langwatch_voice.tf:72:  twilio_auth_token  = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_auth_token[0].secret_string : "")
+infrastructure/langwatch_voice.tf:73:  twilio_from_number = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_from_number[0].secret_string : "")
+infrastructure/runtime/secrets.tf:159:  twilio_account_sid = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_account_sid[0].secret_string : "")
+infrastructure/runtime/secrets.tf:160:  twilio_auth_token  = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_auth_token[0].secret_string : "")
+infrastructure/runtime/secrets.tf:161:  twilio_from_number = sensitive(var.enable_voice_worker ? data.aws_secretsmanager_secret_version.twilio_from_number[0].secret_string : "")
+
+$ grep -n 'regex("^https://\[^/\]+$"' infrastructure/langwatch_voice.tf infrastructure/runtime/variables.tf
+infrastructure/langwatch_voice.tf:43:    condition     = var.voice_public_base_url == "" || can(regex("^https://[^/]+$", var.voice_public_base_url))
+infrastructure/runtime/variables.tf:693:    condition     = var.voice_public_base_url == "" || can(regex("^https://[^/]+$", var.voice_public_base_url))
+
+$ grep -n 'enable_' infrastructure/environments/dev/runtime.tfvars
+34:enable_load_balancer_services = false
+41:enable_public_app_nlb        = true
+42:enable_public_otlp_nlb       = true
+43:enable_public_clickhouse_nlb = true
+46:enable_voice_worker     = false
+47:enable_public_voice_nlb = false
+52:enable_otlp_auth = true
+108:clickhouse_enable_backups           = true
+
+=== 2. Terrafied plan comment on the PR (dev, flags off) ===
+## Terraform plan (dev)
+
+| Stack | Adds | Changes | Destroys | Replaces | Status |
+| --- | --- | --- | --- | --- | --- |
+| AWS | 0 | 0 | 0 | 0 | no changes |
+| Runtime | 0 | 3 | 0 | 1 | changes |
+
+$ planned resource actions in the dev plan
+# module.internal_tracing.kubernetes_stateful_set.pyroscope is tainted, so must be replaced
+# module.langwatch_app_service.kubernetes_deployment.this will be updated in-place
+# module.langwatch_nlp_service.kubernetes_deployment.this will be updated in-place
+# module.langwatch_worker_service.kubernetes_deployment.this will be updated in-place
+
+$ grep -i voice <plan>  # 0 lines
+(no line mentions voice: with enable_voice_worker=false and enable_public_voice_nlb=false nothing voice-related is planned)
