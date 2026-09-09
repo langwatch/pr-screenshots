@@ -1,5 +1,5 @@
 ### chart HEAD
-f17f2d31e6 fix(helm): bind voice worker scenarios to a feature file, prose fixes
+79119f7831 fix(helm): voice worker owns its shutdown values, shared render helper in tests
 ### default render has no voice resources
 0
 ### render with voice enabled (deployment, service, ingress only)
@@ -31,8 +31,8 @@ ingress.networking.k8s.io/lw-voice created
 NAME                       READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                       SELECTOR
 deployment.apps/lw-voice   0/1     1            0           3s    lw-voice     langwatch/langwatch:3.17.0   app.kubernetes.io/instance=lw,app.kubernetes.io/name=lw-voice
 
-NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE   SELECTOR
-service/lw-voice   ClusterIP   10.96.116.108   <none>        3300/TCP   3s    app.kubernetes.io/instance=lw,app.kubernetes.io/name=lw-voice
+NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE   SELECTOR
+service/lw-voice   ClusterIP   10.96.25.248   <none>        3300/TCP   3s    app.kubernetes.io/instance=lw,app.kubernetes.io/name=lw-voice
 
 NAME                                 CLASS    HOSTS                         ADDRESS   PORTS   AGE
 ingress.networking.k8s.io/lw-voice   <none>   voice.proof.langwatch.local             80      3s
@@ -49,4 +49,4 @@ TWILIO_FROM_NUMBER=twilio-proof/TWILIO_FROM_NUMBER
 voice.proof.langwatch.local /twilio -> lw-voice:3300
 ### pod (image pull is not expected to succeed offline; the object graph is the proof)
 NAME                        READY   STATUS         RESTARTS   AGE   IP           NODE                    NOMINATED NODE   READINESS GATES
-lw-voice-5f774cc57c-btcm5   0/1     ErrImagePull   0          3s    10.244.0.5   lw-full-control-plane   <none>           <none>
+lw-voice-5f774cc57c-842sh   0/1     ErrImagePull   0          3s    10.244.0.6   lw-full-control-plane   <none>           <none>
