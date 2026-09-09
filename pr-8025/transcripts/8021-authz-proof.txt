@@ -1,0 +1,28 @@
+agents before: 4
+
+### AC1 limited (scenarios:create only) mints without a saved row
+{"error":"project_permission_denied","message":"You do not have permission to do this on this project","permission":"evaluations:manage","fault":"customer"}
+HTTP 403
+
+### AC3 limited mints against the saved row (permission passes; only the provider key is missing in dev)
+{"transport":"elevenlabs_convai","sessionToken":"eyJzZXNzaW9uSWQiOiJ1c2JmbVJYVUtQTGNwOXAyYTFfNWciLCJwcm9qZWN0SWQiOiJwcm9qZWN0X2F3a1FUSUg0aHdNWWRMOEtzSGJvMSIsImFnZW50SWQiOiJhZ2VudF9MTFRRVlZVQ2pDMnFLS1pEeXNHUWsiLCJhZ2VudEV4dGVybmFsSWQiOiJhZ2VudF82MjAxa3JlMzlhdzZmeTNhZ3MxOTh5OHB4c21hIiwidHJhbnNwb3J0IjoiZWxldmVubGFic19jb252YWkiLCJleHAiOjE3ODg5NTY3OTQzNTJ9.PrzYdI7Ub43qYiGxdymy2WSvv9q7r0vB4cf1jD2ej2A","maxDurationSeconds":300,"connect":{"signedUrl":"wss://api.elevenlabs.io/v1/convai/conversation?agent_id=agent_6201kre39aw6fy3ags198y8pxsma&conversation_signature=cvtkn_8101m23198fyfd3s1agb86ppyzpp"}}
+
+### AC4 admin (both permissions) mints without a saved row (permission passes; provider key missing in dev)
+{"transport":"elevenlabs_convai","sessionToken":"eyJzZXNzaW9uSWQiOiJTY1Y2TXpCUVBqNko4dWhGTnNFZksiLCJwcm9qZWN0SWQiOiJwcm9qZWN0X2F3a1FUSUg0aHdNWWRMOEtzSGJvMSIsImFnZW50SWQiOm51bGwsImFnZW50RXh0ZXJuYWxJZCI6ImFnZW50XzYyMDFrcmUzOWF3NmZ5M2FnczE5OHk4cHhzbWEiLCJ0cmFuc3BvcnQiOiJlbGV2ZW5sYWJzX2NvbnZhaSIsImV4cCI6MTc4ODk1Njc5NDUzNX0.DFCfEoO7gfYOPXN6nY8nkNdPjwppDUUQZ4oc-4FzMXE","maxDurationSeconds":300,"connect":{"signedUrl":"wss://api.elevenlabs.io/v1/convai/conversation?agent_id=agent_6201kre39aw6fy3ags198y8pxsma&conversation_signature=cvtkn_7201m23198p5fzntbz3h2bst40sp"}}
+HTTP 200
+
+### AC2 limited finishes with an agent-less token (would create an agent)
+{"error":"project_permission_denied","message":"You do not have permission to do this on this project","permission":"evaluations:manage","fault":"customer"}
+HTTP 403
+
+agents after AC2: 4
+
+### AC3 limited finishes with a saved-row token (scenario rights suffice)
+{"runId":"voicecall_5ce51bebea0cc16b879c02f43a232b62","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false}
+HTTP 200
+
+### hygiene: no session + garbage token finishes -> 401 not 400
+{"error":"unauthorized","message":"Sign in to continue","fault":"customer"}
+HTTP 401
+
+agents end: 4
