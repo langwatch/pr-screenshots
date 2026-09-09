@@ -1,0 +1,26 @@
+### AC1/AC3/AC4: finish conv_proof_7973_a twice
+{"runId":"voicecall_47f8449ae335afb443f5effc32dfc73d","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false}
+HTTP 200
+
+-- events after first finish (voicecall_47f8449ae335afb443f5effc32dfc73d)
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+{"runId":"voicecall_47f8449ae335afb443f5effc32dfc73d","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"provider","hasFetchFailed":false,"hasAudio":false}
+HTTP 200
+
+-- events after second finish (voicecall_47f8449ae335afb443f5effc32dfc73d)
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+
+### AC2/AC5: conv_proof_7973_b was left IN_PROGRESS by the seed (startRun only); finish once
+-- events before (voicecall_3daae19b08f2fd30ea76be0172e02d53)
+lw.simulation_run.started	1
+{"runId":"voicecall_3daae19b08f2fd30ea76be0172e02d53","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false}
+HTTP 200
+
+-- events after (voicecall_3daae19b08f2fd30ea76be0172e02d53)
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	2
