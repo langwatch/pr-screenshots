@@ -1,0 +1,99 @@
+# Live phone simulation proof, slice 2 head 0a71455525, dev box, 2026-09-10 11:29 UTC
+
+## Trigger (tRPC scenarios.run, target type voice, referenceId agent_ZoXY9tLj-AYN6EnoLPmtv)
+{"result":{"data":{"json":{"scheduled":true,"setId":"__internal__project_awkQTIH4hwMYdL8KsHbo1__on-platform-scenarios","batchRunId":"scenariobatch_0005882v9LEh74xSeNmZeVch6DCgC","scenarioRunId":"scenariorun_0005882v9LEh74xSeNmZeVch6DCgD"}}}}
+
+## ClickHouse readback (simulation_runs, stored_spans, stored_objects)
+### run scenariorun_0005882v9LEh74xSeNmZeVch6DCgD
+   ┌─ScenarioRunId─────────────────────────────┬─BatchRunId──────────────────────────────────┬─Status─┬─Verdict─┬─DurationMs─┬───────────────CreatedAt─┐
+1. │ scenariorun_0005882v9LEh74xSeNmZeVch6DCgD │ scenariobatch_0005882v9LEh74xSeNmZeVch6DCgC │ FAILED │ failure │      70938 │ 2026-09-10 11:29:00.448 │
+   └───────────────────────────────────────────┴─────────────────────────────────────────────┴────────┴─────────┴────────────┴─────────────────────────┘
+### traces created for the tenant in the run window (last 15 min)
+   ┌─TraceId──────────────────────────┬─spans─┬─────────────────started─┬───────────────────ended─┬─scopes───────────────────────┐
+1. │ 94f67c8cba15f66e2a774409bb7c1c56 │    14 │ 2026-09-10 11:29:03.720 │ 2026-09-10 11:30:14.660 │ ['@langwatch/scenario','ai'] │
+2. │ b64e75bd7158cdadd6f69823752e43a5 │     2 │ 2026-09-10 11:29:03.728 │ 2026-09-10 11:29:05.304 │ ['@langwatch/scenario']      │
+3. │ c6bc588f166bd20915ba938ad0f7dda6 │     2 │ 2026-09-10 11:30:14.660 │ 2026-09-10 11:30:16.129 │ ['@langwatch/scenario']      │
+4. │ 9382c650f0419db8416f84450be3cf75 │     1 │ 2026-09-10 11:30:16.129 │ 2026-09-10 11:30:16.130 │ ['@langwatch/scenario']      │
+   └──────────────────────────────────┴───────┴─────────────────────────┴─────────────────────────┴──────────────────────────────┘
+### span names on those traces
+    ┌─SpanName───────────────────┬─count()─┐
+ 1. │ ai.generateText            │       3 │
+ 2. │ ai.generateText.doGenerate │       3 │
+ 3. │ voice.audio.receive        │       2 │
+ 4. │ voice.adapter.disconnect   │       1 │
+ 5. │ TwilioAgentAdapter.call    │       1 │
+ 6. │ voice.stt.backfill         │       1 │
+ 7. │ voice.adapter.dial         │       1 │
+ 8. │ Scenario Turn              │       1 │
+ 9. │ _UserSimulatorAgent.call   │       1 │
+10. │ voice.adapter.connect      │       1 │
+11. │ voice.turn                 │       1 │
+12. │ voice.stt.transcribe       │       1 │
+13. │ voice.audio.send           │       1 │
+14. │ _JudgeAgent.call           │       1 │
+    └────────────────────────────┴─────────┘
+### audio-bearing attributes (keys mentioning audio/recording/twilio/call)
+    ┌─k────────────────────────────────────────────────┬─count()─┐
+ 1. │ ai.response.toolCalls                            │       4 │
+ 2. │ voice.adapter.capabilities.dtmf                  │       1 │
+ 3. │ voice.adapter.capabilities.native_vad            │       1 │
+ 4. │ voice.adapter.capabilities.streaming_transcripts │       1 │
+ 5. │ voice.adapter.class                              │       5 │
+ 6. │ voice.adapter.role                               │       1 │
+ 7. │ voice.audio.bytes                                │       3 │
+ 8. │ voice.audio.chunk_count                          │       1 │
+ 9. │ voice.audio.first_chunk_latency_ms               │       1 │
+10. │ voice.audio.terminated_reason                    │       1 │
+11. │ voice.stt.audio_bytes                            │       1 │
+12. │ voice.stt.scope                                  │       2 │
+13. │ voice.stt.segment_count                          │       1 │
+14. │ voice.stt.speaker                                │       1 │
+15. │ voice.stt.transcript_chars                       │       1 │
+16. │ voice.turn.agent_audio_bytes                     │       1 │
+17. │ voice.turn.index                                 │       1 │
+18. │ voice.turn.latency_ms                            │       1 │
+19. │ voice.turn.user_audio_bytes                      │       1 │
+20. │ voice.twilio.call_sid                            │       1 │
+21. │ voice.twilio.direction                           │       1 │
+22. │ voice.twilio.dtmf_received                       │       1 │
+23. │ voice.twilio.frames_received                     │       1 │
+24. │ voice.twilio.from                                │       1 │
+25. │ voice.twilio.phone_number_sid                    │       1 │
+26. │ voice.twilio.recv.source                         │       1 │
+27. │ voice.twilio.rest_restore_failed                 │       1 │
+28. │ voice.twilio.stream_connect_latency_ms           │       1 │
+29. │ voice.twilio.stream_ended_reason                 │       1 │
+30. │ voice.twilio.to                                  │       1 │
+31. │ voice.twilio.validate_signature                  │       1 │
+32. │ voice.twilio.webhook_invocations                 │       1 │
+33. │ voice.twilio.webhook_port                        │       1 │
+34. │ voice.twilio.webhook_rejected                    │       1 │
+    └──────────────────────────────────────────────────┴─────────┘
+### scenario events with audio parts
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression or function identifier `ScenarioRunId` in scope SELECT count() FROM langwatch.event_log WHERE (TenantId = 'project_awkQTIH4hwMYdL8KsHbo1') AND (ScenarioRunId = 'scenariorun_0005882v9LEh74xSeNmZeVch6DCgD'). (UNKNOWN_IDENTIFIER)
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression or function identifier `ScenarioRunId` in scope SELECT EventType, count() FROM langwatch.event_log WHERE (TenantId = 'project_awkQTIH4hwMYdL8KsHbo1') AND (ScenarioRunId = 'scenariorun_0005882v9LEh74xSeNmZeVch6DCgD') GROUP BY EventType. (UNKNOWN_IDENTIFIER)
+
+## Voice attributes on the call trace 94f67c8cba15f66e2a774409bb7c1c56
+    ┌─SpanName───────────────────┬─DurationMs─┬─attrs───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ 1. │ Scenario Turn              │      70940 │ {}                                                                                                                                                                                  │
+ 2. │ _UserSimulatorAgent.call   │       9480 │ {}                                                                                                                                                                                  │
+ 3. │ ai.generateText            │       4964 │ {}                                                                                                                                                                                  │
+ 4. │ ai.generateText.doGenerate │       4961 │ {}                                                                                                                                                                                  │
+ 5. │ TwilioAgentAdapter.call    │      37847 │ {}                                                                                                                                                                                  │
+ 6. │ voice.turn                 │      37828 │ {'voice.adapter.class':'TwilioAgentAdapter','voice.turn.index':'0','voice.turn.latency_ms':'37825','voice.turn.user_audio_bytes':'103200','voice.turn.agent_audio_bytes':'2285760'} │
+ 7. │ voice.audio.send           │       2197 │ {'voice.audio.bytes':'103200'}                                                                                                                                                      │
+ 8. │ voice.audio.receive        │          0 │ {'voice.adapter.class':'TwilioAgentAdapter','voice.twilio.recv.source':'background_loop','voice.audio.bytes':'4800'}                                                                │
+ 9. │ voice.audio.receive        │      35626 │ {'voice.audio.first_chunk_latency_ms':'0','voice.audio.terminated_reason':'terminal_chunk','voice.audio.chunk_count':'477','voice.audio.bytes':'2285760'}                           │
+10. │ _JudgeAgent.call           │      22025 │ {}                                                                                                                                                                                  │
+11. │ ai.generateText            │       8689 │ {}                                                                                                                                                                                  │
+12. │ ai.generateText.doGenerate │       8686 │ {}                                                                                                                                                                                  │
+13. │ ai.generateText            │      11808 │ {}                                                                                                                                                                                  │
+14. │ ai.generateText.doGenerate │      11806 │ {}                                                                                                                                                                                  │
+    └────────────────────────────┴────────────┴─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+## Stored audio objects for the run window
+   ┌─purpose────────┬─owner_kind───┬─media_type─┬─count()─┬─sum(size_bytes)─┐
+1. │ scenario_event │ scenario_run │ audio/wav  │       2 │         2389048 │
+   └────────────────┴──────────────┴────────────┴─────────┴─────────────────┘
