@@ -1,5 +1,5 @@
 ### app HEAD
-4105be5191 feat(voice): add the phone transport member behind a flag, with a stub runner (#8014 slice 1)
+9e876b1357 feat(voice): add the phone transport member behind a flag, with a stub runner (#8014 slice 1)
 ### saved phone target
 agent_ZoXY9tLj-AYN6EnoLPmtv|Proof 8014 phone target|{"transport": "phone", "phoneNumber": "+14155550123"}
 ### POST /api/voice/session for the phone target (expect HTTP 400, code voice_phone_transport_unavailable)
@@ -18,7 +18,7 @@ HTTP 200
   "transport"
 ]
 
-### Drawer "Talk to it" gate for the saved phone target (final sha 4105be5191)
+### Drawer "Talk to it" gate for the saved phone target (final sha 9e876b1357)
 URL: /browser-test-org-awkQTI/agents?drawer.open=agentVoiceEditor&drawer.agentId=agent_ZoXY9tLj-AYN6EnoLPmtv
 button.disabled = true
 button.title = "Browser calls are not available for phone targets. Call it from a scenario run."
