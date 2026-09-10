@@ -1,0 +1,24 @@
+### app HEAD
+4105be5191 feat(voice): add the phone transport member behind a flag, with a stub runner (#8014 slice 1)
+### saved phone target
+agent_ZoXY9tLj-AYN6EnoLPmtv|Proof 8014 phone target|{"transport": "phone", "phoneNumber": "+14155550123"}
+### POST /api/voice/session for the phone target (expect HTTP 400, code voice_phone_transport_unavailable)
+HTTP 400
+{
+  "error": "voice_phone_transport_unavailable",
+  "message": "Phone targets are called from the voice worker, which is not available yet. Track langwatch/langwatch#8014.",
+  "fault": "customer"
+}
+### control: same call for the ElevenLabs agent row agent_LLTQVVUCjC2qKKZDysGQk (expect HTTP 200 with a session)
+HTTP 200
+[
+  "connect",
+  "maxDurationSeconds",
+  "sessionToken",
+  "transport"
+]
+
+### Drawer "Talk to it" gate for the saved phone target (final sha 4105be5191)
+URL: /browser-test-org-awkQTI/agents?drawer.open=agentVoiceEditor&drawer.agentId=agent_ZoXY9tLj-AYN6EnoLPmtv
+button.disabled = true
+button.title = "Browser calls are not available for phone targets. Call it from a scenario run."
