@@ -1,0 +1,25 @@
+# Twilio call log (account of the scenario repo), numbers masked
+CAffa4b20ef74cb1c77de9c90641da6a75 completed dur=48s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:29:04 +0000 dir=inbound
+CAf311a2d75edaa3b033f13cdad0588526 completed dur=48s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:29:04 +0000 dir=outbound-api
+CA553a1c74a8cf5a016ad7c4370e15b9cd completed dur=2s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:28:14 +0000 dir=inbound
+CAbdc56cab32057816ffebd5e4bd22fb75 completed dur=2s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:28:14 +0000 dir=outbound-api
+CAb4bf1f0264e78786ac9db320fb035f79 completed dur=11s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:26:47 +0000 dir=inbound
+CA030bf5b5eb2c797d7388cfe2ef499edb completed dur=10s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:26:47 +0000 dir=outbound-api
+CAd814248ecdfbd289fec20aa173dedc16 completed dur=11s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:23:32 +0000 dir=inbound
+CA51143d88ce1e3a8a290f6458811107aa completed dur=11s from=+31XXXX0223520 to=+31XXXX0223578 start=Thu, 10 Sep 2026 11:23:32 +0000 dir=outbound-api
+
+# ElevenLabs conversation transcript of the callee agent for the 48 s call
+conv_3901m25h85heew2s9pc0jwcmn8qt status=done start=1789039744 dur=48s term=end_call tool was called.
+  agent: Hello! How can I help you today?
+  user: ...
+  agent: I didn't...
+  user: What are your opening hours today?
+  agent: I'm sorry, I don't have access to that information. Is there anything else I can help you with?
+  user: ...
+  agent: Are you still there?
+  user: ...
+  agent: Are you still there? I can't hear you.
+  user: ...
+  agent: It seems like we've lost connection. I'll end the call now. Goodbye!
+  agent: 
+  agent: 
