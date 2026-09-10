@@ -1,0 +1,20 @@
+## Drawer recording playback proof at a60ca42fdb (2026-09-10T05:54:01Z)
+
+### 1. mint a browser session for the saved ElevenLabs agent row agent_LLTQVVUCjC2qKKZDysGQk
+HTTP 200
+sessionToken length: 348
+
+### 2. finish it as a drawer call (no scenarioId) for the REAL provider conversation conv_4801m23cwndge8eammxr53x2dy24
+HTTP 200
+{"runId":"","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"provider","hasFetchFailed":false,"hasAudio":true,"audioUrl":"/api/voice/session/conv_4801m23cwndge8eammxr53x2dy24/audio?projectId=project_awkQTIH4hwMYdL8KsHbo1"}
+
+### 3. run rows for this conversation (expect 0: a drawer call writes no run)
+0
+
+### 4. GET the returned audioUrl (expect HTTP 200, audio/* content type, non-empty body)
+audioUrl: /api/voice/session/conv_4801m23cwndge8eammxr53x2dy24/audio?projectId=project_awkQTIH4hwMYdL8KsHbo1
+HTTP 200 bytes=122157 type=audio/mpeg
+
+### 5. control: unknown conversation conv_not_ours_2663582 (expect HTTP 404 voice_recording_unavailable)
+{"error":"voice_recording_unavailable","message":"The call recording is not available","fault":"customer"} HTTP 404
+
