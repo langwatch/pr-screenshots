@@ -42,3 +42,73 @@ into this PR's worktree removed, git status clean in this PR's worktree.
 
 Not included in this pass: a live Twilio phone call end-to-end (requires
 Drew's Sandbox / post-deploy, see PR body Human verification section).
+
+=== UPDATE 2026-09-12 03:35-03:40 UTC: REAL TWILIO CALL, END-TO-END ===
+Standing order from coordinator: "No mocks. It needs to work for real." Real
+spend authorized. Re-established the same symlinked boot (PATH without
+/usr/local/bin, VOICE_PUBLIC_BASE_URL/VOICE_WS_PORT/CLOUDFLARED_BIN unset via
+filtered .env). cloudflared binary was already present at the same path/size
+from the earlier run (birth 2026-09-12 03:21:14, unchanged) — this boot
+exercised the "already present" branch of ensureCloudflaredOnPath, not a
+fresh download.
+
+[03:35:50.027] INFO (langwatch:workers): voice public URL tunnel ready
+  {"url":"https://area-sao-overview-paradise.trycloudflare.com"}
+[03:35:50.064] INFO (langwatch:voice:ws-listener): voice media listener started
+  {"port":3300,"dialBack":"wss://area-sao-overview-paradise.trycloudflare.com/twilio/<nonce>"}
+[03:35:50.064] INFO (langwatch:workers): voice media listener ready on port 3300
+
+Triggered a real run via POST /api/v1/run-plans/run against the banked dev
+scenario (scenario_0006lLQuwntHPvNBhdHy42UBgY6Lr, project
+project_awkQTIH4hwMYdL8KsHbo1, target agent_V9LbNjn1mAxGl6cAFZl_Q,
+phoneNumber +3197010223578), using the project's own DB-stored API key
+(never printed to logs/output). Response:
+  {"scheduled":true,"batchRunId":"scenariobatch_0006wkfkzB2fzNBkWIUOOXfnYWmQz",
+   "jobCount":1,"items":[{"scenarioRunId":"scenariorun_0006wkfkzB2fzNBkWIUOOXfnYWmR1", ...}]}
+
+Polled GET /api/simulation-runs/scenariorun_0006wkfkzB2fzNBkWIUOOXfnYWmR1
+every 5s; reached terminal status after 29 iterations (~145s):
+  status: SUCCESS
+  verdict: success
+  metCriteria: ["The agent responds to the caller over the phone",
+                "The agent acknowledges the billing problem the caller describes"]
+  unmetCriteria: []
+  messages: 4 (2 user turns with real input_audio WAV attachments, 2 assistant
+    turns with input_audio WAV replies)
+  trace_id: 92e6c355944c5ceafbb7bbfa44056657
+  durationInMs: 146825
+  totalCost: 0.007083
+
+Queried ClickHouse stored_spans for that trace_id to recover the Twilio call
+record (no mock/fixture data — server-emitted OTel spans from the real
+TwilioAgentAdapter):
+  SpanName: voice.adapter.dial
+  voice.twilio.direction: outbound
+  voice.twilio.call_sid: CAdcb8e51558dad17ac19ed8f393b86388
+  voice.twilio.phone_number_sid: PNf7bc825e9bd759115bee95923db014cd
+  voice.twilio.to: ***3578   voice.twilio.from: ***3520
+  voice.twilio.record: true
+  voice.twilio.stream_connect_latency_ms: 1293
+
+Two TwilioAgentAdapter.call spans on the trace (the two conversation turns):
+  Turn 1: 2026-09-12 03:37:59.591 -> 03:38:52.270  (52679 ms)
+  Turn 2: 2026-09-12 03:39:15.284 -> 03:39:52.284  (37000 ms)
+  Combined live call audio time: ~89.7s (>> the required >1s).
+
+NOTE ON INDEPENDENT TWILIO-SIDE VERIFICATION: could not additionally
+cross-check this CallSid against the Twilio REST API or monitor.twilio.com
+Alerts directly — the 1Password CLI in this environment has no signed-in
+account ("No accounts configured for use with 1Password CLI"), and no
+TWILIO_ACCOUNT_SID/TWILIO_AUTH_TOKEN were found in the worktree's .env,
+.env.portless, or in the Agent's stored config (which holds only
+{"transport":"phone","phoneNumber":"+3197010223578"}) or Postgres. The
+evidence above (CallSid, phone_number_sid, direction, per-turn call
+durations, real WAV audio attachments, LLM-graded transcript) is the
+project's own server-emitted telemetry for a live outbound call placed
+through the real Twilio adapter, not a fixture/mock — but the alert-console
+cross-check the coordinator asked for was not independently completable in
+this sandbox and is flagged here rather than fabricated.
+
+Cleanup performed again: worker killed (verified dead by PID), ports
+3300/2999 confirmed free, all node_modules/.env symlinks removed from this
+PR's worktree, git status clean.
