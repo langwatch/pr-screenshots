@@ -1,0 +1,44 @@
+LangWatch PR #8081 — live worker-boot proof (real invocation, not a mock)
+HEAD: 8793d2edbc8ccc23268788270f73179e0b2dd801
+Run at: 2026-09-12 03:21-03:29 UTC
+
+=== POSITIVE PATH (real cloudflared download via langwatch SDK scope) ===
+Worker started (src/workers.ts) with /usr/local/bin stripped from PATH
+(system cloudflared unreachable) and VOICE_PUBLIC_BASE_URL/VOICE_WS_PORT/
+CLOUDFLARED_BIN unset, against real dev Postgres/Redis/ClickHouse.
+
+[03:21:23.706] INFO (langwatch:workers): voice public URL tunnel ready
+  {"url":"https://emotions-valid-disk-refined.trycloudflare.com"}
+[03:21:23.767] INFO (langwatch:voice:ws-listener): voice media listener started
+  {"port":3300,"dialBack":"wss://emotions-valid-disk-refined.trycloudflare.com/twilio/<nonce>"}
+[03:21:23.767] INFO (langwatch:workers): voice media listener ready on port 3300
+
+Binary file evidence (stat), proving a FRESH download (not the already-present
+fallback):
+  File: .../node_modules/.pnpm/cloudflared@0.7.1/node_modules/cloudflared/bin/cloudflared
+  Size: 37466252 bytes
+  Birth: 2026-09-12 03:21:14.825331714 +0000  (mid-boot, matches install() timing)
+
+=== NEGATIVE PATH (cloudflared unresolvable from every scope) ===
+With the installed cloudflared npm package directory renamed out of the pnpm
+store (require.resolve fails for langwatch, @langwatch/scenario, and the app's
+own scope alike) and the worker restarted:
+
+[03:28:57.498] ERROR (langwatch:workers): voice public URL tunnel failed to
+  open; voice runs on this worker will fail until it restarts
+  error.type: VoiceTunnelBinaryError
+  error.message: cloudflared tunnel binary unavailable: could not resolve the
+    cloudflared package: could not resolve the cloudflared package from any
+    of: langwatch, @langwatch/scenario, app scope
+  stack: ensureCloudflaredOnPath -> resolveCloudflaredFromScopes ->
+    openVoicePublicUrlTunnel
+
+Worker continued booting non-fatally after this error (matches
+voice-boot-non-fatal.unit.test.ts) rather than crashing the whole process.
+
+Cleanup performed: worker killed, cloudflared package directory and binary
+restored in the sibling worktree, all symlinks used to wire node_modules/.env
+into this PR's worktree removed, git status clean in this PR's worktree.
+
+Not included in this pass: a live Twilio phone call end-to-end (requires
+Drew's Sandbox / post-deploy, see PR body Human verification section).
