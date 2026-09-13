@@ -1,0 +1,86 @@
+PR langwatch/langwatch#8117 — fix(voice): give the simulated caller its turns on a phone call
+SDK PR langwatch/scenario#990 (1.7.0-dev.voice8, Twilio inbound speech gate)
+
+Environment: local dev stack built from branch fix/voice-phone-turn-taking @ 5faf06b63b
+(vendored @langwatch/scenario 1.7.0-dev.voice8; `grep -c speech_gate node_modules/@langwatch/scenario/dist/index.mjs` = 4),
+Twilio a-leg call through Tailscale funnel https://ip-10-0-3-222.tailf32ef6.ts.net -> voice ws :4678.
+
+Scenario: scenario_0006lLQuwntHPvNBhdHy42UBgY6Lr (local-tunnel-phone-billing-0911-090250), minTurns 3 / maxTurns 6
+  (set via the UI, DB readback minTurns=3 maxTurns=6 updatedAt 2026-09-13T17:06:53Z — 00-scenario-minturns.png)
+Target:   agent_V9LbNjn1mAxGl6cAFZl_Q (phone target, ElevenLabs agent answering on ***3578)
+Run:      scenariorun_0007chJwsufAHGUoXsb63INYosdUr  (batch scenariobatch_0007chJwsufAHGUoXsb63INYosdUn)
+Status:   SUCCESS, verdict success, criteria 2/2, durationInMs 109527, 8 messages (4 user / 4 assistant)
+Trace:    177f9a07651f86653cd54c9de7b1077c  (52 spans, ONE trace id, 0 spans with status ERROR)
+Twilio:   CA787fbedd40cf85d654e2dce96d240286 (outbound-api, completed, 109 s) + CAbb635422328a616f844d6148892eb13b (inbound leg, 109 s)
+          0 Twilio notifications/alerts on either leg; recording REea31229d9390899adaf655df767d6433 (101 s)
+
+== Turn structure (from the trace) ==
+Scenario Turn spans:            4   (32 008 ms, 19 239 ms, 20 150 ms, 38 131 ms)
+_UserSimulatorAgent.call spans: 4
+TwilioAgentAdapter.call spans:  4
+voice.audio.receive (real):     4   terminated_reason = tail_silence on ALL FOUR (chunk_count 45, 51, 53, 65)
+                                    -> before this PR every phone turn ended by terminal_chunk (hang-up) or hard_ceiling (60 s); never tail_silence
+voice.adapter.dial:             call_sid CA787fbedd40cf85d654e2dce96d240286, record=true, stream_connect_latency_ms 1309
+
+== Simulated caller utterances (run message log; each one a follow-up to what the callee said) ==
+1. "i have a duplicate charge on my most recent invoice, please refund the duplicate. account email jane.doe@example.com invoice #INV-10023 charged $49.99 twice"
+2. "yes i'm here please refund the duplicate $49.99 charge on invoice INV-10023 account jane.doe@example.com confirm refund and timeline"
+3. "yes refund the duplicate $49.99 to the original card, confirm refund id and timeline, account jane.doe@example.com invoice INV-10023"
+4. "yes refund $49.99 to original card last 4 1234 account jane.doe@example.com invoice INV-10023 provide refund id and timeline and send email confirmation"
+
+== Callee utterances (SDK STT of the callee audio, as handed to the judge) ==
+1. "Hello, how can I help you today? I didn't hear a response. Are you still there?"   (greeting + silence prompt, spoken at 9.2 s and 13.8 s of the recording — BEFORE the caller's first line starts playing at 19.1 s; see note below)
+2. "I understand you have a duplicate charge of $49.99 on your invoice."
+3. "I understand you'd like a refund for the duplicate charge."
+4. "I understand you want a refund for the duplicate charge, but I cannot directly process refunds or provide a refund ID."
+Source: the conversation handed to the final _JudgeAgent.call's ai.generateText span (extract_transcript.py over the trace); identical in every _UserSimulatorAgent.call input.
+
+Recording timeline vs transcript (mono mix, both speakers):
+  seg 1  9.2–11.1  callee "Hello, how can I help you today?"
+  seg 2 13.8–18.4  callee "I didn't hear a response. Are you still there?"
+  seg 3 19.1–29.5  caller utterance 1
+  seg 4 32.5–48.5  callee reply 2 + caller utterance 2
+  seg 5 51.9–68.6  callee reply 3 + caller utterance 3
+  seg 6 71.9–91.6  callee reply 4 + caller utterance 4 (merged: gap < 0.7 s)
+  seg 7 94.0–100.5 callee, cut by hang-up
+After the caller's first line the exchange alternates for the rest of the call; the callee never again asks whether anyone is there.
+
+Note on callee utterance 1: on an a-leg phone call the callee answers and greets immediately, while the SDK script is user-first
+(simulator LLM + TTS ≈ 15 s after stream connect). The greeting audio is queued and consumed as the callee's turn-1 reply.
+This is the pre-existing ordering of a user-first script on a callee-greets-first medium, not the turn-taking gate; tracked separately
+(see follow-up issue linked from the PR).
+
+== Twilio recording, energy segmentation (segment_call.py: 100 ms int16 RMS windows, threshold 800, hangover 400 ms, merge gap 700 ms) ==
+ n  start   end    dur    mean  peak
+ 0    0.0    1.0   1.0s   1928  3710
+ 1    9.2   11.1   1.9s   1564  3095
+ 2   13.8   18.4   4.6s   1300  3596
+ 3   19.1   29.5  10.4s   2016  5701
+ 4   32.5   48.5  16.0s   1689  4033
+ 5   51.9   68.6  16.7s   1841  4785
+ 6   71.9   91.6  19.7s   1594  5300
+ 7   94.0  100.5   6.5s   1204  2739
+Eight distinct speech bursts separated by 0.7–3.4 s of silence across the 100 s call — a live back-and-forth,
+not one utterance followed by "hello? are you still there?".
+
+== Screenshots ==
+00-scenario-minturns.png  scenario editor with Min turns = 3 saved
+01-run-drawer.png         results drawer: Criteria 2/2, Duration 109.5 s, Status: PASSED, simulator turns 3 and 4 with audio players
+02-run-messages.png       results drawer: CONVERSATION 8, Turn 1 "View trace", simulator turns 1–3 (15 s / 12 s / 12 s audio) alternating with callee replies (4 s / 5 s)
+
+== Speech gate counters (voice.adapter.disconnect span) ==
+Exported at 17:27:44.578Z (~15 s after the verdict) on a DETACHED trace id 549381b74304063610e5180e37d4805d, not on the run's trace:
+  voice.twilio.stream_ended_reason = close
+  voice.twilio.frames_received     = 5443
+  voice.twilio.speech_gate.enabled        = true
+  voice.twilio.speech_gate.dropped_chunks = 802
+  voice.twilio.speech_gate.dropped_ms     = 80200   (silence/noise discarded across the 109 s call)
+  voice.twilio.speech_gate.onsets         = 6       (= greeting, silence prompt, 4 replies — matches the recording)
+Evidence gap: the disconnect span runs after the scenario's trace has ended, so it lands on its own trace id
+(pre-existing; same for the 77 disconnect spans this stack exported all-time). Tracked as a follow-up.
+
+== Earlier attempts on this stack (same code) ==
+scenariorun_0007U2H8q5T4em8AC9tZ1cn12GVBl  ERROR  worktree lacked dist/server bundle (dev-only, pnpm run build:server)
+scenariorun_0007VH4QMIevW59J1J6REB9ZEXqGj  ERROR  nlpgo/aigateway not started (Go not on PATH in the launching shell)
+scenariorun_0007X4d9UyRZ1RKbHnedmVammkHVh  ERROR  Twilio error 11100 on CAb844747d4e9e87937b3bca12bb4dd5f2 (0 s call), no diagnostic body from Twilio;
+                                                  identical dial parameters succeeded 10 min later (CA787fbedd…). Not reproduced.
