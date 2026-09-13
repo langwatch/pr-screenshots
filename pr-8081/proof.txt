@@ -112,3 +112,45 @@ this sandbox and is flagged here rather than fabricated.
 Cleanup performed again: worker killed (verified dead by PID), ports
 3300/2999 confirmed free, all node_modules/.env symlinks removed from this
 PR's worktree, git status clean.
+
+
+=== UPDATE 2026-09-13 15:29-15:31 UTC: VERIFIED IN PRODUCTION (post-merge) ===
+PR #8081 merged (mergeCommit 4b419d56d1ac50305de71657174dc06d84eecd38,
+mergedAt 2026-09-12T10:02:54Z). Confirmed via gh api that the currently
+deployed prod tag contains the merge: langwatch-saas main commit def043b's
+"langwatch" submodule sha (2ea2951b961c9c8cef706c273678510581b6554b) is
+`behind` 4b419d56 by 0 commits ahead / 21 behind, i.e. an ancestor — the
+fix is live. Deployed tag confirmed via `curl -sI https://app.langwatch.ai/`
+asset URLs: cdn.langwatch.ai/git-def043b.
+
+Triggered a real prod run via POST https://app.langwatch.ai/api/v1/run-plans/run
+(scenario_00055j7tSm8PVITUm8GjWUiSfQjP3, target agent_IaJuRYY8MdHsW-fjd1uo3,
+Drew's Sandbox Project Key). Response:
+  {"scheduled":true,"batchRunId":"scenariobatch_0006gNDRmHoghqSv5jKHSeXpk8lW5",
+   "items":[{"scenarioRunId":"scenariorun_0006gNDRmHoghqSv5jKHSeXpk8lW7", ...}]}
+
+Polled GET /api/simulation-runs/scenariorun_0006gNDRmHoghqSv5jKHSeXpk8lW7
+every 15s; reached terminal status after 5 iterations (~75s):
+  status: SUCCESS
+  verdict: success
+  metCriteria: ["The agent responds to the caller over the phone",
+                "The agent acknowledges the billing problem the caller describes"]
+  unmetCriteria: []
+  messages: 2 (1 user turn, 1 assistant turn, real input_audio WAV attachments)
+  trace_id: 09ab796601649bfd18f0b220d1872190
+  durationInMs: 59101
+  error: none
+
+Cross-checked Twilio directly (Account SID/Auth Token from op vault "My
+LangWatch Agents", never printed/logged):
+  GET /2010-04-01/Accounts/<SID>/Calls.json?From=%2B3197010223520&PageSize=1
+    -> sid CA06182b2d8e183e5b46507e6f6eb26cd7, status completed,
+       duration 53s, start_time 2026-09-13T15:29:47Z, inbound,
+       to +3197010223578, from +3197010223520
+  GET https://monitor.twilio.com/v1/Alerts?StartDate=<15 min ago>
+    -> no alerts in the window (empty result — no error codes, no 31920)
+
+This is a real production call against the merged, deployed fix — status
+SUCCESS, verdict success, zero errors, zero Twilio alerts, completed call
+with real nonzero duration. Credential files used only transiently and
+shredded immediately after use.
