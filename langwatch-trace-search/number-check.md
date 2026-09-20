@@ -126,3 +126,142 @@ Each row opens a fresh browser, applies the filter, reads the selection-bar tota
 | Eval chip on the Conversations lens | Same, not reached in the browser. The target resolution and the conversation-shaped subquery are pinned by `instantEvalChips` and `instantEvalField.unit.test.ts` | covered by test, browser pending |
 
 One earlier note corrected: the first attempt at these cases showed text landing inside an eval chip's quotes and a query carrying over between cases. Both were the driver script's doing, not the product: `page.goto` to the same path with a new fragment does not reload, and a click on a filled search bar lands the caret mid-chip.
+
+## Final recording pass, 2026-09-20 (branch head `fc2b948782`)
+
+Three takes were re-recorded because the behaviour changed after the earlier
+ones, and the two edge cases the earlier rounds never reached in a browser were
+run. Same stack (`PORT=5580`), same project `ACME Support Agent`, API lane
+restarted on the branch head.
+
+### 02-instant-eval-progress-stop
+
+"annoyed users" on the last 7 days, 1,320 traces in the window. The estimate is
+under 0.50 USD so the run starts on its own; Stop is pressed at 38 percent.
+
+Run `instanteval_0008ZDsYSRsPxMUbErxNqtxXngGj6`.
+
+| Surface | Reads |
+|---|---|
+| Chip | `eval:"Does the user express frustration or annoyance at any point in the conversation?" (partial: 661 of 1,320 judged)` |
+| Selection header | Select all 86 matching |
+| Pagination line | 86 traces · showing 1–50 |
+| Sidebar total | 86 traces |
+| `langwatch instant-eval status`, same take | cancelled · 661 of 1,320 judged · 86 matched |
+
+The four page surfaces were sampled every two seconds for sixteen seconds after
+the stop settled. All eight samples read 86 on the header, the pagination line
+and the sidebar, and the chip's partial mark never moved off `661 of 1,320`.
+The CLI read is shown on screen in the same take.
+
+The quotes around the question survive the partial mark: the chip reads
+`eval:"…?" (partial: …)`, not a bare question.
+
+One note on the mid-run frames: the counters land in pages of 500, and on a
+loaded machine the list read that follows a page lags the counters by a second
+or two, so the table is briefly blank between "0 judged" and the first 500. The
+empty state during that window is the deliberate one ("No matches yet — the
+Instant Eval is still judging"), not a failure.
+
+### 03b-no-model-primer
+
+`INSTANT_EVAL_CLASSIFIER=null` and the project's OpenAI provider disabled, so
+the router has neither a classifier nor a model.
+
+| Step | Observed |
+|---|---|
+| A twelve-word sentence, Enter | searched as one phrase, `"I was charged for the Trail Club renewal yesterday and I want"` |
+| Counts | 99 on the pagination line, 99 on the sidebar |
+| "This filter isn't valid" | never shown |
+| Primer | opens: "Connect a model for smarter search — Your words were searched as a phrase. With a model connected, a sentence typed here becomes a filter, a judgement over each trace, or a question for the assistant." with "Add a provider" |
+| Dismiss | a click outside closes it |
+| A second sentence, same session | searched as a phrase, primer stays closed |
+
+This is the take the old one could not produce: before `f90240d045` a FAST model
+whose provider was disabled threw `model_provider_disabled`, the router logged it
+as a generic failure, and the primer never opened.
+
+### 06-langy-secondary
+
+Asked from the "Refund questions" dataset page: "add five examples of refund
+questions from our traces to the Refund questions dataset". Traces are a means
+to the task, so Langy stays on the dataset page and answers with cards; the
+dataset goes from 15 to 20 records.
+
+| Surface | Reads |
+|---|---|
+| The card clicked | 10 traces · showing 3 |
+| Explorer query | `"refund" AND origin:application` |
+| Window and lens | Last 24 hours, All |
+| Pagination line | 10 traces · showing 1–10 |
+| Sidebar total | 10 traces |
+| Selection on arrival | no selection bar, 0 row checkboxes ticked, 0 header checkboxes ticked |
+
+The old take opened this link with all 50 rows selected and a "50 selected" bar
+across the top. Read immediately on arrival and again after the sidebar opened,
+nothing is selected.
+
+## The two edge cases
+
+### Two eval chips in one query
+
+Last 24 hours, 115 traces. The first question runs and finishes; the second is
+typed after the first chip and run, so both chips are active at once.
+
+| State | Chips | Runs | Pagination | Sidebar | Header |
+|---|---|---|---|---|---|
+| First chip alone | `eval:"Does the user express frustration or annoyance at any point in the conversation?"` | `74cdaab4 → instanteval_0008hrMqjHdsNsZDJdP9hFjsQO6Cd` | 14 traces | 14 traces | 14 selected |
+| Both chips | the first, `AND eval:"Does the user ask about a refund?"` | the first run, plus `f99bbfbf → instanteval_0008i2GR9DeIjgbTEKBTxHGOvSEdy` | 1 trace | 1 trace | 1 selected |
+
+Pass. Two distinct runs, each chip keeps its own, the first chip's run is not
+replaced by the second, and the three counts agree at both stages.
+
+This is where "1 traces" was found on the pagination line and the sidebar. Fixed
+in `fc2b948782`: the copy builders moved into `explorerCountSummary.ts` and
+gained the singular, and the pagination line now renders the same summary string
+the sidebar does rather than assembling its own from the raw noun.
+
+### An eval chip on the Conversations lens
+
+Started on the Conversations lens, last 24 hours, 41 conversations in the window.
+
+| Surface | Reads |
+|---|---|
+| Run `instanteval_0008nJA3hHr3HthAf1ZHi107xSJkk` | finished · 41 of 41 judged · 6 matched |
+| Run SQL | `eval_criteria(conversation(m.ConversationId), …)` over `m.ConversationId`, so the rows judged are threads |
+| Pagination line | 6 conversations · showing 1–6 |
+| Sidebar total | 6 conversations |
+
+Pass on both halves. The run judged threads, not traces, and the two counts the
+lens shows agree at 6. (The Conversations lens has per-row checkboxes but no
+select-all in the header, so it has no selection-header count to compare; the
+row checkbox gives "1 selected" as expected.)
+
+Switching to the All lens does not reuse those verdicts for traces. Each lens
+carries its own filter, so the chip is not on the All lens at all: the bar is
+empty and the page reads 115 traces, the plain count for that window. Nothing
+judged over threads is ever shown as a count over traces.
+
+### Finding: a lens round trip drops the run behind a chip that comes back
+
+Switching away from the Conversations lens and back restores the chip from the
+lens draft but not its run, so the page reads "These results are not judged yet
+— The Instant Eval in this search covered a different window, lens or filter"
+and offers "Judge these results". The window, the lens and the filter are in
+fact identical to the ones the run covered, and the run is still finished on the
+server, so accepting that offer pays to judge the same 41 threads again.
+
+Cause: a run rides with the URL fragment (`useURLSync`, "a fragment naming a
+query names its runs too, and one naming none has none"), while the query text
+can also come from the per-lens draft (`selectLens` installs `draft.filter`).
+The All lens fragment carries no `q`, so `setEvalRuns(NO_RUNS)` wipes the map,
+and the draft that restores the chip has nothing to restore the run from. The
+fix is for the per-lens draft to carry its eval runs beside its filter, which
+means a field on `DraftLensState`, its persistence, `selectLens`, and the
+`applied.evalRuns` branch in `useURLSync`. Left for a follow-up rather than
+landed in this pass: it changes the lens, draft and URL interaction, which has
+its own history test suite, and the behaviour it replaces is safe (nothing
+wrong is shown, only re-judged).
+
+The empty-state sentence is also inaccurate in this case, since the window, lens
+and filter did not differ.
