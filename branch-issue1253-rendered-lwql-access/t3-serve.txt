@@ -1,0 +1,51 @@
+=== Step 3: ClickHouse serves the app-rendered LWQL access model from the mounted Secret ===
+
+$ ls -l /etc/clickhouse-server/users.d  /etc/clickhouse-server/config.d
+/etc/clickhouse-server/config.d:
+total 40
+-rw-rw-r-- 1 clickhouse clickhouse  314 Apr 27 07:26 docker_related_config.xml
+-rw-r--r-- 1 clickhouse clickhouse  250 Sep 23 17:20 interserver.xml
+-rw-r--r-- 1 clickhouse clickhouse 4198 Sep 23 17:20 limits.xml
+-rw-r--r-- 1 clickhouse clickhouse  243 Sep 23 17:20 logging.xml
+-r--r--r-- 1 root       root        175 Sep 23 17:20 lwql-named-collection.yaml
+-rw-r--r-- 1 clickhouse clickhouse 1141 Sep 23 17:20 lwql-server.xml
+-rw-r--r-- 1 clickhouse clickhouse  475 Sep 23 17:20 network.xml
+-rw-r--r-- 1 clickhouse clickhouse  270 Sep 23 17:20 query_log.xml
+-rw-r--r-- 1 clickhouse clickhouse 3147 Sep 23 17:20 storage.xml
+
+/etc/clickhouse-server/users.d:
+total 76
+-rw-r--r-- 1 clickhouse clickhouse   244 Sep 23 17:20 default-password.xml
+-r--r--r-- 1 root       root       60891 Sep 23 17:20 lwql-access.yaml
+-rw-r--r-- 1 clickhouse clickhouse 10024 Sep 23 17:20 profiles.xml
+
+$ SELECT name, storage FROM system.users WHERE name='langwatch_lwql'
+langwatch_lwql	users_xml
+
+$ SELECT name FROM system.settings_profiles WHERE name LIKE '%profile%' OR name LIKE '%lwql%'
+langwatch_profile
+
+$ SELECT name FROM system.named_collections   (name only — never values)
+lwql_postgres
+
+$ SELECT count() AS row_policies FROM system.row_policies WHERE short_name != ''
+128
+     (sample policy names:)
+agents_pg
+ai_tool_entries_pg
+ai_tool_entry_departments_pg
+ai_tool_entry_teams_pg
+analytics_pg
+annotation_queue_items_pg
+
+$ NEGATIVE — default must carry NO access_management/named_collection_control (AC2):
+$ SELECT count() FROM system.settings_profile_elements WHERE user_name='default' AND setting_name IN ('access_management','named_collection_control') AND value='1'
+0
+
+$ profile setting readback: readonly + custom_api_key_hash constraint present on langwatch_profile
+max_execution_time	10
+readonly	1
+
+--- row policies scoped to langwatch DB come from the mounted user (short_name=langwatch_lwql) ---
+count(langwatch db row policies) = 128 ; grants on langwatch_lwql = 1069
+trace_summaries policy short_name = langwatch_lwql  (from users.d/lwql-access.yaml databases.*.filter)

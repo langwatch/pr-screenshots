@@ -1,0 +1,100 @@
+=== renderLwqlAccessConfig USE (real task run) — 2026-09-23T17:17:14Z ===
+$ env (NAMES only, values redacted):
+   CLICKHOUSE_URL=http://clickhouse.fake.local:8123/langwatch
+   DATABASE_URL=postgresql://langwatch_db:<redacted>@pg.fake.local:5432/langwatch_db?sslmode=no-verify&schema=langwatch_db
+   LWQL_CLICKHOUSE_USER=langwatch_lwql
+   LWQL_CLICKHOUSE_PASSWORD=<redacted>
+   LWQL_POSTGRES_READER_PASSWORD=<redacted>
+   LWQL_DATABASE=langwatch
+   LWQL_TENANT_SETTING=custom_api_key_hash
+
+$ pnpm run task renderLwqlAccessConfig --out /tmp/lwql-proof/out
+EXIT_CODE=0
+
+--- pnpm run task (stdout, key lines) ---
+Wrote src/tasks.generated.ts (16 tasks)
+[17:17:15.133] INFO (langwatch:task): running {"taskName":"renderLwqlAccessConfig"}
+[17:17:15.600] INFO (langwatch:task:renderLwqlAccessConfig): rendered the LangWatchQL access-model config {"files":["users.d/lwql-access.yaml","config.d/lwql-named-collection.yaml"],"secretLength":64}
+[17:17:15.600] INFO (langwatch:task): done
+
+--- find /tmp/lwql-proof/out -type f ---
+out/config.d/lwql-named-collection.yaml
+out/users.d/lwql-access.yaml
+
+=============== users.d/lwql-access.yaml  (hash redacted; grants/policies truncated) ===============
+profiles:
+  langwatch_profile:
+    custom_api_key_hash: "''"
+    readonly: 1
+    max_execution_time: 10
+    max_memory_usage: 1000000000
+    max_threads: 4
+    max_concurrent_queries_for_user: 10
+    max_rows_to_read: 1000000000
+    max_bytes_to_read: 10000000000
+    read_overflow_mode: "throw"
+    max_result_rows: 10000
+    max_result_bytes: 8000000
+    result_overflow_mode: "throw"
+    constraints:
+      custom_api_key_hash:
+        changeable_in_readonly: ""
+      readonly:
+        const: ""
+      max_execution_time:
+        const: ""
+      max_memory_usage:
+        const: ""
+      max_threads:
+        const: ""
+      max_concurrent_queries_for_user:
+        const: ""
+      max_rows_to_read:
+        const: ""
+      max_bytes_to_read:
+        const: ""
+      read_overflow_mode:
+        const: ""
+      max_result_rows:
+        const: ""
+      max_result_bytes:
+        const: ""
+      result_overflow_mode:
+        const: ""
+users:
+  langwatch_lwql:
+    password_sha256_hex: "<redacted-sha256>"
+    networks:
+      ip: "::/0"
+    profile: "langwatch_profile"
+    grants:
+      query:
+        - "GRANT SELECT ON langwatch.lwql_api_key_tenant_map"
+        - "GRANT SELECT(`Attributes`, …) ON langwatch.trace_summaries"
+        - "GRANT SELECT(`Cost`, …) ON langwatch.stored_spans"
+        - "GRANT SELECT(`ArchivedAt`, …) ON langwatch.evaluation_runs"
+        - "GRANT SELECT(`ArchivedAt`, …) ON langwatch.simulation_runs"
+        - "GRANT SELECT(`CacheReadTokens`, …) ON langwatch.trace_analytics"
+        - "GRANT SELECT(`BucketStart`, …) ON langwatch.trace_analytics_rollup"
+        - "GRANT SELECT(`BucketStart`, …) ON langwatch.trace_analytics_rollup"
+        - "GRANT SELECT(`Attributes`, …) ON langwatch.evaluation_analytics"
+        - "GRANT SELECT(`BucketStart`, …) ON langwatch.evaluation_analytics_rollup"
+        - "GRANT SELECT(`ActiveTimeCliSec`, …) ON langwatch.coding_agent_sessions"
+        - "GRANT SELECT(`Agent`, …) ON langwatch.coding_agent_session_events"
+        - "GRANT SELECT(`SpanAttributes`, …) ON langwatch.stored_spans"
+        - "GRANT SELECT(`CreatedAt`, …) ON langwatch.instant_eval_judgments"
+        - "GRANT SELECT(`ActionClass`, …) ON langwatch.automation_audit"
+        - "GRANT SELECT(`CreatedAt`, …) ON langwatch.billable_events"
+        - "GRANT SELECT(`OccurredAt`, …) ON langwatch.coding_agent_trace_sessions"
+        - "GRANT SELECT(`CreatedAt`, …) ON langwatch.dspy_steps"
+        - "GRANT SELECT(`CarriedOver`, …) ON langwatch.experiment_run_items"
+        …  (full file: 565 lines — profiles, 1 user, column-scoped grants + per-table row-policy filters)
+
+=============== config.d/lwql-named-collection.yaml  (password redacted) ===============
+named_collections:
+  lwql_postgres:
+    host: "pg.fake.local"
+    port: 5432
+    database: "langwatch_db"
+    user: "lwql_ro"
+    password: "<redacted>"
