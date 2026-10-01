@@ -1,0 +1,84 @@
+
+===== CLAIM 2: evaluations.passed hint =====
+
+### v1 search evaluations.passed=['true']
+422 {"error": "validation_error", "message": "The request body didn't match the expected shape.", "target": "json", "fields": ["filters.evaluations.passed"], "tips": ["Read `reasons`; each entry names the offending field in meta.field and what was expected in meta.expected", "Fix those fields and send the request again; retrying it unchanged will fail identically"], "fault": "customer", "reasons": [{"code": "schema_failure", "kind": "schema_failure", "fault": "customer", "traceId": "9ce0de802b9d93800726b6e89ac16c7e", "spanId": "db1a59e532a0c617", "meta": {"field": "filters.evaluations.passed", "type": "filter_key_required", "message": "\"evaluations.passed\" needs its key, as in {\"evaluations.p
+  -> HOLDS: v1 passed=['true'] -> 422 with evaluatorVerdict:pass | status=422
+  -> HOLDS: v1 passed=['true'] hint names <monitorId> | 
+
+### v1 search evaluations.passed=['false']
+422 {"error": "validation_error", "message": "The request body didn't match the expected shape.", "target": "json", "fields": ["filters.evaluations.passed"], "tips": ["Read `reasons`; each entry names the offending field in meta.field and what was expected in meta.expected", "Fix those fields and send the request again; retrying it unchanged will fail identically"], "fault": "customer", "reasons": [{"code": "schema_failure", "kind": "schema_failure", "fault": "customer", "traceId": "adfa658e2a48bbd537cf15a76d0a5d41", "spanId": "f9cb853450d1a823", "meta": {"field": "filters.evaluations.passed", "type": "filter_key_required", "message": "\"evaluations.passed\" needs its key, as in {\"evaluations.p
+  -> HOLDS: v1 passed=['false'] -> 422 with evaluatorVerdict:fail | status=422
+  -> HOLDS: v1 passed=['false'] hint names <monitorId> | 
+
+### v1 search evaluations.passed=['true', 'false']
+422 {"error": "validation_error", "message": "The request body didn't match the expected shape.", "target": "json", "fields": ["filters.evaluations.passed"], "tips": ["Read `reasons`; each entry names the offending field in meta.field and what was expected in meta.expected", "Fix those fields and send the request again; retrying it unchanged will fail identically"], "fault": "customer", "reasons": [{"code": "schema_failure", "kind": "schema_failure", "fault": "customer", "traceId": "27b4583e1b9e46d1a563219ea058d82f", "spanId": "c54728a053d20de7", "meta": {"field": "filters.evaluations.passed", "type": "filter_key_required", "message": "\"evaluations.passed\" needs its key, as in {\"evaluations.p
+  -> HOLDS: v1 mixed values -> 422, no verdict hint | status=422
+  -> HOLDS: v1 passed=['true', 'false'] hint names <monitorId> | 
+
+### legacy search evaluations.passed=['true']
+400 {"error": "\"evaluations.passed\" needs its key, as in {\"evaluations.passed\":{\"<monitorId>\":[\"true\"]}}. Without the key it matches no trace."}
+  -> HOLDS: legacy passed=['true'] -> 400 refusal, no filter-string hint | status=400
+
+===== CLAIM 1: REST annotation <-> has:annotation =====
+
+### ingest trace proof8336c4bbab307b054386
+200 {"message": "Trace received successfully.", "partialSuccess": {"rejectedSpans": 0, "rejectedEvaluations": 0, "errorMessage": ""}}
+  -> HOLDS: trace ingested and searchable | status=200
+  -> HOLDS: before annotate: trace NOT in has:annotation | status=200
+
+### REST create annotation
+200 {"data": {"id": "9gwv9yLDQpYCnuCnsYssu", "projectId": "local-dev-project", "traceId": "proof8336c4bbab307b054386", "comment": "proof 8336", "isThumbsUp": true, "userId": null, "createdAt": "2026-10-01T13:12:56.690Z", "updatedAt": "2026-10-01T13:12:56.690Z", "email": "proof@acme.test", "scoreOptions": {}, "expectedOutput": null, "anchorKind": null, "anchorId": null, "anchorPath": null}}
+  -> HOLDS: REST create -> 2xx | status=200 id=9gwv9yLDQpYCnuCnsYssu
+  postgres row: 9gwv9yLDQpYCnuCnsYssu|t|proof@acme.test|{}
+  -> HOLDS: postgres: userId null, email kept, scoreOptions {} | 9gwv9yLDQpYCnuCnsYssu|t|proof@acme.test|{}
+  -> HOLDS: after create: trace IN has:annotation | status=200
+
+### REST delete annotation
+200 {"status": "success", "message": "Annotation deleted."}
+  -> HOLDS: REST delete -> 2xx | status=200
+  -> HOLDS: after delete: trace drops OUT of has:annotation | status=200
+
+### REST delete unknown id (pre-existing behavior)
+500 {"status": "error", "message": "\nInvalid `this.prisma.annotation.delete()` invocation in\n<worktree>/platform/app/src/server/annotations/annotation.repository.ts:158:41\n\n  155  * Deletes an annotation by id within a project.\n  156  */\n  157 async delete(input: DeleteAnnotationInput): Promise<Annotation> {\n\u2192 158   return await this.prisma.annotation.delete(\nAn operation failed because it depends on one or more records that were required but not found. No record was found for a delete."}
+  note: unknown id -> 500
+
+===== CLAIM 3: dataset rename keeps old slug =====
+
+### create dataset
+201 {"id": "dataset_LIHvBwAHFfrYGNnWMlyuw", "name": "proof-orig-a401e3", "slug": "proof-orig-a401e3", "columnTypes": [{"name": "input", "type": "string"}], "createdAt": "2026-10-01T13:13:01.178Z", "updatedAt": "2026-10-01T13:13:01.178Z", "platformUrl": "https://app.cozy-imagining-kite.langwatch.localhost:1355/local-dev-project/datasets/dataset_LIHvBwAHFfrYGNnWMlyuw"}
+  -> HOLDS: create dataset -> 2xx with slug | slug=proof-orig-a401e3
+
+### rename dataset
+200 {"id": "dataset_LIHvBwAHFfrYGNnWMlyuw", "name": "proof-renamed-a401e3", "slug": "proof-orig-a401e3", "columnTypes": [{"name": "input", "type": "string"}], "createdAt": "2026-10-01T13:13:01.178Z", "updatedAt": "2026-10-01T13:13:01.209Z", "platformUrl": "https://app.cozy-imagining-kite.langwatch.localhost:1355/local-dev-project/datasets/dataset_LIHvBwAHFfrYGNnWMlyuw"}
+  -> HOLDS: rename -> 2xx | status=200
+  -> HOLDS: rename response keeps slug | slug=proof-orig-a401e3
+
+### GET by old slug after rename
+200 {"id": "dataset_LIHvBwAHFfrYGNnWMlyuw", "name": "proof-renamed-a401e3", "slug": "proof-orig-a401e3", "columnTypes": [{"name": "input", "type": "string"}], "createdAt": "2026-10-01T13:13:01.178Z", "updatedAt": "2026-10-01T13:13:01.209Z", "platformUrl": "https://app.cozy-imagining-kite.langwatch.localhost:1355/local-dev-project/datasets/dataset_LIHvBwAHFfrYGNnWMlyuw", "data": []}
+  -> HOLDS: old slug still resolves to renamed dataset | status=200
+
+### rename other dataset onto taken slug
+409 {"error": "Conflict", "message": "A dataset with this slug already exists"}
+  -> HOLDS: slug clash -> 409 | status=409
+
+===== SUMMARY =====
+PASS | v1 passed=['true'] -> 422 with evaluatorVerdict:pass | status=422
+PASS | v1 passed=['true'] hint names <monitorId> | 
+PASS | v1 passed=['false'] -> 422 with evaluatorVerdict:fail | status=422
+PASS | v1 passed=['false'] hint names <monitorId> | 
+PASS | v1 mixed values -> 422, no verdict hint | status=422
+PASS | v1 passed=['true', 'false'] hint names <monitorId> | 
+PASS | legacy passed=['true'] -> 400 refusal, no filter-string hint | status=400
+PASS | trace ingested and searchable | status=200
+PASS | before annotate: trace NOT in has:annotation | status=200
+PASS | REST create -> 2xx | status=200 id=9gwv9yLDQpYCnuCnsYssu
+PASS | postgres: userId null, email kept, scoreOptions {} | 9gwv9yLDQpYCnuCnsYssu|t|proof@acme.test|{}
+PASS | after create: trace IN has:annotation | status=200
+PASS | REST delete -> 2xx | status=200
+PASS | after delete: trace drops OUT of has:annotation | status=200
+PASS | create dataset -> 2xx with slug | slug=proof-orig-a401e3
+PASS | rename -> 2xx | status=200
+PASS | rename response keeps slug | slug=proof-orig-a401e3
+PASS | old slug still resolves to renamed dataset | status=200
+PASS | slug clash -> 409 | status=409
