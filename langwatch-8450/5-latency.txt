@@ -18,3 +18,26 @@ tts added by the gateway (ms): ttfb p50 29 ttfb p95 -87 mean -2 total p50 8
 stt direct {'n': 20, 'ttfb_p50': 492, 'ttfb_p95': 660, 'ttfb_mean': 511, 'total_p50': 493, 'total_p95': 660}
 stt gateway {'n': 20, 'ttfb_p50': 526, 'ttfb_p95': 565, 'ttfb_mean': 527, 'total_p50': 526, 'total_p95': 565}
 stt added by the gateway (ms): ttfb p50 34 ttfb p95 -95 mean 16 total p50 33
+
+# diagnosis, 2026-10-06 (old binary, tts 30, load average about 2.6)
+# Every debit on a project with a blocking budget emitted BUDGET_UPDATED (the dedupe window
+# only applies to warn-only budgets) and the gateway evicted the project's keys on it.
+# 19 of 31 gateway requests missed the cache and waited on resolve-key (7 ms mean) plus
+# a config fetch (54 ms mean) before calling OpenAI.
+tts direct {'n': 30, 'ttfb_p50': 526, 'ttfb_p95': 814, 'ttfb_mean': 534, 'total_p50': 893, 'total_p95': 1572}
+tts gateway {'n': 30, 'ttfb_p50': 580, 'ttfb_p95': 1100, 'ttfb_mean': 716, 'total_p50': 1048, 'total_p95': 1943}
+tts added by the gateway (ms): ttfb p50 54 ttfb p95 286 mean 182 total p50 155
+
+# after the fix (budget update refreshes the cached key in the background), 2026-10-06
+# stt 20, load average 2.7 -> 1.7; tts 50, load average 2.2 -> 2.7
+# Cache: 0 misses in 53 tts lookups and 2 cold misses in 45 stt lookups (both on the first
+# request after the gateway restart).
+stt direct {'n': 20, 'ttfb_p50': 550, 'ttfb_p95': 652, 'ttfb_mean': 551, 'total_p50': 550, 'total_p95': 652}
+stt gateway {'n': 20, 'ttfb_p50': 521, 'ttfb_p95': 669, 'ttfb_mean': 549, 'total_p50': 521, 'total_p95': 669}
+stt added by the gateway (ms): ttfb p50 -29 ttfb p95 17 mean -2 total p50 -29
+tts direct {'n': 50, 'ttfb_p50': 524, 'ttfb_p95': 1062, 'ttfb_mean': 641, 'total_p50': 968, 'total_p95': 2537}
+tts gateway {'n': 50, 'ttfb_p50': 521, 'ttfb_p95': 948, 'ttfb_mean': 1436, 'total_p50': 919, 'total_p95': 2401}
+tts added by the gateway (ms): ttfb p50 -3 ttfb p95 -114 mean 795 total p50 -49
+# The tts gateway mean is two OpenAI stalls (77 s and 99 s, both inside the provider call per
+# gateway_provider_duration_seconds). A first tts attempt in this window aborted on two
+# direct OpenAI requests that stalled past the 60 s read timeout, so the stalls are upstream.
