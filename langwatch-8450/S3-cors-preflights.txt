@@ -1,0 +1,24 @@
+# OPTIONS preflight from a refused origin (http://localhost:5591)
+HTTP/1.1 405 Method Not Allowed
+Allow: POST
+Allow: GET
+Vary: Origin
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_e1014cd769ad38f1ea6fa69d7bcd25
+Date: Tue, 06 Oct 2026 17:04:48 GMT
+Content-Length: 0
+
+
+# OPTIONS preflight from the allowed origin (http://localhost:5590)
+HTTP/1.1 204 No Content
+Access-Control-Allow-Headers: authorization,content-type
+Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS
+Access-Control-Allow-Origin: http://localhost:5590
+Access-Control-Max-Age: 600
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_0f3f87b0b894da8a39fd662bb99208
+Date: Tue, 06 Oct 2026 17:04:48 GMT
+

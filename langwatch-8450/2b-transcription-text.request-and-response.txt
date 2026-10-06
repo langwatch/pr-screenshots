@@ -1,0 +1,14 @@
+# POST $GATEWAY/v1/audio/transcriptions -F model=gpt-transcribe -F response_format=text -F file=@clip3.wav
+status=200 total=0.597541s
+# response headers
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Traceparent: 00-1ee047e0290498192ef3fcad4f05f626-cdf81039c0e840a5-01
+X-Langwatch-Gateway-Request-Id: req_6e70763893574f0b83d3428fac5efd
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_caa4304cc07346b8b448640d6b774dfa
+Date: Tue, 06 Oct 2026 16:53:55 GMT
+Content-Length: 53
+
+# response body
+Hello there, this is a short test of speaker labels.

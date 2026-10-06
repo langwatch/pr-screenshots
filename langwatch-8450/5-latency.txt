@@ -1,0 +1,20 @@
+# run 1 (tts 50, stt 20), load average about 11 during the run
+tts direct {'n': 50, 'ttfb_p50': 524, 'ttfb_p95': 1274, 'ttfb_mean': 625, 'total_p50': 963, 'total_p95': 2315}
+tts gateway {'n': 50, 'ttfb_p50': 647, 'ttfb_p95': 1203, 'ttfb_mean': 684, 'total_p50': 1186, 'total_p95': 1890}
+tts added by the gateway (ms): ttfb p50 123 ttfb p95 -71 mean 59 total p50 223
+stt direct {'n': 20, 'ttfb_p50': 504, 'ttfb_p95': 747, 'ttfb_mean': 539, 'total_p50': 504, 'total_p95': 747}
+stt gateway {'n': 20, 'ttfb_p50': 605, 'ttfb_p95': 943, 'ttfb_mean': 696, 'total_p50': 605, 'total_p95': 943}
+stt added by the gateway (ms): ttfb p50 101 ttfb p95 196 mean 157 total p50 101
+
+# run 2 (tts 40), load average about 3
+tts direct {'n': 40, 'ttfb_p50': 522, 'ttfb_p95': 1112, 'ttfb_mean': 1008, 'total_p50': 987, 'total_p95': 1876}
+tts gateway {'n': 40, 'ttfb_p50': 615, 'ttfb_p95': 974, 'ttfb_mean': 1158, 'total_p50': 1033, 'total_p95': 2053}
+tts added by the gateway (ms): ttfb p50 93 ttfb p95 -138 mean 150 total p50 46
+
+# 2026-10-04 run, before the base merge, for comparison
+tts direct {'n': 50, 'ttfb_p50': 519, 'ttfb_p95': 866, 'ttfb_mean': 560, 'total_p50': 953, 'total_p95': 1711}
+tts gateway {'n': 50, 'ttfb_p50': 548, 'ttfb_p95': 779, 'ttfb_mean': 558, 'total_p50': 961, 'total_p95': 1313}
+tts added by the gateway (ms): ttfb p50 29 ttfb p95 -87 mean -2 total p50 8
+stt direct {'n': 20, 'ttfb_p50': 492, 'ttfb_p95': 660, 'ttfb_mean': 511, 'total_p50': 493, 'total_p95': 660}
+stt gateway {'n': 20, 'ttfb_p50': 526, 'ttfb_p95': 565, 'ttfb_mean': 527, 'total_p50': 526, 'total_p95': 565}
+stt added by the gateway (ms): ttfb p50 34 ttfb p95 -95 mean 16 total p50 33

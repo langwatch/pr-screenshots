@@ -1,0 +1,144 @@
+{
+    "trace_id": "9839c7dd2ab0a1a9e76855a38c77d881",
+    "project_id": "local-dev-project",
+    "metadata": {
+        "models": [
+            "gpt-live-1"
+        ],
+        "gen_ai.provider.name": "",
+        "langwatch.virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+        "langwatch.gateway_request_id": "req_046bfdb726e0eb6c05830400695729",
+        "langwatch.origin": "gateway",
+        "langwatch.api_key.id": "BQdGonK1VZKW9GqTw0MpX",
+        "langwatch.model_provider_id": "local-dev-model-provider-openai",
+        "langwatch.reserved.output_source": "inferred",
+        "model": "gpt-live-1"
+    },
+    "timestamps": {
+        "started_at": 1791306256816,
+        "inserted_at": 1791306259387,
+        "updated_at": 1791306273089
+    },
+    "metrics": {
+        "first_token_ms": null,
+        "total_time_ms": 16097,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "tokens_estimated": false,
+        "total_cost": 0.0125
+    },
+    "error": null,
+    "spans": [
+        {
+            "span_id": "0994b35c83966ec1",
+            "parent_id": null,
+            "trace_id": "9839c7dd2ab0a1a9e76855a38c77d881",
+            "type": "llm",
+            "name": "gen_ai.realtime_session",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791306256816,
+                "finished_at": 1791306257226,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": null
+            },
+            "params": {
+                "langwatch": {
+                    "project_id": "local-dev-project",
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_046bfdb726e0eb6c05830400695729",
+                    "model_provider_id": "local-dev-model-provider-openai",
+                    "span": {
+                        "type": "llm"
+                    }
+                },
+                "gen_ai": {
+                    "operation": {
+                        "name": "realtime_session"
+                    },
+                    "provider": {
+                        "name": ""
+                    },
+                    "request": {
+                        "model": "gpt-live-1"
+                    },
+                    "usage": {
+                        "total_tokens": 0,
+                        "cost": 0,
+                        "input_tokens": 0,
+                        "output_tokens": 0
+                    }
+                }
+            },
+            "model": "gpt-live-1",
+            "vendor": ""
+        },
+        {
+            "span_id": "1df501bb9503a6de",
+            "parent_id": null,
+            "trace_id": "9839c7dd2ab0a1a9e76855a38c77d881",
+            "type": "llm",
+            "name": "realtime.session.settled",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791306257223,
+                "finished_at": 1791306272913,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": 0.0125
+            },
+            "params": {
+                "langwatch": {
+                    "span": {
+                        "type": "llm",
+                        "cost": 0.0125
+                    },
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_046bfdb726e0eb6c05830400695729"
+                },
+                "gen_ai": {
+                    "request": {
+                        "model": "gpt-live-1"
+                    },
+                    "provider": {
+                        "name": "openai"
+                    },
+                    "usage": {
+                        "input_audio_tokens": 0,
+                        "output_audio_tokens": 0,
+                        "audio_seconds": 15,
+                        "input_tokens": 0,
+                        "output_tokens": 0
+                    },
+                    "operation": {
+                        "name": "chat"
+                    }
+                }
+            },
+            "model": "gpt-live-1",
+            "vendor": "openai"
+        }
+    ],
+    "evaluations": [],
+    "ascii_tree": ".\n\u251c\u2500\u2500 llm: gen_ai.realtime_session (gpt-live-1)\n\u2514\u2500\u2500 llm: realtime.session.settled (gpt-live-1)\n",
+    "platformUrl": "http://localhost:5570/local-dev-project/traces/9839c7dd2ab0a1a9e76855a38c77d881?t=1791306256816"
+}

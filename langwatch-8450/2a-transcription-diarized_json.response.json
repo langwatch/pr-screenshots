@@ -1,0 +1,121 @@
+{
+    "text": "Good morning, Bob; I wanted to check with you about the plan for the release next week, and whether the test suite is ready. Good morning, Alice; the test suite is mostly ready; we still have two flaky tests in the billing module that I want to fix first. That sounds reasonable! How long do you think the fix is going to take? I would like to tell the team by Thursday. I think one more day is enough; I will send you an update tomorrow afternoon with the results of the\nOf the Full Run. Perfect, thank you. Then we will plan the release for Monday morning and I will write the announcement.",
+    "task": "transcribe",
+    "duration": 31.656,
+    "segments": [
+        {
+            "type": "transcript.text.segment",
+            "text": " Good morning,",
+            "speaker": "A",
+            "start": 0.0,
+            "end": 0.44999999999999996,
+            "id": "seg_0"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Bob; I wanted to check with you about the plan for the release next week,",
+            "speaker": "A",
+            "start": 0.5999999999999999,
+            "end": 4.499999999999999,
+            "id": "seg_1"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " and whether the test suite is ready.",
+            "speaker": "A",
+            "start": 4.699999999999999,
+            "end": 6.199999999999999,
+            "id": "seg_2"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Good morning,",
+            "speaker": "B",
+            "start": 6.35,
+            "end": 6.95,
+            "id": "seg_3"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Alice; the test suite is mostly ready; we still have two flaky tests in the billing module that I want to fix first.",
+            "speaker": "B",
+            "start": 7.1000000000000005,
+            "end": 13.900000000000002,
+            "id": "seg_4"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " That sounds reasonable!",
+            "speaker": "A",
+            "start": 13.900000000000002,
+            "end": 15.05,
+            "id": "seg_5"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " How long do you think the fix is going to take?",
+            "speaker": "A",
+            "start": 15.5,
+            "end": 18.05,
+            "id": "seg_6"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " I would like to tell the team by Thursday.",
+            "speaker": "A",
+            "start": 18.25,
+            "end": 20.05,
+            "id": "seg_7"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " I think one more day is enough; I will send you an update tomorrow afternoon with the results of the",
+            "speaker": "B",
+            "start": 20.25,
+            "end": 25.55,
+            "id": "seg_8"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Of the Full Run.",
+            "speaker": "B",
+            "start": 25.364,
+            "end": 26.164,
+            "id": "seg_9"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Perfect,",
+            "speaker": "A",
+            "start": 26.314,
+            "end": 26.814,
+            "id": "seg_10"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " thank you.",
+            "speaker": "A",
+            "start": 27.114,
+            "end": 27.614,
+            "id": "seg_11"
+        },
+        {
+            "type": "transcript.text.segment",
+            "text": " Then we will plan the release for Monday morning and I will write the announcement.",
+            "speaker": "A",
+            "start": 27.914,
+            "end": 31.264,
+            "id": "seg_12"
+        }
+    ],
+    "usage": {
+        "type": "tokens",
+        "total_tokens": 1504,
+        "input_tokens": 485,
+        "input_token_details": {
+            "text_tokens": 24,
+            "audio_tokens": 461
+        },
+        "output_tokens": 1019
+    }
+}

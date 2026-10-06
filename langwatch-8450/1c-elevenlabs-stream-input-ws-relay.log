@@ -1,0 +1,16 @@
+[+0.00s] connect ws://localhost:5573/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL/stream-input?model_id=eleven_flash_v2_5&output_format=mp3_44100_128&xi-api-key=<virtual key> 
+[+0.17s] socket open
+[+0.17s] sent {"text":" "}
+[+0.17s] sent {"text":"Hello from LangWatch. "}
+[+0.17s] sent {"text":"This audio came over the ElevenLabs stream input socket, "}
+[+0.17s] sent {"text":"relayed by the LangWatch gateway. "}
+[+0.17s] sent {"text":""}
+[+0.29s] audio chunk 1: 6732 bytes
+[+0.39s] audio chunk 2: 26749 bytes
+[+0.41s] audio chunk 3: 26750 bytes
+[+0.42s] audio chunk 4: 26749 bytes
+[+0.42s] audio chunk 5: 18808 bytes
+[+0.53s] audio chunk 6: 10031 bytes
+[+0.53s] frame {"audio":null,"isFinal":true,"normalizedAlignment":null,"alignment":null}
+[+0.54s] socket closed 1000 
+[+0.54s] assembled 6 chunks, 115819 bytes -> 1c-elevenlabs-stream-input.mp3
