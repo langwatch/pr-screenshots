@@ -1,0 +1,99 @@
+PR #8484 — tRPC traces.getAllForDownload pageSize cap (MAX_TRACE_DOWNLOAD_PAGE_SIZE = 10000)
+Captured: 2026-10-06T18:39:33Z   Branch: feat/issue8479-trace-page-size-cap   HEAD: 5df3f38987
+Backend:  http://localhost:6570  (getAllForDownload is a tRPC MUTATION => HTTP POST, body is superjson {"json":{...}})
+Request:  projectId=dashboards-demo-rag  startDate=1788719973000  endDate=1791311973000  includeSpans=false
+Auth:     signed better-auth.session_token cookie, user drew-test@langwatch.local  (cookie value REDACTED)
+Note:     error is flattened to data.error.meta.fieldErrors; boundary 10000-ok / 10001-rejected proves max=10000.
+
+================================================================================
+CHECK 2a — pageSize 10001  (expect HTTP 400 BAD_REQUEST, rejected on pageSize)
+================================================================================
+$ curl -i -X POST \
+    --cookie "better-auth.session_token=<REDACTED>" \
+    -H "Content-Type: application/json" \
+    -d '{"json":{"projectId":"dashboards-demo-rag","startDate":1788719973000,"endDate":1791311973000,"includeSpans":false,"pageSize":10001}}' \
+    http://localhost:6570/api/trpc/traces.getAllForDownload
+
+HTTP/1.1 400 Bad Request
+content-type: application/json
+vary: trpc-accept, accept
+content-length: 552
+Date: Tue, 06 Oct 2026 18:39:33 GMT
+
+---- response body (jq, all error fields) ----
+{
+  "error": {
+    "json": {
+      "message": "validation_error",
+      "code": -32600,
+      "data": {
+        "code": "BAD_REQUEST",
+        "httpStatus": 400,
+        "path": "traces.getAllForDownload",
+        "cause": null,
+        "error": {
+          "code": "validation_error",
+          "kind": "validation_error",
+          "meta": {
+            "fieldErrors": {
+              "pageSize": [
+                "Number must be less than or equal to 10000"
+              ]
+            },
+            "formErrors": []
+          },
+          "traceId": null,
+          "spanId": null,
+          "httpStatus": 422,
+          "fault": "customer",
+          "reasons": []
+        },
+        "authored": false,
+        "traceId": null
+      }
+    },
+    "meta": {
+      "values": {
+        "data.error.traceId": [
+          "undefined"
+        ],
+        "data.error.spanId": [
+          "undefined"
+        ],
+        "data.traceId": [
+          "undefined"
+        ]
+      },
+      "v": 1
+    }
+  }
+}
+
+================================================================================
+CHECK 2b — pageSize 10000  (expect HTTP 200)
+================================================================================
+$ curl -i -X POST \
+    --cookie "better-auth.session_token=<REDACTED>" \
+    -H "Content-Type: application/json" \
+    -d '{"json":{"projectId":"dashboards-demo-rag","startDate":1788719973000,"endDate":1791311973000,"includeSpans":false,"pageSize":10000}}' \
+    http://localhost:6570/api/trpc/traces.getAllForDownload
+
+HTTP/1.1 200 OK
+content-type: application/json
+vary: trpc-accept, accept
+content-length: 1992817
+Date: Tue, 06 Oct 2026 18:39:35 GMT
+
+---- response body (trimmed: shape only; trace list elided) ----
+{
+  "result_data_keys": [
+    "groups",
+    "scrollId",
+    "totalHits",
+    "traceChecks"
+  ],
+  "group_count": 767,
+  "total_traces": 767,
+  "totalHits": 767,
+  "first_trace_id": "trace_dashboards-demo-rag_2026-10-05_9_0"
+}
