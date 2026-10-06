@@ -1,0 +1,101 @@
+PR #8484 — tRPC traces.getAllForProject pageSize cap (MAX_TRACE_LIST_PAGE_SIZE = 1000)
+Captured: 2026-10-06T18:39:10Z   Branch: feat/issue8479-trace-page-size-cap   HEAD: 5df3f38987
+Backend:  http://localhost:6570  (worktree's own Hono API; tRPC transformer = superjson => input is {"json":{...}})
+Request:  projectId=dashboards-demo-rag  startDate=1788719950000  endDate=1791311950000  (epoch ms, last 30 days)
+Auth:     signed better-auth.session_token cookie, user drew-test@langwatch.local  (cookie value REDACTED)
+Note:     the app's tRPC errorFormatter flattens the zod issue into data.error.meta.fieldErrors;
+          the raw zod issue object (code:"too_big"/maximum:1000) is not emitted on the wire. The
+          message 'Number must be less than or equal to 1000' + the 1000-ok / 1001-rejected boundary
+          are the proof of max=1000.
+
+================================================================================
+CHECK 1a — pageSize 1001  (expect HTTP 400 BAD_REQUEST, rejected on pageSize)
+================================================================================
+$ curl -i -G \
+    --cookie "better-auth.session_token=<REDACTED>" \
+    --data-urlencode 'input={"json":{"projectId":"dashboards-demo-rag","startDate":1788719950000,"endDate":1791311950000,"pageSize":1001}}' \
+    http://localhost:6570/api/trpc/traces.getAllForProject
+
+HTTP/1.1 400 Bad Request
+content-type: application/json
+vary: trpc-accept, accept
+content-length: 550
+Date: Tue, 06 Oct 2026 18:39:10 GMT
+
+---- response body (jq, all error fields) ----
+{
+  "error": {
+    "json": {
+      "message": "validation_error",
+      "code": -32600,
+      "data": {
+        "code": "BAD_REQUEST",
+        "httpStatus": 400,
+        "path": "traces.getAllForProject",
+        "cause": null,
+        "error": {
+          "code": "validation_error",
+          "kind": "validation_error",
+          "meta": {
+            "fieldErrors": {
+              "pageSize": [
+                "Number must be less than or equal to 1000"
+              ]
+            },
+            "formErrors": []
+          },
+          "traceId": null,
+          "spanId": null,
+          "httpStatus": 422,
+          "fault": "customer",
+          "reasons": []
+        },
+        "authored": false,
+        "traceId": null
+      }
+    },
+    "meta": {
+      "values": {
+        "data.error.traceId": [
+          "undefined"
+        ],
+        "data.error.spanId": [
+          "undefined"
+        ],
+        "data.traceId": [
+          "undefined"
+        ]
+      },
+      "v": 1
+    }
+  }
+}
+
+================================================================================
+CHECK 1b — pageSize 1000  (expect HTTP 200)
+================================================================================
+$ curl -i -G \
+    --cookie "better-auth.session_token=<REDACTED>" \
+    --data-urlencode 'input={"json":{"projectId":"dashboards-demo-rag","startDate":1788719950000,"endDate":1791311950000,"pageSize":1000}}' \
+    http://localhost:6570/api/trpc/traces.getAllForProject
+
+HTTP/1.1 200 OK
+content-type: application/json
+vary: trpc-accept, accept
+content-length: 1990013
+Date: Tue, 06 Oct 2026 18:39:11 GMT
+
+---- response body (trimmed: pagination/shape only; trace list elided) ----
+{
+  "result_data_keys": [
+    "groups",
+    "scrollId",
+    "totalHits",
+    "traceChecks"
+  ],
+  "group_count": 767,
+  "total_traces": 767,
+  "totalHits": 767,
+  "scrollId": null,
+  "first_trace_id": "trace_dashboards-demo-rag_2026-10-05_9_0"
+}
