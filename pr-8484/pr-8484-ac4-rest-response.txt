@@ -1,0 +1,3 @@
+AC4 - Public REST POST /api/traces/search, pageSize 5000, X-Auth-Token auth
+Request body: {"pageSize":5000,"startDate":1790691836000,"endDate":1791296636000}
+Result: HTTP_STATUS:200 ("totalHits":231) -> accepted, NOT 4xx. Clamp app.v1.ts:357 Math.min(pageSize??1000,1000)
