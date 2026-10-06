@@ -1,0 +1,34 @@
+PR #8484 — public REST POST /api/traces/search clamps oversized pageSize instead of rejecting
+Captured: 2026-10-06T18:39:50Z   Branch: feat/issue8479-trace-page-size-cap   HEAD: 5df3f38987
+Backend:  http://localhost:6570   Route: src/app/api/traces/[[...route]]/app.v1.ts  POST /search
+Auth:     X-Auth-Token = project API key for dashboards-demo-rag  (key value REDACTED)
+Behaviour: pageSize is validated as positive int (no max) then clamped in-route via
+           Math.min(params.pageSize ?? 1000, MAX_TRACE_LIST_PAGE_SIZE=1000) — so 5000 is ACCEPTED (200),
+           served as at most 1000, and existing API clients that ask for more keep working.
+
+================================================================================
+CHECK 3 — pageSize 5000  (expect HTTP 200, request accepted and served)
+================================================================================
+$ curl -i -X POST \
+    -H "X-Auth-Token: <REDACTED>" \
+    -H "Content-Type: application/json" \
+    -d '{"startDate":1788719990000,"endDate":1791311990000,"pageSize":5000}' \
+    http://localhost:6570/api/traces/search
+
+HTTP/1.1 200 OK
+content-type: application/json
+Date: Tue, 06 Oct 2026 18:39:50 GMT
+
+---- response body: pagination block + served-count proof (trace list elided) ----
+{
+  "http_ok": true,
+  "trace_count_served": 767,
+  "pagination": {
+    "totalHits": 767
+  },
+  "first_trace_id": "trace_dashboards-demo-rag_2026-10-05_9_0",
+  "last_trace_id": "trace_dashboards-demo-rag_2026-09-07_4_0"
+}
+
+(trace_count_served is bounded by the dataset size (767); it never exceeds the 1000 clamp.
+ pagination.totalHits is the full match count; the page returned is clamped to <=1000.)
