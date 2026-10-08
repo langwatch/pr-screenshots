@@ -1,0 +1,31 @@
+# PR 33 @ fd33fe62 — night-watch tooling review, live box 2026-10-08T10:33:08Z
+$ bash assistant/night-watch/night-watch-tooling.test.sh | tail -3; echo rc=${PIPESTATUS[0]}
+PASS AC4 no usage findings
+PASS AC4 usage days
+PASS no bundle dir exits non-zero
+rc=0
+
+$ NW_SINCE=<24h ago> NW_REPO=drewdrewthis/langwatch-claude-agents bash assistant/night-watch/night-watch-collect.sh /tmp/tmp.8qxCgFgkhj   # rc=0
+$ jq -c .inputs.tooling /tmp/tmp.8qxCgFgkhj/manifest.json
+{"status":"ok","sections":{"recording":"ok","notes":"ok","claims":"ok","usage":"ok"},"findings":137}
+
+$ jq -c '{sessions:(.recording.sessions|length), claims:(.claims|{checked,missing:(.items|length)}), findings:(.findings|group_by(.check)|map({(.[0].check):length})|add)}' /tmp/tmp.8qxCgFgkhj/tooling.json
+{"sessions":418,"claims":{"checked":297,"missing":132},"findings":{"claims":132,"recording":5}}
+
+$ jq -r '.findings[]|select(.check=="recording")|.evidence' /tmp/tmp.8qxCgFgkhj/tooling.json | head -1 | cut -c1-190
+session 03a5fc43-4b92-46be-bcbb-74cc27dc1584: corrections=1 (digest Corrections: 0 + worklog rows with mistakes: 1); mistakes_logged=0 in [/home/ubuntu/.claude/mistakes.jsonl,/home/ubuntu/.k
+
+$ jq -r '.claims.items[]|select(.ref=="create-issue" or .ref=="respond")|"\(.owner)  \(.check)"' /tmp/tmp.8qxCgFgkhj/tooling.json | head -3
+github/board-draft-items  installed skills/commands has create-issue -> no
+github/create-issue  installed skills/commands has create-issue -> no
+slack/support-triage  installed skills/commands has create-issue -> no
+
+$ jq -c '.usage.items[]|select(.owner=="worklog@drewdrewthis" or .owner=="fleet-session/send-to-session")' /tmp/tmp.8qxCgFgkhj/tooling.json
+{"owner_kind":"plugin","owner":"worklog@drewdrewthis","fires_window":518,"fires_7d":1124}
+{"owner_kind":"procedure","owner":"fleet-session/send-to-session","fires_window":23,"fires_7d":44}
+
+$ NW_NOTES_FILE=~/Projects/langwatch-claude-agents/assistant/notes.md NW_SINCE=2026-10-07T00:00:00Z bash assistant/night-watch/night-watch-tooling.sh $N
+rc=0
+$ jq -r '.findings[]|select(.check=="notes")|.evidence' /tmp/tmp.RTZf9rPJyM/tooling.json
+Tracking unchanged from 2026-10-08T00:03:55Z to 2026-10-08T07:11:22Z (7.1h) while notes.md got 52 commits
+
