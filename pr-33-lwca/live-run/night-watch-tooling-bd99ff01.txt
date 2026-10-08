@@ -1,0 +1,39 @@
+# PR 33 @ bd99ff01 — night-watch tooling review, live box 2026-10-08T22:28:39Z
+$ bash assistant/night-watch/night-watch-tooling.test.sh | tail -3; echo rc=${PIPESTATUS[0]} pass=$(bash assistant/night-watch/night-watch-tooling.test.sh | grep -c ^PASS)
+PASS AC4 no usage findings
+PASS AC4 usage days
+PASS no bundle dir exits non-zero
+rc=0 pass=88
+
+$ NW_SINCE=<24h ago> NW_REPO=drewdrewthis/langwatch-claude-agents bash assistant/night-watch/night-watch-collect.sh /tmp/tmp.GKye9y3rDD   # rc=0
+
+$ jq -c .inputs.tooling /tmp/tmp.GKye9y3rDD/manifest.json
+{"status":"ok","sections":{"recording":"ok","notes":"ok","claims":"ok","usage":"ok"},"findings":162}
+
+$ jq -c '{sessions:(.recording.sessions|length), claims:(.claims|{checked,missing:(.items|length),hetzner:([.items[]|select(.host)]|length)}), findings:(.findings|group_by(.check)|map({(.[0].check):length})|add)}' /tmp/tmp.GKye9y3rDD/tooling.json
+{"sessions":401,"claims":{"checked":324,"missing":154,"hetzner":13},"findings":{"claims":154,"recording":8}}
+
+$ jq -r '.findings[]|select(.check=="recording")|.evidence' /tmp/tmp.GKye9y3rDD/tooling.json | head -1 | cut -c1-190
+session 03a5fc43-4b92-46be-bcbb-74cc27dc1584: corrections=1 (digest Corrections: 0 + worklog rows with mistakes: 1); mistakes_logged=0 in [/home/ubuntu/.claude/mistakes.jsonl,/home/ubuntu/.k
+
+$ jq -r '.claims.items[]|select(.ref=="create-issue" or .ref=="respond")|"\(.owner)  \(.check)"' /tmp/tmp.GKye9y3rDD/tooling.json | head -3
+github/board-draft-items  installed skills/commands has create-issue -> no
+github/create-issue  installed skills/commands has create-issue -> no
+slack/support-triage  installed skills/commands has create-issue -> no
+
+$ jq -c '.usage.items[]|select(.owner=="worklog@drewdrewthis" or .owner=="fleet-session/send-to-session" or .owner=="rolling-context@nestor-plugins")' /tmp/tmp.GKye9y3rDD/tooling.json
+{"owner_kind":"plugin","owner":"rolling-context@nestor-plugins","fires_window":null,"fires_7d":null,"note":"hook leaves no transcript record; not measurable"}
+{"owner_kind":"plugin","owner":"worklog@drewdrewthis","fires_window":562,"fires_7d":1305}
+{"owner_kind":"procedure","owner":"fleet-session/send-to-session","fires_window":25,"fires_7d":50}
+
+$ NW_NOTES_FILE=~/Projects/langwatch-claude-agents/assistant/notes.md NW_SINCE=<24h ago> bash assistant/night-watch/night-watch-tooling.sh $N
+rc=0
+$ jq -r '.findings[]|select(.check=="notes")|.evidence' /tmp/tmp.Hjxs7lLm6E/tooling.json
+Tracking unchanged from 2026-10-08T00:03:55Z to 2026-10-08T07:11:22Z (7.1h) while notes.md got 52 commits
+Tracking unchanged from 2026-10-08T09:37:51Z to 2026-10-08T22:30:34Z (12.9h) while notes.md got 51 commits
+
+$ NW_SETTINGS_JSON=<file containing only {> bash assistant/night-watch/night-watch-tooling.sh $X   # degraded path
+rc=0
+$ jq -c '{status,claims:.claims.status,usage:.usage.status,missing_inputs:.claims.missing_inputs}' /tmp/tmp.LSW2kiq0CS/tooling.json
+{"status":"degraded","claims":"partial","usage":"partial","missing_inputs":["/tmp/tmp.LSW2kiq0CS/s.json (unreadable)"]}
+
