@@ -1,0 +1,196 @@
+PR https://github.com/drewdrewthis/claude-plugins/pull/202 @ cb251e4dd6abcc615ad649328a31442dee9e5007 - independent user test (proof-reviewer), round 6
+Surface: real `claude -p` client ['2.1.295'], --plugin-dir <git archive cb251e4>/plugins/decide, --strict-mcp-config,
+         fake stdio MCP server registered as plugin_discord_discord (tool: reply). No real Discord server loaded.
+
+Verdict table (verdict comes from the fake server log and the hook event, not from the model's answer):
+  case                           expected observed match
+  c1-unmarked                    DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+  c2-marked                      SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c3-status                      SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c4-marker-no-recommendation    DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+  c7-control-noplugin            SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0]  names proc=-
+  c8-second-ask-after-blank      DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+  c10-marked-ask-url-footer      SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c11-ask-ends-in-url            DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+  c12-ask-with-dotted-name       DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+  c13-marker-in-inline-code      SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c14-quoted-prompt-in-code      SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c15-quoted-log-then-question   SENT     SENT     OK    server.log=1  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 0]  names proc=-
+  c16-ask-with-etc-paren         DENIED   DENIED   OK    server.log=0  reply calls=1 exact=[True]  hook stdout bytes=[0, 0, 708]  names proc=True
+
+[DENIED] c1-unmarked   (AC1 + AC3a)   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decisions for you: 1) merge 8501? 2) stop the devtool slot?"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+[SENT] c2-marked   (AC1 + AC3b)   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decisions for you: 1) merge 8501? One-way-door. I recommend yes, CI is green. 2) stop the devtool slot? Values-laden. I recommend we keep it one more week."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "Decisions for you: 1) merge 8501? One-way-door. I recommend yes, CI is green. 2) stop the devtool slot? Values-laden. I recommend we keep it one more week."}
+
+[SENT] c3-status   (AC2 + AC3c)   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Status report: PR 8501 is merged, CI is green, and the devtool slot is stopped. Nothing is open."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "Status report: PR 8501 is merged, CI is green, and the devtool slot is stopped. Nothing is open."}
+
+[DENIED] c4-marker-no-recommendation   (AC1 (marker alone is not enough))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decisions for you: 1) merge 8501? One-way-door. 2) stop the devtool slot? Values-laden."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 2 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+[SENT] c7-control-noplugin   (control: same text as c1, no --plugin-dir)   plugin sha: none loaded
+  text          : "Decisions for you: 1) merge 8501? 2) stop the devtool slot?"
+  client        : claude 2.1.295  decide plugin=none  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 2 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0] stderr bytes=[0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "Decisions for you: 1) merge 8501? 2) stop the devtool slot?"}
+
+[DENIED] c8-second-ask-after-blank   (AC1 (each item))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decision for you: drop the prod table? One-way-door. I recommend we keep it.\n\nAlso, should I restart the technician and delete the branch?"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+[SENT] c10-marked-ask-url-footer   (AC1 pass side (URL footer))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decision for you: drop the prod table? One-way-door. I recommend we keep it.\n\nPR: https://github.com/o/r/pull/5?diff=split"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "Decision for you: drop the prod table? One-way-door. I recommend we keep it.\n\nPR: https://github.com/o/r/pull/5?diff=split"}
+
+[DENIED] c11-ask-ends-in-url   (AC1, since 99f874c (ask ends in a URL))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Should I merge https://github.com/o/r/pull/5?"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+[DENIED] c12-ask-with-dotted-name   (AC1, since 99f874c (dot inside the ask))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Should I delete config.yml?"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+[SENT] c13-marker-in-inline-code   (AC1 pass side, since 99f874c (marker in inline code))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Decisions for you: 1) merge 8501? `one-way-door`, I recommend merge."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "Decisions for you: 1) merge 8501? `one-way-door`, I recommend merge."}
+
+[SENT] c14-quoted-prompt-in-code   (AC2, since 5f7700e (quoted prompt in inline code))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "The installer stopped at `Proceed? (y/n)`; I piped `yes` into it and it finished."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "The installer stopped at `Proceed? (y/n)`; I piped `yes` into it and it finished."}
+
+[SENT] c15-quoted-log-then-question   (AC2, since 5f7700e (quoted log line, then a question))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "The log line was \"ok to merge.\" Did it merge? Yes, at 14:02."
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 0 returned permissionDecision=-, hook stdout bytes=[0, 0, 0] stderr bytes=[0, 0, 0]
+  tool_result   : is_error=None sent (fake server, nothing left this box)
+  final answer  : "SENT"
+  server.log    : 1 line(s)  exact text present
+    {"chat_id": "test-chat", "text": "The log line was \"ok to merge.\" Did it merge? Yes, at 14:02."}
+
+[DENIED] c16-ask-with-etc-paren   (AC1, new in cb251e4 (ask holds a parenthesis with etc.))   plugin sha: cb251e4dd6abcc615ad649328a31442dee9e5007
+  text          : "Should I clean up the temp files (logs, caches, etc.)?"
+  client        : claude 2.1.295  decide plugin=['decide@inline']  discord plugin=none  mcp=['plugin_discord_discord:connected']
+  tool calls    : 1 reply call(s) by the model, text exact=[True], other tools=['ToolSearch']
+  reply hooks   : 3 ran, 1 returned permissionDecision=deny, hook stdout bytes=[0, 0, 708] stderr bytes=[0, 0, 0]
+  deny reason   : 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a recommendation. Make every reversible call yourself, act, and report what you did. Bring the owner only one-way-door or values-laden items, each marked as such and each with your recommendation. Procedure: proc.research-think.decide (the /decide:decide skill). Records: fm.ask-permission-on-reversible, fm.ask-when-rules-decide. If nothing here is for the owner to decide, report what you did instead of asking.
+  names proc.research-think.decide: True
+  tool_result   : is_error=True PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve items that are not each marked one-way-door or values-laden with a...
+  final answer  : "BLOCKED: PreToolUse:mcp__plugin_discord_discord__reply hook error: 1 item(s) lack a marker or a recommendation. This reply asks the owner to decide or approve i"
+  server.log    : 0 line(s)
+
+Direct hook run (bash decision-ask-guard.sh < PreToolUse JSON). 0 stdout bytes = allowed.
+  c3 status report, cb251e4 (AC2)                rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c2 marked list, cb251e4 (AC3b)                 rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c1 unmarked list, cb251e4 (AC3a)               rc=0 stdout_bytes=708 stderr_bytes=0 decision=deny
+    c1 deny JSON holds literal proc.research-think.decide: 1 time(s)
+  c11 ask ends in URL, cb251e4                   rc=0 stdout_bytes=708 stderr_bytes=0 decision=deny
+  c12 dotted name, cb251e4                       rc=0 stdout_bytes=708 stderr_bytes=0 decision=deny
+  c13 marker in inline code, cb251e4             rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+Old-head comparison (same text, hook of 5f7700e against hook of cb251e4). c14, c15: no change expected. c16: the change in cb251e4 (old head allows, new head denies):
+  c14 quoted prompt in code, cb251e4             rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c14 quoted prompt in code, 5f7700e (old head)  rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c15 quoted log then question, cb251e4          rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c15 quoted log then question, 5f7700e (old head) rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+  c16 ask with (.. etc.), cb251e4                rc=0 stdout_bytes=708 stderr_bytes=0 decision=deny
+  c16 ask with (.. etc.), 5f7700e (old head)     rc=0 stdout_bytes=0 stderr_bytes=0 decision=allow
+bats hooks/tests (local, archive copy of cb251e4): plan=1..90 ok=90 not_ok=0 skipped=0 bats rc=0
+Archive identity: blob id of extracted files  = ba1a490999e4989c5bb5069de5f8ee279396242e (guard), 40503c174c4d898bbfb017fe1fe5a4a5d53a59e7 (hooks.json)
+                  git rev-parse cb251e4:<path> = ba1a490999e4989c5bb5069de5f8ee279396242e (guard), 40503c174c4d898bbfb017fe1fe5a4a5d53a59e7 (hooks.json)
+                  old-head guard used for contrast: extracted 8396b0c5814430d37fa0462af4b7d4d6fca44320, git rev-parse 5f7700e:<path> = 8396b0c5814430d37fa0462af4b7d4d6fca44320
+Other copies of decision-ask-guard under ~/.claude/plugins: 0
+
+CI on https://github.com/drewdrewthis/claude-plugins/pull/202 (gh pr checks) at 2026-10-09T09:37:37Z, PR head cb251e4dd6abcc615ad649328a31442dee9e5007:
+  CodeRabbit	pass	0		Review rate limited
+  bats (macos-latest)	pass	25s	https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859349/job/113758646171	
+  bats (ubuntu-latest)	pass	23s	https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859349/job/113758645916	
+  lint	pass	3s	https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859279/job/113758644507	
+  release-title	pass	7s	https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859279/job/113758645052	
+run https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859349 : decide-tests headSha=cb251e4dd6abcc615ad649328a31442dee9e5007 status=completed conclusion=success
+  job bats (ubuntu-latest) conclusion=success https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859349/job/113758645916
+    TAP: plan=1..90 ok_lines=90 not_ok_lines=0 skip=0 log_bytes=40813
+    steps: Set up job=success; Run actions/checkout@v4=success; Install bats and jq (Linux)=success; Install bats and jq (macOS)=skipped; Record the toolchain under test=success; Run the decide suite=success; Post Run actions/checkout@v4=success; Complete job=success
+  job bats (macos-latest) conclusion=success https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859349/job/113758646171
+    TAP: plan=1..90 ok_lines=90 not_ok_lines=0 skip=0 log_bytes=30542
+    steps: Set up job=success; Run actions/checkout@v4=success; Install bats and jq (Linux)=skipped; Install bats and jq (macOS)=success; Record the toolchain under test=success; Run the decide suite=success; Post Run actions/checkout@v4=success; Complete job=success
+run https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859279 : pr-title headSha=cb251e4dd6abcc615ad649328a31442dee9e5007 status=completed conclusion=success
+  job lint conclusion=success https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859279/job/113758644507
+    steps: Set up job=success; Run amannn/action-semantic-pull-request@v5=success; Complete job=success
+  job release-title conclusion=success https://github.com/drewdrewthis/claude-plugins/actions/runs/37911859279/job/113758645052
+    steps: Set up job=success; Run actions/checkout@v4=success; Check title releases every changed plugin=success; Post Run actions/checkout@v4=success; Complete job=success
+
