@@ -1,0 +1,29 @@
+$ heads before
+8bfe857d43248fe2394d5208101ffee97a6d116d release-please--branches--main--components--a
+1af85989d0d3c6fc7ccb9078079d634ca02f2aff release-please--branches--main--components--b
+9bdc034ca4285c458dec4159f60b188a56cb68ae release-please--branches--main--components--c
+https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065076184 success 90f867975ed114df7a8b4e125401ec6b06844a69
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:48:25.2400718Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+release-please	Repair release manifests	2026-10-10T15:48:28.5646588Z repaired: release-please--branches--main--components--c (plugins/b 0.2.1 -> 0.2.2)
+release-please	Repair release manifests	2026-10-10T15:48:28.5672861Z ##[warning]release-please--branches--main--components--c: restored manifest lines set back by release-please (plugins/b 0.2.1 -> 0.2.2)
+release-please	Repair release manifests	2026-10-10T15:48:28.5681473Z checked: 1 release PR(s)
+release-please	Complete job	2026-10-10T15:48:28.8580149Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, googleapis/release-please-action
+$ C branch log
+8d06e54 parent=9bdc034 author=github-actions[bot] committer=GitHub chore(release): restore manifest lines set back by release-please
+9bdc034 parent=92ed8c4 author=Andrew Garde Joia committer=Andrew Garde Joia chore(main): release c 0.1.1
+$ manifest diff vs merge-base
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..88b9d64 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+   "plugins/b": "0.2.2",
+-  "plugins/c": "0.1.0"
++  "plugins/c": "0.1.1"
+ }
+$ heads after
+8bfe857d43248fe2394d5208101ffee97a6d116d release-please--branches--main--components--a
+1af85989d0d3c6fc7ccb9078079d634ca02f2aff release-please--branches--main--components--b
+8d06e54bfbf577d507d7ca1ad452b836ff5138d6 release-please--branches--main--components--c

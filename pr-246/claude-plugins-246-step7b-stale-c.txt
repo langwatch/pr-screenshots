@@ -1,0 +1,32 @@
+$ node release-please.js --version
+17.3.0
+$ workflow state
+release-please	disabled_manually	380624890
+$ CLI log lines
+2:15:47:53.112 ❯ Fetching .release-please-manifest.json from branch main
+89:15:47:53.884 [hook] 2026-10-10T15:47:49.135Z squash-merging PR #6 at first buildChangeSet
+90:15:47:53.887 [hook] 2026-10-10T15:47:53.080Z main manifest now plugins/b=0.2.2
+94:15:47:56.503 ❯ Fetching .release-please-manifest.json from branch main
+101:15:47:56.542 ✔ Updating reference heads/release-please--branches--main--components--c to 9bdc034ca4285c458dec4159f60b188a56cb68ae
+$ main head / C branch parent
+92ed8c44c178ed3ca989362b20e51d14b07df782
+92ed8c44c178ed3ca989362b20e51d14b07df782
+9bdc034 chore(main): release c 0.1.1
+$ git diff 92ed8c44c178ed3ca989362b20e51d14b07df782 origin/release-please--branches--main--components--c -- manifest
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..9045605 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+-  "plugins/b": "0.2.2",
+-  "plugins/c": "0.1.0"
++  "plugins/b": "0.2.1",
++  "plugins/c": "0.1.1"
+ }
+{
+  "plugins/a": "0.2.0",
+  "plugins/b": "0.2.2",
+  "plugins/c": "0.1.0"
+}

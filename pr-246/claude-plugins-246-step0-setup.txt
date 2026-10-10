@@ -1,0 +1,10 @@
+$ jq ".\"always-update\"" release-please-config.json
+null
+$ sha256sum (PR head vs scratch)
+pr:      5b7e26abc69f1da820ea649151bf72e6b95319b503b213229eea7a3bc173e92a  -
+scratch: 5b7e26abc69f1da820ea649151bf72e6b95319b503b213229eea7a3bc173e92a  -
+pr:      f3f169a9676ef4a45ec92ddc6b34b4226a2dfd4ed1fbdc70a8e64409dec9983e  -
+scratch: f3f169a9676ef4a45ec92ddc6b34b4226a2dfd4ed1fbdc70a8e64409dec9983e  -
+$ git ls-files -s .github/scripts
+100755 d86e3faaa7c41a68b8eaf9d5d8cf0ad7d67e47e7 0	.github/scripts/repair-release-manifests.sh
+100755 blob d86e3faaa7c41a68b8eaf9d5d8cf0ad7d67e47e7	.github/scripts/repair-release-manifests.sh

@@ -1,0 +1,19 @@
+$ gh run list
+completed	success	fix(c): change c one	release-please	main	push	38064676388	21s	2026-10-10T15:42:12Z
+completed	success	chore: add plugin c, drop always-update, add workflow and repair script	release-please	main	push	38064640962	13s	2026-10-10T15:41:41Z
+$ gh pr list --state open
+4	chore(main): release c 0.1.1	app/github-actions	autorelease: pending	c59ca91066a002cccf0d1ef5b5ebf9b0fbba50c9	release-please--branches--main--components--c
+3	chore(main): release b 0.2.1	app/github-actions	autorelease: pending	c58b9eb5375d42828a4987be2d4d43b776db1ba6	release-please--branches--main--components--b
+1	chore(main): release a 0.2.0	drewdrewthis	autorelease: pending	606cc1cf736690874f2003e31c752b3efd0a9594	release-please--branches--main--components--a
+$ gh api pr user.login
+#4 user.login=github-actions[bot] state=open
+#3 user.login=github-actions[bot] state=open
+#1 user.login=drewdrewthis state=open
+$ gh pr list --state open (after closing legacy PR #1 and recreating by Actions)
+5	chore(main): release a 0.2.0	app/github-actions	autorelease: pending	2e17480c9034c434332ca36ad0ca4a5bead91ac5	release-please--branches--main--components--a
+4	chore(main): release c 0.1.1	app/github-actions	autorelease: pending	c59ca91066a002cccf0d1ef5b5ebf9b0fbba50c9	release-please--branches--main--components--c
+3	chore(main): release b 0.2.1	app/github-actions	autorelease: pending	c58b9eb5375d42828a4987be2d4d43b776db1ba6	release-please--branches--main--components--b
+#5 user.login=github-actions[bot]
+#4 user.login=github-actions[bot]
+#3 user.login=github-actions[bot]
+completed	success	fix(a): change a two	release-please	main	push	38064730430	19s	2026-10-10T15:43:01Z
