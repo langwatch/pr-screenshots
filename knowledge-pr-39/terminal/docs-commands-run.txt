@@ -1,0 +1,65 @@
+knowledge PR 39 at f36a2544: every documented command, run as written against the installed reader
+
+== gauge BEFORE
+X-Ratelimit-Remaining: 4924 X-Ratelimit-Reset: 1791607883 X-Ratelimit-Used: 76  <- before read 1 04:48:15Z
+X-Ratelimit-Remaining: 4288 X-Ratelimit-Reset: 1791607868 X-Ratelimit-Used: 712  <- before read 2 04:48:15Z
+== cache mtime: 2026-10-10 04:40:49.421328475 +0000
+== daily-triage Step 1 read (lines 34-35)
+BOARD="$(mktemp)"
+/usr/local/lib/langwatch-agents/bin/board-items.sh > "$BOARD"; echo "reader exit: $?"
+reader exit: 0
+BOARD=<mktemp file> bytes=1519871 stderr: board-items: data age 446s
+fetchedAt=2026-10-10T04:40:49Z totalCount=3235 items=3235
+== daily-triage Step 1 filter (lines 43-49)
+filter exit: 0 rows: 19 stderr-bytes: 0
+-- by status/state:
+      2 In progress / CLOSED
+      5 In progress / MERGED
+      3 In review / CLOSED
+      5 In review / MERGED
+      4 Ready / CLOSED
+== daily-triage Step 3 filter (lines 70-79)
+filter exit: 0 rows: 301 stderr-bytes: 0
+      1 Blocked
+     24 In progress
+     55 In review
+    221 Ready
+-- min age per column:
+Blocked min 17d
+In progress min 14d
+In review min 8d
+Ready min 8d
+== start-day Step 2 (line 47)
+/usr/local/lib/langwatch-agents/bin/board-items.sh
+exit: 0 bytes: 1519871 stderr: board-items: data age 446s
+== box-reset-recovery (line 44)
+/usr/local/lib/langwatch-agents/bin/board-items.sh
+exit: 0 bytes: 1519871 stderr: board-items: data age 446s
+all three reads byte-identical
+== gh-cli-quirks header command (line 38)
+gh api -i graphql -f query='{rateLimit{remaining}}' | grep -i '^x-ratelimit-\(remaining\|reset\)'
+X-Ratelimit-Remaining: 4288
+X-Ratelimit-Reset: 1791607868
+pipe exit: 0
+== cache mtime after: 2026-10-10 04:40:49.421328475 +0000
+== gauge AFTER
+X-Ratelimit-Remaining: 4288 X-Ratelimit-Reset: 1791607868 X-Ratelimit-Used: 712  <- after read 1 04:48:16Z
+X-Ratelimit-Remaining: 4288 X-Ratelimit-Reset: 1791607868 X-Ratelimit-Used: 712  <- after read 2 04:48:17Z
+
+#### refusal path (fake gh reports 500 points left, empty private cache)
+== Step 1 read block, as written
+reader exit: 1
+BOARD bytes: 0
+stderr: board-items: refusing to fetch: 500 GraphQL points left, the fetch costs about 100 and 1000 must stay spare; the budget resets at 2026-10-10T04:51:08Z
+== Step 1 filter on the empty file
+jq exit: 0 stdout-bytes: 0 stderr-bytes: 0
+== Step 3 filter on the empty file
+jq exit: 0 stdout-bytes: 0 stderr-bytes: 0
+== direct reader run (start-day / box-reset form)
+exit: 1 stdout-bytes: 0 stderr: board-items: refusing to fetch: 500 GraphQL points left, the fetch costs about 100 and 1000 must stay spare; the budget resets at 2026-10-10T04:51:08Z
+== fake gh calls:
+fake-gh called: api -i graphql -f query={rateLimit{remaining}}
+fake-gh called: api -i graphql -f query={rateLimit{remaining}}
+fake-gh called: api -i graphql -f query={rateLimit{remaining}}
+fake-gh called: api -i graphql -f query={rateLimit{remaining}}
+== real cache mtime: 2026-10-10 04:40:49.421328475 +0000
