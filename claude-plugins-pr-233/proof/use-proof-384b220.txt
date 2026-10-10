@@ -1,0 +1,743 @@
+# use-proof for https://github.com/drewdrewthis/claude-plugins/pull/233
+# date: 2026-10-10T03:32:16+00:00   host: Linux 6.1.0-53-amd64 x86_64   nproc: 8
+# $R (AFTER)  = checkout at 384b220bc5913258ec981fce2d20709aa1e7dfe1
+# $R (BEFORE) = git archive of origin/main (efde0cb)
+# every run: throwaway HOME (mktemp -d), env -u CODEX_STORE_ROOTS -u PROCEDURES_STATE_DIR -u KNOWLEDGE_HOME -u CLAUDE_CONFIG_DIR,
+#   stub claude first on PATH, LIBRARIAN_SETTLE_SECS=0 LIBRARIAN_NO_FLOCK=1 LIBRARIAN_LOCK=<state-dir>/librarian.lock
+# worker run (Terms): LIBRARIAN_LOAD_CEILING=8 LIBRARIAN_IOWAIT_CEILING=30 LIBRARIAN_MIN_INTERVAL_SECS=0,
+#   LP_LOADAVG_FILE / LP_STAT_FILE fixtures, LP_STAT_SAMPLE_SLEEP='bash fx/sampler.sh' (appends 1 line to the sample counter per check)
+# <state-dir> = $HOME/.local/state/procedures/librarian ; <log> = <state-dir>/librarian-poke.log
+===== BEFORE: origin/main efde0cb =====
+
+================================================================
+AC1 [BEFORE efde0cb] load at or over the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [8.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+AC1 [BEFORE efde0cb] load=8.00 ceil=8 iowait=9% -> exit=0 claude_started=1 last-drain-start=yes log: (no log line)
+# pressure plan (load iowait%) per check: [50.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/ac1.z5bkPZ/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:16+00:00 librarian-poke: deferred, load=50.00 > ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=50.00 >= ceiling=8' <log>   -> 0
+AC1 [BEFORE efde0cb] load=50.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=50.00 > ceiling=8
+
+================================================================
+AC2 [BEFORE efde0cb] iowait at the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [1.00 30] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+AC2 [BEFORE efde0cb] load=1.00 iowait=30% ceil=30% -> exit=0 claude_started=1 log: (no log line)
+
+================================================================
+AC4 [BEFORE efde0cb] pressure that rises during the batch defers the drain
+================================================================
+
+--- AC4 variant b
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 30] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+AC4b [BEFORE efde0cb] plan: 1.00 9 1.00 30 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+
+--- AC4 variant c
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 9] [8.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+AC4c [BEFORE efde0cb] plan: 1.00 9 1.00 9 8.00 9 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+
+--- AC4 variant a
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+AC4a [BEFORE efde0cb] plan: 1.00 9 8.00 9 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+===== AFTER: PR head 384b220 =====
+
+================================================================
+AC1 [AFTER 384b220] load at or over the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [8.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/ac1.jY3PH1/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:18+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+AC1 [AFTER 384b220] load=8.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=8.00 >= ceiling=8
+# pressure plan (load iowait%) per check: [50.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/ac1.s2Lvra/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:18+00:00 librarian-poke: deferred, load=50.00 >= ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=50.00 >= ceiling=8' <log>   -> 1
+AC1 [AFTER 384b220] load=50.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=50.00 >= ceiling=8
+
+================================================================
+AC2 [AFTER 384b220] iowait at the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [1.00 30] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/ac2.b2RmMW/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:18+00:00 librarian-poke: deferred, iowait=30% >= ceiling=30%
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 1
+AC2 [AFTER 384b220] load=1.00 iowait=30% ceil=30% -> exit=0 claude_started=0 log: librarian-poke: deferred, iowait=30% >= ceiling=30%
+
+================================================================
+AC3 [AFTER 384b220] just under both ceilings still drains
+================================================================
+# pressure plan (load iowait%) per check: [7.99 29] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+
+================================================================
+AC4 [AFTER 384b220] pressure that rises during the batch defers the drain
+================================================================
+
+--- AC4 variant b
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 30] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T03:32:18+00:00 librarian-poke: deferred, iowait=30% >= ceiling=30%
+  2026-10-10T03:32:18+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 1
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+AC4b [AFTER 384b220] plan: 1.00 9 1.00 30 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, iowait=30% >= ceiling=30% | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+--- AC4 variant c
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 9] [8.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T03:32:18+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T03:32:18+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+AC4c [AFTER 384b220] plan: 1.00 9 1.00 9 8.00 9 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, load=8.00 >= ceiling=8 | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+--- AC4 variant a
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T03:32:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T03:32:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+AC4a [AFTER 384b220] plan: 1.00 9 8.00 9 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, load=8.00 >= ceiling=8 | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+================================================================
+AC5 [AFTER 384b220] a deferred drain loses nothing (same HOME as AC4 variant a, second run, calm)
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  2026-10-10T03:32:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T03:32:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 4
+
+================================================================
+AC6 [AFTER 384b220] a mid-batch defer backs off
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+# run 1 = the AC4 run
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+counter before run 2: 1 ; 'deferred, cooldown' lines before: 0 ; claude started so far: 0
+# run 2: calm, cooldown 1800
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_MIN_INTERVAL_SECS=1800 LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T03:32:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T03:32:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  2026-10-10T03:32:19+00:00 librarian-poke: deferred, cooldown, last drain started 0s ago < 1800s
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+counter gained: 1 line(s) ; 'deferred, cooldown' gained: 1 line(s)
+# spawn-check defer (AC1 shape) writes no last-drain-start:
+# pressure plan (load iowait%) per check: [8.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+$ ls -A <state-dir>
+  librarian-poke.log
+
+================================================================
+AC7 [AFTER 384b220] a running drain is never signalled by the gate
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# stub claude: traps TERM/INT -> markers/signalled; sets load fixture to 50.00; sleep 2; markers/finished; exit 0
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+$ cat fx/loadavg -> 50.00 0.50 0.50 1/100 4242
+$ ls markers
+  finished
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred' <log>   -> 0
+
+================================================================
+AC8 [AFTER 384b220] unreadable pressure during a re-check fails open, quietly
+================================================================
+--- (i) --load-ok with both pressure files absent
+log lines before: 0
+$ LP_LOADAVG_FILE=<absent> LP_STAT_FILE=<absent> bash $R/plugins/procedures/hooks/librarian-poke.sh --load-ok </dev/null
+exit=0
+log lines after: 0
+--- (ii) worker run, both pressure files absent for the whole run
+$ LIBRARIAN_RECHECK_SECS=0 LP_LOADAVG_FILE=$S/ac8ii.kPy7Ns/fx/absent-load LP_STAT_FILE=$S/ac8ii.kPy7Ns/fx/absent-stat bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  2026-10-10T03:32:21+00:00 librarian-poke: fail-open, loadavg unreadable — proceeding without that signal
+  2026-10-10T03:32:21+00:00 librarian-poke: fail-open, iowait unreadable — proceeding without that signal
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'fail-open, loadavg unreadable' <log>   -> 1
+$ grep -cF 'fail-open, iowait unreadable' <log>   -> 1
+--- (iii) batch script alone, --pressure-check <wrapper that records, then runs the hook --load-ok>
+$ LIBRARIAN_RECHECK_SECS=0 LP_LOADAVG_FILE=$S/ac8iii.1IV7Pu/fx/absent-load LP_STAT_FILE=$S/ac8iii.1IV7Pu/fx/absent-stat bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac8iii.1IV7Pu/wrapper.sh
+librarian-batch: 2 transcript range(s), 489 bytes -> $S/ac8iii.1IV7Pu/.local/state/procedures/librarian/batch.txt (manifest $S/ac8iii.1IV7Pu/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat wrapper.record
+  called: --load-ok
+  called: --load-ok
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+
+================================================================
+AC9 [AFTER 384b220] the re-check is time-triggered, not per file
+================================================================
+corpus: 23 transcripts, 20 pre-seeded cursors (fully read)
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_RECHECK_SECS=3600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ cat batch.manifest
+  new1	0	3
+  new2	0	3
+  new3	0	3
+$ wc -l < sample-counter   -> 1
+
+corpus: 23 transcripts, 20 pre-seeded cursors (fully read)
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ cat batch.manifest
+  new1	0	3
+  new2	0	3
+  new3	0	3
+$ wc -l < sample-counter   -> 24
+
+================================================================
+AC10 [AFTER 384b220] the batch script alone is not gated
+================================================================
+$ LP_LOADAVG_FILE=$S/ac10.a2yiJx/fx/loadavg LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh 
+librarian-batch: 2 transcript range(s), 485 bytes -> $S/ac10.a2yiJx/.local/state/procedures/librarian/batch.txt (manifest $S/ac10.a2yiJx/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+
+================================================================
+AC11 [AFTER 384b220] only exit 75 from the check is a defer
+================================================================
+
+--- check script: 75
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac11-75.F9MTfg/check.sh
+librarian-batch: deferred, pressure check asked to stop
+exit=75
+$ cat batch.manifest
+  (no batch.manifest)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+
+--- check script: 1
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac11-1.03Dn4l/check.sh
+librarian-batch: 2 transcript range(s), 489 bytes -> $S/ac11-1.03Dn4l/.local/state/procedures/librarian/batch.txt (manifest $S/ac11-1.03Dn4l/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+
+--- check script: 127
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac11-127.7tE8oI/check.sh
+librarian-batch: 2 transcript range(s), 493 bytes -> $S/ac11-127.7tE8oI/.local/state/procedures/librarian/batch.txt (manifest $S/ac11-127.7tE8oI/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+
+--- check script: missing
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac11-missing.0qmqZt/check.sh
+librarian-batch: 2 transcript range(s), 501 bytes -> $S/ac11-missing.0qmqZt/.local/state/procedures/librarian/batch.txt (manifest $S/ac11-missing.0qmqZt/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+
+--- check script: eats-stdin
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check $S/ac11-eats-stdin.ffsRPt/check.sh
+librarian-batch: 2 transcript range(s), 507 bytes -> $S/ac11-eats-stdin.ffsRPt/.local/state/procedures/librarian/batch.txt (manifest $S/ac11-eats-stdin.ffsRPt/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+
+================================================================
+AC12 [AFTER 384b220] a failed batch is still a failure
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_BATCH_BYTES=nope bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/ac12.K1Z6Jr/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:26+00:00 librarian-poke: batch failed, drain skipped: librarian-batch: LIBRARIAN_BATCH_BYTES must be a positive integer
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'deferred' <log>   -> 0
+
+================================================================
+AC13 [AFTER 384b220] the batch runs at idle priority
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ cat ionice.record
+  -c3 nice -n19 bash $R/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-check $R/plugins/procedures/hooks/librarian-poke.sh
+  -c3 nice -n19 claude -p --permission-mode auto --agent procedures:librarian Drain the transcript queue.
+$ cat nice.record
+  -n19 bash $R/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-check $R/plugins/procedures/hooks/librarian-poke.sh
+  -n19 claude -p --permission-mode auto --agent procedures:librarian Drain the transcript queue.
+ionice lines with -c3 AND librarian-batch.sh: 1
+nice   lines with -n19 AND librarian-batch.sh: 1
+
+================================================================
+AC15 [AFTER 384b220] a bad re-check interval cannot stop the drain
+================================================================
+
+--- LIBRARIAN_RECHECK_SECS='nope'
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_RECHECK_SECS=nope bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+
+--- LIBRARIAN_RECHECK_SECS=''
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ LIBRARIAN_RECHECK_SECS= bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+
+================================================================
+AC14 [AFTER 384b220] docs match behaviour (run in plugins/procedures)
+================================================================
+$ grep -nF '> ceiling' hooks/librarian-poke.sh
+exit=1
+$ grep -c 'at or over' hooks/librarian-poke.sh
+3
+exit=0
+$ grep -n pressure-check scripts/librarian-batch.sh
+7:#   bash librarian-batch.sh [--out FILE] [--pressure-check PATH]
+28:# --pressure-check PATH: every LIBRARIAN_RECHECK_SECS (default 5; 0 = every
+30:# partial output and exits 75 (pressure-check abort), so no manifest is left.
+56:        --pressure-check) CHECK="${2:?--pressure-check needs a path}"; shift 2 ;;
+exit=0
+$ grep -n LIBRARIAN_RECHECK_SECS hooks/librarian-poke.sh scripts/librarian-batch.sh
+hooks/librarian-poke.sh:154:# batch re-runs this check (--load-ok) every LIBRARIAN_RECHECK_SECS (default 5)
+scripts/librarian-batch.sh:28:# --pressure-check PATH: every LIBRARIAN_RECHECK_SECS (default 5; 0 = every
+scripts/librarian-batch.sh:50:RECHECK="${LIBRARIAN_RECHECK_SECS:-5}"
+exit=0
+$ grep -n 'ceiling of 0' hooks/librarian-poke.sh
+149:#       window. A ceiling of 0 defers every drain (load and iowait are never
+208:# a reading at or over its ceiling defers, so a ceiling of 0 always defers.
+exit=0
+
+================================================================
+AC16 the version bump is automated
+================================================================
+$ gh pr view 233 -R drewdrewthis/claude-plugins --json title,files,headRefOid
+{"title":"fix(procedures): librarian gate defers at the ceiling and re-checks pressure mid-scan","headRefOid":"384b220bc5913258ec981fce2d20709aa1e7dfe1","files":["plugins/procedures/hooks/librarian-poke.sh","plugins/procedures/hooks/tests/librarian-batch.bats","plugins/procedures/hooks/tests/librarian-poke.bats","plugins/procedures/scripts/librarian-batch.sh","plugins/procedures/specs/features/librarian-pressure-gate.feature"]}
+===== REAL /proc of this box =====
+
+================================================================
+REAL /proc [AFTER 384b220] no fixture seams: the hook reads /proc/loadavg and /proc/stat of this box
+================================================================
+$ cat /proc/loadavg -> 4.82 6.10 6.37 5/2122 2807534
+$ LIBRARIAN_LOAD_CEILING=4.32 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker   (LP_* seams unset)
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '$S/real-defer.DoqdY7/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T03:32:28+00:00 librarian-poke: deferred, load=4.82 >= ceiling=4.32
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+REAL /proc [AFTER 384b220] box load=4.82, ceiling=4.32 -> exit=0 claude_started=0 log: librarian-poke: deferred, load=4.82 >= ceiling=4.32
+
+$ cat /proc/loadavg -> 4.82 6.10 6.37 4/2120 2807631
+$ LIBRARIAN_LOAD_CEILING=100000 LIBRARIAN_IOWAIT_CEILING=1000 LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker   (LP_* seams unset)
+exit=0
+claude started: 1 time(s)
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 0
+REAL /proc [AFTER 384b220] ceilings load=100000 iowait=1000 -> exit=0 claude_started=1 cursors: t1.line:3 t2.line:4 log: (no log line)
