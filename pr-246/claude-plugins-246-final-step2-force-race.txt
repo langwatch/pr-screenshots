@@ -1,0 +1,103 @@
+$ date -u
+2026-10-10T16:36:20Z
+$ gh workflow disable
+release-please	disabled_manually	380624890
+$ release-please --version
+17.3.0
+$ HOOK_PR=7 HOOK_KEY=plugins/b HOOK_VER=0.2.3 ./rp.sh -r tool/hook.cjs
+exit=0
+2:16:36:43.698 ❯ Fetching .release-please-manifest.json from branch main
+$ gh workflow enable
+release-please	active	380624890
+main head c95869310b0cd522058df1b3423a428bbc497d2e
+--- b head 1b33de4d1aa44d60a5e74cf234d914eb08d0e294 parent c95869310b0cd522058df1b3423a428bbc497d2e merge-base c95869310b0cd522058df1b3423a428bbc497d2e
+1b33de4 parent=c958693 author=github-actions[bot] chore(main): release b 0.2.3
+c958693 parent=d97fd34 author=drew-sweatshop fix(b): change b five
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..8736f22 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+-  "plugins/b": "0.2.2",
++  "plugins/b": "0.2.3",
+   "plugins/c": "0.1.0"
+ }
+--- c head 78ade5d12c6a9186ac5013f791b8ae334c7eb2a2 parent c95869310b0cd522058df1b3423a428bbc497d2e merge-base c95869310b0cd522058df1b3423a428bbc497d2e
+78ade5d parent=c958693 author=github-actions[bot] chore(main): release c 0.1.1
+c958693 parent=d97fd34 author=drew-sweatshop fix(b): change b five
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..88b9d64 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+   "plugins/b": "0.2.2",
+-  "plugins/c": "0.1.0"
++  "plugins/c": "0.1.1"
+ }
+$ gh pr list
+{"headRefOid":"1b33de4d1aa44d60a5e74cf234d914eb08d0e294","number":7,"state":"OPEN"}
+{"headRefOid":"1af85989d0d3c6fc7ccb9078079d634ca02f2aff","number":6,"state":"MERGED"}
+{"headRefOid":"8bfe857d43248fe2394d5208101ffee97a6d116d","number":5,"state":"MERGED"}
+{"headRefOid":"78ade5d12c6a9186ac5013f791b8ae334c7eb2a2","number":4,"state":"OPEN"}
+{"headRefOid":"c58b9eb5375d42828a4987be2d4d43b776db1ba6","number":3,"state":"MERGED"}
+{"headRefOid":"ccf92349d58e1cb40f9f975d90d77502273d1501","number":2,"state":"MERGED"}
+{"headRefOid":"606cc1cf736690874f2003e31c752b3efd0a9594","number":1,"state":"CLOSED"}
+
+=== ATTEMPT 1 above: hook did not fire (both PRs 'remained the same' => buildChangeSet never called). Retrying: workflow disabled, push fix(c) so the c PR needs rewriting ===
+$ date -u
+2026-10-10T16:37:20Z
+release-please	disabled_manually	380624890
+71af79d1de6dfa660f54aa13efb437cf329cac2e fix(c): change c six
+$ HOOK_PR=7 HOOK_KEY=plugins/b HOOK_VER=0.2.3 ./rp.sh -r tool/hook.cjs
+exit=0
+2:16:37:41.750 ❯ Fetching .release-please-manifest.json from branch main
+99:16:37:52.695 ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/7 remained the same
+100:16:37:52.718 [hook] 2026-10-10T16:37:43.123Z squash-merging PR #7 at first buildChangeSet
+101:16:37:52.733 [hook] 2026-10-10T16:37:48.807Z main manifest now plugins/b=0.2.3
+105:16:37:52.846 ❯ Fetching .release-please-manifest.json from branch main
+112:16:37:53.013 ✔ Updating reference heads/release-please--branches--main--components--c to 7aa1b85e30836a2b09fc8c18d0e97c3bf22b9c34
+$ gh workflow enable
+release-please	active	380624890
+main head da680964dc8035d86f70706c67e88ac689eaae7e
+{
+  "plugins/a": "0.2.0",
+  "plugins/b": "0.2.3",
+  "plugins/c": "0.1.0"
+}
+--- b head 1b33de4d1aa44d60a5e74cf234d914eb08d0e294 parent c95869310b0cd522058df1b3423a428bbc497d2e merge-base c95869310b0cd522058df1b3423a428bbc497d2e
+1b33de4 parent=c958693 author=github-actions[bot] chore(main): release b 0.2.3
+c958693 parent=d97fd34 author=drew-sweatshop fix(b): change b five
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..8736f22 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+-  "plugins/b": "0.2.2",
++  "plugins/b": "0.2.3",
+   "plugins/c": "0.1.0"
+ }
+--- c head 7aa1b85e30836a2b09fc8c18d0e97c3bf22b9c34 parent da680964dc8035d86f70706c67e88ac689eaae7e merge-base da680964dc8035d86f70706c67e88ac689eaae7e
+7aa1b85 parent=da68096 author=Andrew Garde Joia chore(main): release c 0.1.1
+da68096 parent=71af79d author=github-actions[bot] chore(main): release b 0.2.3 (#7)
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 8736f22..88b9d64 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+-  "plugins/b": "0.2.3",
+-  "plugins/c": "0.1.0"
++  "plugins/b": "0.2.2",
++  "plugins/c": "0.1.1"
+ }
+{"headRefOid":"1b33de4d1aa44d60a5e74cf234d914eb08d0e294","number":7,"state":"MERGED"}
+{"headRefOid":"1af85989d0d3c6fc7ccb9078079d634ca02f2aff","number":6,"state":"MERGED"}
+{"headRefOid":"8bfe857d43248fe2394d5208101ffee97a6d116d","number":5,"state":"MERGED"}
+{"headRefOid":"7aa1b85e30836a2b09fc8c18d0e97c3bf22b9c34","number":4,"state":"OPEN"}
