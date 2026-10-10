@@ -1,0 +1,34 @@
+just = ~/.local/opt/just-1.58.0/just (1.58.0)
+
+=== SETUP ===
+$ ls -l ~/.claude/just/justfile
+lrwxrwxrwx 1 ubuntu ubuntu 45 Oct  5 05:23 /home/ubuntu/.claude/just/justfile -> /home/ubuntu/Projects/dotclaude/just/justfile
+$ just --version
+just 1.58.0
+$ git -C /home/ubuntu/worktrees/claude-plugins-issue223 rev-parse --short HEAD
+cbb63e4
+
+=== BEFORE (origin/main hook) ===
+$ bash $F/h.sh $OLD $F/empty 'rsync -a a b' | jq ...
+allow: No recipe covers this yet: add one (see the just-recipes skill) or run it under 'just wrap'. Run 'just --list' to find a recipe. Escape hatch that always resolves: just --justfile "$HOME/.claude/just/justfile" -d . wrap "<your command>". Bare 'just wrap' needs one-time project wiring (mod global '~/.claude/just/justfile' + set fallback) and is then invoked as just global::wrap "<your command>". To add a recipe: see the just-recipes skill.
+rc=0
+$ cd $F/empty && just --justfile "$HOME/.claude/just/justfile" -d . wrap "echo hi"; echo rc=$?
+error: failed to read justfile at `/home/ubuntu/.claude/just/justfile`: No such file or directory (os error 2)
+rc=1
+
+=== AFTER (PR head cbb63e4) ===
+$ bash $F/h.sh $NEW $F/empty 'rsync -a a b' | jq ...
+allow: No recipe covers this yet: add one (see the just-recipes skill).
+rc=0
+$ bash $F/h.sh $NEW $F/empty 'rsync -a a b' JUST_RECIPES_ENFORCE=strict | jq ...
+deny: Raw bash is funneled through just here. No wrap recipe resolves here: add a recipe (see the just-recipes skill), or ask the user to set JUST_RECIPES_ENFORCE=off.
+rc=0
+
+=== AFTER, box with a wrap recipe ===
+$ bash $F/h.sh $NEW $F/empty 'rsync -a a b' JUST_GLOBAL_JUSTFILE=$F/g/justfile | jq ...
+allow: No recipe covers this yet: add one (see the just-recipes skill), or run it under the escape hatch. Run 'just --justfile /tmp/proof223.4Rx8iz/g/justfile --list' to find a recipe. Escape hatch: just --justfile /tmp/proof223.4Rx8iz/g/justfile -d . wrap "<your command>".
+rc=0
+$ cd $F/empty && just --justfile /tmp/proof223.4Rx8iz/g/justfile -d . wrap "echo hi"; echo rc=$?
+echo hi
+hi
+rc=0
