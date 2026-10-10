@@ -1,157 +1,157 @@
-head: d4b1dc9b  now: 2026-10-10T07:17:23Z
+head: 15fdf870  now: 2026-10-10T08:00:17Z
 --- 5h repo section:
 ### Tracking
-**Checked at**: 2026-10-10T02:17Z
+**Checked at**: 2026-10-10T03:00Z
 - lane bug: #1
 
 === AC1 stamp 5h old: git commit -m x
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === AC1 git -C <p> commit, cwd=/
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git -C <tmp>/hook.W2dCtk commit -m x"},"cwd":"/"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git -C <tmp>/hook.8RXcvd commit -m x"},"cwd":"/"}
   exit=0 bytes=0
   stdout: 
 === AC1 --amend
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit --amend --no-edit"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit --amend --no-edit"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW git commit;ls
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit;ls"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit;ls"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW (git commit -m x)
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"(git commit -m x)"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"(git commit -m x)"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW multi-line heredoc commit message
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git add notes.md && git commit -m \"$(cat <<'EOF'\nnotes: test\n\nbody line\nEOF\n)\""},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git add notes.md && git commit -m \"$(cat <<'EOF'\nnotes: test\n\nbody line\nEOF\n)\""},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW multi-line, commit on line 2
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"cd .\ngit commit -m x\nls"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"cd .\ngit commit -m x\nls"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === AC3 5h stamp, command git status
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git status"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git status"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=0
   stdout: 
 === AC3 5h stamp, tool Edit
-  input: {"hook_event_name":"PostToolUse","tool_name":"Edit","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Edit","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=0
   stdout: 
 === AC3 5h stamp, event PreToolUse
-  input: {"hook_event_name":"PreToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PreToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=0
   stdout: 
 === BREAK echo that mentions git commit (false hit accepted?)
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"echo 'remember to git commit later'"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"echo 'remember to git commit later'"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === BREAK git commit-tree
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit-tree HEAD^{tree}"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit-tree HEAD^{tree}"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=0
   stdout: 
 === BREAK git log --grep commit
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git log --oneline --grep fix commit"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git log --oneline --grep fix commit"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === BREAK multi-line: git status / echo commit
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git status\necho commit"},"cwd":"<tmp>/hook.W2dCtk"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git status\necho commit"},"cwd":"<tmp>/hook.8RXcvd"}
   exit=0 bytes=0
   stdout: 
 === AC3 input not JSON: exit=0 bytes=0
 === AC3 cwd not a git repo
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/nogit.oWMVvZ"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/nogit.Mh9WyL"}
   exit=0 bytes=0
   stdout: 
 === AC1 first stamp wins (5h then 1h), root commit
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.CYd4Xy"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.e442Uw"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW bulleted stamp 5h
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.NrbfQz"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.X7QC7J"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 --- bulleted 1h section:
 ### Tracking
-- **Checked at**: 2026-10-10T06:17Z
+- **Checked at**: 2026-10-10T07:00Z
 - lane bug: #1
 
 === NEW bulleted stamp 1h
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.gRu3Zg"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.YnJ7vb"}
   exit=0 bytes=0
   stdout: 
 === NEW star-bulleted stamp 5h
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.TJMSbg"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.TwQhTv"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 "notas-a\303\261\303\263-\346\227\245\346\234\254/notes.md"
 === NEW non-ASCII folder, 5h
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.6MGiOV"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.M0npjJ"}
   exit=0 bytes=271
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notas-añó-日本/notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === NEW non-ASCII folder, 1h
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.qOXWsl"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.PAWLcD"}
   exit=0 bytes=0
   stdout: 
 === NEW non-ASCII folder, no stamp
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.Rwp7fM"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.rWkRSd"}
   exit=0 bytes=259
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notas-añó-日本/notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC2 no stamp
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.C56N96"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.FP7xAc"}
   exit=0 bytes=246
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC2 stamp without Z
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.l9ZZZK"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.LxepSU"}
   exit=0 bytes=246
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC2/AC4 stamp with space
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.HzpdxP"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.EbXKhm"}
   exit=0 bytes=246
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC2 stamp 10 min in future
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.gC4L34"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.iucaRG"}
   exit=0 bytes=246
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC2 impossible date
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.1gllf2"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.NzVK9X"}
   exit=0 bytes=246
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` section has no valid stamp (issue #43). Add one line inside it: `**Checked at**: YYYY-MM-DDTHH:MMZ` (UTC, the time you checked the section)."}}
 === AC3 stamp 1h old
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.M11etl"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.hdBWPH"}
   exit=0 bytes=0
   stdout: 
 === AC3/AC4 1h with seconds
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.yoH7SA"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.ai5zs0"}
   exit=0 bytes=0
   stdout: 
 === AC3 stamp 3 min in future
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.mxIDd4"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.VA6CNQ"}
   exit=0 bytes=0
   stdout: 
 === AC3 commit changed no notes.md
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.inD9EY"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.kF7BVV"}
   exit=0 bytes=0
   stdout: 
 === EDGE my-notes.md (ends in notes.md, basename differs)
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.TaFKdu"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.A9EIgM"}
   exit=0 bytes=0
   stdout: 
 === AC3 no Tracking section
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.NzF4Ch"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.RGUtrP"}
   exit=0 bytes=0
   stdout: 
 === AC3 HEAD 10 min old
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.il0ucO"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.crDZvb"}
   exit=0 bytes=0
   stdout: 
 === EDGE 3h01m
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.6Lwb40"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.8RRz1w"}
   exit=0 bytes=258
   stdout: {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"notes.md: the `### Tracking` stamp is 3.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."}}
 === EDGE 2h59m
-  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.9GEf9D"}
+  input: {"hook_event_name":"PostToolUse","tool_name":"Bash","tool_input":{"command":"git commit -m x"},"cwd":"<tmp>/hook.2pS2vv"}
   exit=0 bytes=0
   stdout: 

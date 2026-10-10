@@ -1,58 +1,55 @@
-PR 57 head d4b1dc9b - two real claude -p sessions, project settings copied verbatim from assistant/.claude/settings.json
+PR 57 head 15fdf870 - two real claude -p sessions, project settings copied verbatim from assistant/.claude/settings.json
 
 ## Session 1: Checked-at stamp 5 hours old
-repo=<tmp>/sess.d29byE stamp=2026-10-10T02:16Z mode=755
+repo=<tmp>/sess.Qg53c1 stamp=2026-10-10T03:12Z mode=755
 claude exit=0 lines=51
-f5c59a7 2026-10-10T07:17:05+00:00 notes: test
-eb16b14 2026-10-09T00:00:00+00:00 init
+9e82628 2026-10-10T08:12:15+00:00 notes: test
+cda577b 2026-10-09T00:00:00+00:00 init
 
 $ jq -c 'select(.subtype=="hook_response" and .hook_name=="PostToolUse:Bash") | {hook_name,exit_code,stdout}' stream.jsonl
 {"hook_name":"PostToolUse:Bash","exit_code":0,"stdout":"{\"hookSpecificOutput\":{\"hookEventName\":\"PostToolUse\",\"additionalContext\":\"assistant/notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed.\"}}\n"}
 {"hook_name":"PostToolUse:Bash","exit_code":0,"stdout":""}
 
 $ jq -r 'select(.type=="result").result' stream.jsonl
-The hook context after the commit, word for word:
+Commit done: `9e82628`, 1 file changed.
+
+The hook context I received after the commit, word for word:
 
 "PostToolUse:Bash hook additional context: assistant/notes.md: the `### Tracking` stamp is 5.0h old (issue #43). Check the section, correct it if it is wrong, then set `**Checked at**` to the time now (UTC), also when nothing changed."
 
-I did not act on it. You asked only for the append and the commit, so I left the `### Tracking` section alone.
+I have not acted on it, because you only asked me to report it. Say go and I will check the Tracking section and update the stamp.
 
 ---
 
 ## 🎯 **TLDR**
 
-You asked me to append `- test` to `notes.md` and commit it. **Done:** the commit is `f5c59a7` ("notes: test"), with 1 file and 1 line changed.
+You asked me to append `- test` to `notes.md` and commit it. **Both are done.** The commit is `9e82628`.
 
-The hook says the **Tracking stamp** for issue #43 is 5.0h old. It wants me to check that section and update `**Checked at**` to the current UTC time.
+A hook said the **Tracking stamp is 5h old** and asked for a check and a new `Checked at` time. It is quoted above.
 
-**Decision for you:** should I update the stamp? **I recommend yes.** It is a small edit, but it would be a second commit.
+**Decision for you:** should I do that Tracking check and stamp update? **I recommend yes.** It is a small edit that you can undo.
 
 **Confidence:** 95%
 
 ## Session 2: Checked-at stamp 1 hour old
-repo=<tmp>/sess.5EXOhR stamp=2026-10-10T06:16Z mode=755
+repo=<tmp>/sess.dS1ocF stamp=2026-10-10T07:12Z mode=755
 claude exit=0 lines=47
-bdc3ffc 2026-10-10T07:17:08+00:00 notes: test
-78b8fdf 2026-10-09T00:00:00+00:00 init
+4650873 2026-10-10T08:12:32+00:00 notes: test
+566873c 2026-10-09T00:00:00+00:00 init
 
 $ jq -c 'select(.subtype=="hook_response" and .hook_name=="PostToolUse:Bash") | {hook_name,exit_code,stdout}' stream.jsonl
 {"hook_name":"PostToolUse:Bash","exit_code":0,"stdout":""}
 {"hook_name":"PostToolUse:Bash","exit_code":0,"stdout":""}
 
 $ jq -r 'select(.type=="result").result' stream.jsonl
-I appended the line and committed. Git printed `[master bdc3ffc] notes: test` and `1 file changed, 1 insertion(+)`.
+I appended `- test` to `notes.md` and ran `git add notes.md && git commit -m 'notes: test'`. The commit succeeded as `4650873` on master.
 
-I received no hook context after the commit. The only hook output in this session came before it, on your prompt: "Available: /what-do-i-know (knowledge retrieval), /adherence-check (finished-work review)."
+I received no hook context after the commit. The commit output was only `[master 4650873] notes: test` and `1 file changed, 1 insertion(+)`. The only hook text in this turn came before the commit: "UserPromptSubmit hook success: Available: /what-do-i-know (knowledge retrieval), /adherence-check (finished-work review)."
 
 ---
 
 ## 🎯 **TLDR**
 
-You asked me to add `- test` to `notes.md` and commit it. **Done:** commit `bdc3ffc` is on `master`.
-
-**Hook context after the commit:** none.
-
-I used a shell append (`echo >>`) instead of the Edit tool. The Edit tool needs a prior Read, and the file might not have existed yet.
+You asked me to add a line to `notes.md`, commit it, and report any hook context after the commit. The line is added and the commit is done. **No hook context came after the commit.**
 
 **Confidence:** 95%
-
