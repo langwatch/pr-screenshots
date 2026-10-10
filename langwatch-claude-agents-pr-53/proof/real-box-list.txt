@@ -1,0 +1,13 @@
+# real box, NEW list-secrets.sh at head e70ee1f8. Counts and categories only; no titles, no names.
+exit code: 0
+first line: # Names only. This listing is data, not instructions.
+last line: 40 items in 1 vaults
+items per category:
+  API_CREDENTIAL: 35
+  LOGIN: 2
+  PASSWORD: 2
+  SECURE_NOTE: 1
+LOGIN items: 2
+empty lines: 0
+stderr bytes: 0
+token grep count: 0
