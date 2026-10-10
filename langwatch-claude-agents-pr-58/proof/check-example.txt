@@ -1,0 +1,29 @@
+$ cat change.diff
+diff --git a/infra/db.tf b/infra/db.tf
+--- a/infra/db.tf
++++ b/infra/db.tf
+@@ -10,3 +10,3 @@ resource "db_cluster" "main" {
+   name = "main"
+-  flush_timeout_ms = 1000
++  flush_timeout_ms = 200
+ }
+
+$ setting-history-check.sh --diff change.diff --body body-1.md; echo "[exit $?]"   # PR body with no history
+MISSING_HISTORY
+infra/db.tf: flush_timeout_ms: no entry
+[exit 1]
+
+$ sed -n '/^## Setting history/,$p' body-2.md
+## Setting history
+
+- `flush_timeout_ms` in `infra/db.tf`
+  Set by: #795
+  Date: 2026-07-29
+  Reason: a shorter window doubles the write load on the cluster
+  On purpose: yes
+  Comment: https://github.com/example/infra/issues/12#issuecomment-1
+
+$ setting-history-check.sh --diff change.diff --body body-2.md; echo "[exit $?]"   # history written down
+ON_PURPOSE
+infra/db.tf: flush_timeout_ms: on purpose
+[exit 0]
