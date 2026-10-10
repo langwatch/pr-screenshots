@@ -1,0 +1,29 @@
+head: 6b120178736ec7f7a4701ce4f3dc719889dbf0f6   2026-10-10T14:20:01Z
+
+$ how-do-i.sh --question "How do I file a GitHub issue?" --index-dir $COPY
+exit code: 0
+stdout: 4874 bytes; lines with NOT FOUND: 0
+stdout, first line: Use the `/create-issue` skill, not raw `gh issue create`. The skill owns the PII scrub, classificati
+
+$ HOWDOI_CLAUDE_BIN=$LOGGING_CLAUDE how-do-i.sh --question "How do I file a GitHub issue?" --index-dir $WS
+exit code: 1
+stdout: 0 bytes
+stderr: how-do-i: index at $TMP/ws/index.txt is missing, unreadable, empty or holds no record — re-run with --rebuild
+calls to the real claude: 0
+
+$ HOWDOI_CLAUDE_BIN=$LOGGING_CLAUDE how-do-i.sh --question "How do I file a GitHub issue?" --index-dir $WS --dry-run
+exit code: 1
+stdout: 0 bytes
+stderr: how-do-i: index at $TMP/ws/index.txt is missing, unreadable, empty or holds no record — re-run without --dry-run and with --rebuild, or point --index-dir at a valid index
+calls to the real claude: 0
+
+$ TMPDIR=$T how-do-i.sh --question q --index-dir $COPY --dry-run --json | jq -r .stage1_system_prompt | grep -c " :: "; ls -A $T | wc -l
+1646
+0
+
+$ grep -rn "missing, unreadable or empty" plugins/procedures --exclude=how-do-i.bats | wc -l
+0
+$ how-do-i.sh --help | grep -n "without --dry-run and with --rebuild"
+30:                      a bad one is refused (fix: without --dry-run and with --rebuild).
+
+live index: unchanged (mtime and size of all 3 files equal before and after)
