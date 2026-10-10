@@ -1,0 +1,295 @@
+PR 247 proof -- drewdrewthis/claude-plugins, head 4a3df801f172555f7fa593d92cff9b3218d6b78a
+Run by the proof auditor on 2026-10-10 (UTC). Fake tokens only ('pul-' + 40 hex, generated per run),
+shown as <fake pulumi token>. The allow string is shown as <gitleaks allow string>.
+$S = the auditor's scratch dir. $GL822 = dir of a gitleaks 8.22.0 binary.
+rt.py = one direct call of redact.redact_texts (@P@ = fake token, @ALLOW@ = allow string).
+
+==================== PART 1: the real Stop hook, end to end ====================
+
+### period-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head 4a3df80 (default lib)
+$ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
+see <fake pulumi token>.
+$ printf '%s' '{"session_id":"proof-period-head","hook_event_name":"Stop","transcript_path":"$D/proj/proof-period-head.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
+exit=0
+$ cat $D/worklog.jsonl   # the stored row
+{"ts":"2026-10-10T17:24:23Z","session":"proof-period-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <redacted:pulumi-api-token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+$ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
+1
+$ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
+1
+0
+$ grep -n -F 'see ' $D/claude-stdin.txt   # what the model was sent on stdin
+4:11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	see <redacted:pulumi-api-token>.
+$ grep -c -F '<redacted:pulumi-api-token>' $D/claude-stdin.txt; grep -c -F "$P" $D/claude-stdin.txt   # marker lines; raw token lines
+1
+0
+
+### query-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head 4a3df80 (default lib)
+$ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
+see https://app.example.com/x?t=<fake pulumi token>&a=1 ok
+$ printf '%s' '{"session_id":"proof-query-head","hook_event_name":"Stop","transcript_path":"$D/proj/proof-query-head.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
+exit=0
+$ cat $D/worklog.jsonl   # the stored row
+{"ts":"2026-10-10T17:24:28Z","session":"proof-query-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<redacted:pulumi-api-token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+$ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
+1
+$ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
+1
+0
+$ grep -n -F 'see ' $D/claude-stdin.txt   # what the model was sent on stdin
+4:11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	see https://app.example.com/x?t=<redacted:pulumi-api-token>&a=1 ok
+$ grep -c -F '<redacted:pulumi-api-token>' $D/claude-stdin.txt; grep -c -F "$P" $D/claude-stdin.txt   # marker lines; raw token lines
+1
+0
+
+### period-main -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: origin/main 39a8e7c redact.py
+$ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
+see <fake pulumi token>.
+$ printf '%s' '{"session_id":"proof-period-main","hook_event_name":"Stop","transcript_path":"$D/proj/proof-period-main.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 WL_REDACT_LIB=$S/mainlib CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
+exit=0
+$ cat $D/worklog.jsonl   # the stored row
+{"ts":"2026-10-10T17:24:33Z","session":"proof-period-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <fake pulumi token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+$ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
+1
+$ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
+0
+1
+$ grep -n -F 'see ' $D/claude-stdin.txt   # what the model was sent on stdin
+4:11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	see <fake pulumi token>.
+$ grep -c -F '<redacted:pulumi-api-token>' $D/claude-stdin.txt; grep -c -F "$P" $D/claude-stdin.txt   # marker lines; raw token lines
+0
+1
+
+### query-main -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: origin/main 39a8e7c redact.py
+$ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
+see https://app.example.com/x?t=<fake pulumi token>&a=1 ok
+$ printf '%s' '{"session_id":"proof-query-main","hook_event_name":"Stop","transcript_path":"$D/proj/proof-query-main.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 WL_REDACT_LIB=$S/mainlib CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
+exit=0
+$ cat $D/worklog.jsonl   # the stored row
+{"ts":"2026-10-10T17:24:37Z","session":"proof-query-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<fake pulumi token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+$ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
+1
+$ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
+0
+1
+$ grep -n -F 'see ' $D/claude-stdin.txt   # what the model was sent on stdin
+4:11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	see https://app.example.com/x?t=<fake pulumi token>&a=1 ok
+$ grep -c -F '<redacted:pulumi-api-token>' $D/claude-stdin.txt; grep -c -F "$P" $D/claude-stdin.txt   # marker lines; raw token lines
+0
+1
+
+
+==================== PART 2: direct calls of redact.redact_texts ====================
+
+## criterion 1 -- period
+$ python3 rt.py 'see @P@.'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['see <fake pulumi token>.']
+out   : ['see <redacted:pulumi-api-token>.']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py --lib main 'see @P@.'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: main
+in    : ['see <fake pulumi token>.']
+out   : ['see <fake pulumi token>.']
+failed: False
+token left in output: True | output == input with only the token replaced by <redacted:pulumi-api-token>: False | output == input: True
+
+## criterion 5 -- allow string on the same line (4 rows + the period row), each its own call
+$ python3 rt.py 'see @P@ now # @ALLOW@'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['see <fake pulumi token> now # <gitleaks allow string>']
+out   : ['see <redacted:pulumi-api-token> now # <gitleaks allow string>']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py 'see @P@ now @ALLOW@'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['see <fake pulumi token> now <gitleaks allow string>']
+out   : ['see <redacted:pulumi-api-token> now <gitleaks allow string>']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py '# @ALLOW@ see @P@ now'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['# <gitleaks allow string> see <fake pulumi token> now']
+out   : ['# <gitleaks allow string> see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py '@ALLOW@ see @P@ now'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['<gitleaks allow string> see <fake pulumi token> now']
+out   : ['<gitleaks allow string> see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py 'see @P@. # @ALLOW@'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['see <fake pulumi token>. # <gitleaks allow string>']
+out   : ['see <redacted:pulumi-api-token>. # <gitleaks allow string>']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+## criterion 5 -- origin/main, first row (before the fix)
+$ python3 rt.py --lib main 'see @P@ now # @ALLOW@'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: main
+in    : ['see <fake pulumi token> now # <gitleaks allow string>']
+out   : ['see <fake pulumi token> now # <gitleaks allow string>']
+failed: False
+token left in output: True | output == input with only the token replaced by <redacted:pulumi-api-token>: False | output == input: True
+
+## criterion 6 -- allow string in an earlier text of the batch, no final newline
+$ python3 rt.py @ALLOW@ 'see @P@ now'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['<gitleaks allow string>', 'see <fake pulumi token> now']
+out   : ['<gitleaks allow string>', 'see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py @ALLOW@ 'plain words' 'see @P@ now'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: head
+in    : ['<gitleaks allow string>', 'plain words', 'see <fake pulumi token> now']
+out   : ['<gitleaks allow string>', 'plain words', 'see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+## criterion 6 -- origin/main (before the fix)
+$ python3 rt.py --lib main @ALLOW@ 'see @P@ now'
+gitleaks: 8.30.1 (/usr/local/bin/gitleaks)   library: main
+in    : ['<gitleaks allow string>', 'see <fake pulumi token> now']
+out   : ['<gitleaks allow string>', 'see <fake pulumi token> now']
+failed: False
+token left in output: True | output == input with only the token replaced by <redacted:pulumi-api-token>: False | output == input: True
+
+## criterion 9 -- no gitleaks on PATH
+$ python3 rt.py --gitleaks none --also-main 'see @P@.'
+gitleaks: ABSENT (not on PATH)   library: head
+in    : ['see <fake pulumi token>.']
+out   : ['see <fake pulumi token>.']
+failed: False
+token left in output: True | output == input with only the token replaced by <redacted:pulumi-api-token>: False | output == input: True
+main  : ['see <fake pulumi token>.'] failed: False
+same output as origin/main: True
+
+## criterion 10 -- one run (stub gitleaks that logs each call)
+$ python3 stub.py 10
+stub gitleaks: $S/stubbin/gitleaks   library: head   _COPY_BUDGET=100000
+texts: 3   gitleaks calls: 1   failed: False
+argv of the call: stdin --no-banner --exit-code 0 --report-format json --report-path - --log-level error --ignore-gitleaks-allow
+stdin parts (split on the separator): 5
+texts: 1 (token + period)   gitleaks calls: 1
+
+## criterion 12b -- a finding that exists only in a spaced copy
+$ python3 stub.py 12b
+stub gitleaks: $S/stubbin/gitleaks   library: head   _COPY_BUDGET=100000
+in    : ['see <fake pulumi token>.']
+stub reports Secret: '<fake pulumi token> .'
+Secret is in the stdin gitleaks got (a copy has it): True | Secret is in the original text: False
+out   : ['see <fake pulumi token>.'] failed: False
+output == input: True
+control (stub reports the token itself): ['see <redacted:control-rule>.']
+
+## criterion 13 -- byte budget (stub gitleaks that stores its stdin)
+$ python3 stub.py 13
+stub gitleaks: $S/stubbin/gitleaks   library: head   _COPY_BUDGET=100000
+-- one text of 100,001 bytes + one small text
+   text sizes (UTF-8 bytes): [100001, 6]   chars: [100001, 6]
+   gitleaks calls: 1   stdin bytes: 102177   joined-text bytes: 100008   stdin - joined: 2169
+   stdin parts: 5   part 1 == joined text: True
+   parts 2-5 == the 4 spaced copies of the small text only: True
+   copies as sent: ['see Q.', 'see Q .', 'see Q.', 'see Q.']
+   any spaced copy of the largest text in stdin: False
+   failed: False   outputs == inputs: True
+-- one text of 100,001 bytes alone
+   text sizes (UTF-8 bytes): [100001]   chars: [100001]
+   gitleaks calls: 1   stdin bytes: 100001   joined-text bytes: 100001   stdin - joined: 0
+   stdin parts: 1   part 1 == joined text: True
+   any spaced copy of the largest text in stdin: False
+   failed: False   outputs == inputs: True
+-- one text of exactly 100,000 bytes alone (edge: gets copies)
+   text sizes (UTF-8 bytes): [100000]   chars: [100000]
+   gitleaks calls: 1   stdin bytes: 527144   joined-text bytes: 100000   stdin - joined: 427144
+   stdin parts: 5   part 1 == joined text: True
+   any spaced copy of the largest text in stdin: True
+   failed: False   outputs == inputs: True
+-- non-ASCII: 33,334 fullwidth commas (under 100,000 chars, over in bytes) + small text
+   text sizes (UTF-8 bytes): [100002, 6]   chars: [33334, 6]
+   gitleaks calls: 1   stdin bytes: 102178   joined-text bytes: 100009   stdin - joined: 2169
+   stdin parts: 5   part 1 == joined text: True
+   parts 2-5 == the 4 spaced copies of the small text only: True
+   copies as sent: ['see Q.', 'see Q .', 'see Q.', 'see Q.']
+   any spaced copy of the largest text in stdin: False
+   failed: False   outputs == inputs: True
+-- non-ASCII: 33,333 fullwidth commas = 99,999 bytes alone (fits: gets copies)
+   text sizes (UTF-8 bytes): [99999]   chars: [33333]
+   gitleaks calls: 1   stdin bytes: 535472   joined-text bytes: 99999   stdin - joined: 435473
+   stdin parts: 5   part 1 == joined text: True
+   any spaced copy of the largest text in stdin: True
+   failed: False   outputs == inputs: True
+-- smallest first, running sum: A 60,000 + B 60,000 + small 6
+   'see Q .' in stdin: True   'alpha ,' count: 8571   'bravo ,' count: 0   calls: 1
+
+## criterion 17 -- gitleaks 8.22.0: criteria 1, 5, 6 and one row per copy (, . / :)
+$ python3 rt.py --gitleaks $GL822 'see @P@.'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+in    : ['see <fake pulumi token>.']
+out   : ['see <redacted:pulumi-api-token>.']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py --gitleaks $GL822 --rows 'see @P@ now # @ALLOW@' 'see @P@ now @ALLOW@' '# @ALLOW@ see @P@ now' '@ALLOW@ see @P@ now' 'see @P@. # @ALLOW@'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+  'see <fake pulumi token> now # <gitleaks allow string>' -> 'see <redacted:pulumi-api-token> now # <gitleaks allow string>' EXACT
+  'see <fake pulumi token> now <gitleaks allow string>' -> 'see <redacted:pulumi-api-token> now <gitleaks allow string>' EXACT
+  '# <gitleaks allow string> see <fake pulumi token> now' -> '# <gitleaks allow string> see <redacted:pulumi-api-token> now' EXACT
+  '<gitleaks allow string> see <fake pulumi token> now' -> '<gitleaks allow string> see <redacted:pulumi-api-token> now' EXACT
+  'see <fake pulumi token>. # <gitleaks allow string>' -> 'see <redacted:pulumi-api-token>. # <gitleaks allow string>' EXACT
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 5, closed: 5, nested: False
+
+$ python3 rt.py --gitleaks $GL822 'see @P@ now # @ALLOW@'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+in    : ['see <fake pulumi token> now # <gitleaks allow string>']
+out   : ['see <redacted:pulumi-api-token> now # <gitleaks allow string>']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py --gitleaks $GL822 @ALLOW@ 'see @P@ now'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+in    : ['<gitleaks allow string>', 'see <fake pulumi token> now']
+out   : ['<gitleaks allow string>', 'see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py --gitleaks $GL822 @ALLOW@ 'plain words' 'see @P@ now'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+in    : ['<gitleaks allow string>', 'plain words', 'see <fake pulumi token> now']
+out   : ['<gitleaks allow string>', 'plain words', 'see <redacted:pulumi-api-token> now']
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 1, closed: 1, nested: False
+
+$ python3 rt.py --gitleaks $GL822 --rows 'see @P@,' 'see @P@.' 'see @P@/' 'see @P@:'
+gitleaks: 8.22.0 ($GL822/gitleaks)   library: head
+  'see <fake pulumi token>,'                     -> 'see <redacted:pulumi-api-token>,'                 EXACT
+  'see <fake pulumi token>.'                     -> 'see <redacted:pulumi-api-token>.'                 EXACT
+  'see <fake pulumi token>/'                     -> 'see <redacted:pulumi-api-token>/'                 EXACT
+  'see <fake pulumi token>:'                     -> 'see <redacted:pulumi-api-token>:'                 EXACT
+failed: False
+token left in output: False | output == input with only the token replaced by <redacted:pulumi-api-token>: True | output == input: False
+markers opened: 4, closed: 4, nested: False
+
