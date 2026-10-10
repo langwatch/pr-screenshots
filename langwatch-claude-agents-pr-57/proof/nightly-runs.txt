@@ -1,0 +1,55 @@
+head: d4b1dc9b
+=== LIVE exit=0 bundle=<tmp>/bundle.W4Q5sH
+{"status":"ok","file":"~/Projects/langwatch-claude-agents/assistant/notes.md","tracking_changes":["2026-10-10T00:11:41Z"],"tracking_checks":[],"checked_at":null,"stale_spans":[{"from":"2026-10-09T07:05:16Z","to":"2026-10-10T00:11:41Z","hours":17.1},{"from":"2026-10-10T00:11:41Z","to":"2026-10-10T07:10:33Z","hours":7}],"max_stale_h":17.1}
+  notes findings: 2
+  live checkout untouched: 85e9eeb03a330729afd7e95ce893f9eab7c9d3a5
+1
+=== A only the stamp moves each 3h (exit=0) bundle=<tmp>/bundle.GDSAAi
+  2026-10-09T01:00:00+00:00 stamp=[**Checked at**: 2026-10-09T01:00Z] text=[lane bug: #1]
+  2026-10-09T04:00:00+00:00 stamp=[**Checked at**: 2026-10-09T04:00Z] text=[lane bug: #1]
+  2026-10-09T07:00:00+00:00 stamp=[**Checked at**: 2026-10-09T07:00Z] text=[lane bug: #1]
+  2026-10-09T10:00:00+00:00 stamp=[**Checked at**: 2026-10-09T10:00Z] text=[lane bug: #1]
+  2026-10-09T13:00:00+00:00 stamp=[**Checked at**: 2026-10-09T13:00Z] text=[lane bug: #1]
+  2026-10-09T16:00:00+00:00 stamp=[**Checked at**: 2026-10-09T16:00Z] text=[lane bug: #1]
+{"status":"ok","tracking_changes":["2026-10-09T01:00:00Z"],"tracking_checks":["2026-10-09T04:00:00Z","2026-10-09T07:00:00Z","2026-10-09T10:00:00Z","2026-10-09T13:00:00Z","2026-10-09T16:00:00Z"],"checked_at":"2026-10-09T16:00Z","stale_spans":[{"from":"2026-10-09T01:00:00Z","to":"2026-10-09T04:00:00Z","hours":3},{"from":"2026-10-09T04:00:00Z","to":"2026-10-09T07:00:00Z","hours":3},{"from":"2026-10-09T07:00:00Z","to":"2026-10-09T10:00:00Z","hours":3},{"from":"2026-10-09T10:00:00Z","to":"2026-10-09T13:00:00Z","hours":3},{"from":"2026-10-09T13:00:00Z","to":"2026-10-09T16:00:00Z","hours":3}],"max_stale_h":3}
+  notes findings: 0
+=== A2 same, bulleted stamp (exit=0) bundle=<tmp>/bundle.VSg44v
+  2026-10-09T01:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T01:00Z] text=[lane bug: #1]
+  2026-10-09T04:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T04:00Z] text=[lane bug: #1]
+  2026-10-09T07:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T07:00Z] text=[lane bug: #1]
+  2026-10-09T10:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T10:00Z] text=[lane bug: #1]
+  2026-10-09T13:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T13:00Z] text=[lane bug: #1]
+  2026-10-09T16:00:00+00:00 stamp=[- **Checked at**: 2026-10-09T16:00Z] text=[lane bug: #1]
+{"status":"ok","tracking_changes":["2026-10-09T01:00:00Z"],"tracking_checks":["2026-10-09T04:00:00Z","2026-10-09T07:00:00Z","2026-10-09T10:00:00Z","2026-10-09T13:00:00Z","2026-10-09T16:00:00Z"],"checked_at":"2026-10-09T16:00Z","stale_spans":[{"from":"2026-10-09T01:00:00Z","to":"2026-10-09T04:00:00Z","hours":3},{"from":"2026-10-09T04:00:00Z","to":"2026-10-09T07:00:00Z","hours":3},{"from":"2026-10-09T07:00:00Z","to":"2026-10-09T10:00:00Z","hours":3},{"from":"2026-10-09T10:00:00Z","to":"2026-10-09T13:00:00Z","hours":3},{"from":"2026-10-09T13:00:00Z","to":"2026-10-09T16:00:00Z","hours":3}],"max_stale_h":3}
+  notes findings: 0
+=== A0 same times, no stamp (pre-fix shape) (exit=0) bundle=<tmp>/bundle.QXLTdO
+  2026-10-09T01:00:00+00:00 stamp=[] text=[lane bug: #1]
+  2026-10-09T04:00:00+00:00 stamp=[] text=[lane bug: #1]
+  2026-10-09T07:00:00+00:00 stamp=[] text=[lane bug: #1]
+  2026-10-09T10:00:00+00:00 stamp=[] text=[lane bug: #1]
+  2026-10-09T13:00:00+00:00 stamp=[] text=[lane bug: #1]
+  2026-10-09T16:00:00+00:00 stamp=[] text=[lane bug: #1]
+{"status":"ok","tracking_changes":["2026-10-09T01:00:00Z"],"tracking_checks":[],"checked_at":null,"stale_spans":[{"from":"2026-10-09T01:00:00Z","to":"2026-10-09T16:00:00Z","hours":15}],"max_stale_h":15}
+  notes findings: 1
+"notes.md Tracking section stale for 15h during an active day"
+=== B stamps 10:00, 09:00, 09:30, no content change (exit=0) bundle=<tmp>/bundle.JHiYWi
+  2026-10-09T10:00:00+00:00 stamp=[**Checked at**: 2026-10-09T10:00Z] text=[lane bug: #1]
+  2026-10-09T11:00:00+00:00 stamp=[**Checked at**: 2026-10-09T09:00Z] text=[lane bug: #1]
+  2026-10-09T12:00:00+00:00 stamp=[**Checked at**: 2026-10-09T09:30Z] text=[lane bug: #1]
+{"status":"ok","tracking_changes":["2026-10-09T10:00:00Z"],"tracking_checks":[],"checked_at":"2026-10-09T09:30Z","stale_spans":[{"from":"2026-10-09T10:00:00Z","to":"2026-10-09T12:00:00Z","hours":2}],"max_stale_h":2}
+  notes findings: 0
+=== C stamp one day in the future at 03:00, honest at 05:00 and 07:00 (exit=0) bundle=<tmp>/bundle.gkLvVJ
+  2026-10-09T01:00:00+00:00 stamp=[**Checked at**: 2026-10-09T01:00Z] text=[lane bug: #1]
+  2026-10-09T03:00:00+00:00 stamp=[**Checked at**: 2026-10-10T03:00Z] text=[lane bug: #1]
+  2026-10-09T05:00:00+00:00 stamp=[**Checked at**: 2026-10-09T05:00Z] text=[lane bug: #1]
+  2026-10-09T07:00:00+00:00 stamp=[**Checked at**: 2026-10-09T07:00Z] text=[lane bug: #1]
+{"status":"ok","tracking_changes":["2026-10-09T01:00:00Z"],"tracking_checks":["2026-10-09T05:00:00Z","2026-10-09T07:00:00Z"],"checked_at":"2026-10-09T07:00Z","stale_spans":[{"from":"2026-10-09T01:00:00Z","to":"2026-10-09T05:00:00Z","hours":4},{"from":"2026-10-09T05:00:00Z","to":"2026-10-09T07:00:00Z","hours":2}],"max_stale_h":4}
+  notes findings: 0
+=== D text+stamp is a change / bad stamp / check with seconds (exit=0) bundle=<tmp>/bundle.qX62o9
+  2026-10-09T01:00:00+00:00 stamp=[**Checked at**: 2026-10-09T01:00Z] text=[lane bug: #1]
+  2026-10-09T03:00:00+00:00 stamp=[**Checked at**: 2026-10-09T03:00Z] text=[lane bug: #2]
+  2026-10-09T05:00:00+00:00 stamp=[**Checked at**: 2026-10-09 05:00] text=[lane bug: #2]
+  2026-10-09T09:00:00+00:00 stamp=[**Checked at**: 2026-10-09T09:00:15Z] text=[lane bug: #2]
+{"status":"ok","tracking_changes":["2026-10-09T01:00:00Z","2026-10-09T03:00:00Z"],"tracking_checks":["2026-10-09T09:00:00Z"],"checked_at":"2026-10-09T09:00:15Z","stale_spans":[{"from":"2026-10-09T01:00:00Z","to":"2026-10-09T03:00:00Z","hours":2},{"from":"2026-10-09T03:00:00Z","to":"2026-10-09T09:00:00Z","hours":6}],"max_stale_h":6}
+  notes findings: 1
+"notes.md Tracking section stale for 6h during an active day"
