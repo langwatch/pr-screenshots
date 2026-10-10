@@ -1,0 +1,18 @@
+# head b48e2ba, hermetic store (temp CODEX_ROOT, temp HOME)
+$ log-record.sh mistake --category verification --description "claimed tests pass, did not run them" --correction "run them" --severity medium --trigger "all tests pass" --source 5f1d2c3b-…aaaa:10-14; echo exit=$?
+log-record: appended mistake to <tmp>/a/store/mistakes.jsonl
+exit=0
+$ jq -c "{session, source, category}" mistakes.jsonl
+{"session":"5f1d2c3b-0000-0000-0000-00000000aaaa","source":"5f1d2c3b-0000-0000-0000-00000000aaaa:10-14","category":"verification"}
+
+# a second pass over the same lines (overlapping range, other wording)
+$ log-record.sh mistake --category unverified-claim --description "said green without a run" --correction "run first" --severity medium --trigger "all tests pass" --source 5f1d2c3b-…aaaa:12-16; echo exit=$?
+log-record: duplicate: source 5f1d2c3b-0000-0000-0000-00000000aaaa lines 12-16 already logged (row ts 2026-10-10T07:48:32Z); nothing appended
+exit=0
+$ wc -l < mistakes.jsonl
+1
+
+# the form two real librarian runs tried first is refused
+$ log-record.sh mistake … --source 5f1d2c3b-…aaaa:L10-L14; echo exit=$?
+log-record: --source must be <session-id>:<first>-<last> (got: 5f1d2c3b-0000-0000-0000-00000000aaaa:L10-L14)
+exit=1
