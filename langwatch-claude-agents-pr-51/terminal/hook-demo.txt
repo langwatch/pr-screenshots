@@ -1,4 +1,4 @@
-HEAD 677033ca
+HEAD fe8e6f76
 
 $ gh project item-list 5 --owner langwatch --limit 10000 --format json
 DENY: Refused: this scan reads 10000 board items, over the 300 limit. A scan costs 101 GraphQL points per 100 items 
