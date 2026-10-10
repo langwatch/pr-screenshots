@@ -1,4 +1,4 @@
-PR 247 proof -- drewdrewthis/claude-plugins, head 4a3df801f172555f7fa593d92cff9b3218d6b78a
+PR 247 proof -- drewdrewthis/claude-plugins, head a4949a7f6cad5f054201b60f5079df933472a1ab
 Run by the proof auditor on 2026-10-10 (UTC). Fake tokens only ('pul-' + 40 hex, generated per run),
 shown as <fake pulumi token>. The allow string is shown as <gitleaks allow string>.
 $S = the auditor's scratch dir. $GL822 = dir of a gitleaks 8.22.0 binary.
@@ -6,13 +6,13 @@ rt.py = one direct call of redact.redact_texts (@P@ = fake token, @ALLOW@ = allo
 
 ==================== PART 1: the real Stop hook, end to end ====================
 
-### period-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head 4a3df80 (default lib)
+### period-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head a4949a7 (default lib)
 $ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
 see <fake pulumi token>.
 $ printf '%s' '{"session_id":"proof-period-head","hook_event_name":"Stop","transcript_path":"$D/proj/proof-period-head.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
 exit=0
 $ cat $D/worklog.jsonl   # the stored row
-{"ts":"2026-10-10T17:24:23Z","session":"proof-period-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <redacted:pulumi-api-token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+{"ts":"2026-10-10T17:28:13Z","session":"proof-period-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <redacted:pulumi-api-token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
 $ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
 1
 $ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
@@ -24,13 +24,13 @@ $ grep -c -F '<redacted:pulumi-api-token>' $D/claude-stdin.txt; grep -c -F "$P" 
 1
 0
 
-### query-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head 4a3df80 (default lib)
+### query-head -- gitleaks 8.30.1 at /usr/local/bin/gitleaks; redact library: PR head a4949a7 (default lib)
 $ jq -r 'select(.type=="user")|.message.content' transcript.jsonl | tail -1   # the last user prompt
 see https://app.example.com/x?t=<fake pulumi token>&a=1 ok
 $ printf '%s' '{"session_id":"proof-query-head","hook_event_name":"Stop","transcript_path":"$D/proj/proof-query-head.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
 exit=0
 $ cat $D/worklog.jsonl   # the stored row
-{"ts":"2026-10-10T17:24:28Z","session":"proof-query-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<redacted:pulumi-api-token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+{"ts":"2026-10-10T17:28:29Z","session":"proof-query-head","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<redacted:pulumi-api-token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
 $ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
 1
 $ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
@@ -48,7 +48,7 @@ see <fake pulumi token>.
 $ printf '%s' '{"session_id":"proof-period-main","hook_event_name":"Stop","transcript_path":"$D/proj/proof-period-main.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 WL_REDACT_LIB=$S/mainlib CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
 exit=0
 $ cat $D/worklog.jsonl   # the stored row
-{"ts":"2026-10-10T17:24:33Z","session":"proof-period-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <fake pulumi token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+{"ts":"2026-10-10T17:28:46Z","session":"proof-period-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see <fake pulumi token>.","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
 $ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
 1
 $ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
@@ -66,7 +66,7 @@ see https://app.example.com/x?t=<fake pulumi token>&a=1 ok
 $ printf '%s' '{"session_id":"proof-query-main","hook_event_name":"Stop","transcript_path":"$D/proj/proof-query-main.jsonl","cwd":"/tmp"}' | env PATH=$S/bin:$PATH HOME=$D/home WORKLOG_JSONL=$D/worklog.jsonl WORKLOG_SYNC=1 WORKLOG_SETTLE_SECS=0 WL_REDACT_LIB=$S/mainlib CLAUDE_STUB=<stub model reply> bash plugins/worklog/hooks/worklog-record.sh; echo exit=$?
 exit=0
 $ cat $D/worklog.jsonl   # the stored row
-{"ts":"2026-10-10T17:24:37Z","session":"proof-query-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<fake pulumi token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+{"ts":"2026-10-10T17:29:01Z","session":"proof-query-main","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"user shared a token","quote":"see https://app.example.com/x?t=<fake pulumi token>&a=1 ok","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
 $ wc -l < $D/worklog.jsonl; cat $D/failopen.jsonl 2>/dev/null   # rows; fail-open notes (none expected)
 1
 $ grep -c -F '<redacted:pulumi-api-token>' $D/worklog.jsonl; grep -c -F "$P" $D/worklog.jsonl   # marker lines; raw token lines
@@ -236,8 +236,8 @@ stub gitleaks: $S/stubbin/gitleaks   library: head   _COPY_BUDGET=100000
    stdin parts: 5   part 1 == joined text: True
    any spaced copy of the largest text in stdin: True
    failed: False   outputs == inputs: True
--- smallest first, running sum: A 60,000 + B 60,000 + small 6
-   'see Q .' in stdin: True   'alpha ,' count: 8571   'bravo ,' count: 0   calls: 1
+-- smallest first, not batch order: B 60,000 first, then A 50,000, then small 6
+   'see Q .' in stdin: True   'alpha ,' count: 7143   'bravo ,' count: 0   calls: 1
 
 ## criterion 17 -- gitleaks 8.22.0: criteria 1, 5, 6 and one row per copy (, . / :)
 $ python3 rt.py --gitleaks $GL822 'see @P@.'
