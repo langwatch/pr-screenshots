@@ -1,0 +1,60 @@
+# Live session proof, PR 54, repo head aea206b89693020569e398b517276c1c68f07896, sessions run 2026-10-10 05:32-05:37Z
+# claude 2.1.296 (Claude Code).  $SETTINGS = deploy/templates/agents-hooks-managed-settings.json.j2 rendered with
+# lwca_hooks_dir = <this checkout>/lib/hooks.  $L = scratch dir.  $J1, $J4 = the session JSONL files that claude wrote.
+# Every session ran as: claude -p <prompt> --settings <file> --strict-mcp-config --mcp-config '{"mcpServers":{}}'
+#   --allowedTools <list> --output-format stream-json --verbose
+
+## 1. Rendered settings parse and wire both new hooks
+
+$ jq empty "$SETTINGS" && echo "jq empty: ok"
+jq empty: ok
+
+$ jq -r '.hooks.PreToolUse[] | select(.matcher=="SendUserFile" or .matcher=="SendMessage") | "\(.matcher) -> \(.hooks[0].command | split("/") | .[-3:] | join("/"))  timeout \(.hooks[0].timeout) s"' "$SETTINGS"
+SendUserFile -> lib/hooks/sent-file-look-gate.sh"  timeout 5 s
+SendMessage -> lib/hooks/directive-decision-gate.sh"  timeout 5 s
+
+## 2. Directive gate, live session (a background agent, four SendMessage calls)
+
+$ jq -c 'select(.type=="system" and .subtype=="init") | {session_id, mcp_servers, claude_code_version, has_SendMessage:(.tools|index("SendMessage")!=null)}' "$L/s1.jsonl" | head -n1
+{"session_id":"e7f66ac9-1987-44ae-b7c5-d8090d3aeac4","mcp_servers":[],"claude_code_version":"2.1.296","has_SendMessage":true}
+
+$ jq -s -c -f "$L/extract.jq" "$J1"
+{"tool_use_id":"toolu_0147yC8FQHjRhaxY1VXhPyVf","timestamp":"2026-10-10T05:33:14.298Z","to_is_main":false,"message":"Decision made. Reset to template.","is_error":true,"result":"PreToolUse:SendMessage hook error: This message passes on an owner decision to another agent. Put the owner's words in it as a line: Owner said: \"<the owner's words>\". If the owner did not say it, ask the owner first, or mark it as your own call with a line that starts with Own call: and says why. If this message is a hold or a question, say so in an Own call: line."}
+{"tool_use_id":"toolu_01FzKivMLqwaBTbkKWGfNu3J","timestamp":"2026-10-10T05:33:20.829Z","to_is_main":false,"message":"Decision made. Reset to template.\nOwner said: \"yes, reset it\"","is_error":false,"result":"{\"success\":true,\"message\":\"Resuming agent ac4d725\",\"resumedAgentId\":\"<agent-id>\",\"pin\":{\"id\":\"<agent-id>\",\"name\":\"<agent-id>\",\"ref\":\"fed020\"}}"}
+{"tool_use_id":"toolu_01XDmQ3ysJbhQXmRdzH4vQvW","timestamp":"2026-10-10T05:33:25.217Z","to_is_main":false,"message":"This needs the owner's decision. Stop and report back.","is_error":false,"result":"{\"success\":true,\"message\":\"Resuming agent ac4d725\",\"resumedAgentId\":\"<agent-id>\",\"pin\":{\"id\":\"<agent-id>\",\"name\":\"<agent-id>\",\"ref\":\"fed020\"}}"}
+{"tool_use_id":"toolu_01XChiq2Q7xxss94wyh61GZt","timestamp":"2026-10-10T05:33:30.386Z","to_is_main":false,"message":"The user confirmed the bug reproduces on staging; please trace it.","is_error":false,"result":"{\"success\":true,\"message\":\"Resuming agent ac4d725\",\"resumedAgentId\":\"<agent-id>\",\"pin\":{\"id\":\"<agent-id>\",\"name\":\"<agent-id>\",\"ref\":\"fed020\"}}"}
+
+# Read: call 1 is_error true with the hook text = DENY.  Calls 2, 3, 4 success true = delivered.
+
+## 3. SendUserFile does not exist in a headless session
+
+$ jq -c 'select(.type=="system" and .subtype=="init") | {session_id, mcp_servers, claude_code_version, has_SendUserFile:(.tools|index("SendUserFile")!=null), tools}' "$L/probe.jsonl" | head -n1
+{"session_id":"bccf1b1d-2f08-41aa-83a9-2debfa1c1a44","mcp_servers":[],"claude_code_version":"2.1.296","has_SendUserFile":false,"tools":["Task","Bash","CronCreate","CronDelete","CronList","DesignSync","Edit","EnterWorktree","ExitWorktree","ListAgents","Monitor","NotebookEdit","PushNotification","Read","RemoteTrigger","ReportFindings","ScheduleWakeup","SendMessage","Skill","TaskStop","ToolSearch","WebFetch","WebSearch","Workflow","Write"]}
+
+$ jq -c 'select(.type=="assistant") | .message.content[]? | select(.type=="tool_use") | {name, input}' "$L/probe.jsonl"
+{"name":"ToolSearch","input":{"query":"select:SendUserFile","max_results":5}}
+
+$ jq -c 'select(.type=="user") | .message.content[]? | select(.type=="tool_result") | .content' "$L/probe.jsonl"
+"No matching deferred tools found"
+
+## 4. Look gate at hook time, live session
+# $SETTINGS_HT = $SETTINGS plus one silent PreToolUse logger on Bash. At each marked Bash call the logger
+# runs lib/hooks/sent-file-look-gate.sh with a SendUserFile-shaped payload that has the live call's
+# transcript_path, cwd and tool_use_id, files = [shot.png], and writes the gate's answer to a log.
+
+$ jq -c 'select(.type=="system" and .subtype=="init") | {session_id, mcp_servers, claude_code_version}' "$L/s4.jsonl" | head -n1
+{"session_id":"95c784fe-49eb-4f46-a69e-ee13e7136e24","mcp_servers":[],"claude_code_version":"2.1.296"}
+
+$ jq -c 'select(.type=="assistant") | {timestamp, message_id:.message.id, tool_use:[.message.content[]? | select(.type=="tool_use") | {name, id, arg:((.input.command // .input.file_path) | split("/") | last)}]} | select(.tool_use|length>0)' "$J4"
+{"timestamp":"2026-10-10T05:36:16.911Z","message_id":"msg_011Cft1oaidnWzgoPmVGPs8t","tool_use":[{"name":"Bash","id":"toolu_01UwGyfBaeuXivFKouYc9rbz","arg":"echo lookprobe-before"}]}
+{"timestamp":"2026-10-10T05:36:25.345Z","message_id":"msg_011Cft1pBkHLqTGEHh4xAZp8","tool_use":[{"name":"Read","id":"toolu_016FviVgi2JTNsJSshjfsoZu","arg":"shot.png"}]}
+{"timestamp":"2026-10-10T05:36:25.792Z","message_id":"msg_011Cft1pBkHLqTGEHh4xAZp8","tool_use":[{"name":"Bash","id":"toolu_01NYbfJtbb8fHJL8kw2WMxnc","arg":"echo lookprobe-same"}]}
+{"timestamp":"2026-10-10T05:36:31.246Z","message_id":"msg_011Cft1pfxfp5t6XPNnKF1ki","tool_use":[{"name":"Bash","id":"toolu_01RY9rEuUb8XCegffck6p3J5","arg":"echo lookprobe-later"}]}
+
+$ cat "$L/hooktime.log"
+{"probe":"before","at":"2026-10-10T05:36:19Z","tool_use_id":"toolu_01UwGyfBaeuXivFKouYc9rbz","gate_exit":"0","gate_decision":"deny","gate_reason":"Image not looked at before sending: shot.png. Read each file first, in its own step (a Read in the same message as the send does not count), look at what it shows, then send. If a Read fails, send again and say so in the caption.","shot_png_mtime":"1791610532","transcript_read_lines_for_shot_png":"0","transcript_lines_with_this_tool_use_id":"1"}
+{"probe":"same","at":"2026-10-10T05:36:27Z","tool_use_id":"toolu_01NYbfJtbb8fHJL8kw2WMxnc","gate_exit":"0","gate_decision":"deny","gate_reason":"Image not looked at before sending: shot.png. Read each file first, in its own step (a Read in the same message as the send does not count), look at what it shows, then send. If a Read fails, send again and say so in the caption.","shot_png_mtime":"1791610532","transcript_read_lines_for_shot_png":"1","transcript_lines_with_this_tool_use_id":"1"}
+{"probe":"later","at":"2026-10-10T05:36:33Z","tool_use_id":"toolu_01RY9rEuUb8XCegffck6p3J5","gate_exit":"0","gate_decision":"no output (allow)","gate_reason":null,"shot_png_mtime":"1791610532","transcript_read_lines_for_shot_png":"1","transcript_lines_with_this_tool_use_id":"1"}
+
+# Read: 'before' = no Read yet = deny.  'same' = the Read is in the transcript (1 line) but in the SAME
+# message as the call = deny.  'later' = the Read is in an earlier message = no output = allow.
