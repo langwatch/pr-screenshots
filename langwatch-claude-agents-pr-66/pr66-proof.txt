@@ -1,0 +1,51 @@
+$ git rev-parse HEAD
+5b8ea10048ffe90fb23ef68ee8b0692bbd57bf27
+
+# run 3: fork a4299ede7 + header patch (saved log of the live run)
+$ lib/rolling-context-restart-repro.sh --verdict-from $S/tmp.CpoKKAOhjO ; echo "exit=$?"
+run-dir: <scratch>/runs/tmp.CpoKKAOhjO
+prompt is too long: 0
+Upstream response: 413: 2
+Bounded fold window: 16
+Compression ready: 1
+Compression failed: 0
+verdict: PASS
+exit=0
+
+# run 1: stock 1.13.4 control
+$ lib/rolling-context-restart-repro.sh --verdict-from $S/tmp.Yf4X46YT4K ; echo "exit=$?"
+run-dir: <scratch>/runs/tmp.Yf4X46YT4K
+prompt is too long: 0
+Upstream response: 413: 5
+Bounded fold window: 0
+Compression ready: 0
+Compression failed: 3
+verdict: FAIL_OVERSIZE
+exit=1
+
+# run 2: fork a4299ede7 as it is
+$ lib/rolling-context-restart-repro.sh --verdict-from $S/tmp.MMdhEHUSEi ; echo "exit=$?"
+run-dir: <scratch>/runs/tmp.MMdhEHUSEi
+prompt is too long: 0
+Upstream response: 413: 5
+Bounded fold window: 4
+Compression ready: 0
+Compression failed: 4
+verdict: INCONCLUSIVE
+exit=3
+
+$ grep -E "Bounded fold complete|Compression ready|\[MSG\] Injecting|Input tokens from message_start: 70,817" $S/tmp.CpoKKAOhjO/home/.claude/rolling-context-debug.log | cut -c1-170
+2026-10-11 07:20:30,316 [INFO] Bounded fold complete: 16 windows folded
+2026-10-11 07:20:30,867 [INFO] [BG] Compression ready: 6,678 chars (2 prefix messages, key=8514 hashes, summarized 8514 messages)
+2026-10-11 07:20:43,228 [INFO] [MSG] Injecting: 8,268,958 -> 154,032 chars (8678 -> 166 messages, replaced 0-8514 with 2 prefix + 164 new)
+2026-10-11 07:20:43,979 [INFO] [MSG] Input tokens from message_start: 70,817 (cache_read=0 cache_create=70,815 fresh=2)
+
+# unhappy path: the shared proxy port is refused, nothing starts
+$ lib/rolling-context-restart-repro.sh --port 5588 --mitm-port 5790 --proxy-dir /nonexistent --transcript /nonexistent --cut-line 1 ; echo "exit=$?"
+rolling-context-restart-repro: port 5588 belongs to the shared proxy
+exit=2
+
+# shared proxy: same pid, started before the runs
+$ ps -o pid,lstart,cmd -p 1763315 | cut -c1-80
+    PID                  STARTED CMD
+1763315 Sun Oct 11 05:52:44 2026 python3 server.py
