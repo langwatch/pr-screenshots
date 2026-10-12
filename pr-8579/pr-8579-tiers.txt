@@ -1,0 +1,41 @@
+$ curl -s http://localhost:3337/agent-testing/designing-a-suite  (mint dev, branch docs/designing-a-scenario-suite @ 392f2dc3) | text of the run tiers section
+What to run on each pull request, nightly and before a release
+Tier
+When
+What runs
+Repeats
+Pull request
+A change to the agent’s prompt, tools or the data it reads.
+Only the affected scenarios, chosen by a path filter in your CI or by a
+label
+.
+1
+Nightly
+On a schedule, for example a cron trigger in your CI that runs the
+CLI
+.
+The whole test suite.
+1
+Pre-release
+Before a release.
+The whole test suite and the reworded variants.
+5, with the pass counts above
+langwatch
+run-plan
+run
+--target
+http:agent_abc123
+--label
+refunds
+\
+--name
+"Refunds pull request"
+--note
+"$(
+git
+log
+-1
+--pretty=%s
+|
+cut
+-c1-200
