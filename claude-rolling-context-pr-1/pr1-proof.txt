@@ -1,0 +1,27 @@
+$ restart-proof.sh --proxy-dir <checkout @ afa2b5c> --transcript <copy of b3d2708b.jsonl> --cut-line 1550 --port 5988 --mitm-port 5990 --port2 5992 --mitm-port2 5994 --client-model 'claude-opus-5-5[1m]'
+run-dir: <run>/tmp.TssmsbTHmX
+proxy-checkout: afa2b5c6da926ebffbd64f2f2257af28cef7701e
+proxy A pid: 3456819 (ports 5988/5990)
+attempt1: exit=0 answer=ok
+fold lines:
+2026-10-12 06:26:30,975 [INFO] [STATE] Loaded 0 persisted folds from <run>/tmp.TssmsbTHmX/home/.claude/rolling-context
+2026-10-12 06:27:06,592 [INFO] [BG] Starting compression of 629 messages...
+2026-10-12 06:27:33,591 [INFO] [STATE] Saved fold fold-4a663eaa0e45eb0418768143d9fd0d72.json
+2026-10-12 06:27:33,591 [INFO] [BG] Compression ready: 7,632 chars (2 prefix messages, key=624 hashes, summarized 624 messages)
+total 24
+-rw------- 1 ubuntu ubuntu 20544 Oct 12 06:27 fold-4a663eaa0e45eb0418768143d9fd0d72.json
+proxy A stopped: 3456819
+proxy B pid: 3465584 (ports 5992/5994)
+attempt2: exit=0 answer=ok
+first '[STATE] Loaded': 2026-10-12 06:27:35,133 [INFO] [STATE] Loaded 1 persisted folds from <run>/tmp.TssmsbTHmX/home/.claude/rolling-context
+first '[MSG] model=': 2026-10-12 06:27:37,075 [INFO] [MSG] model=claude-opus-5-5 stream=True messages=629 chars=541,154 session=a30ca844
+first '[MSG] Injecting:': 2026-10-12 06:27:37,076 [INFO] [MSG] Injecting: 541,154 -> 14,351 chars (629 -> 7 messages, replaced 0-624 with 2 prefix + 5 new)
+first '[MSG] Forwarding': 2026-10-12 06:27:37,077 [INFO] [MSG] Forwarding to https://api.anthropic.com/v1/messages?beta=true (27,058 bytes)
+first 'Upstream response': 2026-10-12 06:27:38,116 [INFO] [MSG] Upstream response: 200 OK
+first 'Input tokens from message_start': 2026-10-12 06:27:38,131 [INFO] [MSG] Input tokens from message_start: 8,298 (cache_read=2,276 cache_create=6,020 fresh=2)
+attempt 2 answer: ok
+'prompt is too long' in log: 0
+verdict: PASS
+proxy B stopped: 3465584
+run-dir: <run>/tmp.TssmsbTHmX  proxyA-pid: 3456819  proxyB-pid: 3465584
+exit=0
