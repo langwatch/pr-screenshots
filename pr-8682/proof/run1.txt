@@ -1,0 +1,17 @@
+$ curl -s -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch.ai/api/simulation-runs/scenariorun_0003S4Erh3XuosAdif3NH6HueDerp \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:05:34Z; response fetched live with the Drew's Sandbox project key, trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_0003S4Erh3XuosAdif3NH6HueDerp",
+  "name": "Double charge refund (check the world, 8681)",
+  "status": "SUCCESS",
+  "verdict": "success",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Evidence in the opentelemetry traces shows the agent called list_charges (returned two captured charges CH-9xJYp9-1 and CH-9xJYp9-2) and then executed refund_charge on CH-9xJYp9-2 for amount_eur 49.95. The refund_charge tool output shows status approved and amount_eur 49.95, and the final state_of_world shows refund_count: 1 and refund_total: 49.95 — demonstrating a single refund of exactly 49.95. The original charge (CH-9xJYp9-1) remains captured in the traces and state_of_world, indicating it was left untouched. The assistant message in the transcript explicitly tells the customer the refund was approved and \"will return to your original card within 3–5 working days,\" and the refund tool output also includes the same 3 to 5 working days timing. All three criteria are therefore met.",
+  "evaluations": null
+}
