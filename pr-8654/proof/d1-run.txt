@@ -1,0 +1,47 @@
+$ cd apps/ui/e2e/langy && OPENAI_API_KEY=*** OPENAI_BASE_URL=<gateway> NODE_EXTRA_CA_CERTS=~/.portless/ca.pem LANGY_APP_URL=https://app.langwatch-suite.langwatch.localhost pnpm exec vitest run langy-dashboards.scenario.test.ts --reporter=verbose
+
+ RUN  v5.0.1 /home/ubuntu/worktrees/langwatch-suite/apps/ui/e2e/langy
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached
+[dashboards] seeded {"organizationId":"organization_0004Mk7iIxBYLErFAvv8xqly3p5Gr","teamId":"team_0004Mk7iIxBYLErFAvv8xqly3p5Gs","projectId":"project_0004Mk7iIxBYLErFAvv8xqly3p5H0","projectSlug":"acme-checkout-y3p5H0"}
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached
+[guided] langy resolves to null
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached
+[guided] scenarios.user_simulator resolves to {"model":"gpt-5.6-terra","source":"role_default","scope":"project"}
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+[world] after setup: {"widgets_on_board":0,"project_widget_count":1,"decoy_widgets":1,"chart_total":null,"chart_days":null}
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+
+────────────────────────────────────────────────────────────
+🎭  Running Scenario Tests
+────────────────────────────────────────────────────────────
+Follow it live: https://app.langwatch-suite.langwatch.localhost/acme-checkout-y3p5H0/agent-testing/results/external:langy-dashboards-insights/scenariobatch_ef36164b3e98
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+────────────────────────────────────────────────────────────
+
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+[world] after turn 1: {"widgets_on_board":1,"project_widget_count":2,"decoy_widgets":1,"chart_total":48,"chart_days":2}
+
+stderr | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+AI SDK Warning: System messages in the prompt or messages fields can be a security risk because they may enable prompt injection attacks. Use the system option instead when possible. Set allowSystemInMessages to true to suppress this warning, or false to throw an error.
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+[scenario] cost: judge 1 calls, 20677 input and 1219 output tokens; Langy $0.0000 over 0 gateway requests
+
+stdout | langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone
+[world] final facts: {"widgets_on_board":1,"project_widget_count":2,"decoy_widgets":1,"chart_total":48,"chart_days":2}
+
+ ✓ langy-dashboards.scenario.test.ts > Langy builds a dashboard chart on the board the user attached > adds one trace volume chart to the attached board and leaves the decoy alone 117996ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  13:06:34
+   Duration  138.95s (tests 98%, import 2%)
+
+[exit 0]
