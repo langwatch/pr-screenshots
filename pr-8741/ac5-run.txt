@@ -1,0 +1,40 @@
+
+ RUN  v5.0.1 /home/ubuntu/worktrees/langwatch-issue8735/.claude/tmp/ac-pIFt9R/langy-patched
+
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the user opens with something vague > never ends a turn with nothing rendered
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the user asks something only the project data can answer > answers from the project rather than from the model's memory
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the answer needs one of the langwatch.* tools > owns the tools it actually has instead of declaring them unavailable
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the user asks Langy to edit source it has not cloned > does not narrate a checkout it never obtained
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the user asks for a monitor > creates the monitor, not just the evaluator
+ ↓ langy-quality.scenario.test.ts > Langy quality bar > when the question needs a single lookup > answers inside the latency budget
+stdout | langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > states how old the newest matching trace is and names a likely cause
+
+────────────────────────────────────────────────────────────
+🎭  Running Scenario Tests
+────────────────────────────────────────────────────────────
+Follow it live: https://app.langwatch-issue8735.langwatch.localhost/local-dev-project/agent-testing/results/external:langy-quality/scenariobatch_b1e55d2dd035
+
+stdout | langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > states how old the newest matching trace is and names a likely cause
+────────────────────────────────────────────────────────────
+
+
+ ✓ langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > states how old the newest matching trace is and names a likely cause 94073ms
+ ✓ langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > says the project never received traces with a label it never saw 94640ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 6 skipped (8)
+   Start at  13:29:28
+   Duration  200.10s (tests 98%, import 2%)
+
+
+--STDERR--
+(node:3701929) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > states how old the newest matching trace is and names a likely cause
+AI SDK Warning: System messages in the prompt or messages fields can be a security risk because they may enable prompt injection attacks. Use the system option instead when possible. Set allowSystemInMessages to true to suppress this warning, or false to throw an error.
+
+stderr | langy-quality.scenario.test.ts > Langy quality bar > when a time-bounded question finds nothing but older data exists > says the project never received traces with a label it never saw
+AI SDK Warning: System messages in the prompt or messages fields can be a security risk because they may enable prompt injection attacks. Use the system option instead when possible. Set allowSystemInMessages to true to suppress this warning, or false to throw an error.
+
+
+EXIT 0
