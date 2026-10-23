@@ -1,0 +1,62 @@
+# scenario#762 live a-leg use-proof — pytest run 5 (2026-09-09T03:50Z)
+
+start: 2026-09-09T03:50:23Z
+end: 2026-09-09T03:51:31Z
+2026-09-09 03:50:54,179 - scenario.voice.twilio - INFO - TwilioAgentAdapter: placed call CA03274362692a43f124bf7fa190dc915f from ***3520 to ***3578
+2026-09-09 03:50:55,102 - scenario.voice.twilio - DEBUG - TwilioAgentAdapter: WS connection accepted
+DEBUG    scenario.voice.twilio:_twilio_server.py:241 TwilioAgentAdapter: WS connection accepted
+INFO     scenario.voice.twilio:twilio.py:701 TwilioAgentAdapter: placed call CA03274362692a43f124bf7fa190dc915f from ***3520 to ***3578
+
+## transcript + spans as seen by the judge
+<transcript>
+user: [{"type": "text", "text": "Hello, I am calling to test this line. Can you hear me?"}, {"type": "input_audio", "input_audio": {"data": "[AUDIO]", "format": "wav"}}]
+assistant: [{"type": "text", "text": "Hello, this is the test line. I can hear you loud and clear. Please go ahead. Thank you. I heard what you said. This line is working. Goodbye"}, {"type": "input_audio", "input_audio": {"data": "[AUDIO]", "format": "wav"}}]
+</transcript>
+<opentelemetry_traces>
+Spans: 6 | Total Duration: 29.58s
+
+[d6fefce9] 2026-09-09T03:50:57.073499Z TwilioAgentAdapter.call (29.58s)
+    span.type: agent
+    timestamps: {}
+    scenario.role: Agent
+
+└── [6c2a51a0] 2026-09-09T03:50:57.077325Z voice.turn (29.56s)
+        span.type: span
+        voice.adapter.class: TwilioAgentAdapter
+        voice.turn.index: 0
+        voice.turn.latency_ms: 28031
+        voice.turn.user_audio_bytes: 161280
+        voice.turn.agent_audio_bytes: 1437840
+
+│   ├── [50010549] 2026-09-09T03:50:57.077914Z voice.audio.send (3.40s)
+│   │       span.type: span
+│   │       voice.audio.bytes: 161280
+
+│   ├── [a59479f9] 2026-09-09T03:50:57.096071Z voice.audio.receive (0ms)
+│   │       span.type: span
+│   │       voice.adapter.class: TwilioAgentAdapter
+│   │       voice.twilio.recv.source: background_loop
+│   │       voice.audio.bytes: 4796
+
+│   ├── [50fb9a22] 2026-09-09T03:51:00.480045Z voice.audio.receive (24.63s)
+│   │       span.type: span
+│   │       voice.audio.first_chunk_latency_ms: 0
+│   │       voice.audio.terminated_reason: terminal_chunk
+│   │       voice.audio.chunk_count: 300
+│   │       voice.audio.bytes: 1437840
+
+│   └── [8c3f6d48] 2026-09-09T03:51:25.108835Z voice.stt.transcribe (1.53s)
+│           span.type: span
+│           voice.adapter.class: TwilioAgentAdapter
+│           voice.stt.scope: turn
+│           voice.stt.speaker: agent
+│           voice.stt.audio_bytes: 1437840
+│           voice.stt.transcript_chars: 141
+
+</opentelemetry_traces>
+
+## judge verdict
+"reasoning": "The callee explicitly stated that they could hear the caller, and the transcript shows a coherent response to the caller's query. The OpenTelemetry traces confirm that user audio was sent and agent audio was received, and there are no indications of transport errors."
+"verdict": "success"
+
+=================== 1 passed, 6 warnings in 63.54s (0:01:03) ===================

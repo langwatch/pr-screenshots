@@ -1,0 +1,1 @@
+[{"path":"/v1/chat/completions","n":3,"model":"gpt-5-mini","auth":[null]},{"path":"/v1/systemone","n":1,"model":"jev-latest","auth":["Bearer ...0000"]}]

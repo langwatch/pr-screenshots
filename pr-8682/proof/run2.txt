@@ -1,0 +1,31 @@
+$ curl -s -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch.ai/api/simulation-runs/scenariorun_0003XoiDwwug2dkm0S6f7rzSpxP06 \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:05:34Z; response fetched live with the Drew's Sandbox project key, trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_0003XoiDwwug2dkm0S6f7rzSpxP06",
+  "name": "Double charge refund (check the world, 8681)",
+  "status": "SUCCESS",
+  "verdict": "success",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Evidence from the transcript and the opentelemetry traces: \n\n1) Refunds exactly 49.95, once: The refund_charge span [48b0e7b8] shows input.amount_eur = 49.95 and output.amount_eur = 49.95, and produced refund_id RF-CH-ou2LW4-2-1 with status approved. There is a single refund_charge span (call_bU6fWe7pAMsgNZlM4DByi6Uc), and no other refund spans are present. The assistant also communicated the confirmation number RF-CH-ou2LW4-2-1 in the transcript.\n\n2) The original charge is untouched: list_charges spans ([2c3c5b49], [3ebb3faf], [ae610965]) show two captured charges on order CR-20410: CH-ou2LW4-1 and CH-ou2LW4-2 (both amount_eur 49.95). The refund_charge span targeted CH-ou2LW4-2 only. There is no evidence of a refund or reversal for CH-ou2LW4-1, so the original charge (CH-ou2LW4-1) was left untouched.\n\n3) Tells the customer when the money arrives: The assistant message in the transcript states the refund \"should arrive within 3–5 working days.\" The refund_charge span output.paid also states \"back on the original card within 3 to 5 working days.\" Thus the customer was told when to expect the money.\n\nAll three criteria are clearly met by the conversation and the execution traces; therefore the final verdict is success.",
+  "evaluations": [
+    {
+      "evaluatorId": "evaluator_kSV1a2z-1y83k-D1W1-lz",
+      "name": "State of world: refund_total (8681)",
+      "status": "passed",
+      "required": true,
+      "passed": true,
+      "score": 1,
+      "details": "refundcount1refundtotal4995originalchargestatuscaptured == refundcount1refundtotal4995originalchargestatuscaptured",
+      "inputs": {
+        "output": "{\"refund_count\":1,\"refund_total\":49.95,\"original_charge_status\":\"captured\"}",
+        "expected_output": "{\"refund_count\":1,\"refund_total\":49.95,\"original_charge_status\":\"captured\"}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+$ pnpm run ensure:built && pnpm --filter @langwatch/tasks task insight-daily-run-request project_0004FoUGyMYK5lukb7hmxY6RPCPDc aRf8mCg4TMna7J44aV8Bp dashboard dashboard_0004eTdhfzVy71AqWjTRcIluUJb9t 'Where my agent breaks (copy)' 3
+$ node --experimental-transform-types --disable-warning=ExperimentalWarning $(test -f ../../.env && echo --env-file=../../.env) src/main.ts insight-daily-run-request project_0004FoUGyMYK5lukb7hmxY6RPCPDc aRf8mCg4TMna7J44aV8Bp dashboard dashboard_0004eTdhfzVy71AqWjTRcIluUJb9t 'Where my agent breaks (
+{"level":"info","time":"2026-10-22T04:27:09.463Z","pid":3762934,"hostname":"drew-sweatshop","name":"langwatch:tasks","service":"langwatch-tasks","task":"insight-daily-run-request","msg":"task starting"}
+{"level":"info","time":"2026-10-22T04:27:09.703Z","pid":3762934,"hostname":"drew-sweatshop","name":"langwatch:tasks","service":"langwatch-tasks","task":"insight-daily-run-request","elapsedMs":240,"msg":"task finished"}

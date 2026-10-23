@@ -1,0 +1,17 @@
+# head 6201740f, synthetic worklog: 4 sessions, one mistake-log row for session bbbbbbbb
+$ NW_SINCE=2026-01-01T00:00:00Z NW_NOW=2026-01-02T00:05:00Z night-watch-tooling.sh b1; echo exit=$?
+exit=0
+$ jq -r ".recording.sessions[] | [.session[0:8], .worklog_entries, .mistakes_logged, .worklog_mistakes, .mistakes_source] | @tsv" b1/tooling.json
+aaaaaaaa	1	0	1	worklog
+bbbbbbbb	1	1	1	mistake-log
+cccccccc	1	0	1	none
+dddddddd	1	0	0	none
+$ jq -r ".findings[] | select(.check==\"recording\") | .summary" b1/tooling.json
+session aaaaaaaa-0000-0000-0000-000000000001: 1 mistake(s) in the worklog, 0 in a mistake log after one hour
+
+# next night: the 23:02 mistake (session cccccccc) is past its grace hour now
+$ NW_SINCE=2026-01-02T00:00:00Z NW_NOW=2026-01-03T00:05:00Z night-watch-tooling.sh b2; echo exit=$?
+exit=0
+$ jq -r ".findings[] | select(.check==\"recording\") | .summary, .evidence" b2/tooling.json
+session cccccccc-0000-0000-0000-000000000003: 1 mistake(s) in the worklog, 0 in a mistake log after one hour
+session cccccccc-0000-0000-0000-000000000003: corrections=0 (digest Corrections: 0 + worklog rows with mistakes: 0); mistakes_logged=0 mistakes_source=worklog worklog_mistakes=0 past_grace=1 in [<tmp>/nw/mk.jsonl] since 2026-01-02T00:00:00Z (mistake rows and past_grace read one hour earlier); worklog_entries=0 no_outcome=0

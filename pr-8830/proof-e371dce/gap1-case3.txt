@@ -1,0 +1,10 @@
+$ git -C ~/worktrees/langwatch-pr8830 rev-parse HEAD
+e371dceda695fd3c68e7a9afa8f2b34609dafb06
+$ date -u
+Wed Oct 21 22:44:56 UTC 2026
+$ pnpm task insight-daily-run-request project_0001wT2KME6WG4VlASeCdMhxPHH5V <userId> dashboard dashboard_0001proof883095d9abf5b8 "Case3 no traffic empty"
+task finished lines: 1
+$ clickhouse event_log for tenant project_0001wT2KME6WG4VlASeCdMhxPHH5V, board dashboard_0001proof883095d9abf5b8, since run request
+lw.insight.daily_schedule.run_requested {"board": {"kind": "dashboard", "id": "dashboard_0001proof883095d9abf5b8", "name": "Case3 no traffic empty"}}
+lw.insight.filed {"insightId":"insight_health_1f5535ce10da41a5254e85e7901c5b74","title":"\\"Refund requests\\" shows no data","body":"None of this widget\'s queries returned data over the last 30 days. What it reads may have stopped arriving, or it may read a field nothing sends.","tone":"watch","topic":"health","va
+lw.insight.daily_schedule.run_settled {"outcome": "filed", "reason": "no_new_traces", "filedCount": 1, "renewedCount": 0, "conversationId": null, "board": {"kind": "dashboard", "id": "dashboard_0001proof883095d9abf5b8", "name": "Case3 no traffic empty"}}

@@ -1,0 +1,24 @@
+[
+ {
+  "id": "insight_run_15c245dfd7ee17957cec1c8d43215ba5",
+  "tone": "watch",
+  "title": "Refund step got slower",
+  "findingKey": "refund-latency",
+  "filedVia": "run",
+  "boardName": "Where my agent breaks (copy)",
+  "widgetName": null,
+  "sourceConversationId": "langyconv_0004zppenUv33a4i2ANFpEWEt39oi",
+  "filedAt": 1792643229696
+ },
+ {
+  "id": "insight_run_c91f06165f5ea9c77dab384c021dd48c",
+  "tone": "bad",
+  "title": "Checkout errors more than quadrupled",
+  "findingKey": "checkout-errors",
+  "filedVia": "run",
+  "boardName": "Where my agent breaks (copy)",
+  "widgetName": null,
+  "sourceConversationId": "langyconv_0004zppenUv33a4i2ANFpEWEt39oi",
+  "filedAt": 1792643229696
+ }
+]

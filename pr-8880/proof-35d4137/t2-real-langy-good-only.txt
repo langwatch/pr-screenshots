@@ -1,0 +1,31 @@
+HEAD 35d41373efdcd2966104726e37888233cf127d0e
+## prompt B
+Facts for the search service, yesterday against the day before: p95 latency fell from 4.2s to 2.9s, the error rate fell from 4.1% to 1.2%, and cost per request fell 12%. Nothing got worse. Do not run any tools. Write two short lines on what you read. Then end your reply with exactly one fenced code block whose info string is langy-card, holding JSON of kind "insights" with blockId "daily-insights" and a findings array with one finding per improvement, each with title, tone "good" and a body with the numbers.
+
+## page text after answer settled
+GOOD NEWS
+
+Error rate decreased
+
+Error rate fell from 4.1 % to 1.2 %.
+
+GOOD NEWS
+
+Cost per request lowered
+
+Cost per request dropped by 12 %.
+
+Context
+
+Choose what Langy can see
+
+gpt-oss-120b
+
+#
+
+Context
+
+/
+
+Skills
+## save-as-insight buttons under the answer: 0

@@ -1,0 +1,14 @@
+$ git -C ~/worktrees/langwatch-pr8830 rev-parse HEAD
+e371dceda695fd3c68e7a9afa8f2b34609dafb06
+$ date -u
+Wed Oct 21 22:43:47 UTC 2026
+$ pnpm task insight-daily-run-request project_00023RGcx0NNXnWLox5WRXvbwZlyL <userId> dashboard dashboard_0001proof88303f7c66af3a "Case1 board"
+task finished lines: 1
+$ clickhouse event_log for tenant project_00023RGcx0NNXnWLox5WRXvbwZlyL, board dashboard_0001proof88303f7c66af3a, since run request
+lw.insight.daily_schedule.run_requested {"board": {"kind": "dashboard", "id": "dashboard_0001proof88303f7c66af3a", "name": "Case1 board"}}
+lw.insight.filed {"insightId":"insight_health_22c348601b38ff62f8b0e2904566bc96","title":"\\"Errors by customer tier\\" fails to load","body":"This widget\'s query was refused with `lwql_unknown_identifier` over the last 30 days.\\n\\nIt said: The query names a column that does not exist: customer_tier.\\n\\nOpen the
+lw.insight.daily_schedule.run_settled {"outcome": "filed", "reason": "no_new_traces", "filedCount": 1, "renewedCount": 0, "conversationId": null, "board": {"kind": "dashboard", "id": "dashboard_0001proof88303f7c66af3a", "name": "Case1 board"}}
+$ psql: select id, "findingKey", filed/renewed ms from "InsightProjection" for the project
+SET
+insight_health_c59f1c04348de7dfa07b52284ad9d6fb|board-health:widget_000240YFA872aVRqgcBRBWxatq7O5:error|1792276874566|1792276965540
+insight_health_22c348601b38ff62f8b0e2904566bc96|board-health:widget_000240YFA872aVRqgcBRBWxatq7O5:error|1792622666521|

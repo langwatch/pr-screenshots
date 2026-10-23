@@ -1,0 +1,23 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# 2g. Yes click on the confirmation card, then the same delete -> 200.  RESULT: NOT REACHED in this run.
+
+What worked (see 2f-langy-confirmation-409.txt): a real Langy conversation (model: OpenRouter minimax/minimax-m3.1-flash:free through
+a custom provider on my own project) spawned a langy-worker; its session key (LANGWATCH_API_KEY in the worker env) got
+409 langy_confirmation_required from DELETE .../analytics/boards/:boardId, and the board stayed.
+
+What did not work: the card never reached the panel, so there was nothing to click.
+ - langy.localRecord for the running conversation answered {"waits":[],"workspaceConnected":false} right after the 409
+   (conversation proof8896-conv7, turn in flight: langy.messages isTurnInFlight=true). Quoted answer:
+   {"result":{"data":{"waits":[],"workspaceConnected":false}}}
+ - The panel (screenshots ui-card.png, ui-live.png) showed "Running a command" / "Waiting for your answer" but no card with a Yes button.
+ - The backend log shows many "langyConversation has not projected event ... yet" retries (23 in this run; 22 at attempt=1, 1 at attempt=2),
+   so the conversation projection lags in this dev stack. I did not find the cause (could be this branch, could be the box).
+ - The card's wait id is not logged and its store is in process memory (no langy_local:* keys in Redis), so I could not
+   call langy.answerQuestion by hand without guessing the id. I did not guess.
+
+How to finish it: with a stack where the Langy panel shows the card, click "Yes, delete" (the panel calls langy.answerQuestion with
+{waitId, answers:[{question, selected:["Yes, delete"]}]}), then re-run the same DELETE with the Langy key within 5 minutes -> expect 200 {id,name};
+a third DELETE -> 404 (a spent click, and the board is gone).
+
+Also seen (not part of PR scope): a Langy turn that was asked to delete a board used the legacy 'langwatch dashboard delete' CLI path
+(request log: family=dashboards, clientSource=cli) and got 404 for a V2 board id; it never called the new boards route by itself.

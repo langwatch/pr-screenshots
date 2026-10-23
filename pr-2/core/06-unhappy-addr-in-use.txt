@@ -1,0 +1,8 @@
+$ bin/supergraph --config config.toml serve   # while first serve holds :7791
+
+{"time":"2026-09-04T22:57:12.982044+02:00","level":"INFO","msg":"supergraph starting","version":"fbf665e"}
+{"time":"2026-09-04T22:57:12.982415+02:00","level":"INFO","msg":"registered plugins","plugins":["fakeok","template"]}
+{"time":"2026-09-04T22:57:12.982584+02:00","level":"INFO","msg":"listening","addr":"127.0.0.1:7791"}
+error: address 127.0.0.1:7791 already in use
+
+(exit 1)

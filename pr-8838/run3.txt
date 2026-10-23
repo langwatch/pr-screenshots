@@ -1,0 +1,4 @@
+time: 2026-10-20T04:21:23Z
+command: curl -s -X POST http://127.0.0.1:36379/api/langy/conversations/card-run3-1792470083-3270/messages -H 'Authorization: Bearer <user PAT>' -H 'X-Project-Id: local-dev-project' -H 'Content-Type: application/json' -H 'Prefer: wait=120' -d '{"messages":[{"role":"user","content":"Look at my repo's code and tell me where the LangWatch SDK is initialised"}],"idempotencyKey":"card-run3-1792470083-3270","adoptConversationId":true}'
+{"conversationId":"card-run3-1792470083-3270","turnId":"langyturn_69dc96b3f3f5573c5c13960c4c6296b0","status":"completed","error":null,"reply":{"role":"assistant","text":"I'm waiting for you to say how I should reach your code, on the card above."}}
+HTTP 200

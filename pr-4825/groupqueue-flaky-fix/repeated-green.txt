@@ -1,0 +1,28 @@
+PR #4825 — flaky-test fix verification (repeated-green)
+branch: fix/flaky-groupqueue-clickhouse-table @ c301df4d4
+test:   groupQueue.integration.test.ts  (17 tests, incl. 'processes only once with squashed data')
+host:   ip-10-0-3-222   node v24.13.0
+fix:    blockingConnection = effectiveConnection.duplicate({ maxRetriesPerRequest: null })
+------------------------------------------------------------------------
+run  1/15   GREEN   Tests  17 passed (17)   (16s)
+run  2/15   GREEN   Tests  17 passed (17)   (16s)
+run  3/15   GREEN   Tests  17 passed (17)   (16s)
+run  4/15   GREEN   Tests  17 passed (17)   (16s)
+run  5/15   GREEN   Tests  17 passed (17)   (16s)
+run  6/15   GREEN   Tests  17 passed (17)   (16s)
+run  7/15   GREEN   Tests  17 passed (17)   (15s)
+run  8/15   GREEN   Tests  17 passed (17)   (16s)
+run  9/15   GREEN   Tests  17 passed (17)   (16s)
+run 10/15   GREEN   Tests  17 passed (17)   (16s)
+run 11/15   GREEN   Tests  17 passed (17)   (16s)
+run 12/15   GREEN   Tests  17 passed (17)   (16s)
+run 13/15   GREEN   Tests  17 passed (17)   (16s)
+run 14/15   GREEN   Tests  17 passed (17)   (16s)
+run 15/15   GREEN   Tests  17 passed (17)   (16s)
+------------------------------------------------------------------------
+RESULT: 15/15 runs GREEN (all 17 tests passed every run)
+========================================================================
+Named-test confirmation (verbose, single run):
+✓ src/server/event-sourcing/queues/groupQueue/__tests__/groupQueue.integration.test.ts > GroupQueueProcessor - Orchestration > deduplication with TOCTOU race > when dispatched job exists and new dedup job arrives > processes both jobs (new job not silently dropped) 315ms
+✓ src/server/event-sourcing/queues/groupQueue/__tests__/groupQueue.integration.test.ts > GroupQueueProcessor - Orchestration > deduplication with TOCTOU race > when dedup squash happens before dispatch > processes only once with squashed data 5629ms
+Tests  17 passed (17)

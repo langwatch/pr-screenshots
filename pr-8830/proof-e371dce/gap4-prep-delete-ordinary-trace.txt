@@ -1,0 +1,4 @@
+$ clickhouse DELETE of my own ordinary trace 89130ade0b744030bc7a5ea03eca7e6d (project project_0002PaEdetEvrJGZOj9Gk9MzwOhXN) from every table holding it, so the window holds only the run's own Langy turns
+$ clickhouse: rows of trace_analytics in F since the run window start (2026-10-20 00:00 UTC), collapsed by trace
+4973e51d41bd332a75bad6faeaef95bd	2026-10-21 23:14:24.403	langy	langyconv_0002SmRtYNw5mSyZYQBUy7ZxiqhUN	langy.turn
+e4a1129ea3cb345bd1f95b2d5b3d4852	2026-10-21 23:19:56.765	langy	langyconv_0002VYibshTNokVIUBeNWzCoyfKOj	gen_ai.chat

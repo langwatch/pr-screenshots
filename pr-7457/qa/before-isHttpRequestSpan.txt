@@ -1,0 +1,14 @@
+ * // span.name = "GET /api/users"
+ * // span.name = "POST /api/data"
+ * // span.name = "DELETE /resource/123"
+ *
+ * if (isHttpRequestSpan(span)) {
+ *   console.log('This is an HTTP request span');
+ * }
+ * ```
+ */
+export function isHttpRequestSpan(span: ReadableSpan): boolean {
+  const name = span.name ?? "";
+  const verbMatch = /^(GET|POST|PUT|DELETE|PATCH|OPTIONS|HEAD)\b/i.test(name);
+  return verbMatch;
+}

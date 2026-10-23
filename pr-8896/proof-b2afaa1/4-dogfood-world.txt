@@ -1,0 +1,6 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# Langy dogfood world D1 (dev/dogfood/langy/src/worlds.ts), no model: setupWorld then teardownWorld against http://localhost:5577
+setupWorld ok in 8941 ms; boards: [["world","D1"],["tag","ffd43c5b90c2"],["trace_name","checkout-ffd43c5b90c2"],["seeded_traces",48]]
+list boards status 200 names: ["probe-svc (0 widgets)","probe-user (0 widgets)","langy-delete-target (0 widgets)","langy-delete-target-2 (0 widgets)","langy-delete-target-3 (0 widgets)","Checkout health ffd43c5b90c2 (0 widgets)","Weekly review ffd43c5b90c2 (1 widgets)"]
+teardownWorld result: {"final_facts":{"created_off_board":[],"items_created_this_run":0,"new_alerts":[],"board":{"items":0,"added":[],"changed_ids":[],"removed_names":[],"unchanged":true},"decoy":{"items":1,"added":[],"changed_ids":[],"removed_names":[],"unchanged":true}},"deleted":{"widgets":["widget_0003wXUr65niAh1613irw6n9z7Yqk"],"dashboards":["dashboard_0003wXUr65niAh1613irw6n9z7Yqi","dashboard_0003wXUr65niAh1613irw6n9z7Yqj"],"alerts":[]},"left_behind":{"items":[],"traces":"48 traces named checkout-ffd43c5b90c2 (no trace delete route)"}}
+list boards after teardown status 200 names: ["probe-svc","probe-user","langy-delete-target","langy-delete-target-2","langy-delete-target-3"]

@@ -1,0 +1,175 @@
+### GO vs BASH semantic diff (ClickHouse system tables as oracle) ###
+Same dummy inputs fed to both renderers. Comparing what each server actually loaded.
+
+======== langwatch_lwql user ========
+--- BASH (XML) ---
+langwatch_lwql
+--- GO (YAML) ---
+langwatch_lwql
+
+======== lwql_postgres named collection (source) ========
+--- BASH (XML) ---
+lwql_postgres	CONFIG
+--- GO (YAML) ---
+lwql_postgres	CONFIG
+
+======== row policies ========
+--- BASH (XML) ---
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression identifier `short_name` in scope SELECT short_name. (UNKNOWN_IDENTIFIER)
+(query: SELECT short_name)
+--- GO (YAML) ---
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression identifier `short_name` in scope SELECT short_name. (UNKNOWN_IDENTIFIER)
+(query: SELECT short_name)
+
+======== lwql_restricted profile elements ========
+--- BASH (XML) ---
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression identifier `setting_name` in scope SELECT setting_name. (UNKNOWN_IDENTIFIER)
+(query: SELECT setting_name)
+--- GO (YAML) ---
+Received exception from server (version 25.10.2):
+Code: 47. DB::Exception: Received from localhost:9000. DB::Exception: Unknown expression identifier `setting_name` in scope SELECT setting_name. (UNKNOWN_IDENTIFIER)
+(query: SELECT setting_name)
+
+======== langwatch_lwql GRANTS (SHOW GRANTS) ========
+--- BASH ---
+GRANT SELECT ON langwatch.annotations TO langwatch_lwql
+GRANT SELECT ON langwatch.annotations_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.batch_evaluations TO langwatch_lwql
+GRANT SELECT ON langwatch.batch_evaluations_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_analytics TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_analytics_rollup TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_metrics TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_metrics_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_runs TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluations TO langwatch_lwql
+GRANT SELECT ON langwatch.experiments TO langwatch_lwql
+GRANT SELECT ON langwatch.experiments_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.lwql_* TO langwatch_lwql
+GRANT SELECT ON langwatch.model_usage_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.projects TO langwatch_lwql
+GRANT SELECT ON langwatch.projects_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.prompt_versions TO langwatch_lwql
+GRANT SELECT ON langwatch.prompt_versions_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.prompts TO langwatch_lwql
+GRANT SELECT ON langwatch.prompts_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.simulation_runs TO langwatch_lwql
+GRANT SELECT ON langwatch.simulations TO langwatch_lwql
+GRANT SELECT ON langwatch.spans TO langwatch_lwql
+GRANT SELECT ON langwatch.stored_spans TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_analytics TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_analytics_rollup TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_metrics TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_metrics_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_summaries TO langwatch_lwql
+GRANT SELECT ON langwatch.traces TO langwatch_lwql
+--- GO ---
+GRANT SELECT ON langwatch.annotations TO langwatch_lwql
+GRANT SELECT ON langwatch.annotations_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.batch_evaluations TO langwatch_lwql
+GRANT SELECT ON langwatch.batch_evaluations_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_analytics TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_analytics_rollup TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_metrics TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_metrics_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluation_runs TO langwatch_lwql
+GRANT SELECT ON langwatch.evaluations TO langwatch_lwql
+GRANT SELECT ON langwatch.experiments TO langwatch_lwql
+GRANT SELECT ON langwatch.experiments_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.lwql_* TO langwatch_lwql
+GRANT SELECT ON langwatch.model_usage_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.projects TO langwatch_lwql
+GRANT SELECT ON langwatch.projects_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.prompt_versions TO langwatch_lwql
+GRANT SELECT ON langwatch.prompt_versions_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.prompts TO langwatch_lwql
+GRANT SELECT ON langwatch.prompts_pg TO langwatch_lwql
+GRANT SELECT ON langwatch.simulation_runs TO langwatch_lwql
+GRANT SELECT ON langwatch.simulations TO langwatch_lwql
+GRANT SELECT ON langwatch.spans TO langwatch_lwql
+GRANT SELECT ON langwatch.stored_spans TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_analytics TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_analytics_rollup TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_metrics TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_metrics_by_minute TO langwatch_lwql
+GRANT SELECT ON langwatch.trace_summaries TO langwatch_lwql
+GRANT SELECT ON langwatch.traces TO langwatch_lwql
+
+======== password hash equality (same secret -> same hash) ========
+--- BASH ---
+langwatch_lwql
+/etc/clickhouse-server/users.d/default-password.xml:password_sha256_hex>0f5adfe5586a40dc1e957ec759f2fa71b385a2a51ccd6c7493e7bbe49ded9858
+/etc/clickhouse-server/users.d/default-password.xml:password_sha256_hex>
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>3e6cc1271be457b8e36550b51c3e6d2672af6fc92a0ce9b2c28d05238f6232ff
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>252c2c94be8e855d38ca4934c5e7d114f738ba42f308b71ce23016521ea580b6
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>18a2a4bfe9561b83e8bb22d52abb115cc3408874afd9d94008c7f5936abcb370
+/etc/clickhouse-server/users.d/profiles.xml:password_sha256_hex>
+expected sha256(lwql_app_pw_dummy) = 18a2a4bfe9561b83e8bb22d52abb115cc3408874afd9d94008c7f5936abcb370
+GO rendered hash: 18a2a4bfe9561b83e8bb22d52abb115cc3408874afd9d94008c7f5936abcb370
+### row_policies: diff bash vs go ###
+>>> IDENTICAL (15 policies, same tables)
+
+### lwql_restricted profile elements: diff bash vs go ###
+1,8c1,16
+< custom_api_key_hash	\'\'	CHANGEABLE_IN_READONLY
+< max_bytes_to_read	10000000000	CONST
+< max_concurrent_queries_for_user	10	CONST
+< max_execution_time	10	CONST
+< max_memory_usage	1000000000	CONST
+< max_rows_to_read	1000000000	CONST
+< max_threads	4	CONST
+< read_overflow_mode	throw	CONST
+---
+> custom_api_key_hash	\N	CHANGEABLE_IN_READONLY
+> custom_api_key_hash	\'\'	\N
+> max_bytes_to_read	\N	CONST
+> max_bytes_to_read	10000000000	\N
+> max_concurrent_queries_for_user	\N	CONST
+> max_concurrent_queries_for_user	10	\N
+> max_execution_time	\N	CONST
+> max_execution_time	10	\N
+> max_memory_usage	\N	CONST
+> max_memory_usage	1000000000	\N
+> max_rows_to_read	\N	CONST
+> max_rows_to_read	1000000000	\N
+> max_threads	\N	CONST
+> max_threads	4	\N
+> read_overflow_mode	\N	CONST
+> read_overflow_mode	throw	\N
+>>> DRIFT ABOVE
+
+### named_collection keys: diff bash vs go ###
+>>> IDENTICAL (same collection keys)
+
+--- for the record, bash profile elements: ---
+custom_api_key_hash	\'\'	CHANGEABLE_IN_READONLY
+max_bytes_to_read	10000000000	CONST
+max_concurrent_queries_for_user	10	CONST
+max_execution_time	10	CONST
+max_memory_usage	1000000000	CONST
+max_rows_to_read	1000000000	CONST
+max_threads	4	CONST
+read_overflow_mode	throw	CONST
+readonly	1	\N
+--- go profile elements: ---
+custom_api_key_hash	\N	CHANGEABLE_IN_READONLY
+custom_api_key_hash	\'\'	\N
+max_bytes_to_read	\N	CONST
+max_bytes_to_read	10000000000	\N
+max_concurrent_queries_for_user	\N	CONST
+max_concurrent_queries_for_user	10	\N
+max_execution_time	\N	CONST
+max_execution_time	10	\N
+max_memory_usage	\N	CONST
+max_memory_usage	1000000000	\N
+max_rows_to_read	\N	CONST
+max_rows_to_read	1000000000	\N
+max_threads	\N	CONST
+max_threads	4	\N
+read_overflow_mode	\N	CONST
+read_overflow_mode	throw	\N
+readonly	1	\N

@@ -1,0 +1,2 @@
+$ python3 send.py: one ordinary OTLP trace into project_0002PaEdetEvrJGZOj9Gk9MzwOhXN at 23:13:41Z (a new trace inside the window)
+sent ok 1 of 1

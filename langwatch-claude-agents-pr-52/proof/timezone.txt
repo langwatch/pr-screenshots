@@ -1,0 +1,30 @@
+jq: jq-1.6 ; box TZ: Etc/UTC ; env TZ: unset
+jq epoch of 2026-10-08T19:57:08Z  TZ=UTC: 1791489428  TZ=Europe/Amsterdam: 1791493028  git %ct of 42ea9fd: 1791489428
+
+#### input in/2.json : cwd=/home/ubuntu/worktrees/dotclaude-issue8
+     proof-reviewer started 2026-10-08T19:55:34.787Z ; head 42ea9fd committed 2026-10-08T19:57:08Z (review is 94 s older than head)
+TZ=UTC                 NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+TZ=UTC                 PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+TZ=Europe/Amsterdam    NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+TZ=Europe/Amsterdam    PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=America/New_York    NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+TZ=America/New_York    PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=Asia/Kolkata        NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+TZ=Asia/Kolkata        PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again o
+
+#### input in/4.json : cwd=/tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit
+     proof-reviewer started 2026-10-08T19:55:34.787Z ; head 42ea9fd committed 2026-10-08T19:57:08Z (review is 94 s older than head)
+TZ=UTC                 NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=UTC                 PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=Europe/Amsterdam    NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=Europe/Amsterdam    PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=America/New_York    NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=America/New_York    PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=Asia/Kolkata        NEW  1cb853f0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+TZ=Asia/Kolkata        PREV 2b983ca0 : DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run the
+
+#### fresh d8 report in/3.json (must stay ALLOWED in every TZ)
+TZ=UTC                 NEW  1cb853f0 : <no output> => ALLOWED
+TZ=Europe/Amsterdam    NEW  1cb853f0 : <no output> => ALLOWED
+TZ=America/New_York    NEW  1cb853f0 : <no output> => ALLOWED
+TZ=Asia/Kolkata        NEW  1cb853f0 : <no output> => ALLOWED

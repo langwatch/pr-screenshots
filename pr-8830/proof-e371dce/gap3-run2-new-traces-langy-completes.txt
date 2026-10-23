@@ -1,0 +1,9 @@
+$ git -C ~/worktrees/langwatch-pr8830 rev-parse HEAD
+e371dceda695fd3c68e7a9afa8f2b34609dafb06
+$ date -u
+Wed Oct 21 23:19:15 UTC 2026
+$ pnpm task insight-daily-run-request project_0002PaEdetEvrJGZOj9Gk9MzwOhXN <userId> dashboard dashboard_0001proof883063f854432a "Langy run board"
+task finished lines: 1
+$ clickhouse event_log for tenant project_0002PaEdetEvrJGZOj9Gk9MzwOhXN, board dashboard_0001proof883063f854432a, since run request
+lw.insight.daily_schedule.run_requested {"board": {"kind": "dashboard", "id": "dashboard_0001proof883063f854432a", "name": "Langy run board"}}
+lw.insight.daily_schedule.run_started {"conversationId": "langyconv_0002VYibshTNokVIUBeNWzCoyfKOj", "board": {"kind": "dashboard", "id": "dashboard_0001proof883063f854432a", "name": "Langy run board"}}

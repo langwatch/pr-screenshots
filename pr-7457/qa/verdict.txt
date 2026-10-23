@@ -1,0 +1,73 @@
+PR 7457 QA — excludeHttpRequests preset fix
+Repo: langwatch/langwatch  |  merge commit: 7b1c204b79f99f68ac45e9038d0a298a9257eed5
+BEFORE sha (parent): 70f67860f47cc251e6166c60a35bc6b842d66c30
+AFTER: main @ 239d7cedd (merge commit is an ancestor)
+
+Test rig: real Next.js 16 App Router app (production build, `next start`), instrumentation.ts
+calling setupObservability() with default config (excludeHttpRequests preset is on by default),
+custom API route creating named spans via the OTel API tracer, LangWatchTraceExporter pointed at
+a local Node http "collector" that logs/saves every OTLP export POST body.
+
+VERDICT TABLE
+span name                          | BEFORE captured? | AFTER captured? | expected            | result
+post-process                       | NO (dropped)      | YES             | drop before/keep after | PASS
+post-publish-smoke                 | NO (dropped)      | YES             | drop before/keep after | PASS
+get-user-profile                   | NO (dropped)      | YES             | drop before/keep after | PASS
+delete-account                     | NO (dropped)      | YES             | drop before/keep after | PASS
+head-of-line                       | NO (dropped)      | YES             | drop before/keep after | PASS
+POST /v1/traces (literal)          | NO (dropped)      | NO (dropped)    | drop both            | PASS
+fetch GET https://example.com/     | YES (NOT dropped) | NO (dropped)    | drop both            | WEIRD (explained below)
+
+Overall: PASS. The fix works exactly as described — verb-word-prefixed user span names
+(post-process, get-user-profile, etc.) are no longer misclassified as HTTP spans.
+
+WEIRD/UNEXPECTED FINDING (investigated, not a bug):
+The real outbound fetch() call is auto-instrumented by Next.js's OWN internal tracer (scope
+"next.js", span name "fetch GET https://example.com/"), not by @opentelemetry/instrumentation-
+undici/-http/-fetch (Next patches global fetch itself, so those packages never fire here).
+That span carries an http.method=GET attribute.
+- In the BEFORE build, isHttpRequestSpan() was PURELY a case-insensitive name regex
+  (`/^(GET|POST|PUT|DELETE|PATCH|OPTIONS|HEAD)\b/i`) — no scope check, no attribute check at all.
+  "fetch GET https://example.com/" doesn't start with a verb, so it was NOT dropped before.
+- In the AFTER build, the fix added scope- and attribute-based matching (http.request.method /
+  http.method) in addition to a stricter, case-sensitive name regex. That new attribute check
+  correctly drops this span after the fix.
+So this span going from "kept" (before) to "dropped" (after) is a genuine, correct SIDE EFFECT
+of the fix broadening HTTP detection beyond the old narrow regex — not a regression. Confirmed
+by reading trace-filters.ts at both commits (see before-isHttpRequestSpan.txt / after-isHttpRequestSpan.txt).
+
+RAW SOURCE COMMANDS
+gh pr view 7457 --repo langwatch/langwatch --json mergeCommit
+  -> mergeCommit.oid = 7b1c204b79f99f68ac45e9038d0a298a9257eed5
+git rev-parse 7b1c204b79f99f68ac45e9038d0a298a9257eed5^   -> 70f67860f47cc251e6166c60a35bc6b842d66c30
+
+BUILD (both BEFORE worktree and AFTER main clone, same steps):
+cd sdks/typescript && pnpm install --frozen-lockfile=false && pnpm build && npm pack --pack-destination <out-dir>
+  BEFORE tarball: langwatch-1.10.0.tgz
+  AFTER  tarball: langwatch-1.11.0.tgz
+
+APP
+npx create-next-app@latest testapp --typescript --app --no-tailwind --no-eslint --no-src-dir --use-npm
+npm install <sdk-tarball> @opentelemetry/api @opentelemetry/instrumentation-http @opentelemetry/instrumentation-undici
+npx next build && npx next start -p 3457
+
+COLLECTOR
+node collector.js 4319 collector.log     # plain Node http server, logs OTLP export bodies
+
+TEST REQUEST
+curl -s http://localhost:3457/api/test
+
+Swapped SDK dependency (BEFORE tarball -> AFTER tarball) via `npm install <tgz>` between runs,
+rebuilt, restarted `next start` and the collector fresh each time so span lists never mixed.
+
+NOTE ON PROCESSOR TYPE: setupObservability's default `processorType` is 'batch'. To get clean
+per-span export payloads (batch mode coalesces many spans into one export and makes the
+substring/JSON evidence harder to attribute), langwatch.processorType: 'simple' was set in
+instrumentation.ts for the comparable final runs. This only affects export timing/batching, not
+the excludeHttpRequests filtering logic under test.
+
+NOTE ON NEXT.JS INTEGRATION: a route handler must import @opentelemetry/api the SAME module
+instance as instrumentation.ts for span creation to reach the LangWatch-registered provider;
+this worked fine unbundled (no next.config serverExternalPackages needed) once processorType was
+set to 'simple' and the tracer was obtained inside the request handler rather than at module load
+time. This is Next.js/OTel plumbing, unrelated to the PR under test.

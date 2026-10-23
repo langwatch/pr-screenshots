@@ -1,0 +1,53 @@
+# 1. A key without analytics:manage
+$ curl -sS -i -X DELETE http://localhost:5970/api/dashboards/dashboard_0001dlKWh55ZOED5DVA9EIvNw3Yhc -H "Authorization: Bearer <redacted>"
+HTTP/1.1 403 Forbidden
+content-type: application/json
+cross-origin-resource-policy: same-origin
+referrer-policy: no-referrer
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"type":"permission_denied","code":"api_key_permission_denied","message":"API Key does not grant required permission: analytics:manage","retryable":false,"meta":{"permission":"analytics:manage"},"tips":["Re-create the API key with the required scope, or ask an admin to raise your role"],"docs_url":"https://docs.langwatch.ai/api-reference/api-keys/create-api-key","fault":"customer"}
+
+# 2. A Langy session key with analytics:manage, no Yes click yet
+$ curl -sS -i -X DELETE http://localhost:5970/api/dashboards/dashboard_0001dlKWh55ZOED5DVA9EIvNw3Yhc -H "Authorization: Bearer <redacted>"
+HTTP/1.1 409 Conflict
+content-type: application/json
+cross-origin-resource-policy: same-origin
+referrer-policy: no-referrer
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"type":"conflict","code":"langy_confirmation_required","message":"Deleting needs a confirmation click, and no confirmation card could be shown right now. Ask the user to send a message, then run the same command again.","retryable":false,"meta":{"resource":"dashboard","action":"delete"},"tips":["Wait for the person to choose Yes on the confirmation card in the Langy conversation, then run the same command again"],"fault":"customer"}
+
+# 3. The person clicks Yes on the confirmation card for this dashboard
+
+# 4. Same Langy session key, same request, after the click
+$ curl -sS -i -X DELETE http://localhost:5970/api/dashboards/dashboard_0001dlKWh55ZOED5DVA9EIvNw3Yhc -H "Authorization: Bearer <redacted>"
+HTTP/1.1 200 OK
+content-type: application/json
+cross-origin-resource-policy: same-origin
+referrer-policy: no-referrer
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"id":"dashboard_0001dlKWh55ZOED5DVA9EIvNw3Yhc","name":"Quarterly cost report"}
+
+# 5. The dashboard is gone
+$ curl -sS -i -X GET http://localhost:5970/api/dashboards/dashboard_0001dlKWh55ZOED5DVA9EIvNw3Yhc -H "Authorization: Bearer <redacted>"
+HTTP/1.1 404 Not Found
+content-type: application/json
+cross-origin-resource-policy: same-origin
+referrer-policy: no-referrer
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"local_project_0003QJnA2adUxv5l2StS7EUE66Gmt"},"fault":"customer"}

@@ -1,0 +1,12 @@
+--- call 1: POST /v1/live/sessions from http://localhost:5590
+http 201  x-langwatch-session-id req_80fe67bbc7123b6734aa1291c964c6
+pc  remote audio track, recording started
+pc  connecting
+pc  connected
+dc  open
+dc  session.started  vendor session live_u0_EW2qlp3oMsvcVJUDUrbj8SbQ8uWg5ava
+dc  session.usage.updated  usage {"seconds":15}
+--- hang up: session.close on the data channel
+dc  session.closed  usage {"seconds":15}  reason close_requested  vendor session live_u0_EW2qlp3oMsvcVJUDUrbj8SbQ8uWg5ava
+recording saved: 233240 bytes
+dc  closed

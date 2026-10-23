@@ -1,0 +1,25 @@
+--- call 1: POST /v1/realtime/calls from http://localhost:5590
+http 201  x-langwatch-session-id req_2dffd9b61dda72a4bfd974a2a4efa9
+pc  remote audio track, recording started
+pc  connecting
+pc  connected
+dc  open
+dc  session.created  vendor session sess_u1_EW2rIp3oMagQcxuMH5AGh2UdW3Ph6T9X
+dc  session.updated  vendor session sess_u1_EW2rIp3oMagQcxuMH5AGh2UdW3Ph6T9X
+dc  conversation.item.added
+dc  conversation.item.done
+dc  response.created
+dc  response.output_item.added
+dc  conversation.item.added
+dc  response.content_part.added
+dc  response.output_audio.done
+dc  response.output_audio_transcript.done  "Paris."
+dc  response.content_part.done
+dc  conversation.item.done
+dc  response.output_item.done
+dc  response.done  usage {"input":59,"output":47}
+dc  rate_limits.updated
+dc  conversation.item.input_audio_transcription.completed  usage {"type":"tokens","total_tokens":51,"input_tokens":36,"input_token_details":{"text_tokens":0,"audio_tokens":36},"output_tokens":15}
+--- hang up: closing the peer connection
+recording saved: 15653 bytes
+dc  closed

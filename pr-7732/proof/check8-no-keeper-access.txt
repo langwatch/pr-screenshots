@@ -1,0 +1,14 @@
+### CHECK 8: no keeper/replicated access storage, no user_directories warning ###
+$ SELECT * FROM system.user_directories
+   ┌─name────────────┬─type────────────┐
+1. │ users_xml       │ users_xml       │
+2. │ local_directory │ local_directory │
+   └─────────────────┴─────────────────┘
+
+-- expect ONLY users_xml + local_directory; NO 'replicated'/'keeper' type --
+0
+
+$ grep logs for user_directories / keeper access warnings (expect none):
+
+$ keeper.xml present? (KEEPER_ENABLED=false -> should be absent):
+ls: cannot access '/etc/clickhouse-server/config.d/keeper.xml': No such file or directory

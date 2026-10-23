@@ -1,0 +1,64 @@
+### event_log before (cut run scenariorun_proof_cutoff_8021)
+lw.simulation_run.cut_at_limit_recorded	1
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+### event_log before (control run scenariorun_proof_control_8021)
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+### projection readback + double re-dispatch (tsx cutoff-redrive.ts)
+before: {"id":"scenariorun_proof_cutoff_8021","status":"SUCCESS","langwatch":{"targetType":"voice","targetReferenceId":"agent_LLTQVVUCjC2qKKZDysGQk","isCutAtLimit":true}}
+before: {"id":"scenariorun_proof_control_8021","status":"SUCCESS","langwatch":{"targetType":"voice","targetReferenceId":"agent_LLTQVVUCjC2qKKZDysGQk"}}
+recordCutAtLimit dispatched twice for scenariorun_proof_cutoff_8021
+after:  {"id":"scenariorun_proof_cutoff_8021","status":"SUCCESS","langwatch":{"targetType":"voice","targetReferenceId":"agent_LLTQVVUCjC2qKKZDysGQk","isCutAtLimit":true}}
+after:  {"id":"scenariorun_proof_control_8021","status":"SUCCESS","langwatch":{"targetType":"voice","targetReferenceId":"agent_LLTQVVUCjC2qKKZDysGQk"}}
+### event_log after (cut run)
+lw.simulation_run.cut_at_limit_recorded	3
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+### event_log after (control run)
+lw.simulation_run.finished	1
+lw.simulation_run.message_snapshot	1
+lw.simulation_run.started	1
+### columns
+### engine
+ReplacingMergeTree(EventTimestamp) PARTITION BY toYearWeek(toDateTime64(EventOccurredAt / 1000, 3)) ORDER BY (TenantId, AggregateType, AggregateId, IdempotencyKey) TTL if(_retention_days > 0, toDateTime(EventOccurredAt / 1000) + toIntervalDay(_retention_days), toDateTime(\'2106-01-01\')) SETTINGS index_granularity = 8192
+### cut rows
+Row 1:
+──────
+TenantId:              project_awkQTIH4hwMYdL8KsHbo1
+IdempotencyKey:        project_awkQTIH4hwMYdL8KsHbo1:scenariorun_proof_cutoff_8021:recordCutAtLimit
+AggregateType:         simulation_run
+AggregateId:           scenariorun_proof_cutoff_8021
+EventId:               event_0002Vv1vbZ3kMX9JtO3DBRAtZXa15
+EventType:             lw.simulation_run.cut_at_limit_recorded
+EventVersion:          2026-09-09
+EventTimestamp:        1788954822912 -- 1.79 trillion
+CreatedAt:             2026-09-09 11:53:42.996
+EventOccurredAt:       1788954777727 -- 1.79 trillion
+_retention_days:       7
+Row 2:
+──────
+TenantId:              project_awkQTIH4hwMYdL8KsHbo1
+IdempotencyKey:        project_awkQTIH4hwMYdL8KsHbo1:scenariorun_proof_cutoff_8021:recordCutAtLimit
+AggregateType:         simulation_run
+AggregateId:           scenariorun_proof_cutoff_8021
+EventId:               event_0003DVtlwFu1zKwK4p6pfuxmWtiPy
+EventType:             lw.simulation_run.cut_at_limit_recorded
+EventVersion:          2026-09-09
+EventTimestamp:        1788960031315 -- 1.79 trillion
+CreatedAt:             2026-09-09 13:20:31.520
+EventOccurredAt:       1788960031284 -- 1.79 trillion
+_retention_days:       7
+Row 3:
+──────
+TenantId:              project_awkQTIH4hwMYdL8KsHbo1
+IdempotencyKey:        project_awkQTIH4hwMYdL8KsHbo1:scenariorun_proof_cutoff_8021:recordCutAtLimit
+AggregateType:         simulation_run
+AggregateId:           scenariorun_proof_cutoff_8021
+EventId:               event_0003DVtlwFu1zKwK4p6pfuxmWtiPx
+EventType:             lw.simulation_run.cut_at_limit_recorded
+EventVersion:          2026-09-09
+EventTimestamp:        1788960031288 -- 1.79 trillion

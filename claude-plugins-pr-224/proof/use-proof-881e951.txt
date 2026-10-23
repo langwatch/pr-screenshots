@@ -1,0 +1,83 @@
+# Part A
+$ git --version
+git version 2.39.5
+rc=0
+$ git init -q -b main /tmp/tmp.VfI0uTfH7R/repo
+rc=0
+$ printf '.index/\n' > /tmp/tmp.VfI0uTfH7R/repo/.gitignore; mkdir /tmp/tmp.VfI0uTfH7R/repo/.index; echo x > /tmp/tmp.VfI0uTfH7R/repo/.index/f
+rc=0
+$ git -C /tmp/tmp.VfI0uTfH7R/repo -c user.name=t -c user.email=t@t add .gitignore && git -C /tmp/tmp.VfI0uTfH7R/repo -c user.name=t -c user.email=t@t commit -qm ignore
+rc=0
+$ export BATS_TEST_TMPDIR=/tmp/tmp.VfI0uTfH7R/bats; mkdir -p $BATS_TEST_TMPDIR; source /tmp/claude-1001/-home-ubuntu-worktrees-claude-plugins-issue222/a70fefec-2ea6-4d3e-a550-76833072675b/scratchpad/work/head/hooks/tests/helpers/common.bash
+rc=0
+$ git_shim "$(cat <<'SNIP' ... SNIP)"   # AC26 snippet verbatim
+rc=0
+$ cat "$GIT_SHIM_DIR/git"
+#!/usr/bin/env bash
+real=/usr/bin/git
+shim_dir=/tmp/tmp.VfI0uTfH7R/bats/git-shim
+: > "$shim_dir/invoked"
+args=("$@")
+dir=.
+if [ "${args[0]:-}" = "-C" ]; then dir="${args[1]}"; args=("${args[@]:2}"); fi
+if [ "${args[0]:-}" = "add" ]; then
+  for a in "${args[@]:1}"; do
+    case "$a" in
+      .index|.index/|.index/*)
+        if [ -z "$("$real" -C "$dir" ls-files -- .index)" ]; then
+          : > "$shim_dir/add-index"
+          echo "error: pathspec '.index' did not match any file(s) known to git" >&2
+          exit 128
+        fi ;;
+    esac
+  done
+fi
+exec "$real" "$@"
+rc=0
+$ PATH="$GIT_SHIM_DIR:$PATH" git -C /tmp/tmp.VfI0uTfH7R/repo status --short
+rc=0
+$ ls "$GIT_SHIM_DIR"
+git
+invoked
+rc=0
+$ PATH="$GIT_SHIM_DIR:$PATH" git -C /tmp/tmp.VfI0uTfH7R/repo add -u -- .index
+error: pathspec '.index' did not match any file(s) known to git
+rc=128
+$ ls "$GIT_SHIM_DIR"
+add-index
+git
+invoked
+rc=0
+$ rm "$GIT_SHIM_DIR/add-index"
+rc=0
+$ PATH="$GIT_SHIM_DIR:$PATH" git -C /tmp/tmp.VfI0uTfH7R/repo add --update -- .index/
+error: pathspec '.index' did not match any file(s) known to git
+rc=128
+$ ls "$GIT_SHIM_DIR"
+add-index
+git
+invoked
+rc=0
+$ git -C /tmp/tmp.VfI0uTfH7R/repo add -u -- .index
+rc=0
+# Part B
+$ printf '[push]\n\tdefault = nothing\n' > /tmp/tmp.VfI0uTfH7R/system.gitconfig
+rc=0
+$ (GIT_CONFIG_SYSTEM=/tmp/tmp.VfI0uTfH7R/system.gitconfig git config --get push.default; echo rc=$?)
+nothing
+rc=0
+rc=0
+$ (git_fixture_env; echo "GIT_CONFIG_NOSYSTEM=$GIT_CONFIG_NOSYSTEM"; GIT_CONFIG_SYSTEM=... git config --get push.default)
+GIT_CONFIG_NOSYSTEM=1
+rc=1
+# Part C
+$ cd main/procedures-copy; GIT_CONFIG_SYSTEM=system.gitconfig bats hooks/tests/commit-records.bats | grep -E "^1\.\.|^not ok"
+1..63
+not ok 20 AC21: push retry — rebase imports an upstream duplicate id and is blocked
+not ok 21 AC22: push retry — rebase imports a distinct upstream record, reindexes, and pushes
+not ok 25 AC31: two clones append to mistakes.jsonl; B pushes first; A's gate commits and pushes both rows
+$ cd head/procedures-copy; same | grep -E "^1\.\.|^not ok"
+1..64
+$ ... | grep -c "^ok"
+64
+rc=0

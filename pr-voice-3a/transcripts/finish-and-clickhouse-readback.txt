@@ -1,0 +1,80 @@
+### finish 1: drawer call (no scenario), agent greeting first -> 3 exchanges expected (conv_proof_3a_talk_v3)
+{"runId":"voicecall_1259c448ef6c0b4264574ff7525aa5bc","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false}
+
+### finish 2: Call it myself (scenario local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp), caller first -> 2 exchanges expected (conv_proof_3a_call_v3)
+{"runId":"voicecall_f2dcc57093e5e4fc1f2f4e32397e421d","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false,"scenarioSetId":"__internal__suite_5pa4DMK2xgoUayEYPuNil__suite"}
+
+runIds: voicecall_1259c448ef6c0b4264574ff7525aa5bc voicecall_f2dcc57093e5e4fc1f2f4e32397e421d
+### simulation_runs: TraceIds + per-message TraceId
+Row 1:
+──────
+ScenarioRunId: voicecall_f2dcc57093e5e4fc1f2f4e32397e421d
+n_trace_ids:   4
+traces:        ['d01057cd','d01057cd','a97827f2','a97827f2']
+msg_traces:    ['d01057cd','d01057cd','a97827f2','a97827f2']
+Messages.Role: ['user','assistant','user','assistant']
+
+Row 2:
+──────
+ScenarioRunId: voicecall_1259c448ef6c0b4264574ff7525aa5bc
+n_trace_ids:   6
+traces:        ['e55937ae','3e201258','3e201258','622758f1','622758f1','622758f1']
+msg_traces:    ['e55937ae','3e201258','3e201258','622758f1','622758f1','622758f1']
+Messages.Role: ['assistant','user','assistant','user','assistant','assistant']
+### stored_spans for those traces
+   ┌─trace────┬─SpanName────────┬─ScopeName───────┬─ServiceName─────┬───────────────StartTime─┬─────────────────EndTime─┬─turn─┬─conv──────────────────┬─origin──────┬─scenario─────────────────────────────────────┬─src──────┬─in_len─┬─out_len─┐
+1. │ e55937ae │ Voice Call Turn │ langwatch.voice │ langwatch-voice │ 2026-09-09 14:43:27.000 │ 2026-09-09 14:43:47.000 │ 0    │ conv_proof_3a_talk_v3 │ application │                                              │ platform │      0 │      74 │
+2. │ 3e201258 │ Voice Call Turn │ langwatch.voice │ langwatch-voice │ 2026-09-09 14:43:47.000 │ 2026-09-09 14:44:07.000 │ 1    │ conv_proof_3a_talk_v3 │ application │                                              │ platform │     62 │      66 │
+3. │ 622758f1 │ Voice Call Turn │ langwatch.voice │ langwatch-voice │ 2026-09-09 14:44:07.000 │ 2026-09-09 14:44:27.000 │ 2    │ conv_proof_3a_talk_v3 │ application │                                              │ platform │     41 │      77 │
+4. │ d01057cd │ Voice Call Turn │ langwatch.voice │ langwatch-voice │ 2026-09-09 14:45:07.000 │ 2026-09-09 14:45:27.000 │ 0    │ conv_proof_3a_call_v3 │ simulation  │ local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp │ platform │     53 │      55 │
+5. │ a97827f2 │ Voice Call Turn │ langwatch.voice │ langwatch-voice │ 2026-09-09 14:45:27.000 │ 2026-09-09 14:45:47.000 │ 1    │ conv_proof_3a_call_v3 │ simulation  │ local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp │ platform │     60 │      57 │
+   └──────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────────────┴─────────────────────────┴──────┴───────────────────────┴─────────────┴──────────────────────────────────────────────┴──────────┴────────┴─────────┘
+### trace_summaries thread id
+Row 1:
+──────
+trace:          3e201258
+thread_id:      
+TraceName:      Voice Call Turn
+SpanCount:      1
+ComputedInput:  I want to check my order status.
+ComputedOutput: Sure, what is the order number?
+
+Row 2:
+──────
+trace:          a97827f2
+thread_id:      
+TraceName:      Voice Call Turn
+SpanCount:      1
+ComputedInput:  Cancel my subscription please.
+ComputedOutput: Done, it is cancelled.
+
+Row 3:
+──────
+trace:          d01057cd
+thread_id:      
+TraceName:      Voice Call Turn
+SpanCount:      1
+ComputedInput:  Hello, is this support?
+ComputedOutput: Yes, how can I help?
+
+Row 4:
+──────
+trace:          622758f1
+thread_id:      
+TraceName:      Voice Call Turn
+SpanCount:      1
+ComputedInput:  It is 4471.
+ComputedOutput: Order 4471 ships tomorrow.
+Anything else?
+
+Row 5:
+──────
+trace:          e55937ae
+thread_id:      
+TraceName:      Voice Call Turn
+SpanCount:      1
+ComputedInput:  ᴺᵁᴸᴸ
+ComputedOutput: Hi, thanks for calling. How can I help?
+### full trace ids
+voicecall_f2dcc57093e5e4fc1f2f4e32397e421d	['d01057cd68a325f8a7c2bc35bc88a636','d01057cd68a325f8a7c2bc35bc88a636','a97827f26ff0527a13af4b507babc164','a97827f26ff0527a13af4b507babc164']
+voicecall_1259c448ef6c0b4264574ff7525aa5bc	['e55937ae08b9ac1a187d7851c001094f','3e20125828566ef68ccc5e1f4a5da934','3e20125828566ef68ccc5e1f4a5da934','622758f18fc64bbd32176a1abbe65ba7','622758f18fc64bbd32176a1abbe65ba7','622758f18fc64bbd32176a1abbe65ba7']

@@ -1,0 +1,4 @@
+17:04:17.759 info voice_session_attached {'session_id': 'req_046bfdb726e0eb6c05830400695729', 'kind': 'live', 'attempt': 0}
+17:04:32.351 info voice_session_ending {'session_id': 'req_046bfdb726e0eb6c05830400695729', 'kind': 'live', 'reason': 'budget_exceeded'}
+17:04:32.946 info voice_session_ended {'session_id': 'req_046bfdb726e0eb6c05830400695729', 'kind': 'live', 'reason': 'budget_exceeded', 'duration': 15.726836458}
+17:04:36.348 info gateway_request_failed {'fault': 'customer', 'code': 'budget_exceeded', 'message': 'The virtual key spending limit (per month) for this request has been reached. Contact your LangWatch admin to raise it.', 'project_id': 'local-dev-project', 'organization_id': 'local-dev-organization', 'virtual_key_id': 'vk_9uL9fFEamqLVfEZWumirmg'}

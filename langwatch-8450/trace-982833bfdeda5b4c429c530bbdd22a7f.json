@@ -1,0 +1,144 @@
+{
+    "trace_id": "982833bfdeda5b4c429c530bbdd22a7f",
+    "project_id": "local-dev-project",
+    "metadata": {
+        "models": [
+            "eleven_flash_v2_5"
+        ],
+        "langwatch.origin": "gateway",
+        "langwatch.api_key.id": "BQdGonK1VZKW9GqTw0MpX",
+        "gen_ai.provider.name": "elevenlabs",
+        "langwatch.virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+        "langwatch.gateway_request_id": "req_05e90f406d60635a4f21b076fceeb5",
+        "langwatch.model_provider_id": "local-dev-model-provider-elevenlabs",
+        "langwatch.reserved.output_source": "inferred",
+        "model": "eleven_flash_v2_5"
+    },
+    "timestamps": {
+        "started_at": 1791305676771,
+        "inserted_at": 1791305677544,
+        "updated_at": 1791305678013
+    },
+    "metrics": {
+        "first_token_ms": null,
+        "total_time_ms": 555,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "tokens_estimated": false,
+        "total_cost": 0.004560000000000001
+    },
+    "error": null,
+    "spans": [
+        {
+            "span_id": "464b50bb99d0295d",
+            "parent_id": null,
+            "trace_id": "982833bfdeda5b4c429c530bbdd22a7f",
+            "type": "llm",
+            "name": "gen_ai.realtime_session",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791305676771,
+                "finished_at": 1791305676784,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": null
+            },
+            "params": {
+                "langwatch": {
+                    "project_id": "local-dev-project",
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_05e90f406d60635a4f21b076fceeb5",
+                    "model_provider_id": "local-dev-model-provider-elevenlabs",
+                    "span": {
+                        "type": "llm"
+                    }
+                },
+                "gen_ai": {
+                    "operation": {
+                        "name": "realtime_session"
+                    },
+                    "provider": {
+                        "name": ""
+                    },
+                    "request": {
+                        "model": "eleven_flash_v2_5"
+                    },
+                    "usage": {
+                        "total_tokens": 0,
+                        "cost": 0,
+                        "input_tokens": 0,
+                        "output_tokens": 0
+                    }
+                }
+            },
+            "model": "eleven_flash_v2_5",
+            "vendor": ""
+        },
+        {
+            "span_id": "7dcb163f986e4a3b",
+            "parent_id": null,
+            "trace_id": "982833bfdeda5b4c429c530bbdd22a7f",
+            "type": "llm",
+            "name": "realtime.session.settled",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791305676788,
+                "finished_at": 1791305677326,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": 0.00456
+            },
+            "params": {
+                "langwatch": {
+                    "span": {
+                        "type": "llm",
+                        "cost": 0.00456
+                    },
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_05e90f406d60635a4f21b076fceeb5"
+                },
+                "gen_ai": {
+                    "request": {
+                        "model": "eleven_flash_v2_5"
+                    },
+                    "provider": {
+                        "name": "elevenlabs"
+                    },
+                    "usage": {
+                        "input_audio_tokens": 0,
+                        "output_audio_tokens": 0,
+                        "audio_seconds": 0,
+                        "input_tokens": 0,
+                        "output_tokens": 0
+                    },
+                    "operation": {
+                        "name": "chat"
+                    }
+                }
+            },
+            "model": "eleven_flash_v2_5",
+            "vendor": "elevenlabs"
+        }
+    ],
+    "evaluations": [],
+    "ascii_tree": ".\n\u251c\u2500\u2500 llm: gen_ai.realtime_session (eleven_flash_v2_5)\n\u2514\u2500\u2500 llm: realtime.session.settled (eleven_flash_v2_5)\n",
+    "platformUrl": "http://localhost:5570/local-dev-project/traces/982833bfdeda5b4c429c530bbdd22a7f?t=1791305676771"
+}

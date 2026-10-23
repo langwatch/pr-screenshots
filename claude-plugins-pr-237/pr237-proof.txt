@@ -1,0 +1,48 @@
+$ python3 limits.py   # real redact module of the head, real gitleaks 8.30.1
+gitleaks present: True | redact.py from head 3ccd780 extract
+LIMIT 1  tail under 8 characters after a marker (built-in rules)
+  7 character tail (stays):          <FAKE-ghp>_abcdef
+                                     -> <redacted:github-pat>_abcdef
+  control, 8 characters:             <FAKE-ghp>_abcdefg
+                                     -> <redacted:github-pat><redacted:glued-secrets>
+LIMIT 2  word character glued in front (with real gitleaks)
+  x in front (token stays RAW):      x<FAKE-npm>
+                                     -> x<FAKE-npm>
+  control, bare token:               <FAKE-npm>
+                                     -> <redacted:npm-token>
+  control, JSON escape in front:     line\n<FAKE-npm>
+                                     -> line\n<redacted:npm-token>
+LIMIT 3  Pulumi token, found only by gitleaks (with real gitleaks)
+  period after (token stays RAW):    see <FAKE-pulumi>.
+                                     -> see <FAKE-pulumi>.
+  URL path (token stays RAW):        https://host/<FAKE-pulumi>/more/path
+                                     -> https://host/<FAKE-pulumi>/more/path
+  control, space after:              see <FAKE-pulumi> now
+                                     -> see <redacted:pulumi-api-token> now
+ALLOW COMMENT  hides a gitleaks-only token (with real gitleaks)
+  same line (token stays RAW):       see <FAKE-pulumi> now # <allow comment>
+                                     -> see <FAKE-pulumi> now # <allow comment>
+  control, other note:               see <FAKE-pulumi> now # other note
+                                     -> see <redacted:pulumi-api-token> now # other note
+  earlier line, token on last line:  # <allow comment>\nsee <FAKE-pulumi> now
+                                     -> # <allow comment>\nsee <FAKE-pulumi> now
+  control, a further line follows:   # <allow comment>\nsee <FAKE-pulumi> now\ntrailer
+                                     -> # <allow comment>\nsee <redacted:pulumi-api-token> now\ntrailer
+LIMIT 4  two step budgets (fails closed)
+  chain of 584 characters, as a quote  -> <redacted:glued-secrets>
+  the same chain, as a body (333 chars) -> ...dacted:grafana-token><redacted:shopify-token><redacted:github-pat><redacted:glued-secrets>
+  raw token text left in quote or body: False
+
+$ bash hookdrive.sh   # the real hook worklog-record.sh of the head, stub model, real gitleaks
+--- limit 3, period after the token: pairs=0 tail=0 gitleaks=real quote=raw chain_len=63 hook_rc=0
+rows=1 requests_len=1 ask_uuid_is_U1=true
+stored row: {"ts":"2026-10-10T12:36:23Z","session":"proof-sess","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[{"text":"asked to check a pasted chain","quote":"please see <FAKE-pulumi>. thanks","uuid":"11111111-1111-4111-8111-11111111aaa1"}],"outcomes":[],"mistakes":[]}
+failopen: 
+model was called: yes; candidate line for U1 as shown to model: 11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	please see <FAKE-pulumi>. thanks [candidate body length: 63]
+files holding the raw fake pulumi token body (worklog / failopen / model stdin): [('claude-stdin.txt', 'pulumi'), ('worklog.jsonl', 'pulumi')]
+--- control, space after the token: pairs=0 tail=0 gitleaks=real quote=raw chain_len=62 hook_rc=0
+rows=1 requests_len=0 ask_uuid_is_U1=true
+stored row: {"ts":"2026-10-10T12:36:28Z","session":"proof-sess","ask_uuid":"11111111-1111-4111-8111-11111111aaa1","end_uuid":"22222222-2222-4222-8222-22222222aaa2","requests":[],"outcomes":[],"mistakes":[]}
+failopen: 
+model was called: yes; candidate line for U1 as shown to model: 11111111-1111-4111-8111-11111111aaa1	THIS-TURN	user	please see <redacted:pulumi-api-token> thanks [candidate body length: 45]
+files holding the raw fake pulumi token body (worklog / failopen / model stdin): NONE

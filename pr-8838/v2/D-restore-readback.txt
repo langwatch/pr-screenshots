@@ -1,0 +1,8 @@
+$ restore langyturn_8505c5e454010b5e3cadf54d0524cce0 from original-langyturn_8505c5e454010b5e3cadf54d0524cce0.tsv (expected md5 0db7087e8dd59db9173ff7f785a5a0b4, status completed)
+SET
+                   turnId                   |  status   |            parts_md5             
+--------------------------------------------+-----------+----------------------------------
+ langyturn_8505c5e454010b5e3cadf54d0524cce0 | completed | 0db7087e8dd59db9173ff7f785a5a0b4
+(1 row)
+
+UPDATE 1

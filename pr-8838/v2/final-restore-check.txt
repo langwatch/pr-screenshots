@@ -1,0 +1,12 @@
+$ final readback of the three edited rows vs original md5
+langyturn_69dc96b3f3f5573c5c13960c4c6296b0 original md5 2d13d70ed3b5adba6daaf7af47f5e59e status completed
+langyturn_e77689902a26a9738638a108c2f14ead original md5 fa91556bed59059274bdbf6fecd1be65 status completed
+langyturn_8505c5e454010b5e3cadf54d0524cce0 original md5 0db7087e8dd59db9173ff7f785a5a0b4 status completed
+SET
+                   turnId                   |  status   |               md5                
+--------------------------------------------+-----------+----------------------------------
+ langyturn_69dc96b3f3f5573c5c13960c4c6296b0 | completed | 2d13d70ed3b5adba6daaf7af47f5e59e
+ langyturn_8505c5e454010b5e3cadf54d0524cce0 | completed | 0db7087e8dd59db9173ff7f785a5a0b4
+ langyturn_e77689902a26a9738638a108c2f14ead | completed | fa91556bed59059274bdbf6fecd1be65
+(3 rows)
+

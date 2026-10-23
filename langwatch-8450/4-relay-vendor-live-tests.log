@@ -1,0 +1,9 @@
+=== RUN   TestRelayAgainstOpenAIRealtime
+    relay_vendor_live_test.go:100: events relayed: session.created, response.created, response.output_item.added, conversation.item.added, response.content_part.added, response.output_text.delta, response.output_text.done, response.content_part.done, conversation.item.done, response.output_item.done, response.done
+    relay_vendor_live_test.go:101: response.done usage observed: prompt=0 completion=38 cached=0
+--- PASS: TestRelayAgainstOpenAIRealtime (1.85s)
+=== RUN   TestRelayAgainstElevenLabsSpeech
+    relay_vendor_live_test.go:156: audio frames relayed: 2, characters counted: 5
+--- PASS: TestRelayAgainstElevenLabsSpeech (0.46s)
+PASS
+ok  	github.com/langwatch/langwatch/services/aigateway/adapters/voicesession	2.748s

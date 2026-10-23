@@ -1,0 +1,144 @@
+{
+    "trace_id": "2711a0477f171282bdab528c603bafac",
+    "project_id": "local-dev-project",
+    "metadata": {
+        "models": [
+            "gpt-realtime-2.1-mini"
+        ],
+        "gen_ai.provider.name": "",
+        "langwatch.virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+        "langwatch.gateway_request_id": "req_2dffd9b61dda72a4bfd974a2a4efa9",
+        "langwatch.origin": "gateway",
+        "langwatch.api_key.id": "BQdGonK1VZKW9GqTw0MpX",
+        "langwatch.model_provider_id": "local-dev-model-provider-openai",
+        "langwatch.reserved.output_source": "inferred",
+        "model": "gpt-realtime-2.1-mini"
+    },
+    "timestamps": {
+        "started_at": 1791306192076,
+        "inserted_at": 1791306194342,
+        "updated_at": 1791306210956
+    },
+    "metrics": {
+        "first_token_ms": null,
+        "total_time_ms": 18706,
+        "prompt_tokens": 23,
+        "completion_tokens": 52,
+        "tokens_estimated": false,
+        "total_cost": 0.000783
+    },
+    "error": null,
+    "spans": [
+        {
+            "span_id": "ceed41dcc657b4ae",
+            "parent_id": null,
+            "trace_id": "2711a0477f171282bdab528c603bafac",
+            "type": "llm",
+            "name": "gen_ai.realtime_session",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791306192076,
+                "finished_at": 1791306192618,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": null
+            },
+            "params": {
+                "langwatch": {
+                    "project_id": "local-dev-project",
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_2dffd9b61dda72a4bfd974a2a4efa9",
+                    "model_provider_id": "local-dev-model-provider-openai",
+                    "span": {
+                        "type": "llm"
+                    }
+                },
+                "gen_ai": {
+                    "operation": {
+                        "name": "realtime_session"
+                    },
+                    "provider": {
+                        "name": ""
+                    },
+                    "request": {
+                        "model": "gpt-realtime-2.1-mini"
+                    },
+                    "usage": {
+                        "total_tokens": 0,
+                        "cost": 0,
+                        "input_tokens": 0,
+                        "output_tokens": 0
+                    }
+                }
+            },
+            "model": "gpt-realtime-2.1-mini",
+            "vendor": ""
+        },
+        {
+            "span_id": "800c2e48f3a35924",
+            "parent_id": null,
+            "trace_id": "2711a0477f171282bdab528c603bafac",
+            "type": "llm",
+            "name": "realtime.session.settled",
+            "input": null,
+            "output": null,
+            "error": null,
+            "timestamps": {
+                "started_at": 1791306192615,
+                "finished_at": 1791306210782,
+                "first_token_at": null
+            },
+            "metrics": {
+                "prompt_tokens": 23,
+                "completion_tokens": 52,
+                "reasoning_tokens": null,
+                "cache_read_input_tokens": null,
+                "cache_creation_input_tokens": null,
+                "tokens_estimated": null,
+                "cost": 0.0007826
+            },
+            "params": {
+                "langwatch": {
+                    "span": {
+                        "type": "llm",
+                        "cost": 0.0007826
+                    },
+                    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+                    "gateway_request_id": "req_2dffd9b61dda72a4bfd974a2a4efa9"
+                },
+                "gen_ai": {
+                    "request": {
+                        "model": "gpt-realtime-2.1-mini"
+                    },
+                    "provider": {
+                        "name": "openai"
+                    },
+                    "usage": {
+                        "input_audio_tokens": 72,
+                        "output_audio_tokens": 10,
+                        "audio_seconds": 0,
+                        "input_tokens": 23,
+                        "output_tokens": 52
+                    },
+                    "operation": {
+                        "name": "chat"
+                    }
+                }
+            },
+            "model": "gpt-realtime-2.1-mini",
+            "vendor": "openai"
+        }
+    ],
+    "evaluations": [],
+    "ascii_tree": ".\n\u251c\u2500\u2500 llm: gen_ai.realtime_session (gpt-realtime-2.1-mini)\n\u2514\u2500\u2500 llm: realtime.session.settled (gpt-realtime-2.1-mini)\n",
+    "platformUrl": "http://localhost:5570/local-dev-project/traces/2711a0477f171282bdab528c603bafac?t=1791306192076"
+}

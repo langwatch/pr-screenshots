@@ -1,0 +1,20 @@
+### CHECK 4: exactly one owner for lwql_postgres ###
+$ count rows in system.named_collections named lwql_postgres (expect 1):
+1
+
+-- rendered config file is the single owner (config.d, no SQL CREATE NAMED COLLECTION) --
+$ ls -l /etc/clickhouse-server/config.d/lwql-named-collections.xml
+-rw------- 1 clickhouse clickhouse 362 Sep  1 14:00 /etc/clickhouse-server/config.d/lwql-named-collections.xml
+
+$ cat rendered file (dummy secret; note xml_escape applied to & < > " '):
+<clickhouse>
+    <named_collections>
+        <lwql_postgres>
+            <host>lwql-pg.internal.example</host>
+            <port>5432</port>
+            <database>langwatch_pg</database>
+            <user>lwql_ro</user>
+            <password>pg_reader_pw_dummy_&amp;&lt;&gt;&quot;&apos;</password>
+        </lwql_postgres>
+    </named_collections>
+</clickhouse>

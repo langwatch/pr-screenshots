@@ -1,0 +1,16 @@
+$ haven sim analytics list --provider customerio --id qgEsnRYZ2OzZmf8q-9g3D
+# head de44dc2: main with #8953 merged; Customer.io dates are Unix seconds
+rec_000259 15:08:15 identify {"createdAt": 1792681695, "...": "..."}
+rec_000260 15:08:15 group    {"name": "UsesCA Three", "plan": "free"}
+rec_000261 15:08:15 event    signed_up {"leadSource": "cli", "onboardingVariant": "classic", "primary_intent": "llm_ops", "terms": true}
+rec_000264 15:08:49 identify {"coding_last_session_at": 1792681726}
+rec_000265 15:08:49 identify {"coding_agent_types": ["claude_code"], "coding_first_session_at": 1792681726}
+rec_000266 15:08:49 event    coding_agent_first_session {"agent_type": "claude_code", "project_id": "project_0001LPw4UMDs9Dg9yV0Bs8O94cjxK"}
+rec_000267 15:08:49 identify {"first_trace_at": 1792681726, "has_traces": true, "sdk_framework": "unknown", "sdk_language": "unknown"}
+rec_000268 15:08:49 event    first_trace_integrated {"project_id": "project_0001LPw4UMDs9Dg9yV0Bs8O94cjxK", "sdk_framework": "unknown", "sdk_language": "unknown"}
+rec_000269 15:08:52 identify {"coding_active_days": 1}
+rec_000272 15:09:24 identify {"app_last_opened_at": 1792681764}
+rec_000273 15:09:24 event    sessions_page_viewed {"page": "me_sessions"}
+rec_000274 15:13:49 identify {"last_trace_at": 1792682026}
+# date -u -d @1792681726 -> 2026-10-22T15:08:46Z
+# date -u -d @1792681764 -> 2026-10-22T15:09:24Z

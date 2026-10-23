@@ -1,0 +1,47 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# run at 2026-10-22T01:51:42Z against http://localhost:5577 (PORT=5577 pnpm dev from the 8896 worktree)
+# projects: P1=project_0003ivn5Z4z5VdLDn3wQUmArBfb0j P2=project_0003j7j1ALHGekuAYODvXZ594MVUG
+
+## 3a. make a widget, then place it on the board created in step 1 -> 2xx
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"name":"proof widget","code":"export default () => null;","queries":[]}
+HTTP 201
+{"id":"widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u","name":"proof widget","definition":{"version":1,"code":"export default () => null;","queries":[],"source":{"kind":"api"}},"createdAt":"2026-10-22T01:51:42.154Z","updatedAt":"2026-10-22T01:51:42.154Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/analytics/reports","dashboardId":null,"gridColumn":0,"gridRow":0,"colSpan":4,"rowSpan":3}
+
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets/widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u/dashboard   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"dashboardId":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ"}
+HTTP 200
+{"id":"widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u","name":"proof widget","definition":{"version":1,"code":"export default () => null;","queries":[],"source":{"kind":"api"}},"createdAt":"2026-10-22T01:51:42.154Z","updatedAt":"2026-10-22T01:51:42.296Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/analytics/reports","dashboardId":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","gridColumn":0,"gridRow":0,"colSpan":4,"rowSpan":3}
+
+## 3a'. the board now holds the widget
+$ curl -X GET http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 200
+{"data":[{"id":"dashboard_0003jFVa2IQQccMLvAUjRISNQYJnc","name":"probe-svc","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T01:50:39.361Z","updatedAt":"2026-10-22T01:50:39.361Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jFVa2IQQccMLvAUjRISNQYJnc","widgetCount":0},{"id":"dashboard_0003jFVa2IQQccMLvAUjRISNQYJnd","name":"probe-user","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:50:39.413Z","updatedAt":"2026-10-22T01:50:39.413Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jFVa2IQQccMLvAUjRISNQYJnd","widgetCount":0},{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","name":"proof personal board","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:51:30.602Z","updatedAt":"2026-10-22T01:51:30.602Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","widgetCount":1},{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","name":"proof project-key board","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T01:51:30.726Z","updatedAt":"2026-10-22T01:51:30.726Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","widgetCount":0}]}
+
+{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","name":"proof personal board","widgetCount":1}
+
+## 3b. the same call naming a board of ANOTHER project (P2) -> dashboard_not_found
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003j7j1ALHGekuAYODvXZ594MVUG/analytics/boards   [auth: personal key, X-Project-Id: project_0003j7j1ALHGekuAYODvXZ594MVUG]  body: {"name":"proof other-project board"}
+HTTP 201
+{"id":"dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6v","name":"proof other-project board","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:51:42.507Z","updatedAt":"2026-10-22T01:51:42.507Z","platformUrl":"http://localhost:5577/proof8896-other-project-94MVUG/dashboards/dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6v"}
+
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets/widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u/dashboard   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"dashboardId":"dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6v"}
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"dcfa65d643481a288f7a5a2173226f7e","span_id":"bc6b4ec58ba370a5","trace":{"traceId":"dcfa65d643481a288f7a5a2173226f7e","spanId":"bc6b4ec58ba370a5"},"fault":"customer"}
+
+## 3c. the same call naming a legacy Analytics Reports board id -> dashboard_not_found
+$ curl -X POST http://localhost:5577/api/dashboards   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"name":"proof legacy reports board"}
+HTTP 201
+{"id":"dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6w","name":"proof legacy reports board","order":0,"createdAt":"2026-10-22T01:51:42.704Z","updatedAt":"2026-10-22T01:51:42.704Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/analytics/reports?dashboard=dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6w"}
+
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets/widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u/dashboard   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"dashboardId":"dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6w"}
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"2f6484997053f7ef4c931a272c435621","span_id":"c8af022aa8841e59","trace":{"traceId":"2f6484997053f7ef4c931a272c435621","spanId":"c8af022aa8841e59"},"fault":"customer"}
+
+## 3d. control: an id that exists nowhere -> dashboard_not_found
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets/widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u/dashboard   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"dashboardId":"dashboard_does_not_exist"}
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"acbf9f84a1512278f4a6d5f20090ceaa","span_id":"5f0b19f43183c7e3","trace":{"traceId":"acbf9f84a1512278f4a6d5f20090ceaa","spanId":"5f0b19f43183c7e3"},"fault":"customer"}
+
+## 3e. cleanup: delete the widget (204)
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/dashboard-widgets/widget_0003jmCLI6Rhg2T7fEpiDN1wvkj6u   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 204
+

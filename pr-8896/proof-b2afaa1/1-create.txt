@@ -1,0 +1,19 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# run at 2026-10-22T01:51:30Z against http://localhost:5577 (PORT=5577 pnpm dev from the 8896 worktree)
+# projects: P1=project_0003ivn5Z4z5VdLDn3wQUmArBfb0j P2=project_0003j7j1ALHGekuAYODvXZ594MVUG
+
+## 1a. create a board with a personal (user) API key -> 201, createdById set
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"name":"proof personal board"}
+HTTP 201
+{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","name":"proof personal board","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:51:30.602Z","updatedAt":"2026-10-22T01:51:30.602Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ"}
+
+## 1b. create a board with a project (service) key bound to P1 -> 201, createdById null
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: project key]  body: {"name":"proof project-key board"}
+HTTP 201
+{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","name":"proof project-key board","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T01:51:30.726Z","updatedAt":"2026-10-22T01:51:30.726Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR"}
+
+## 1c. both boards are listed with no widgets
+$ curl -X GET http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: project key]
+HTTP 200
+{"data":[{"id":"dashboard_0003jFVa2IQQccMLvAUjRISNQYJnc","name":"probe-svc","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T01:50:39.361Z","updatedAt":"2026-10-22T01:50:39.361Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jFVa2IQQccMLvAUjRISNQYJnc","widgetCount":0},{"id":"dashboard_0003jFVa2IQQccMLvAUjRISNQYJnd","name":"probe-user","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:50:39.413Z","updatedAt":"2026-10-22T01:50:39.413Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jFVa2IQQccMLvAUjRISNQYJnd","widgetCount":0},{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","name":"proof personal board","description":null,"scope":"PROJECT","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T01:51:30.602Z","updatedAt":"2026-10-22T01:51:30.602Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","widgetCount":0},{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","name":"proof project-key board","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T01:51:30.726Z","updatedAt":"2026-10-22T01:51:30.726Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","widgetCount":0}]}
+

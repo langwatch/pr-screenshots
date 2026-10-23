@@ -1,0 +1,46 @@
+HEAD 35d41373efdcd2966104726e37888233cf127d0e (pr 8880 head, git rev-parse HEAD in ~/worktrees/langwatch-pr8880)
+Stack: PORT=5800 pnpm dev, FEATURE_FLAG_FORCE_ENABLE=release_insights,release_dashboards, own org PR8880 Proof Org, Langy model = Groq openai/gpt-oss-120b (real model)
+
+## prompt A
+Facts for the checkout service, yesterday against the day before: errors rose from 41 to 96, and 71 of the 96 fell between 14:00 and 15:00 UTC. The refund endpoint p95 latency rose from 1.1s to 1.9s. The p95 latency of search improved from 4.2s to 2.9s. Do not run any tools. Write two short lines on what you read. Then end your reply with exactly one fenced code block whose info string is langy-card, holding JSON of kind "insights" with blockId "daily-insights" and a findings array. List only findings that need a person to act: each has title, tone ("bad" means act now, "watch" means check this) and a body with the numbers and one concrete next step. Leave the improvement out.
+
+## page text after answer settled (capture A, second run)
+Checkout errors jumped from 41 to 96, with 71 of those occurring between 14:00‑15:00 UTC.
+Refund endpoint p95 latency rose from 1.1 s to 1.9 s (search latency improved).
+
+MADE BY LANGY
+ACT NOW
+
+Checkout errors spike
+
+Errors rose from 41 to 96 yesterday, with 71 occurring between 14:00‑15:00 UTC. Investigate the cause of the spike and add alerts for error rate.
+
+ACT NOW
+
+Refund endpoint latency increase
+
+p95 latency increased from 1.1 s to 1.9 s. Review recent changes to the refund service and profile its performance.
+
+Save as insight
+
+Context
+
+Choose what Langy can see
+
+gpt-oss-120b
+
+#
+
+Context
+
+/
+
+Skills
+## save-as-insight buttons under the answer: 1
+
+## server log evidence (conversation turn on the real model)
+03:13:14.034  backend    info   langy turn result ingested  conversationId=langyconv_0004OgVLnmKLehN2YoBzobFTMf5HO  name=langwatch:langy:internal  projectId=project_0004FoUGyMYK5lukb7hmxY6RPCPDc  spanId=3a1180c0ed2903c2  status=completed  traceId=2092260332a78d8619a5a0176511749c  turnId=langyturn_7b5da52a16d5069fd05cfdee15ba20e5
+03:13:47.394  go         info   gateway_request_failed  caller=httpapi/faults.go:152  code=upstream_error  fault=customer  message="Rate limit reached for model `openai/gpt-oss-120b` in organization `org_<redacted>` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 3372, Requested 7931. Please try again in 24
+03:14:14.413  backend    info   langy turn result ingested  conversationId=langyconv_0004OyfKV0L3Zi68PxUXZySLX6e0W  name=langwatch:langy:internal  projectId=project_0004FoUGyMYK5lukb7hmxY6RPCPDc  spanId=d59feb2c17f9aa3f  status=completed  traceId=b452492879598d642e6491c62042a80c  turnId=langyturn_4c499cacde0c0d44512ec0f133c29156
+03:15:19.463  backend    info   langy turn result ingested  conversationId=langyconv_0004PjMhijE1MspEcd7MyMhjgFVse  name=langwatch:langy:internal  projectId=project_0004FoUGyMYK5lukb7hmxY6RPCPDc  spanId=b159b6861788301e  status=completed  traceId=c176b0bde49a8ebe00ab744a877672c6  turnId=langyturn_7a18969f819ea9b8f1b72d2013ec69ce
+03:16:24.578  backend    info   langy turn result ingested  conversationId=langyconv_0004QH5o9rX3DcShDKxWXCf4Z4hEW  name=langwatch:langy:internal  projectId=project_0004FoUGyMYK5lukb7hmxY6RPCPDc  spanId=22b69ca4d0efde6e  status=completed  traceId=f73477204380119ed1d7f6ca8fc7223b  turnId=langyturn_0c4e416ca4cbc2b93d2dc1eea2e11dc7

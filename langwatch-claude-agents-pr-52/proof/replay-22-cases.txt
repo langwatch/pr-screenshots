@@ -1,0 +1,238 @@
+new hook: /home/ubuntu/Projects/langwatch-claude-agents/.claude/worktrees/agent-ab634f3c6c709a547/lib/hooks/ship-ready-gate.sh @ 1cb853f0  sha256 d199fd592292
+old hook: origin/main @ 2331f326  sha256 b5a06b4ca068
+gh on PATH: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/bin/gh (logs argv, then execs /usr/bin/gh)
+
+======== dotclaude#8 (worktree head still 42ea9fd = head at report time) ========
+################ CASE 1: d8 real: mark-ready call 20:01:02 (stale proof)
+call: toolu_01HTomhAqUMRe9hagRrNYzCo at 2026-10-08T20:01:02.017Z ; transcript cut: lines with .timestamp < 2026-10-08T20:01:02.017Z (236 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue8 ; cwd HEAD: 42ea9fd 2026-10-08T19:57:08+00:00
+report cmd (first 170 chars): gh pr view 9 --json body --jq .body | grep -nE 'no item is in the current sprint|2026-08-17|closedByPull|Generated with|session_017' | cut -c1-140; gh pr ready 9 && sleep
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (0): 
+
+################ CASE 2: d8 real: READY report 20:02:07 (stale proof) [AC5 AC6 AC11]
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue8 ; cwd HEAD: 42ea9fd 2026-10-08T19:57:08+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, principles
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+################ CASE 3: d8 real: READY report 20:04:49 after proof re-run [AC8]
+call: toolu_01RAnWbjsDrT1R18wCHxhM8M at 2026-10-08T20:04:49.501Z ; transcript cut: lines with .timestamp < 2026-10-08T20:04:49.501Z (293 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue8 ; cwd HEAD: 42ea9fd 2026-10-08T19:57:08+00:00
+report cmd (first 170 chars): tmux capture-pane -t assistant -p -S -100 | tail -4; tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY again: https://github.com/drewdrewthis/dotclaude/pull/9 h
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T20:02:53.533Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+======== AC7 head-source variants on the 20:02:07 d8 report ========
+################ CASE 4: d8 cwd=non-git dir -> only the PR URL head (real gh api)
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit ; cwd HEAD: (not a git repo)
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, principles
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+################ CASE 5: d8 cwd=clone at older 1b37497 (19:53:52) vs PR head 42ea9fd (19:57:08): newest wins = PR
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/clones/dotclaude-issue8-1b37497 ; cwd HEAD: 1b37497 2026-10-08T19:53:52+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, principles
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+################ CASE 6: d8 cwd=this PR worktree (newer head) vs PR head: newest wins = cwd
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /home/ubuntu/Projects/langwatch-claude-agents/.claude/worktrees/agent-ab634f3c6c709a547 ; cwd HEAD: 1cb853f0 2026-10-10T03:15:27+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, principles
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-08T19:59:34.456Z), principles-reviewer (started 2026-10-08T19:59:38.184Z), proof-reviewer (started 2026-10-08T19:55:34.787Z); head 1cb853f committed 2026-10-10T03:15:27Z (/home/ubuntu/Projects/langwatch-claude-agents/.claude/worktrees/agent-ab634f3c6c709a547). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+################ CASE 7: d8 cwd=non-git + PR URL edited to pull/999999 (no head resolves) -> allowed
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit ; cwd HEAD: (not a git repo)
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/999999 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, princ
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/999999 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (1): gh api repos/drewdrewthis/dotclaude/pulls/999999 --jq .head.sha;
+
+################ CASE 8: d8 real cwd + PR URL edited to pull/999999 (bad head skipped, cwd head still used)
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue8 ; cwd HEAD: 42ea9fd 2026-10-08T19:57:08+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/999999 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, princ
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/999999 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (1): gh api repos/drewdrewthis/dotclaude/pulls/999999 --jq .head.sha;
+
+======== AC9 missing reviewer: 20:02:07 d8 report, transcript cut at 19:55:30 (before proof-reviewer) ========
+################ CASE 9: d8 missing proof, no head resolves (non-git cwd + bad PR) -> old==new?
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T19:55:30.000Z (100 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit ; cwd HEAD: (not a git repo)
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/999999 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, princ
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/999999 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:55:23.140Z principles-reviewer=2026-10-08T19:55:26.791Z 
+OLD (exit 0): DENY: READY refused: missing proof-reviewer. The ship review-qa (Steps 3-4) requires hygiene-reviewer, principles-reviewer, proof-reviewer to all be dispatched in this session; review-clerk, drift-reviewer, coder and fast-coder do not count. Dispatch the missing ones, then report READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW (exit 0): DENY: READY refused: missing proof-reviewer. The ship review-qa (Steps 3-4) requires hygiene-reviewer, principles-reviewer, proof-reviewer to all be dispatched in this session; review-clerk, drift-reviewer, coder and fast-coder do not count. Dispatch the missing ones, then report READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (0): 
+
+################ CASE 10: d8 missing proof, real cwd + real PR (head resolves)
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T19:55:30.000Z (100 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue8 ; cwd HEAD: 42ea9fd 2026-10-08T19:57:08+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42ea9fd (closes dotclaude#8). hygiene CLEAN, principles
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:55:23.140Z principles-reviewer=2026-10-08T19:55:26.791Z 
+OLD (exit 0): DENY: READY refused: missing proof-reviewer. The ship review-qa (Steps 3-4) requires hygiene-reviewer, principles-reviewer, proof-reviewer to all be dispatched in this session; review-clerk, drift-reviewer, coder and fast-coder do not count. Dispatch the missing ones, then report READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW (exit 0): DENY: READY refused: missing proof-reviewer. The ship review-qa (Steps 3-4) requires hygiene-reviewer, principles-reviewer, proof-reviewer to all be dispatched in this session; review-clerk, drift-reviewer, coder and fast-coder do not count. Dispatch the missing ones, then report READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22 Also stale: hygiene-reviewer (started 2026-10-08T19:55:23.140Z), principles-reviewer (started 2026-10-08T19:55:26.791Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8).
+NEW gh calls (0): 
+
+cmp old vs new, case 9 (no head): IDENTICAL
+cmp old vs new, case 10 (head resolves): DIFFERENT
+new reason starts with old reason, case 10: true
+
+======== dotclaude#10 (worktree head still aa3168b = head at both reports) ========
+################ CASE 11: d10 real: mark-ready call 20:09:47 (no PR URL; cwd head only)
+call: toolu_01VYSyaxLGoQVa14ytmaFJdo at 2026-10-08T20:09:47.879Z ; transcript cut: lines with .timestamp < 2026-10-08T20:09:47.879Z (137 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue10 ; cwd HEAD: aa3168b 2026-10-08T20:09:24+00:00
+report cmd (first 170 chars): gh pr ready 11 -R drewdrewthis/dotclaude && sleep 1 && gh pr view 11 -R drewdrewthis/dotclaude --json isDraft --jq .isDraft 
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T20:07:34.400Z proof-reviewer=2026-10-08T20:07:40.895Z principles-reviewer=2026-10-08T20:07:38.002Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-08T20:07:34.400Z), principles-reviewer (started 2026-10-08T20:07:38.002Z), proof-reviewer (started 2026-10-08T20:07:40.895Z); head aa3168b committed 2026-10-08T20:09:24Z (/home/ubuntu/worktrees/dotclaude-issue10). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (0): 
+
+################ CASE 12: d10 real: READY report 20:10:45 (all three stale)
+call: toolu_01J37EQFzcUJFDaqsAjTmJ53 at 2026-10-08T20:10:45.694Z ; transcript cut: lines with .timestamp < 2026-10-08T20:10:45.694Z (166 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue10 ; cwd HEAD: aa3168b 2026-10-08T20:09:24+00:00
+report cmd (first 170 chars): tmux capture-pane -t assistant:1.1 -p -S -20 | grep -E "^❯|esc to interrupt|Do you want" | tail -3; tmux send-keys -t assistant:1.1 "[devtool2-dotclaude10] READY: https
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/11 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T20:07:34.400Z proof-reviewer=2026-10-08T20:07:40.895Z principles-reviewer=2026-10-08T20:07:38.002Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-08T20:07:34.400Z), principles-reviewer (started 2026-10-08T20:07:38.002Z), proof-reviewer (started 2026-10-08T20:07:40.895Z); head aa3168b committed 2026-10-08T20:09:24Z (/home/ubuntu/worktrees/dotclaude-issue10). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/11 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/aa3168b200bad65633c519a0eb72b7725d0979f6 --jq .commit.committer.date;
+
+################ CASE 13: d10 real: READY report 22:37:00 after re-run [AC8]
+call: toolu_01NiVJJUR8QqwvtKYn71YSdH at 2026-10-08T22:37:00.617Z ; transcript cut: lines with .timestamp < 2026-10-08T22:37:00.617Z (212 lines)
+cwd: /home/ubuntu/worktrees/dotclaude-issue10 ; cwd HEAD: aa3168b 2026-10-08T20:09:24+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant:1.1 "[devtool2-dotclaude10] READY head aa3168b2: https://github.com/drewdrewthis/dotclaude/pull/11. Hygiene, principles, proof re-run on aa316
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/11 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T22:35:21.367Z proof-reviewer=2026-10-08T22:35:28.682Z principles-reviewer=2026-10-08T22:35:25.115Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (2): gh api repos/drewdrewthis/dotclaude/pulls/11 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/aa3168b200bad65633c519a0eb72b7725d0979f6 --jq .commit.committer.date;
+
+======== knowledge#37 ========
+################ CASE 14: k37 READY 01:40:53, cwd=clone at then-head d7915e1; PR URL resolves to the LATER head (postdates report)
+call: toolu_01QnMC5Wzmp1MAS3vRzr2QSM at 2026-10-09T01:40:53.679Z ; transcript cut: lines with .timestamp < 2026-10-09T01:40:53.679Z (209 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/clones/knowledge-issue37-d7915e1 ; cwd HEAD: d7915e1 2026-10-09T01:19:43+00:00
+report cmd (first 170 chars): sleep 5; gh pr view 38 --repo drewdrewthis/knowledge --json mergeable -q .mergeable; tmux send-keys -t assistant "[devtool-knowledge37] READY: https://github.com/drewdrew
+PR URLs in report: https://github.com/drewdrewthis/knowledge/pull/38 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T01:13:46.726Z proof-reviewer=2026-10-09T01:14:01.718Z principles-reviewer=2026-10-09T01:13:49.330Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-09T01:13:46.726Z), principles-reviewer (started 2026-10-09T01:13:49.330Z), proof-reviewer (started 2026-10-09T01:14:01.718Z); head 7c517d7 committed 2026-10-09T03:00:05Z (https://github.com/drewdrewthis/knowledge/pull/38). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (2): gh api repos/drewdrewthis/knowledge/pulls/38 --jq .head.sha;gh api repos/drewdrewthis/knowledge/commits/7c517d7156bcd3628dc8e8a2003e0dd647457d5b --jq .commit.committer.date;
+
+################ CASE 15: k37 real: READY 03:04:24, real cwd [AC8]
+call: toolu_01CHSoR1UjVtdpFr9NHmcMUG at 2026-10-09T03:04:24.742Z ; transcript cut: lines with .timestamp < 2026-10-09T03:04:24.742Z (382 lines)
+cwd: /home/ubuntu/worktrees/knowledge-issue37 ; cwd HEAD: 7c517d7 2026-10-09T03:00:05+00:00
+report cmd (first 170 chars): tmux send-keys -t assistant "[devtool-knowledge37] READY sha 7c517d7156bcd3628dc8e8a2003e0dd647457d5b https://github.com/drewdrewthis/knowledge/pull/38 — hygiene/princi
+PR URLs in report: https://github.com/drewdrewthis/knowledge/pull/38 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T03:00:16.514Z proof-reviewer=2026-10-09T03:00:27.144Z principles-reviewer=2026-10-09T03:00:19.862Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (2): gh api repos/drewdrewthis/knowledge/pulls/38 --jq .head.sha;gh api repos/drewdrewthis/knowledge/commits/7c517d7156bcd3628dc8e8a2003e0dd647457d5b --jq .commit.committer.date;
+
+======== claude-plugins#213 ========
+################ CASE 16: p211 mark-ready 09:33:51, cwd=clone at then-head 59d8e72 (09:26:59); security+proof fresh, hygiene+principles stale [AC10]
+call: toolu_01V4jKgsLJKNGHQJjckgCM1u at 2026-10-09T09:33:51.231Z ; transcript cut: lines with .timestamp < 2026-10-09T09:33:51.231Z (314 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/clones/claude-plugins-issue211-59d8e72 ; cwd HEAD: 59d8e72 2026-10-09T09:26:59+00:00
+report cmd (first 170 chars): R=drewdrewthis/claude-plugins; gh pr ready 213 -R $R; gh pr view 213 -R $R --json isDraft,headRefOid,mergeStateStatus,reviewDecision -q '.'; bash ~/.knowledge/modules/sha
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T09:13:15.510Z security-reviewer=2026-10-09T09:29:09.504Z proof-reviewer=2026-10-09T09:27:20.162Z principles-reviewer=2026-10-09T09:13:18.419Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-09T09:13:15.510Z), principles-reviewer (started 2026-10-09T09:13:18.419Z); head 59d8e72 committed 2026-10-09T09:26:59Z (/tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/clones/claude-plugins-issue211-59d8e72). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (0): 
+
+################ CASE 17: p211 mark-ready 09:33:51, real cwd = later head (postdates report): security stale too [AC10]
+call: toolu_01V4jKgsLJKNGHQJjckgCM1u at 2026-10-09T09:33:51.231Z ; transcript cut: lines with .timestamp < 2026-10-09T09:33:51.231Z (314 lines)
+cwd: /home/ubuntu/worktrees/claude-plugins-issue211 ; cwd HEAD: fc1fc75 2026-10-09T10:46:41+00:00
+report cmd (first 170 chars): R=drewdrewthis/claude-plugins; gh pr ready 213 -R $R; gh pr view 213 -R $R --json isDraft,headRefOid,mergeStateStatus,reviewDecision -q '.'; bash ~/.knowledge/modules/sha
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T09:13:15.510Z security-reviewer=2026-10-09T09:29:09.504Z proof-reviewer=2026-10-09T09:27:20.162Z principles-reviewer=2026-10-09T09:13:18.419Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale hygiene-reviewer (started 2026-10-09T09:13:15.510Z), principles-reviewer (started 2026-10-09T09:13:18.419Z), proof-reviewer (started 2026-10-09T09:27:20.162Z), security-reviewer (started 2026-10-09T09:29:09.504Z); head fc1fc75 committed 2026-10-09T10:46:41Z (/home/ubuntu/worktrees/claude-plugins-issue211). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (0): 
+
+################ CASE 18: p211 mark-ready 10:32:14, cwd=clone at then-head 356ae52 (10:20:35): all four fresh
+call: toolu_01TW3L4e6oBrc2fP9MRwQVE6 at 2026-10-09T10:32:14.889Z ; transcript cut: lines with .timestamp < 2026-10-09T10:32:14.889Z (736 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/clones/claude-plugins-issue211-356ae52 ; cwd HEAD: 356ae52 2026-10-09T10:20:35+00:00
+report cmd (first 170 chars): R=drewdrewthis/claude-plugins; gh pr ready 213 -R $R; gh pr view 213 -R $R --json isDraft,headRefOid,mergeStateStatus,reviewDecision -q '.'; gh api repos/$R/pulls/213/rev
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T10:20:47.285Z security-reviewer=2026-10-09T10:20:59.860Z proof-reviewer=2026-10-09T10:21:10.596Z principles-reviewer=2026-10-09T10:20:53.438Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (0): 
+
+################ CASE 19: p211 real: mark-ready 11:02:50, real cwd
+call: toolu_01U7yPHc4e1puhYy5SZzZHdP at 2026-10-09T11:02:50.298Z ; transcript cut: lines with .timestamp < 2026-10-09T11:02:50.298Z (847 lines)
+cwd: /home/ubuntu/worktrees/claude-plugins-issue211 ; cwd HEAD: fc1fc75 2026-10-09T10:46:41+00:00
+report cmd (first 170 chars): R=drewdrewthis/claude-plugins; gh pr ready 213 -R $R; gh pr view 213 -R $R --json isDraft,headRefOid -q '.' 
+PR URLs in report: 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T10:46:51.033Z security-reviewer=2026-10-09T10:47:01.348Z proof-reviewer=2026-10-09T10:47:10.658Z principles-reviewer=2026-10-09T10:46:56.282Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (0): 
+
+################ CASE 20: p211 real: READY report 11:03:56, real cwd [AC8 AC10]
+call: toolu_01PiM4AYYYXApLnevRM9AFzc at 2026-10-09T11:03:56.122Z ; transcript cut: lines with .timestamp < 2026-10-09T11:03:56.122Z (863 lines)
+cwd: /home/ubuntu/worktrees/claude-plugins-issue211 ; cwd HEAD: fc1fc75 2026-10-09T10:46:41+00:00
+report cmd (first 170 chars): bash ~/.knowledge/modules/shared/records/procedures/fleet-session/send-to-session/send-to-session.sh --from bug-plugins211 --target %34 -- "READY (verified): PR 213 at he
+PR URLs in report: https://github.com/drewdrewthis/claude-plugins/pull/213 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-09T10:46:51.033Z security-reviewer=2026-10-09T10:47:01.348Z proof-reviewer=2026-10-09T10:47:10.658Z principles-reviewer=2026-10-09T10:46:56.282Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (2): gh api repos/drewdrewthis/claude-plugins/pulls/213 --jq .head.sha;gh api repos/drewdrewthis/claude-plugins/commits/fc1fc75c4a3074518a6a795531c124d98ead7832 --jq .commit.committer.date;
+
+DONE cases=20
+
+======== EXTRA (new in 1cb853f0): AC7 cap of 3 PR URLs ========
+################ CASE 21: X1 cwd=non-git; report edited to 4 URLs: 999991 999992 9(real) 999993 -> real is 3rd, looked up
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit ; cwd HEAD: (not a git repo)
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/999991 https://github.com/drewdrewthis/dotclaude/pull/999992 h
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/999991 https://github.com/drewdrewthis/dotclaude/pull/999992 https://github.com/drewdrewthis/dotclaude/pull/9 https://github.com/drewdrewthis/dotclaude/pull/999993 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): DENY: READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (https://github.com/drewdrewthis/dotclaude/pull/9). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22
+NEW gh calls (4): gh api repos/drewdrewthis/dotclaude/pulls/999991 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/pulls/999992 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/pulls/9 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/commits/42ea9fd21cd87e91e29d2ffb756b712a7bbb7374 --jq .commit.committer.date;
+
+################ CASE 22: X2 cwd=non-git; report edited to 4 URLs: 999991 999992 999993 9(real) -> real is 4th, NOT looked up
+call: toolu_01FAx18uSygBZAHDtYjpapfK at 2026-10-08T20:02:07.654Z ; transcript cut: lines with .timestamp < 2026-10-08T20:02:07.654Z (267 lines)
+cwd: /tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu/nogit ; cwd HEAD: (not a git repo)
+report cmd (first 170 chars): tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/999991 https://github.com/drewdrewthis/dotclaude/pull/999992 h
+PR URLs in report: https://github.com/drewdrewthis/dotclaude/pull/999991 https://github.com/drewdrewthis/dotclaude/pull/999992 https://github.com/drewdrewthis/dotclaude/pull/999993 https://github.com/drewdrewthis/dotclaude/pull/9 
+latest dispatch per reviewer in cut: hygiene-reviewer=2026-10-08T19:59:34.456Z proof-reviewer=2026-10-08T19:55:34.787Z principles-reviewer=2026-10-08T19:59:38.184Z 
+OLD (exit 0): <no output> => ALLOWED
+NEW (exit 0): <no output> => ALLOWED
+NEW gh calls (3): gh api repos/drewdrewthis/dotclaude/pulls/999991 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/pulls/999992 --jq .head.sha;gh api repos/drewdrewthis/dotclaude/pulls/999993 --jq .head.sha;
+
+DONE all=22

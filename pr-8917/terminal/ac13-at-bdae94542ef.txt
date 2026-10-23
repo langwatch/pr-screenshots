@@ -1,0 +1,8 @@
+$ git rev-parse --short=11 HEAD
+bdae94542ef
+$ grep -rniE "nurturing|customer.?io" modules/coding-agent --exclude-dir=dist --exclude-dir=node_modules
+grep exit=1
+$ pnpm exec oxlint --type-aware --config .oxlintrc.jsonc --format default modules/coding-agent
+Found 0 warnings and 0 errors.
+Finished in 18.5s on 264 files with 283 rules using 2 threads.
+oxlint exit=0

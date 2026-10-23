@@ -1,0 +1,106 @@
+# PR 8875 real-app proof, run 2026-10-23T14:17Z. Redacted: passwords show as <pw1>/<pw2>/<redacted>, URL credentials as <redacted-credentials>, the API key as <throwaway-project-key>. Store ports: 18240 = lw8875-ch, 15440 = lw8875-pg, 16390 = lw8875-redis (see docker ps below).
+$ docker ps --filter name=lw8875 --format "{{.Names}} {{.Image}} {{.Ports}}"
+lw8875-ch clickhouse/clickhouse-server:25.10.7.6 9000/tcp, 9009/tcp, 127.0.0.1:18240->8123/tcp
+lw8875-redis redis:7 127.0.0.1:16390->6379/tcp
+lw8875-pg postgres:16 5432/tcp, 127.0.0.1:15440->15440/tcp
+
+# Clean env for the app (worktree 3d3bf58b24e13e91d07e2810a2911bce9d2fd091). Number of .env files in it, then the store variables, passwords masked:
+0
+BASE_HOST=http://localhost:5610
+CLICKHOUSE_URL=http://<redacted-credentials>@127.0.0.1:18240/langwatch
+DATABASE_URL=postgresql://<redacted-credentials>@127.0.0.1:15440/langwatch?schema=public
+LANGWATCH_API_URL=http://localhost:5610
+LWQL_ACCESS_MODEL_MODE=rendered
+LWQL_POSTGRES_HOST=lw8875-pg
+NEXTAUTH_URL=http://localhost:5610
+REDIS_URL=redis://127.0.0.1:16390/0
+
+# Before the rotation: the engine tables carry the password-1 stamp, and an LWQL query through the running app (HTTP API, project API key) reads the seeded project.
+$ /tmp/lw8875/chq.sh "SELECT name, toString(uuid) AS uuid, comment FROM system.tables WHERE database = 'langwatch' AND name IN ('projects_pg', 'model_providers_pg') ORDER BY name"
+model_providers_pg	f397f8ae-a18a-4672-bbc7-16aa6e30fbc8	lwql-credentials=fea6eecad3ace27f
+projects_pg	93702806-f303-47d7-bedd-f8daf83112ff	lwql-credentials=fea6eecad3ace27f
+
+$ /tmp/lw8875/q.sh "SELECT TenantId, ProjectName FROM projects LIMIT 1"
+{"columns":[{"name":"TenantId","type":"String"},{"name":"ProjectName","type":"String"}],"rows":[{"TenantId":"local-dev-project","ProjectName":"Local Dev Project"}],"statistics":{"elapsedMs":64,"rowsRead":4,"bytesRead":341,"rowsReturned":1},"diagnostics":[{"code":"UNBOUNDED_TIME_RANGE","message":"langwatch.projects was read with no condition on CreatedAt, so the read covers the whole history this project has rather than a window of it. Add a range on CreatedAt to bound the scan.","meta":{"view":"langwatch.projects","timeColumn":"CreatedAt"}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+# Rotation step 1 (operator): new reader password in Postgres.
+$ /tmp/lw8875/pgq.sh "ALTER ROLE lwql_ro PASSWORD '$(cat /tmp/lw8875/.pw2)'"
+ALTER ROLE
+
+# Rotation step 2 (operator): re-render the access config with password 2 (the app's own render task), in place. ClickHouse reloads it; it is not restarted.
+$ READER=pw2 /tmp/lw8875/run.sh pnpm --filter @langwatch/tasks task lwql-render-access-config 2>&1 | grep -o "\"task\":\"lwql-render-access-config\",\"msg\":\"task finished\""; ls -i /tmp/lw8875/rendered/config.d/lwql-named-collection.yaml; cat /tmp/lw8875/inode-before
+"task":"lwql-render-access-config","msg":"task finished"
+11474326 /tmp/lw8875/rendered/config.d/lwql-named-collection.yaml
+11474326 rendered/config.d/lwql-named-collection.yaml
+
+# ClickHouse start time (it is not restarted at any point in the rotation):
+$ docker inspect -f "lw8875-ch StartedAt={{.State.StartedAt}}" lw8875-ch
+lw8875-ch StartedAt=2026-10-23T14:09:08.622656924Z
+
+# The app still runs with password 1. The same query; the engine tables still dial Postgres with the old password, so a new connection is refused:
+$ /tmp/lw8875/pgq.sh "SELECT count(pg_terminate_backend(pid)) AS old_lwql_ro_backends_closed FROM pg_stat_activity WHERE usename = 'lwql_ro'"
+1
+
+$ /tmp/lw8875/q.sh "SELECT TenantId, ProjectName FROM projects LIMIT 1"
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"62a7528392dd35fc5d57f55aaeec88c2","span_id":"2d1e47370e70f73f","trace":{"traceId":"62a7528392dd35fc5d57f55aaeec88c2","spanId":"2d1e47370e70f73f"}}
+HTTP 500
+
+$ grep 62a7528392dd35fc5d57f55aaeec88c2 app.log (password 1) | grep -o 'password authentication failed for user[^,]*' | head -1
+password authentication failed for user "lwql_ro
+
+# Rotation step 3 (operator): restart the app with LWQL_POSTGRES_READER_PASSWORD=<pw2>. Only the recorded process groups are stopped.
+$ kill -- -1396943; kill -- -1397005; kill -- -1397086
+port 5610 released
+$ READER=pw2 /tmp/lw8875/run.sh pnpm dev:backend
+# The app is up again with password 2 (14:29:21Z). The same query before the worker's next check; the tables are not rebuilt yet:
+$ /tmp/lw8875/q.sh "SELECT TenantId, ProjectName FROM projects LIMIT 1"
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"922c930e45a205e512cd3d8ab136bfcc","span_id":"3042db8125483167","trace":{"traceId":"922c930e45a205e512cd3d8ab136bfcc","spanId":"3042db8125483167"}}
+HTTP 500
+
+# The worker's 5-minute reconvergence check, from the running app's log (app with password 2):
+$ grep -E 'reconvergence check found|self-provisioning' app.log (password 2) | jq -c '{time, name, msg, clickHouseObjects, postgresViews, sample}'
+{"time": "2026-10-23T14:29:31.487Z", "name": "langwatch:analytics:lwql:reconvergence", "msg": "lwql reconvergence check found app-owned objects to converge", "clickHouseObjects": 89, "postgresViews": 0, "sample": ["agents_pg", "ai_tool_entries_pg", "ai_tool_entry_departments_pg", "ai_tool_entry_teams_pg", "analytics_pg"]}
+{"time": "2026-10-23T14:29:31.488Z", "name": "langwatch:task:lwql-provision", "msg": "self-provisioning the full LangWatchQL model \u2014 access model, PostgreSQL bridge, views"}
+{"time": "2026-10-23T14:29:34.368Z", "name": "langwatch:task:lwql-provision", "msg": "LangWatchQL self-provisioning complete"}
+
+# After the check: every engine table is rebuilt (new UUIDs) and stamped with the password-2 fingerprint. The same LWQL query through the app works again. ClickHouse was not restarted.
+$ /tmp/lw8875/chq.sh "SELECT name, toString(uuid) AS uuid, comment FROM system.tables WHERE database = 'langwatch' AND name IN ('projects_pg', 'model_providers_pg') ORDER BY name"
+model_providers_pg	30bbd86c-2ca2-4de9-a87b-21886d74482a	lwql-credentials=1780500476b4aadd
+projects_pg	24fde48b-a144-443e-bf0c-45bd56c4e936	lwql-credentials=1780500476b4aadd
+
+$ /tmp/lw8875/chq.sh "SELECT comment, count() AS engine_tables FROM system.tables WHERE engine = 'PostgreSQL' GROUP BY comment"
+lwql-credentials=1780500476b4aadd	89
+
+$ /tmp/lw8875/q.sh "SELECT TenantId, ProjectName FROM projects LIMIT 1"
+{"columns":[{"name":"TenantId","type":"String"},{"name":"ProjectName","type":"String"}],"rows":[{"TenantId":"local-dev-project","ProjectName":"Local Dev Project"}],"statistics":{"elapsedMs":50,"rowsRead":4,"bytesRead":341,"rowsReturned":1},"diagnostics":[{"code":"UNBOUNDED_TIME_RANGE","message":"langwatch.projects was read with no condition on CreatedAt, so the read covers the whole history this project has rather than a window of it. Add a range on CreatedAt to bound the scan.","meta":{"view":"langwatch.projects","timeColumn":"CreatedAt"}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+$ docker inspect -f "lw8875-ch StartedAt={{.State.StartedAt}}" lw8875-ch
+lw8875-ch StartedAt=2026-10-23T14:09:08.622656924Z
+
+
+# Teardown: only the recorded process groups, then the exact container, volume and network names.
+$ kill -- -1451408; kill -- -1451513; kill -- -1451601
+$ docker rm -f lw8875-ch lw8875-pg lw8875-redis
+lw8875-ch
+lw8875-pg
+lw8875-redis
+
+$ docker volume rm lw8875-ch-data lw8875-pg-data lw8875-redis-data
+lw8875-ch-data
+lw8875-pg-data
+lw8875-redis-data
+
+$ docker network rm lw8875-net
+lw8875-net
+
+$ docker ps -a | grep lw8875; echo "exit=$? (1 = no lw8875 container)"
+exit=1 (1 = no lw8875 container)
+
+$ docker volume ls | grep lw8875; echo "exit=$? (1 = no lw8875 volume)"
+exit=1 (1 = no lw8875 volume)
+
+$ ss -ltn | grep :5610; echo "exit=$? (1 = port 5610 free)"
+exit=1 (1 = port 5610 free)
+

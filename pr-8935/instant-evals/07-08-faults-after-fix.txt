@@ -1,0 +1,3 @@
+fault 401 | run {"status":"finished","total":1,"failed":0,"skipped":3,"tokens":0,"priceUsd":0,"error":null} | own-provider {"attempts":1,"status":[401],"hosted":0} | hosted calls 0 | results [{"status":"skipped","error":"classifier_key_invalid"}]
+fault 429 | run {"status":"finished","total":1,"failed":0,"skipped":3,"tokens":0,"priceUsd":0,"error":null} | own-provider {"attempts":6,"status":[429],"hosted":0} | hosted calls 0 | results 
+fault 503 | run {"status":"finished","total":1,"failed":0,"skipped":3,"tokens":0,"priceUsd":0,"error":null} | own-provider {"attempts":3,"status":[503],"hosted":0} | hosted calls 0 | results 

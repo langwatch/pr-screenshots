@@ -1,0 +1,6 @@
+$ psql: select conversationId, origin, createdAt from LangyConversationProjection where projectId=project_0002PaEdetEvrJGZOj9Gk9MzwOhXN (origin tells a run's own turn from a personal chat)
+SET
+langyconv_0002SmRtYNw5mSyZYQBUy7ZxiqhUN|run|1792624463788
+langyconv_0002VYibshTNokVIUBeNWzCoyfKOj|run|1792624795883
+langyconv_0002bT3DNCYoavdGB68nAlVaUQr5d|interactive|1792625501802
+langyconv_0002cEmvmFjXBPt3EPGnLv8k1CV0P|run|1792625594116

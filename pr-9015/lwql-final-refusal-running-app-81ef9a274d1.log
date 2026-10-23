@@ -1,0 +1,104 @@
+# PR 9015 real-app proof, run 2026-10-23T15:09Z. Redacted: passwords and the API key show as <redacted>, URL credentials as <redacted-credentials>; the key is read from a throwaway file and never printed. Store ports: 18250 = lw9015-ch, 15450 = lw9015-pg, 16400 = lw9015-redis (see docker ps below).
+$ docker ps --filter name=lw9015 --format "{{.Names}} {{.Image}} {{.Ports}}"
+lw9015-ch clickhouse/clickhouse-server:25.10.7.6 9000/tcp, 9009/tcp, 127.0.0.1:18250->8123/tcp
+lw9015-redis redis:7 127.0.0.1:16400->6379/tcp
+lw9015-pg postgres:16 5432/tcp, 127.0.0.1:15450->15450/tcp
+
+# Clean env for the app (worktree 81ef9a274d12d0ccb0640d7ce4a454a5631b7dd9). Number of .env files in it, then the store variables, passwords masked:
+$ find /home/ubuntu/worktrees/langwatch-9015-realapp \( -name .env -o -name .env.local -o -name .env.dev-up \) -not -path '*/node_modules/*' | wc -l; /tmp/lw9015/run.sh env | grep -E '_URL=|_HOST=|LWQL_ACCESS_MODEL_MODE' | sed -E 's#//<redacted-credentials>@/]+@#//<redacted-credentials>@#' | sort
+0
+BASE_HOST=http://localhost:5610
+CLICKHOUSE_URL=http://<redacted-credentials>@127.0.0.1:18250/langwatch
+DATABASE_URL=postgresql://<redacted-credentials>@127.0.0.1:15450/langwatch?schema=public
+LANGWATCH_API_URL=http://localhost:5610
+LWQL_ACCESS_MODEL_MODE=rendered
+LWQL_POSTGRES_HOST=lw9015-pg
+NEXTAUTH_URL=http://localhost:5610
+REDIS_URL=redis://127.0.0.1:16400/0
+
+# a. A PostgreSQL-resident view (projects reads the PostgreSQL engine table projects_pg) works without a modifier:
+$ /tmp/lw9015/chq.sh "SELECT name, engine FROM system.tables WHERE database = 'langwatch' AND name IN ('projects', 'projects_pg', 'traces') ORDER BY name"
+projects	View
+projects_pg	PostgreSQL
+traces	View
+
+$ /tmp/lw9015/q.sh "SELECT count() FROM projects"
+{"columns":[{"name":"count()","type":"UInt64"}],"rows":[{"count()":0}],"statistics":{"elapsedMs":8,"rowsRead":0,"bytesRead":0,"rowsReturned":1},"diagnostics":[{"code":"UNBOUNDED_TIME_RANGE","message":"langwatch.projects was read with no condition on CreatedAt, so the read covers the whole history this project has rather than a window of it. Add a range on CreatedAt to bound the scan.","meta":{"view":"langwatch.projects","timeColumn":"CreatedAt"}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+# b. FINAL on that view is refused by LWQL before it reaches the store:
+$ /tmp/lw9015/q.sh "SELECT count() FROM projects FINAL"
+{"type":"bad_request","code":"lwql_table_modifier_unsupported","message":"FINAL and SAMPLE cannot be used on this read.","retryable":false,"meta":{"modifiers":["FINAL"]},"trace_id":"8c157d0d7293ba966b30012bfd5307c9","span_id":"bf1cdc98b5da4f9a","trace":{"traceId":"8c157d0d7293ba966b30012bfd5307c9","spanId":"bf1cdc98b5da4f9a"},"fault":"customer"}
+HTTP 400
+
+# c. SAMPLE on that view is refused too:
+$ /tmp/lw9015/q.sh "SELECT count() FROM projects SAMPLE 0.5"
+{"type":"bad_request","code":"lwql_table_modifier_unsupported","message":"FINAL and SAMPLE cannot be used on this read.","retryable":false,"meta":{"modifiers":["SAMPLE"]},"trace_id":"4a79f46b2fa69c42b5cdc1a026c7df79","span_id":"3b521f5a449cbd05","trace":{"traceId":"4a79f46b2fa69c42b5cdc1a026c7df79","spanId":"3b521f5a449cbd05"},"fault":"customer"}
+HTTP 400
+
+# d. The database-qualified form is refused too:
+$ /tmp/lw9015/q.sh "SELECT count() FROM langwatch.projects FINAL"
+{"type":"bad_request","code":"lwql_table_modifier_unsupported","message":"FINAL and SAMPLE cannot be used on this read.","retryable":false,"meta":{"modifiers":["FINAL"]},"trace_id":"e0c4d15c67add19816ba6d23d8d15753","span_id":"05f66d2d4b5568d0","trace":{"traceId":"e0c4d15c67add19816ba6d23d8d15753","spanId":"05f66d2d4b5568d0"},"fault":"customer"}
+HTTP 400
+
+# e. FINAL on a ClickHouse view still works:
+$ /tmp/lw9015/q.sh "SELECT count() FROM traces FINAL"
+{"columns":[{"name":"count()","type":"UInt64"}],"rows":[{"count()":0}],"statistics":{"elapsedMs":12,"rowsRead":0,"bytesRead":0,"rowsReturned":1},"diagnostics":[{"code":"UNBOUNDED_TIME_RANGE","message":"langwatch.traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.","meta":{"view":"langwatch.traces","timeColumn":"OccurredAt"}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+# f. Control: the same FINAL statement sent straight to ClickHouse as admin, bypassing LWQL. This is the error the refusal stops:
+$ /tmp/lw9015/chq.sh "SELECT count() FROM langwatch.projects FINAL" 2>&1 | head -c 600
+0
+
+# f (result): on this ClickHouse (25.10.7.6) the FINAL above did NOT fail: it returned 0. More shapes, all sent as admin, each printing its exit code (0 = accepted):
+$ /tmp/lw9015/chq.sh "SELECT * FROM langwatch.projects FINAL FORMAT Null" 2>&1 | head -c 300; echo "exit=${PIPESTATUS[0]}"
+exit=0
+
+$ /tmp/lw9015/chq.sh "SELECT * FROM langwatch.projects SAMPLE 0.5 FORMAT Null" 2>&1 | head -c 300; echo "exit=${PIPESTATUS[0]}"
+exit=0
+
+$ /tmp/lw9015/chq.sh "SELECT * FROM langwatch.projects FINAL FORMAT Null SETTINGS enable_analyzer=0" 2>&1 | head -c 300; echo "exit=${PIPESTATUS[0]}"
+exit=0
+
+# Also as the restricted LWQL user (password from the throwaway file):
+$ docker exec lw9015-ch clickhouse-client --user langwatch_lwql --password "$(cat /tmp/lw9015/.lwqlch)" -q "SELECT count() FROM langwatch.projects FINAL" 2>&1 | head -c 300; echo "exit=${PIPESTATUS[0]}"
+0
+exit=0
+
+# Only FINAL on the PostgreSQL engine table itself raises ILLEGAL_FINAL here:
+$ /tmp/lw9015/chq.sh "SELECT count() FROM langwatch.projects_pg FINAL" 2>&1 | head -c 300; echo "exit=${PIPESTATUS[0]}"
+Received exception from server (version 25.10.7):
+Code: 181. DB::Exception: Received from localhost:9000. DB::Exception: Storage PostgreSQL doesn't support FINAL. (ILLEGAL_FINAL)
+(query: SELECT count() FROM langwatch.projects_pg FINAL)
+exit=181
+
+# A read of the PostgreSQL view through the app that returns a row (same query as the PR 8875 capture):
+$ /tmp/lw9015/q.sh "SELECT TenantId, ProjectName FROM projects LIMIT 1"
+{"columns":[{"name":"TenantId","type":"String"},{"name":"ProjectName","type":"String"}],"rows":[],"statistics":{"elapsedMs":26,"rowsRead":0,"bytesRead":0,"rowsReturned":0},"diagnostics":[{"code":"UNBOUNDED_TIME_RANGE","message":"langwatch.projects was read with no condition on CreatedAt, so the read covers the whole history this project has rather than a window of it. Add a range on CreatedAt to bound the scan.","meta":{"view":"langwatch.projects","timeColumn":"CreatedAt"}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+$ kill -- -1650252; kill -- -1650297; kill -- -1650349; kill -- -1650431; kill -- -1632881; kill -- -1632963; sleep 5; for g in 1650252 1650297 1650349 1650431 1632881 1632963; do ps -eo pgid= | grep -qx " *$g" && echo "group $g still alive"; done; echo groups-checked
+groups-checked
+
+$ docker rm -f lw9015-ch lw9015-pg lw9015-redis
+lw9015-ch
+lw9015-pg
+lw9015-redis
+
+$ docker volume rm lw9015-ch-data lw9015-pg-data lw9015-redis-data
+lw9015-ch-data
+lw9015-pg-data
+lw9015-redis-data
+
+$ docker network rm lw9015-net
+lw9015-net
+
+$ docker ps -a | grep lw9015; echo "exit=$? (1 = no lw9015 container)"
+exit=1 (1 = no lw9015 container)
+
+$ docker volume ls | grep lw9015; echo "exit=$? (1 = no lw9015 volume)"
+exit=1 (1 = no lw9015 volume)
+
+$ ss -ltn | grep :5610; echo "exit=$? (1 = port 5610 free)"
+exit=1 (1 = port 5610 free)
+

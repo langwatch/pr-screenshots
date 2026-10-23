@@ -1,0 +1,45 @@
+### app HEAD
+51732e258a fix(voice): review follow-ups for drawer call decoupling
+### agent rows for this project before
+0
+### finish 1: drawer call (no scenario) -> expect runId "" and no run (conv_proof_3b_talk_v4)
+{"runId":"","agentId":"agent_iuNfD1u5JMixw772LJ1YI","source":"browser","hasFetchFailed":false,"hasAudio":false}
+
+### finish 1b: second drawer call for the same agent -> expect the same agentId (identity-key dedup) (conv_proof_3b_talk2_v4)
+{"runId":"","agentId":"agent_iuNfD1u5JMixw772LJ1YI","source":"browser","hasFetchFailed":false,"hasAudio":false}
+
+### finish 2: Call it myself (scenario local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp) -> expect a run (conv_proof_3b_call_v4)
+{"runId":"voicecall_bb07177d47eb6581ed59f2cd7018b19a","agentId":"agent_LLTQVVUCjC2qKKZDysGQk","source":"browser","hasFetchFailed":false,"hasAudio":false,"scenarioSetId":"__internal__suite_5pa4DMK2xgoUayEYPuNil__suite"}
+
+runId drawer='' drawer2='' scenario='voicecall_bb07177d47eb6581ed59f2cd7018b19a'
+agentId drawer='agent_iuNfD1u5JMixw772LJ1YI' drawer2='agent_iuNfD1u5JMixw772LJ1YI'
+### agent rows for this project after (expect +1 at most across both drawer calls)
+0
+### simulation_runs created in the last 10 minutes (expect only the scenario run)
+   ┌─ScenarioRunId──────────────────────────────┬─ScenarioId───────────────────────────────────┬─ScenarioSetId──────────────────────────────────┬─Status──┐
+1. │ voicecall_bb07177d47eb6581ed59f2cd7018b19a │ local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp │ __internal__suite_5pa4DMK2xgoUayEYPuNil__suite │ SUCCESS │
+   └────────────────────────────────────────────┴──────────────────────────────────────────────┴────────────────────────────────────────────────┴─────────┘
+### simulation_runs with ScenarioId like voiceagent_ created in the last 10 minutes (expect 0)
+0
+### traces for the drawer calls (expect one per exchange, caller=human, no scenario.run_id)
+   ┌─trace────┬─SpanName────────┬─conv───────────────────┬─turn─┬─caller─┬─run_attr─┐
+1. │ 119f865f │ Voice Call Turn │ conv_proof_3b_talk2_v4 │ 0    │ human  │          │
+2. │ bccc91ab │ Voice Call Turn │ conv_proof_3b_talk2_v4 │ 1    │ human  │          │
+3. │ e9ff7d48 │ Voice Call Turn │ conv_proof_3b_talk_v4  │ 0    │ human  │          │
+4. │ 49ae8723 │ Voice Call Turn │ conv_proof_3b_talk_v4  │ 1    │ human  │          │
+5. │ eef006ec │ Voice Call Turn │ conv_proof_3b_talk_v4  │ 2    │ human  │          │
+   └──────────┴─────────────────┴────────────────────────┴──────┴────────┴──────────┘
+### the scenario run (expect Status/Verdict populated, CallerKind human, TraceIds set)
+Row 1:
+──────
+ScenarioRunId: voicecall_bb07177d47eb6581ed59f2cd7018b19a
+ScenarioId:    local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp
+ScenarioSetId: __internal__suite_5pa4DMK2xgoUayEYPuNil__suite
+Status:        SUCCESS
+Verdict:       ᴺᵁᴸᴸ
+n_traces:      4
+Metadata:      {"name":"agent_6201kre39aw6fy3ags198y8pxsma","caller":"You","langwatch":{"targetType":"voice","targetReferenceId":"agent_LLTQVVUCjC2qKKZDysGQk","callerKind":"human","isCutAtLimit":false},"callerKind":"human","source":"browser","transport":"elevenlabs_convai","conversationId":"conv_proof_3b_call_v4","agentId":"agent_LLTQVVUCjC2qKKZDysGQk"}
+### listing SQL: voice-calls set is excluded -> count of sets visible via the exclusion vs raw
+voice-calls	8
+### grep guard
+no voiceagent_ under platform/app/src

@@ -1,0 +1,30 @@
+$ C head before: 8d06e54bfbf577d507d7ca1ad452b836ff5138d6
+https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065132064 success 5f2a00cc0b56b2c6ca5c79636ebcf08325091a8d
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:49:14.2249973Z ✔ Updating reference heads/release-please--branches--main--components--c to 46876865aada284df65d805d97a013618cf46827
+release-please	Repair release manifests	2026-10-10T15:49:20.3511163Z ok: release-please--branches--main--components--c
+release-please	Repair release manifests	2026-10-10T15:49:20.3515724Z checked: 1 release PR(s)
+origin/main 5f2a00cc0b56b2c6ca5c79636ebcf08325091a8d
+$ C branch log
+4687686 parent=5f2a00c author=github-actions[bot] committer=GitHub chore(main): release c 0.1.1
+merge-base 5f2a00cc0b56b2c6ca5c79636ebcf08325091a8d
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 914d665..88b9d64 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+   "plugins/b": "0.2.2",
+-  "plugins/c": "0.1.0"
++  "plugins/c": "0.1.1"
+ }
+$ run + tags
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065132064 fix(c): change c four
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065076184 chore: third unrelated touch
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065003027 fix(c): change c two
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064956482 chore(main): release a 0.2.0 (#5)
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064911985 chore: second unrelated touch
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064842187 chore: touch unrelated file (no plugins path)
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064730430 fix(a): change a two
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064676388 fix(c): change c one
+success https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064640962 chore: add plugin c, drop always-update, add workflow and repair script

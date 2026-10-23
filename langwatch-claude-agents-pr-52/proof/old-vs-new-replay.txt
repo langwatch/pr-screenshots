@@ -1,0 +1,51 @@
+$ date -u +%Y-%m-%dT%H:%M:%SZ; pwd
+2026-10-10T03:20:36Z
+/tmp/claude-1001/-home-ubuntu-worktrees-langwatch-claude-agents-issue22b/ccb3988f-54ae-446d-afc1-1eefae8b2f22/scratchpad/ut2.s1Rpfu
+
+$ NEW=/home/ubuntu/Projects/langwatch-claude-agents/.claude/worktrees/agent-ab634f3c6c709a547/lib/hooks/ship-ready-gate.sh
+
+$ git -C "$(dirname "$NEW")" rev-parse HEAD origin/main
+1cb853f0a48ff8e5d384c0a9912c3e6581555275
+2331f326dda4ef068f0b7c3e54597f5910af97ca
+
+$ git -C "$(dirname "$NEW")" show origin/main:lib/hooks/ship-ready-gate.sh | cmp - old-hook.sh && echo "old-hook.sh == origin/main hook"
+old-hook.sh == origin/main hook
+
+$ git -C /home/ubuntu/worktrees/dotclaude-issue8 log -1 --format="%h committed %cI" HEAD
+42ea9fd committed 2026-10-08T19:57:08+00:00
+
+# ---- CASE A + B input: the real dotclaude#8 stale report (tool call of 2026-10-08T20:02:07.654Z)
+$ jq -r ".hook_event_name, .tool_name, .cwd, (.transcript_path|split(\"/\")|last), (.tool_input.command|.[0:118])" in/2.json
+PreToolUse
+Bash
+/home/ubuntu/worktrees/dotclaude-issue8
+2.jsonl
+tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY: https://github.com/drewdrewthis/dotclaude/pull/9 head 42e
+
+$ wc -l < cut/2.jsonl; head -c 0 cut/2.jsonl; grep -c "" /home/ubuntu/.claude/projects/-home-ubuntu-worktrees-dotclaude-issue8/0c9a67a2-07e0-461a-88e6-0442dadfbbd4.jsonl
+267
+444
+
+# ---- CASE A: OLD hook (origin/main), stale report
+$ bash old-hook.sh < in/2.json; echo "[exit $?, empty output = allowed]"
+[exit 0, empty output = allowed]
+
+# ---- CASE B: NEW hook (1cb853f0), same input
+$ bash "$NEW" < in/2.json; echo "[exit $?]"
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "READY refused: stale proof-reviewer (started 2026-10-08T19:55:34.787Z); head 42ea9fd committed 2026-10-08T19:57:08Z (/home/ubuntu/worktrees/dotclaude-issue8). Run them again on the head, then report READY. To send a status that is not READY, do not use the word READY. See https://github.com/drewdrewthis/langwatch-claude-agents/issues/22"
+  }
+}
+[exit 0]
+
+# ---- CASE C: NEW hook, the real dotclaude#8 fresh report (2026-10-08T20:04:49.501Z, proof-reviewer run again 20:02:53)
+$ jq -r ".cwd, (.tool_input.command|.[0:150])" in/3.json
+/home/ubuntu/worktrees/dotclaude-issue8
+tmux capture-pane -t assistant -p -S -100 | tail -4; tmux send-keys -t assistant -l "[devtool2-dotclaude8] READY again: https://github.com/drewdrewthi
+
+$ bash "$NEW" < in/3.json; echo "[exit $?, empty output = allowed]"
+[exit 0, empty output = allowed]
+

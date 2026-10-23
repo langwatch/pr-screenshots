@@ -1,0 +1,21 @@
+03:56:44.286 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=2fbd26d884884014
+03:56:44.310 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=592ba6114f1b4375
+03:56:44.315 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=2883ed54604cba4b
+03:56:44.361 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=960a80699f37663f
+03:56:44.363 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=5529d0d7b71264b9
+03:56:44.369 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=9d3d730063b88eb7
+03:56:44.411 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=2883ed54604cba4b
+03:56:44.412 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=75b5ec92c0183675
+03:56:44.414 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=2de37d5eb0c30b9a
+03:56:44.415 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=960a80699f37663f
+03:56:44.418 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=5529d0d7b71264b9
+03:56:44.420 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=faea1665eb85ad8c
+03:56:44.435 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.findUnique spanId=07e76b5de1f7ce02
+03:56:44.507 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=2de37d5eb0c30b9a
+03:56:44.511 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=960a80699f37663f
+03:56:44.513 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=07e76b5de1f7ce02
+03:56:44.515 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=5529d0d7b71264b9
+03:56:44.521 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=faea1665eb85ad8c
+03:56:44.570 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=75b5ec92c0183675
+03:56:44.575 worker error prisma error: Transaction failed due to a write conflict or a deadlock  target=langyActiveTurn.create spanId=07e76b5de1f7ce02
+03:56:44.589 worker error error handling request: Too many turns are starting at once. Please retry shortly. code=langy_agent_unavailable spanId=07e76b5de1f7ce02

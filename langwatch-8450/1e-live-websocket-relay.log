@@ -1,0 +1,15 @@
+[+0.00s] connect ws://localhost:5573/v1/live/sessions subprotocols=realtime,openai-insecure-api-key.<virtual key>
+[+0.13s] socket open, protocol: realtime
+[+0.13s] sent session.start model=gpt-live-1
+[+1.10s] event session.started {"id":"live_u0_EW2oCp3oNSKD16eDnL53KGbvlG2SxZAa","expires_at":1791313200}
+[+1.93s] output audio delta #1
+[+4.74s] output audio delta #26
+[+6.46s] sent 156154 bytes of question audio plus 2 s of silence
+[+7.28s] output audio delta #51
+[+9.79s] output audio delta #76
+[+14.03s] reply audio finished, sending session.close
+[+14.83s] event session.closed {"usage":{"seconds":8},"reason":"close_requested","id":"live_u0_EW2oCp3oNSKD16eDnL53KGbvlG2SxZAa","expires_at":1791313200}
+[+16.84s] socket closed 1000 
+[+16.84s] input transcript: " What is the capital of France? Please answer in one word."
+[+16.84s] output transcript: " Paris. Paris."
+[+16.84s] output audio 78 deltas, 374400 bytes (pcm16 24 kHz) -> 1e-live-websocket.pcm

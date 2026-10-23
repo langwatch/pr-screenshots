@@ -1,0 +1,11 @@
+$ curl -si 'http://127.0.0.1:36191/_sim/api/records?provider=customerio'
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"kind": "identify", "name": null, "distinctId": "user-1", "properties": {"createdAt": 1792664000, "email": "jane@example.com", "name": "Jane Doe"}}
+{"kind": "event", "name": "first_trace_integrated", "distinctId": "user-1", "properties": {"project_id": "project-1", "sdk_framework": "unknown", "sdk_language": "python"}}
+{"kind": "identify", "name": null, "distinctId": "user-1", "properties": {"first_trace_at": 1792664000, "has_traces": true, "sdk_framework": "unknown", "sdk_language": "python"}}
+{"kind": "group", "name": "org-2", "distinctId": "user-1", "properties": {"self_hosted": true, "self_hosted_first_seen_at": 1792664000}}
+{"kind": "identify", "name": null, "distinctId": "user-1", "properties": {"last_trace_at": 1792664000}}
+{"kind": "group", "name": "org-1", "distinctId": "user-1", "properties": {"self_hosted": true, "self_hosted_first_seen_at": 1790812800, "self_hosted_last_report_at": 1792664000}}
+{"kind": "event", "name": "self_hosted_license_expiring", "distinctId": "user-1", "properties": {"instance_id": "instance-2"}}

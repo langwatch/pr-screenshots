@@ -1,0 +1,57 @@
+WINDOW {"fromDay":"2026-08-25","toDay":"2026-08-31"}
+REQUEST BODY {"type":"ActualCost","timeframe":"Custom","timePeriod":{"from":"2026-08-25T00:00:00+00:00","to":"2026-08-31T23:59:59+00:00"},"dataset":{"granularity":"Daily","aggregation":{"totalCost":{"name":"Cost","function":"Sum"},"totalCostUSD":{"name":"CostUSD","function":"Sum"}},"grouping":[{"type":"Dimension","name":"MeterCategory"}]}}
+HTTP 429 attempt 1
+HTTP 429 attempt 2
+HTTP 429 attempt 3
+HTTP 429 attempt 4
+HTTP 429 attempt 5
+HTTP 429 attempt 6
+HTTP 429 attempt 7
+HTTP 200 attempt 8
+THROTTLED ATTEMPTS BEFORE SUCCESS 7
+MALFORMED false
+DAYS READ 38
+UNREADABLE ROWS 0
+NEXTLINK null
+CURRENCIES ["EUR"]
+DAYS WITH BILLER USD 38 of 38
+DISTINCT DAYS [
+  '2026-08-25',
+  '2026-08-26',
+  '2026-08-27',
+  '2026-08-28',
+  '2026-08-29',
+  '2026-08-30',
+  '2026-08-31'
+]
+METER CATEGORIES ["Azure Databricks","Bandwidth","Foundry Models","Load Balancer","Storage","Virtual Network"]
+EVENTS 38
+SAMPLE EVENT {
+  "source_event_id": "azure_cost:074384b5-d4df-4574-af82-c937da0cda7c:2026-08-25:Azure Databricks",
+  "event_timestamp": "2026-08-25T00:00:00.000Z",
+  "actor": "",
+  "action": "cost_report",
+  "target": "Azure Databricks",
+  "cost_usd": "0.0000403757870820185",
+  "tokens_input": 0,
+  "tokens_output": 0,
+  "raw_payload": "{\"day\":\"2026-08-25\",\"meterCategory\":\"Azure Databricks\",\"costMinor\":\"0.0000403757870820185\",\"costUsd\":\"0.0000459537020673994\",\"currencyCode\":\"EUR\"}",
+  "extra": {
+    "subscriptionId": "074384b5-d4df-4574-af82-c937da0cda7c",
+    "meterCategory": "Azure Databricks",
+    "pulled_usage": {
+      "costBasis": "provider_reported",
+      "costStatus": "exact",
+      "dimensions": {
+        "granularity": "1d",
+        "meterCategory": "Azure Databricks"
+      },
+      "costUsd": "0.0000403757870820185",
+      "currency": "EUR",
+      "costUsdBiller": "0.0000459537020673994",
+      "model": "Azure Databricks"
+    }
+  }
+}
+IDENTITY STABLE AND UNIQUE true
+RAW COLUMNS ["Cost","CostUSD","UsageDate","MeterCategory","Currency"]

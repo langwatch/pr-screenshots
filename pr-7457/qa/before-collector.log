@@ -1,0 +1,25 @@
+[2026-09-01T09:34:34.777Z] Collector listening on http://localhost:4319  (log file: /tmp/qa-pr7457/collector-DEBUG.log)
+[2026-09-01T09:34:40.141Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2341
+[2026-09-01T09:34:40.141Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.144Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.144Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.145Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.145Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.145Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.146Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.146Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.146Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.147Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.147Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.148Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.148Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.225Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2699
+[2026-09-01T09:34:40.225Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.226Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2364
+[2026-09-01T09:34:40.226Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.227Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=2261
+[2026-09-01T09:34:40.227Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.230Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.230Z]   (no candidate span names found in this payload)
+[2026-09-01T09:34:40.230Z] RECEIVED export POST, url=/api/otel/v1/traces, bytes=20
+[2026-09-01T09:34:40.230Z]   (no candidate span names found in this payload)

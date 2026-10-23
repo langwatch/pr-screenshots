@@ -1,0 +1,37 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# run at 2026-10-22T01:51:51Z against http://localhost:5577 (PORT=5577 pnpm dev from the 8896 worktree)
+# projects: P1=project_0003ivn5Z4z5VdLDn3wQUmArBfb0j P2=project_0003j7j1ALHGekuAYODvXZ594MVUG
+
+## 2a. delete the project-key board with the project key -> 200 {id,name}
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR   [auth: project key]
+HTTP 200
+{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR","name":"proof project-key board"}
+
+## 2b. delete it again -> 404 dashboard_not_found
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR   [auth: project key]
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"0e85a8f4ef2bec726124d301ec8ceec5","span_id":"ac4f7d41d8e61f0a","trace":{"traceId":"0e85a8f4ef2bec726124d301ec8ceec5","spanId":"ac4f7d41d8e61f0a"},"fault":"customer"}
+
+## 2c. read it again -> 404
+$ curl -X GET http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rR   [auth: project key]
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"22be22cf9f6d8bd516c17556d5e66eb8","span_id":"1218d551575e3f16","trace":{"traceId":"22be22cf9f6d8bd516c17556d5e66eb8","spanId":"1218d551575e3f16"},"fault":"customer"}
+
+## 2d. delete the personal-key board with the personal key -> 200, then 404
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 200
+{"id":"dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ","name":"proof personal board"}
+
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jfyIC8jAu9IyZPofUmjMe04rQ   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"30064086add46ef47604afd7c9039825","span_id":"94af5200e7801e64","trace":{"traceId":"30064086add46ef47604afd7c9039825","spanId":"94af5200e7801e64"},"fault":"customer"}
+
+## 2e. the boards route does not delete a Reports (legacy) board -> 404, and a board of another project -> 404
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6w   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"99fbc8c75f3c9a2d0e2c0791a51321e8","span_id":"2a38c103d047d9f1","trace":{"traceId":"99fbc8c75f3c9a2d0e2c0791a51321e8","spanId":"2a38c103d047d9f1"},"fault":"customer"}
+
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003jmCLI6Rhg2T7fEpiDN1wvkj6v   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 404
+{"type":"not_found","code":"dashboard_not_found","message":"Dashboard not found","retryable":false,"meta":{"projectId":"project_0003ivn5Z4z5VdLDn3wQUmArBfb0j"},"trace_id":"b4cecdd8d80b1add090ea2cbe0ae1063","span_id":"5ad1d96f027c3ed4","trace":{"traceId":"b4cecdd8d80b1add090ea2cbe0ae1063","spanId":"5ad1d96f027c3ed4"},"fault":"customer"}
+

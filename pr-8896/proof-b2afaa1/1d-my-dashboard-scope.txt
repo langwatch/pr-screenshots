@@ -1,0 +1,19 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# run at 2026-10-22T02:17:31Z against http://localhost:5577 (PORT=5577 pnpm dev from the 8896 worktree)
+# projects: P1=project_0003ivn5Z4z5VdLDn3wQUmArBfb0j P2=project_0003j7j1ALHGekuAYODvXZ594MVUG
+
+## 1d (AC199o). a member (personal key = the user actor) creates a board named "My dashboard" -> author recorded, scope Only me (PERSONAL)
+$ curl -X POST http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]  body: {"name":"My dashboard"}
+HTTP 201
+{"id":"dashboard_0003wjwxI1EliTLOChkxNHOKYcrLc","name":"My dashboard","description":null,"scope":"PRIVATE","createdById":"user_proof8896_BMqQdnlY","createdAt":"2026-10-22T02:17:31.545Z","updatedAt":"2026-10-22T02:17:31.545Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003wjwxI1EliTLOChkxNHOKYcrLc"}
+
+## the project key does not see another member's Only me board
+$ curl -X GET http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards   [auth: project key]
+HTTP 200
+{"data":[]}
+
+## cleanup (the owner deletes it)
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003wjwxI1EliTLOChkxNHOKYcrLc   [auth: personal key, X-Project-Id: project_0003ivn5Z4z5VdLDn3wQUmArBfb0j]
+HTTP 200
+{"id":"dashboard_0003wjwxI1EliTLOChkxNHOKYcrLc","name":"My dashboard"}
+

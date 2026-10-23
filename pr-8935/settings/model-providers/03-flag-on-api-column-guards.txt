@@ -1,0 +1,2 @@
+body-chat-in-ie.json: {"status":422,"message":"\"openai/gpt-5-mini\" is not a decision model. Pick one from the Instant Evals list."}
+body-decision-in-default.json: {"status":422,"message":"\"inception/decisions:mercury-decide\" is a decision model and can only be the Instant Evals default."}

@@ -1,0 +1,16 @@
+# PR 8896 proof, head b2afaa1c70eaf6c0e71c4fb01fdc4c1212f335f8
+# run at 2026-10-22T02:10:04Z against http://localhost:5577 (PORT=5577 pnpm dev from the 8896 worktree)
+# projects: P1=project_0003ivn5Z4z5VdLDn3wQUmArBfb0j P2=project_0003j7j1ALHGekuAYODvXZ594MVUG
+
+# The key below is the session key the platform minted for a real Langy conversation (proof8896-conv6-1792634989),
+# read from the Langy worker's environment (LANGWATCH_API_KEY). The model was not the one issuing this call: I issued it with the key.
+## 2f-1. DELETE a board with the Langy session key and no click -> 409 langy_confirmation_required, board still there
+$ curl -X DELETE http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003srhrUlwXa3mOfCrBIM9uqLTiC   [auth: Langy session key]
+HTTP 409
+{"type":"conflict","code":"langy_confirmation_required","message":"Deleting needs a confirmation click. A confirmation card for board \"langy-delete-target-2\" (…LTiC) is now shown to the user. Wait for their answer; after they choose Yes, run the same command again.","retryable":false,"meta":{"resource":"board","action":"delete"},"trace_id":"41d037e47b28af056448c8bdc54b73b4","span_id":"0bf6723bb848eff8","trace":{"traceId":"41d037e47b28af056448c8bdc54b73b4","spanId":"0bf6723bb848eff8"},"tips":["Wait for the person to choose Yes on the confirmation card in the Langy conversation, then run the same command again"],"fault":"customer"}
+
+## the board is still listed (project key)
+$ curl -X GET http://localhost:5577/api/v1/projects/project_0003ivn5Z4z5VdLDn3wQUmArBfb0j/analytics/boards/dashboard_0003srhrUlwXa3mOfCrBIM9uqLTiC   [auth: project key]
+HTTP 200
+{"id":"dashboard_0003srhrUlwXa3mOfCrBIM9uqLTiC","name":"langy-delete-target-2","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-22T02:09:49.000Z","updatedAt":"2026-10-22T02:09:49.000Z","platformUrl":"http://localhost:5577/proof8896-board-proof-rBfb0j/dashboards/dashboard_0003srhrUlwXa3mOfCrBIM9uqLTiC"}
+

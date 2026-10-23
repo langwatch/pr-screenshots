@@ -1,0 +1,17 @@
+STEP 2 — apply-secret script (VERBATIM from infrastructure/lwql.tf), run in alpine/k8s:1.35.0
+
+>>> 2a. Against the REAL render output (nested users.d/ + config.d/):
+$ docker run --rm --network host -v /tmp/lwql-proof/out:/out:ro alpine/k8s:1.35.0 bash apply-secret.sh
+ERROR: lwql-access.yaml is missing or empty — render did not produce it
+   -> Job FAILS. apply-secret expects FLAT /out/lwql-access.yaml; task wrote /out/users.d/lwql-access.yaml
+   -> CONTRACT BREAK between #1256 (Job) and #8258/#8261 (render task).
+
+>>> 2b. Against a FLATTENED copy (documented workaround, to prove the render is otherwise valid):
+$ cp out/users.d/lwql-access.yaml out-flat/lwql-access.yaml; cp out/config.d/lwql-named-collection.yaml out-flat/
+$ docker run ... -v /tmp/lwql-proof/out-flat:/out ... alpine/k8s:1.35.0 bash apply-secret.sh
+secret/langwatch-lwql-clickhouse-access patched
+Access model written to Secret langwatch-lwql-clickhouse-access (keys: lwql-access.yaml, lwql-named-collection.yaml)
+APPLY_EXIT=0
+keys: ['lwql-access.yaml', 'lwql-named-collection.yaml']
+lwql-access.yaml bytes(b64): 81188
+lwql-named-collection.yaml bytes(b64): 236

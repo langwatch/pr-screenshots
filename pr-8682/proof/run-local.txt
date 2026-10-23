@@ -1,0 +1,117 @@
+# Check the world (PR 8682), local stack https://app.langwatch-suite.langwatch.localhost, run plan "Check the world local (8682)".
+# UI Run #1 (scenariorun_c6d1934bbcc8629c442618c73e693c64): scenario_infra_error ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL, `Command "tsx" not found` (no scenario child bundle on this dev stack; built it, not a page issue).
+# UI Run #2 = first run, no evaluator: judge PASS.
+# UI Run #3 = evaluator attached on the test suite, langevals not running on this stack: evaluator error "cannot be reached".
+# UI Run #4 = langevals started without the exact_match extra: evaluator error 404.
+# UI Run #5 = langevals with exact_match: judge PASS, evaluator PASS.
+
+$ curl -s --cacert ~/.portless/ca.pem -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch-suite.langwatch.localhost/api/simulation-runs/scenariorun_d9a82199193cf870fa52de2000a4340b \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:44:39Z; local haven stack (langwatch-suite), project ACME Checkout, project key masked; trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_d9a82199193cf870fa52de2000a4340b",
+  "name": "Double charge refund (check the world)",
+  "status": "SUCCESS",
+  "verdict": "success",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Criterion 1 (refunds exactly 49.95, once): Passed. Traces show a refund_charge tool call with charge_id CH-gNKc5a-2 amount_eur 49.95 and output refund_id RF-CH-gNKc5a-2-1 status approved. state_of_world and refund_total show 49.95 and refund_count 1.\n\nCriterion 2 (the original charge is untouched): Passed. list_charges returned two captured charges (CH-gNKc5a-1 and CH-gNKc5a-2). The refund_charge call targeted CH-gNKc5a-2. state_of_world after the operation shows original_charge_status = captured, indicating the original charge (CH-gNKc5a-1) was not refunded.\n\nCriterion 3 (tells the customer when the money arrives): Passed. The assistant message in the transcript states: \"The refund is approved and will return to your original card within 3–5 working days.\" This explicitly informs the customer when the money will arrive.\n\nNo error spans (langwatch.span_collection.error) are present; internal-behavior criteria were verified against the provided traces.",
+  "evaluations": null
+}
+
+$ curl -s --cacert ~/.portless/ca.pem -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch-suite.langwatch.localhost/api/simulation-runs/scenariorun_39d9c0da2c46be9e2a2ad63c061e6506 \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:44:40Z; local haven stack (langwatch-suite), project ACME Checkout, project key masked; trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_39d9c0da2c46be9e2a2ad63c061e6506",
+  "name": "Double charge refund (check the world)",
+  "status": "FAILED",
+  "verdict": "failure",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Evidence from the opentelemetry traces and transcript shows the agent refunded exactly one charge of 49.95 and informed the customer when the money will arrive.\n\n- Refund executed and amount: span refund_charge [1bcf3c82] output: {\"refund_id\":\"RF-CH-meOyX6-2-1\",\"charge_id\":\"CH-meOyX6-2\",\"amount_eur\":49.95,\"status\":\"approved\",\"paid\":\"back on the original card within 3 to 5 working days\"} and gen_ai.tool.call.result.amount_eur: 49.95. The state_of_world [db5e6e49] shows refund_count:1 and refund_total:49.95 and refund_total span [5acc28b8] output:49.95. This clearly demonstrates a single refund of 49.95.\n\n- Original charge untouched: list_charges output in span [f1e91b46] shows two charges: CH-meOyX6-1 (amount_eur:49.95, status:\"captured\") and CH-meOyX6-2 (amount_eur:49.95, status:\"captured\"). The refund was applied to CH-meOyX6-2 (see refund_charge span [1bcf3c82]). state_of_world [db5e6e49] also reports original_charge_status:\"captured\". No trace shows a refund applied to CH-meOyX6-1, so the original charge remained untouched.\n\n- Customer informed when money arrives: the assistant message in the transcript and the chat response in span [5ff90c5f] / [c7208f59] states: \"It should arrive within 3–5 working days.\" The refund_charge output also contains \"paid: back on the original card within 3 to 5 working days.\" This satisfies the requirement to tell the customer when the money will arrive.\n\nGiven these explicit trace outputs and assistant messages, all three criteria are met.",
+  "evaluations": [
+    {
+      "evaluatorId": "evaluator_0004ZDGFPiWqusg7fbVkvDKIwkMHS",
+      "name": "Refund total is 49.95 (8682)",
+      "status": "error",
+      "required": true,
+      "details": "Evaluator cannot be reached",
+      "inputs": {
+        "output": "49.95",
+        "expected_output": "49.95"
+      }
+    }
+  ]
+}
+
+$ curl -s --cacert ~/.portless/ca.pem -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch-suite.langwatch.localhost/api/simulation-runs/scenariorun_151336c3c624c067127b742307296f23 \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:44:40Z; local haven stack (langwatch-suite), project ACME Checkout, project key masked; trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_151336c3c624c067127b742307296f23",
+  "name": "Double charge refund (check the world)",
+  "status": "FAILED",
+  "verdict": "failure",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Criterion 1 (Refunds exactly 49.95, once): PASS. The traces show a refund_charge tool call with charge_id CH-RX65Nh-2 and amount_eur 49.95, and the refund_charge span output shows refund_id RF-CH-RX65Nh-2-1, amount_eur 49.95, status approved. A refund_total tool span also reports output 49.95. The assistant message in the transcript also states the extra €49.95 was refunded.\n\nCriterion 2 (The original charge is untouched): PASS. list_charges returned two captured charges (CH-RX65Nh-1 and CH-RX65Nh-2). The refund was issued against CH-RX65Nh-2. State_of_world spans show original_charge_status as \"captured\" before and after the refund, and refund_count/refund_total reflect a single refund of 49.95, indicating the original charge (CH-RX65Nh-1) was left captured.\n\nCriterion 3 (Tells the customer when the money arrives): PASS. The assistant’s reply in the transcript explicitly states the refund \"will return to your original card within 3–5 working days.\" The refund_charge span output also notes the refund is paid back to the original card within 3 to 5 working days.\n\nVerdict: all three criteria are met based on the conversation and the opentelemetry trace evidence.",
+  "evaluations": [
+    {
+      "evaluatorId": "evaluator_0004ZDGFPiWqusg7fbVkvDKIwkMHS",
+      "name": "Refund total is 49.95 (8682)",
+      "status": "error",
+      "required": true,
+      "details": "404 {\n  \"detail\": \"Not Found\"\n}",
+      "inputs": {
+        "output": "49.95",
+        "expected_output": "49.95"
+      }
+    }
+  ]
+}
+
+$ curl -s --cacert ~/.portless/ca.pem -H "X-Auth-Token: sk-lw-****(masked)" https://app.langwatch-suite.langwatch.localhost/api/simulation-runs/scenariorun_b771e22b61da3074e287cab7b2e62f24 \
+    | jq '{scenarioRunId, name, status, verdict: .results.verdict, metCriteria: .results.metCriteria, unmetCriteria: .results.unmetCriteria, reasoning: .results.reasoning, evaluations: .results.evaluations}'
+# captured 2026-10-14T13:44:40Z; local haven stack (langwatch-suite), project ACME Checkout, project key masked; trimmed by the jq filter above
+{
+  "scenarioRunId": "scenariorun_b771e22b61da3074e287cab7b2e62f24",
+  "name": "Double charge refund (check the world)",
+  "status": "SUCCESS",
+  "verdict": "success",
+  "metCriteria": [
+    "Refunds exactly 49.95, once",
+    "The original charge is untouched",
+    "Tells the customer when the money arrives"
+  ],
+  "unmetCriteria": [],
+  "reasoning": "Evidence:\n\n1) Refunds exactly 49.95, once — PASSED\n- The refund_charge tool span [225e478f] shows a refund was executed with input amount_eur: 49.95 and output.amount_eur: 49.95, status: approved, refund_id: RF-CH-Vx3LZp-2-1. \n- The refund_total tool span after the refund [94e62235] reports output: 49.95, indicating the total refunded is 49.95. These traces clearly show a single refund of 49.95.\n\n2) The original charge is untouched — PASSED\n- The list_charges span [d2ab0dcc] shows two captured charges: CH-Vx3LZp-1 and CH-Vx3LZp-2, each 49.95. The refund_charge span [225e478f] targeted CH-Vx3LZp-2 for refund, leaving CH-Vx3LZp-1 as the remaining captured charge. There is no span showing a refund of CH-Vx3LZp-1. This confirms the other (original) charge was left untouched.\n\n3) Tells the customer when the money arrives — PASSED\n- The assistant’s message in the transcript explicitly states: \"The extra €49.95 charge has been refunded to your original payment method. It should arrive within 3–5 working days.\" \n- This is corroborated by the refund_charge span [225e478f] output.paid: \"back on the original card within 3 to 5 working days.\"\n\nNotes on traces: multiple relevant tool spans are present (lookup_order [4029cdba], list_charges [d2ab0dcc], refund_charge [225e478f], refund_total [94e62235]). No langwatch.span_collection.error span is present. Therefore internal-behavior criteria are judged from the available traces.\n\nVerdict: All three criteria are met.",
+  "evaluations": [
+    {
+      "evaluatorId": "evaluator_0004ZDGFPiWqusg7fbVkvDKIwkMHS",
+      "name": "Refund total is 49.95 (8682)",
+      "status": "passed",
+      "required": true,
+      "passed": true,
+      "score": 1,
+      "details": "49.95 == 49.95",
+      "inputs": {
+        "output": "49.95",
+        "expected_output": "49.95"
+      }
+    }
+  ]
+}
+

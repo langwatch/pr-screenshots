@@ -1,0 +1,24 @@
+$ git rev-parse HEAD
+3bde062aa0f129d88a945d53f28ff12b393bfcf5
+
+$ hook 'gh --limit 10000 project item-list 5'
+deny: Refused: this scan reads 10000 board items, over the 300 limit. A scan costs 101 GraphQL points per 100 items from the box's shared 5000/hour budget. 
+
+$ hook 'gh --owner langwatch --limit 10000 project item-list 5'
+deny: Refused: this scan reads 10000 board items, over the 300 limit. A scan costs 101 GraphQL points per 100 items from the box's shared 5000/hour budget. 
+
+$ hook 'timeout -s KILL 60 echo gh project item-list 5 --limit 10000'
+(no output: allowed)
+
+$ hook 'timeout -s KILL 60 gh project item-list 5 --limit 10000'
+deny: Refused: this scan reads 10000 board items, over the 300 limit. A scan costs 101 GraphQL points per 100 items from the box's shared 5000/hour budget. 
+
+$ hook "$(printf '(( %.0s' {1..20000}; echo; echo gh project item-list 5 --limit 10000)"   # text the scanner cannot finish
+deny: Refused: this command could not be checked for a board scan (the check did not finish or failed), and it names item-list. A scan costs 101 GraphQL poi
+(answered in 4 s)
+
+$ FAKE_REMAINING=1050 hook 'gh --limit 100 project item-list 5'
+deny: Refused: this scan costs about 101 GraphQL points and only 1050 are left (it needs 101 + 1000 spare). The budget resets at 2023-11-14T22:13:20Z. Read 
+
+$ grep -c item-list $GH_LOG   # board calls that reached gh
+0

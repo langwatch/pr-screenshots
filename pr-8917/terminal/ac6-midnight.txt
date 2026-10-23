@@ -1,0 +1,44 @@
+# AC6 midnight proof, fresh org organization_00088uVUVSOQZApHFmpwzOSt75WCp, project project_00088v1f67XIxpacg6aXNm9lntuE5
+
+# session at 23:59 UTC (day D): now 2026-10-21T23:59:05.000Z
+POST /api/otel/v1/traces project=ac6-midnight agent=claude_code session=pr8917-ac6-2359 at=1792627145122 -> 200 {"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
+$ analyticssim customerio records for the org admin (oldest first)
+2026-10-21T16:43:23.523 customerio identify                              {"createdAt": "2026-10-21T16:43:23.480Z", "email": "ac6-midnight@pr8917.test", "has_evaluations": false, "has_prompts": false, "has_simulations": false, "has_subscription": false, "has_traces": false, "name": "AC6 Midnight Org admin"}
+2026-10-21T16:43:23.532 customerio group    organization_00088uVUVSOQZApHFmpwzOSt75WCp {"name": "AC6 Midnight Org", "plan": "free"}
+2026-10-21T16:43:23.535 customerio event    signed_up                    {}
+2026-10-21T16:43:25.567 customerio identify                              {"createdAt": "2026-10-21T16:43:22.613Z", "email": "ac6-midnight@pr8917.test", "name": "AC6 Midnight Org admin"}
+2026-10-21T23:59:07.884 customerio identify                              {"coding_last_session_at": "2026-10-21T23:59:05.321Z"}
+2026-10-21T23:59:07.935 customerio event    coding_agent_first_session   {"agent_type": "claude_code", "project_id": "project_00088v1f67XIxpacg6aXNm9lntuE5"}
+2026-10-21T23:59:07.935 customerio identify                              {"coding_agent_types": ["claude_code"], "coding_first_session_at": "2026-10-21T23:59:05.321Z"}
+2026-10-21T23:59:07.937 customerio identify                              {"integration_method": "coding_agent"}
+2026-10-21T23:59:07.945 customerio identify                              {"coding_active_days": 1}
+2026-10-21T23:59:08.654 customerio identify                              {"first_trace_at": "2026-10-21T23:59:05.321Z", "has_traces": true, "sdk_framework": "unknown", "sdk_language": "unknown"}
+2026-10-21T23:59:08.656 customerio event    first_trace_integrated       {"project_id": "project_00088v1f67XIxpacg6aXNm9lntuE5", "sdk_framework": "unknown", "sdk_language": "unknown"}
+-- 11 customerio records for _dEmC-zcCSBlylkbhKA0L
+$ NurturingOrganization codingActiveDays | codingLastActiveDay
+SET
+1|2026-10-21
+
+# session at 00:01 UTC (day D+1): now 2026-10-22T00:01:05.000Z
+POST /api/otel/v1/traces project=ac6-midnight agent=claude_code session=pr8917-ac6-0001 at=1792627265215 -> 200 {"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
+$ analyticssim customerio records for the org admin (oldest first)
+2026-10-21T16:43:23.523 customerio identify                              {"createdAt": "2026-10-21T16:43:23.480Z", "email": "ac6-midnight@pr8917.test", "has_evaluations": false, "has_prompts": false, "has_simulations": false, "has_subscription": false, "has_traces": false, "name": "AC6 Midnight Org admin"}
+2026-10-21T16:43:23.532 customerio group    organization_00088uVUVSOQZApHFmpwzOSt75WCp {"name": "AC6 Midnight Org", "plan": "free"}
+2026-10-21T16:43:23.535 customerio event    signed_up                    {}
+2026-10-21T16:43:25.567 customerio identify                              {"createdAt": "2026-10-21T16:43:22.613Z", "email": "ac6-midnight@pr8917.test", "name": "AC6 Midnight Org admin"}
+2026-10-21T23:59:07.884 customerio identify                              {"coding_last_session_at": "2026-10-21T23:59:05.321Z"}
+2026-10-21T23:59:07.935 customerio event    coding_agent_first_session   {"agent_type": "claude_code", "project_id": "project_00088v1f67XIxpacg6aXNm9lntuE5"}
+2026-10-21T23:59:07.935 customerio identify                              {"coding_agent_types": ["claude_code"], "coding_first_session_at": "2026-10-21T23:59:05.321Z"}
+2026-10-21T23:59:07.937 customerio identify                              {"integration_method": "coding_agent"}
+2026-10-21T23:59:07.945 customerio identify                              {"coding_active_days": 1}
+2026-10-21T23:59:08.654 customerio identify                              {"first_trace_at": "2026-10-21T23:59:05.321Z", "has_traces": true, "sdk_framework": "unknown", "sdk_language": "unknown"}
+2026-10-21T23:59:08.656 customerio event    first_trace_integrated       {"project_id": "project_00088v1f67XIxpacg6aXNm9lntuE5", "sdk_framework": "unknown", "sdk_language": "unknown"}
+2026-10-22T00:01:07.868 customerio identify                              {"coding_agent_types": ["claude_code"]}
+2026-10-22T00:01:07.894 customerio identify                              {"coding_active_days": 2}
+2026-10-22T00:01:08.700 customerio identify                              {"last_trace_at": "2026-10-22T00:01:05.393Z"}
+-- 14 customerio records for _dEmC-zcCSBlylkbhKA0L
+$ NurturingOrganization codingActiveDays | codingLastActiveDay
+SET
+2|2026-10-22
+
+# done

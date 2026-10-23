@@ -1,0 +1,12 @@
+INSTANT_EVAL_BOUNDED=true, organisation spend 1.100020038 USD of a 1 USD free budget
+
+own model (inception/decisions:mercury-decide), run instanteval_0000Cch2Gy25zAt0DsyFBDUQD1Bom
+  create 202, final {"status":"finished","total":5,"failed":0,"skipped":0,"tokens":0,"priceUsd":0}
+  llmsim: 5 x /v1/decisions, Bearer ...4242
+
+hosted (langwatch/instant-evals), same project after the resolver cache window
+  create 402 {"type":"internal_error","code":"instant_eval_free_budget_exhausted",
+   "message":"This organization has used its $1 of free Instant Evals. To keep judging, pick
+   another model for this judge or contact us to turn on usage billing.",
+   "meta":{"spentUsd":1.100020038,"budgetUsd":1}}
+  llmsim calls after the refused create: 0

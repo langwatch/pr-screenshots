@@ -1,0 +1,2 @@
+hosted run {"status":"finished","total":2,"failed":0,"skipped":0,"tokens":367,"priceUsd":0.000020038,"error":null}
+[{"path":"/v1/systemone","n":2,"model":"jev-latest","auth":["Bearer ...0000"]}]

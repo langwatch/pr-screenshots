@@ -1,0 +1,8 @@
+HEAD 35d41373efdcd2966104726e37888233cf127d0e
+No product path can file a good insight at this HEAD (insights.file returns 400, see t6). So one row was inserted directly in the proof project (own org, own project, disclosed):
+  InsightProjection id=insight_0004PR8880GoodSeed0000001 project=project_0004FoUGyMYK5lukb7hmxY6RPCPDc tone=good title="Search latency improved" topic=latency validDays=7 filedVia=chat
+  InsightReaderProjection insightreader_0004PR8880GoodSeed0001 (seenAt NULL = unseen)
+Also: seenAt set to NULL on the 2 insights saved through the picker, to show an unseen count.
+Inbox page text (from the live page):
+ Inbox | 3 | Stale | Archived | CHECK THIS ... Checkout errors spike | ACT NOW ... Checkout errors spike | GOOD NEWS | LATENCY | Search latency improved | p95 latency of search fell from 4.2s to 2.9s ...
+Verdict: stored good insight parses, renders with a GOOD NEWS badge, and counts (Inbox 3, pill 3).

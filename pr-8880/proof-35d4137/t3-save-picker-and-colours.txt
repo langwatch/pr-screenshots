@@ -1,0 +1,20 @@
+HEAD 35d41373efdcd2966104726e37888233cf127d0e
+Save picker (dialog from the real Langy answer A), read from the DOM:
+selects = [{"options":["Checkout errors spike","Refund endpoint latency increase"]},
+           {"options":["Act now","Check this"],"value":"bad"},
+           {"options":["1 day","3 days","7 days","14 days","30 days"]}]
+-> Verdict offers Act now and Check this only. No Good news.
+Header chrome scanned for red-ish computed colours (r>170,g<110,b<110) with the dialog open and no insights saved: [] (none).
+
+After saving 2 insights and leaving 3 unseen, on the project Home page (computed styles):
+ sidebar pill: SPAN bg=rgb(226, 232, 240) color=rgb(26, 26, 46) text "3"
+ bell: svg color=rgb(61, 61, 77); count SPAN bg=rgb(226, 232, 240) text "3"; aria-label "Inbox: new insights"
+ red-ish scan of whole body: DIV bg rgb(221,107,32) (orange project avatar "P" and one more orange DIV), SPAN bg rgb(229,62,62) with no label (not inside the Insights link; on a re-load it was gone, so it is a transient Home element, inferred to be the Home "New" carousel progress bar).
+Inbox page red-ish scan: the ACT NOW badge (rgb(229,62,62)) and the orange avatar. Nothing on the pill or the bell.
+Good-only unread (only the stored good insight unseen): sidebar pill "1", bg rgb(226, 232, 240).
+
+Code read: git diff origin/main...HEAD -- modules/insight/browser/src/ui/elements/unread-pill.tsx
+ - background={tone === "good" ? "green.solid" : "red.solid"}   (main)
+ + background="gray.solid"  color="gray.contrast"               (this PR)
+ insights-bell.tsx: UnreadPill tone prop removed.
+Old screenshot 05 (pr-8859/05-save-picker-options-expanded.png) shows a red sidebar pill and a red-badged bell with a "DEV . langwatch-action-only" label: that is the pre-PR (tone coloured) pill from another stack, not this HEAD.

@@ -1,0 +1,2 @@
+$ clickhouse: system.query_log, user langwatch_lwql_main, 22:46:40..22:46:58 (case 5 run requested 22:46:06 board request; run executed 22:46:51)
+2026-10-21 22:46:51	QueryFinish	13901	0	SELECT BucketStart, ErrorCount FROM trace_metrics_by_minute WHERE (BucketStart >= _CAST(1789948800, \'DateTime\')) AND (BucketStart < _CAST(1792540800, \'DateTime\')) AND (ErrorCount > 1000000000) LIMIT 10000 FORMAT JSON

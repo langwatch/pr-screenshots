@@ -1,0 +1,10 @@
+HEAD 35d41373efdcd2966104726e37888233cf127d0e
+Stack: PORT=5800 pnpm dev with .env flags only (release_insights NOT in FEATURE_FLAG_FORCE_ENABLE)
+URL: http://localhost:5800/pr8880-proof-org-RPCPDc/insights
+BODY: LLM Ops | PR8880 Proof Org | P | PR8880 Proof Org | DEV | Search | Ctrl+K | Quick Search | Ctrl+K | Home | Observe | Analytics | Trace Explorer | Online Evals | Test | Agent Testing | Experiments | Annotations | Build | Settings | Support | This page is not here | The address may have changed, or this page isn't available for your organization. Go back to continue. | Go back | Generate checkout service insights card | Facts for the checkout service, yesterday against the day before: errors rose from 41 to 96, and 71 of the 96 fell between 14:00 and 15:00 UTC. The refund endpoint p95 latency rose from 1.1s to 1.9s. The p95 latency of search improved from 4.2s to 2.9s. Do not run any tools. Write two short lines on what you read. Then end your reply with exactly one fenced code block whose info string is langy-card, holding JSON of kind "insights" with blockId "daily-insights" and a 
+chrome: {"insightsLink":false,"bell":false}
+langy shows card: true | save buttons: 0
+POST insights.file flag off -> 403 {"error":{"message":"insights_not_enabled","code":-32003,"data":{"code":"FORBIDDEN","httpStatus":403,"path":"insights.file","cause":null,"error":{"code":"insights_not_enabled","kind":"insights_not_enabled","meta":{},"traceId":"d531f6b68e9915df13ccea9001c14339","spanId":"3a7e0356b422202c","httpStatus
+console: [
+  'error: Failed to load resource: the server responded with a status of 403 (Forbidden)'
+]

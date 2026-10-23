@@ -1,0 +1,34 @@
+tree: 654456 654468 654492 654493 659067 659091 659117 659118 659224 659282 659284 
+    PID CMD
+ 654456 node /home/ubuntu/.nvm/versions/node/v24.13.0/bin/pnpm dev
+ 654468 /home/ubuntu/.cache/node/corepack/v1/pnpm/12.6.0/pnpm-native dev
+ 654492 sh -c bash dev/scripts/dev-stack.sh
+ 654493 node /home/ubuntu/.nvm/versions/node/v24.13.0/bin/pnpm --silent exec concurrently --kill-others-on-fail --names 
+ 659067 /home/ubuntu/.cache/node/corepack/v1/pnpm/12.6.0/pnpm-native --silent exec concurrently --kill-others-on-fail --
+ 659091 node /home/ubuntu/worktrees/langwatch-insights-one-list/node_modules/.bin/../.pnpm/concurrently@9.2.4/node_modul
+ 659117 /bin/sh -c bash '/home/ubuntu/worktrees/langwatch-insights-one-list/dev/scripts/lane.sh' backend 'DEBUG=langwatc
+ 659118 node /home/ubuntu/.nvm/versions/node/v24.13.0/bin/pnpm --silent --filter @langwatch/dev-runtime dev
+ 659224 /home/ubuntu/.cache/node/corepack/v1/pnpm/12.6.0/pnpm-native --silent --filter @langwatch/dev-runtime dev
+ 659282 sh -c while true; do node --experimental-transform-types $(test -f ../../.env && echo --env-file=../../.env) src
+ 659284 node --experimental-transform-types --env-file=../../.env src/app.entrypoint.ts
+$ ss -ltn | grep -E ":5640 "
+(exit 1)
+(leftover lanes above, if any)
+$ docker rm -f -v lw-insights-pr8999-postgres lw-insights-pr8999-clickhouse lw-insights-pr8999-redis
+lw-insights-pr8999-postgres
+lw-insights-pr8999-clickhouse
+lw-insights-pr8999-redis
+$ docker ps -a | grep lw-insights-pr8999
+(exit 1)
+$ mydb after
+tables|280
+migrations|434
+schemas|information_schema,mydb,mydb_upgrade_ledger,pg_catalog,pg_toast,public
+migration_names_md5|0f1cc7ee24612445900c602076a4d40a
+ledger_tables|6
+$ diff mydb-before-ownstack.txt mydb-after-ownstack.txt
+(exit 0)
+$ sha256sum -c env.sha
+.env: OK
+$ git status --short
+(end)

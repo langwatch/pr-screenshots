@@ -1,0 +1,4 @@
+$ psql: backdate the archived card's filedAt/renewedAt by 4 days (own row; the 3 days of validity cannot elapse inside a proof)
+SET
+insight_health_c59f1c04348de7dfa07b52284ad9d6fb|1792276874566|1792276965540
+UPDATE 1

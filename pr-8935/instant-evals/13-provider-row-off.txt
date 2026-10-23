@@ -1,0 +1,1 @@
+row off | judge {"status":"error","details":"Instant Evals could not judge this trace: classifier_key_invalid. The decision model's key is missing, switched off or refused. Check it in Settings > Model Providers."} | run {"status":"finished","skipped":3,"failed":0,"tokens":0,"priceUsd":0} | results [{"status":"skipped","error":"classifier_key_invalid"}] | llmsim []

@@ -1,0 +1,20 @@
+## curl -sI https://support-tracker--acme-support-9e9856.rchaves.app/
+HTTP/2 200 
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors https://laze.langwatch.ai
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+x-content-type-options: nosniff
+
+## draft preview without a viewer
+HTTP/2 302 
+location: /_laze/sign-in?return=%2F
+HTTP/2 302 
+location: https://laze.langwatch.ai/apps/sign-in?app=app_0003WCZFosHLYudo787tyZkOT2LGC&return=%2F&site=draft&workspace=ws_acme_support_demo
+
+## cross-site API call
+{"code":"cross_origin_refused","message":"The platform API answers only its own app"}
+
+## theme
+HTTP/2 200 
+content-type: text/css; charset=utf-8

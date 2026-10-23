@@ -1,0 +1,68 @@
+# GET /api/gateway/v1/budgets
+{
+    "data": [
+        {
+            "id": "Yx-L7Y1_GZmahbYG_sc2_",
+            "organization_id": "local-dev-organization",
+            "scope_type": "project",
+            "scope_id": "local-dev-project",
+            "name": "project monthly",
+            "description": null,
+            "window": "month",
+            "on_breach": "block",
+            "limit_usd": "50",
+            "limit_nano_usd": 50000000000,
+            "spent_usd": "0.124305426",
+            "spent_nano_usd": 124305426,
+            "timezone": null,
+            "provider_key": null,
+            "external_id": null,
+            "metadata": {},
+            "current_period_started_at": "2026-10-01T00:00:00.000Z",
+            "resets_at": "2026-11-01T00:00:00.000Z",
+            "cycle_anchor_at": null,
+            "last_reset_at": null,
+            "archived_at": null,
+            "created_at": "2026-10-06T16:53:15.434Z",
+            "scope_reach": "reachable"
+        },
+        {
+            "id": "Ix2emKtJBOa30TnWdQHSB",
+            "organization_id": "local-dev-organization",
+            "scope_type": "virtual_key",
+            "scope_id": "vk_9uL9fFEamqLVfEZWumirmg",
+            "name": "voice-user-1 monthly",
+            "description": null,
+            "window": "month",
+            "on_breach": "block",
+            "limit_usd": "5",
+            "limit_nano_usd": 5000000000,
+            "spent_usd": "0.0361368",
+            "spent_nano_usd": 36136800,
+            "timezone": null,
+            "provider_key": null,
+            "external_id": null,
+            "metadata": {},
+            "current_period_started_at": "2026-10-06T17:04:15.815Z",
+            "resets_at": "2026-11-01T00:00:00.000Z",
+            "cycle_anchor_at": null,
+            "last_reset_at": "2026-10-06T17:04:15.815Z",
+            "archived_at": null,
+            "created_at": "2026-10-06T16:53:15.307Z",
+            "scope_reach": "reachable"
+        }
+    ],
+    "spend_available": true,
+    "next_cursor": null
+}
+
+# GET /api/gateway/v1/virtual-keys/vk_9uL9fFEamqLVfEZWumirmg/spend
+{
+    "virtual_key_id": "vk_9uL9fFEamqLVfEZWumirmg",
+    "spent_usd": "0.124619",
+    "requests": 91,
+    "window": {
+        "from": 1790812800000,
+        "to": 1791306604595
+    }
+}

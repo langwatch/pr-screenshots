@@ -1,0 +1,90 @@
+# Replay proof, PR 54, repo head aea206b89693020569e398b517276c1c68f07896, 2026-10-10T05:31:43Z
+# cwd = repo root.  $T = transcript of session b3d2708b (read-only).  $W = scratch dir.
+# Only file base names and at most 80 characters of each directive are printed.
+
+## 1. Look gate: the real SendUserFile call (transcript line 16910, 2026-10-07T03:35:05Z)
+
+$ head -n 16910 "$T" > "$W/cut.jsonl"; wc -l < "$W/cut.jsonl"
+16910
+
+$ sed -n 16910p "$T" | jq -c --arg tp "$W/cut.jsonl" '. as $l | .message.content[] | select(.type=="tool_use") | {hook_event_name:"PreToolUse", tool_name:.name, transcript_path:$tp, cwd:$l.cwd, tool_use_id:.id, tool_input:.input}' > "$W/look-payload.json"
+
+$ jq -c '{tool_name, tool_use_id, files:(.tool_input.files|length), caption_chars:(.tool_input.caption|length)}' "$W/look-payload.json"
+{"tool_name":"SendUserFile","tool_use_id":"toolu_01WyF8tT6tR1BsjtgLFwwgAP","files":8,"caption_chars":208}
+
+$ lib/hooks/sent-file-look-gate.sh < "$W/look-payload.json" > "$W/look-out.json"; echo "exit=$?"
+exit=0
+
+$ jq -r .hookSpecificOutput.permissionDecision "$W/look-out.json"
+deny
+
+$ jq -r .hookSpecificOutput.permissionDecisionReason "$W/look-out.json" | sed -E 's#/[^ ,]*/##g'
+Image not looked at before sending: 11-add-chart-drawer.png, 12-queries-tab.png, 14-widget-menu.png, 10-board.png, 15-board-390.png, 00-landing.png, 01-dashboards.png, 90-doc-390.png. Read each file first, in its own step (a Read in the same message as the send does not count), look at what it shows, then send. If a Read fails, send again and say so in the caption.
+
+$ jq -r .hookSpecificOutput.permissionDecisionReason "$W/look-out.json" | grep -oE '[^/ ,]+\.png' | sort | tee "$W/named.txt" | wc -l
+8
+
+$ jq -r '.tool_input.files[] | split("/") | last' "$W/look-payload.json" | sort | diff - "$W/named.txt" && echo "all 8 sent files are named, no other file"
+all 8 sent files are named, no other file
+
+$ jq -r .tool_input.caption "$W/look-payload.json" > "$W/caption.txt"; grep -cF -f "$W/caption.txt" "$W/look-out.json"; echo "(0 = no caption line is in the hook output)"
+0
+(0 = no caption line is in the hook output)
+
+## 2. Look gate: time on the full transcript (AC: under 1 s; wired timeout 5 s)
+
+$ ls -l "$T" | cut -d" " -f5; wc -l < "$T"
+198957344
+34841
+
+$ jq -c --arg tp "$T" '.transcript_path=$tp' "$W/look-payload.json" > "$W/look-payload-full.json"
+
+$ cut -d" " -f1-3 /proc/loadavg; time lib/hooks/sent-file-look-gate.sh < "$W/look-payload-full.json" > "$W/look-out-full-1.json"; echo "exit=$? decision=$(jq -r '.hookSpecificOutput.permissionDecision // "none (allow)"' "$W/look-out-full-1.json")"
+10.96 12.05 13.03
+real 1.104 s  user 0.523 s  sys 0.183 s
+exit=0 decision=deny
+
+$ cut -d" " -f1-3 /proc/loadavg; time lib/hooks/sent-file-look-gate.sh < "$W/look-payload-full.json" > "$W/look-out-full-2.json"; echo "exit=$? decision=$(jq -r '.hookSpecificOutput.permissionDecision // "none (allow)"' "$W/look-out-full-2.json")"
+10.96 12.05 13.03
+real 0.833 s  user 0.495 s  sys 0.179 s
+exit=0 decision=deny
+
+$ cut -d" " -f1-3 /proc/loadavg; time lib/hooks/sent-file-look-gate.sh < "$W/look-payload-full.json" > "$W/look-out-full-3.json"; echo "exit=$? decision=$(jq -r '.hookSpecificOutput.permissionDecision // "none (allow)"' "$W/look-out-full-3.json")"
+10.96 12.05 13.03
+real 0.693 s  user 0.474 s  sys 0.169 s
+exit=0 decision=deny
+
+## 3. Directive gate: the two real SendMessage directives (lines 17602 and 17639)
+
+$ sed -n 17602p "$T" | jq -c '.message.content[] | select(.type=="tool_use") | {hook_event_name:"PreToolUse", tool_name:.name, tool_use_id:.id, tool_input:.input}' > "$W/dir-17602.json"
+
+$ jq -c '{tool_name, to_is_main:(.tool_input.to=="main"), chars:(.tool_input.message|length), first80:.tool_input.message[0:80]}' "$W/dir-17602.json"
+{"tool_name":"SendMessage","to_is_main":false,"chars":742,"first80":"Decision made: resume the Suggested-boards work exactly as in my \"Correction fro"}
+
+$ lib/hooks/directive-decision-gate.sh < "$W/dir-17602.json" > "$W/dir-17602-out.json"; echo "exit=$?"; jq -r .hookSpecificOutput.permissionDecision "$W/dir-17602-out.json"
+exit=0
+deny
+
+$ jq -r .hookSpecificOutput.permissionDecisionReason "$W/dir-17602-out.json"
+This message passes on an owner decision to another agent. Put the owner's words in it as a line: Owner said: "<the owner's words>". If the owner did not say it, ask the owner first, or mark it as your own call with a line that starts with Own call: and says why. If this message is a hold or a question, say so in an Own call: line.
+
+$ jq -r '.tool_input.message[0:40]' "$W/dir-17602.json" > "$W/dir-17602-head.txt"; grep -cF -f "$W/dir-17602-head.txt" "$W/dir-17602-out.json"; echo "(0 = the message is not in the hook output)"
+0
+(0 = the message is not in the hook output)
+
+$ sed -n 17639p "$T" | jq -c '.message.content[] | select(.type=="tool_use") | {hook_event_name:"PreToolUse", tool_name:.name, tool_use_id:.id, tool_input:.input}' > "$W/dir-17639.json"
+
+$ jq -c '{tool_name, to_is_main:(.tool_input.to=="main"), chars:(.tool_input.message|length), first80:.tool_input.message[0:80]}' "$W/dir-17639.json"
+{"tool_name":"SendMessage","to_is_main":false,"chars":1702,"first80":"FINAL decision on Suggested boards (replaces all earlier Suggested messages; no "}
+
+$ lib/hooks/directive-decision-gate.sh < "$W/dir-17639.json" > "$W/dir-17639-out.json"; echo "exit=$?"; jq -r .hookSpecificOutput.permissionDecision "$W/dir-17639-out.json"
+exit=0
+deny
+
+$ jq -r .hookSpecificOutput.permissionDecisionReason "$W/dir-17639-out.json"
+This message passes on an owner decision to another agent. Put the owner's words in it as a line: Owner said: "<the owner's words>". If the owner did not say it, ask the owner first, or mark it as your own call with a line that starts with Own call: and says why. If this message is a hold or a question, say so in an Own call: line.
+
+$ jq -r '.tool_input.message[0:40]' "$W/dir-17639.json" > "$W/dir-17639-head.txt"; grep -cF -f "$W/dir-17639-head.txt" "$W/dir-17639-out.json"; echo "(0 = the message is not in the hook output)"
+0
+(0 = the message is not in the hook output)
+

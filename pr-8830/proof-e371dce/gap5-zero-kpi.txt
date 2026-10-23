@@ -1,0 +1,14 @@
+$ git -C ~/worktrees/langwatch-pr8830 rev-parse HEAD
+e371dceda695fd3c68e7a9afa8f2b34609dafb06
+$ date -u
+Wed Oct 21 22:47:39 UTC 2026
+$ pnpm task insight-daily-run-request project_00023nZyNXX6e4MD4eOlLyfXdWQro <userId> dashboard dashboard_0001proof88308181a2a30d "Zero KPI board"
+task finished lines: 1
+$ clickhouse event_log for tenant project_00023nZyNXX6e4MD4eOlLyfXdWQro, board dashboard_0001proof88308181a2a30d, since run request
+lw.insight.daily_schedule.run_requested {"board": {"kind": "dashboard", "id": "dashboard_0001proof88308181a2a30d", "name": "Zero KPI board"}}
+lw.insight.daily_schedule.run_settled {"outcome": "nothing", "reason": "no_new_traces", "filedCount": 0, "renewedCount": 0, "conversationId": null, "board": {"kind": "dashboard", "id": "dashboard_0001proof88308181a2a30d", "name": "Zero KPI board"}}
+$ clickhouse: system.query_log, user langwatch_lwql_main, last 3 min (the KPI statement ran and returned its one zero row)
+2026-10-21 22:48:33	QueryFinish	7492	1	SELECT sum(ErrorCount) AS errors FROM trace_metrics_by_minute WHERE (BucketStart >= _CAST(1789948800, \'DateTime\')) AND (BucketStart < _CAST(1792540800, \'DateTime\')) LIMIT 10000 FORMAT JSON
+$ clickhouse: the KPI's own value over the check's period (project project_00023nZyNXX6e4MD4eOlLyfXdWQro)
+0	40
+(errors<TAB>traces above: a real 0 errors over 40 traces)

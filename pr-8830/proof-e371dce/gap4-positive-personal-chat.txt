@@ -1,0 +1,14 @@
+$ clickhouse: window traces before this run (collapsed), showing the personal chat conversation beside the run's own
+4973e51d41bd332a75bad6faeaef95bd	2026-10-21 23:14:24.403	langy	langyconv_0002SmRtYNw5mSyZYQBUy7ZxiqhUN
+e4a1129ea3cb345bd1f95b2d5b3d4852	2026-10-21 23:19:56.765	langy	langyconv_0002VYibshTNokVIUBeNWzCoyfKOj
+1774e2a5993d32d3980d962c3c60567a	2026-10-21 23:31:43.207	langy	langyconv_0002bT3DNCYoavdGB68nAlVaUQr5d
+$ clickhouse: langy conversation origins
+$ git -C ~/worktrees/langwatch-pr8830 rev-parse HEAD
+e371dceda695fd3c68e7a9afa8f2b34609dafb06
+$ date -u
+Wed Oct 21 23:32:30 UTC 2026
+$ pnpm task insight-daily-run-request project_0002PaEdetEvrJGZOj9Gk9MzwOhXN <userId> dashboard dashboard_0001proof883063f854432a "Langy run board"
+task finished lines: 1
+$ clickhouse event_log for tenant project_0002PaEdetEvrJGZOj9Gk9MzwOhXN, board dashboard_0001proof883063f854432a, since run request
+lw.insight.daily_schedule.run_requested {"board": {"kind": "dashboard", "id": "dashboard_0001proof883063f854432a", "name": "Langy run board"}}
+lw.insight.daily_schedule.run_started {"conversationId": "langyconv_0002cEmvmFjXBPt3EPGnLv8k1CV0P", "board": {"kind": "dashboard", "id": "dashboard_0001proof883063f854432a", "name": "Langy run board"}}

@@ -1,0 +1,18 @@
+head=15fdf870 logs=<tmp>/testlogs.PxkeP7
+agent-worktree-guard.test.sh exit=0 PASS=10 FAIL=0 last: PASS invalid json -> empty, exit 0
+board-scan-budget-guard.test.sh exit=0 PASS=423 FAIL=0 last: PASS no false deny, zero gh calls: echo $(( 1 + 2 )) gh project item-list 5 --limit 10000
+credential-claim-gate.test.sh exit=0 PASS=73 FAIL=0 last: PASS marker text denied and not echoed
+deny-unattended-prompt.test.sh exit=0 PASS=20 FAIL=0 last: PASS launcher does not wire it under PreToolUse
+directive-decision-gate.test.sh exit=0 PASS=93 FAIL=0 last: PASS silent: empty stdin
+hooks-wiring.test.sh exit=0 PASS=17 FAIL=0 last: PASS directive-decision-gate.sh is executable
+list-secrets.test.sh exit=0 PASS=21 FAIL=0 last: PASS no HOME and no SECRETS_DIR -> fixed message, non-zero exit
+notes-tracking-freshness.test.sh exit=0 PASS=59 FAIL=0 last: PASS enabledPlugins still in assistant settings
+prior-art-context.test.sh exit=0 PASS=126 FAIL=0 last: PASS 126 PostToolUse event -> empty, exit 0
+publish-checklist.test.sh exit=0 PASS=11 FAIL=0 last: PASS action publish with asset:true -> empty
+secrets-context.test.sh exit=0 PASS=25 FAIL=0 last: PASS marker input not echoed
+sent-file-look-gate.test.sh exit=0 PASS=41 FAIL=0 last: PASS empty agent_id: main transcript is used
+ship-flow-file-guard.test.sh exit=0 PASS=25 FAIL=0 last: PASS invalid json -> empty, exit 0
+ship-ready-gate.test.sh exit=0 PASS=97 FAIL=0 last: PASS stale: missing reviewer + PR URL -> no gh calls
+night-watch-tooling.test.sh exit=0 PASS=109 FAIL=0 last: PASS no bundle dir exits non-zero
+night-watch-triage.test.sh exit=0 PASS=24 FAIL=0 last: PASS j no issue edit attempted
+ALLDONE

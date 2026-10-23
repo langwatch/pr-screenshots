@@ -1,0 +1,18 @@
+time: 2026-10-20T05:34:39Z
+$ curl -sS -i --http1.1 -X POST http://127.0.0.1:40495/api/langy/conversations/card-run1-1792469849-25273/messages -H 'Authorization: Bearer <seeded user PAT>' -H 'X-Project-Id: local-dev-project' -H 'Content-Type: application/json' -H 'Prefer: wait=120' -d '{"messages":[{"role":"user","content":"Look at my repo's code and tell me where the LangWatch SDK is initialised"}],"idempotencyKey":"card-run1-1792469849-25273","adoptConversationId":true}'
+HTTP/1.1 200 OK
+content-type: application/json
+cross-origin-resource-policy: same-origin
+preference-applied: wait=120
+referrer-policy: no-referrer
+traceparent: 00-e4b2cb9eabf8c80109e3f08d5d14f1fe-640841e84f83c40c-01
+x-api-version: 2026-08-07
+x-api-version-status: stable
+x-content-type-options: nosniff
+x-frame-options: DENY
+content-length: 172
+date: Tue, 20 Oct 2026 05:34:39 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"conversationId":"card-run1-1792469849-25273","turnId":"langyturn_8505c5e454010b5e3cadf54d0524cce0","status":"stopped","error":null,"reply":{"role":"assistant","text":""}}

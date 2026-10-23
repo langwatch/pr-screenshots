@@ -1,0 +1,66 @@
+# paths under the scratch dir are shown as $S
+$ git -C /home/ubuntu/worktrees/claude-plugins-issue198 rev-parse --short HEAD
+f136cca
+rc=0
+
+$ env | grep -E '^(HTTPS_PROXY|ROLLING_CONTEXT_TRIGGER)='
+HTTPS_PROXY=http://127.0.0.1:5590
+ROLLING_CONTEXT_TRIGGER=100000
+rc=0
+
+$ wc -l < $S/idx/index.txt
+1638
+rc=0
+
+$ echo old > $S/idx/session.id; echo old > $S/idx/session.fingerprint; ls $S/idx
+index.txt
+map.tsv
+roots.stamp
+session.fingerprint
+session.id
+rc=0
+
+$ for q in "How to bake sourdough" "Who won the 1998 world cup" "What is the distance to Andromeda" "Best way to prune roses" "How do I merge a pull request safely with squash and match-head-commit" "How do I file a GitHub issue"; do
+>   bash $H --question "$q" --index-dir $S/idx --json | jq -c '{not_found:(.not_found//false), n:(.selected_numbers|length), ids:(.resolved_ids[0:3]), mode:.stages.select.mode, cache_read:.stages.select.usage.cache_read_input_tokens, cache_write:.stages.select.usage.cache_creation_input_tokens}'; echo rc=${PIPESTATUS[0]}
+> done
+q: How to bake sourdough
+{"not_found":true,"n":0,"ids":[],"mode":"n/a","cache_read":89053,"cache_write":1591}
+rc=0
+q: Who won the 1998 world cup
+{"not_found":true,"n":0,"ids":[],"mode":"n/a","cache_read":89056,"cache_write":1591}
+rc=0
+q: What is the distance to Andromeda
+{"not_found":true,"n":0,"ids":[],"mode":"n/a","cache_read":89056,"cache_write":1591}
+rc=0
+q: Best way to prune roses
+{"not_found":true,"n":0,"ids":[],"mode":"n/a","cache_read":89053,"cache_write":1591}
+rc=0
+q: How do I merge a pull request safely with squash and match-head-commit
+{"not_found":false,"n":9,"ids":["proc.github.drive-pr","proc.review-qa.pr-ready-check","dec.2026-08-22-orchardist-squash-conventional-title"],"mode":"n/a","cache_read":89066,"cache_write":1591}
+rc=0
+q: How do I file a GitHub issue
+{"not_found":false,"n":8,"ids":["proc.github.create-issue.hetzner","fm.raw-gh-issue-create","fm.raw-gh-issue-create.hetzner"],"mode":"n/a","cache_read":89056,"cache_write":1591}
+rc=0
+
+$ ls $S/idx
+index.txt
+map.tsv
+roots.stamp
+rc=0
+
+$ bash $H --question "How do I file a GitHub issue" --index-dir $S/idx --dry-run --json | jq -c '{keys:keys, mode, system_prompt_chars:(.stage1_system_prompt|length), stage1_prompt}'
+{"keys":["answer_model","dry_run","mode","select_model","stage1_prompt","stage1_system_prompt","stage2_prompt_template"],"mode":"n/a","system_prompt_chars":234060,"stage1_prompt":"Question:\nHow do I file a GitHub issue"}
+rc=0
+
+$ bash $H --question q --index-dir $S/idx-empty2 2>&1
+how-do-i: index at $S/idx-empty2/index.txt is missing, unreadable or empty — re-run with --rebuild
+rc=1
+
+$ HOWDOI_CLAUDE_BIN=$S/boom.sh bash $H --question q --index-dir $S/idx 2>&1
+how-do-i: stage 1 (select) CLI invocation failed (exit 3): boom-198
+rc=1
+
+$ ls -A $TMPDIR | grep -c how-do-i
+0
+rc=1
+

@@ -1,0 +1,17 @@
+# POST $GATEWAY/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL/stream?output_format=mp3_44100_128  {"model_id":"eleven_flash_v2_5"}  header xi-api-key: <virtual key>
+status=200 ttfb=0.321521s total=0.784207s bytes=120417
+
+# response headers
+HTTP/1.1 200 OK
+Content-Type: audio/mpeg
+Current-Concurrent-Requests: 1
+History-Item-Id: OfxFHnJQhCjOjk3fZ1uC
+Maximum-Concurrent-Requests: 10
+Request-Id: wDsWzKJkVSfxrrqu2Hha
+Traceparent: 00-e2f0dfd4b7d0e896a26c76a291b62846-5c297559fd7b61fc-01
+X-Langwatch-Gateway-Request-Id: req_07bfc7d0e0178bae5002a637b7e472
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_07bfc7d0e0178bae5002a637b7e472
+Date: Tue, 06 Oct 2026 16:53:38 GMT
+Transfer-Encoding: chunked
+

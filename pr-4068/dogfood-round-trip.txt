@@ -1,0 +1,85 @@
+=== 1. LOCAL YAML (what the user authored) ===
+model: openai/gpt-5.4-mini
+messages:
+  - role: system
+    content: |
+      Classify the product into Picnic's L3 taxonomy.
+  - role: user
+    content: "Classify: {{product_name}}"
+response_format:
+  name: picnic_category
+  schema:
+    type: object
+    properties:
+      l3:
+        type: string
+        enum: ["Vers", "Smoothies", "Gekoeld", "Vruchtensap"]
+      reasoning:
+        type: string
+    required: [l3, reasoning]
+    additionalProperties: false
+
+=== 2. PUSH -> outputs sent to the platform ===
+[
+  {
+    "identifier": "picnic_category",
+    "type": "json_schema",
+    "json_schema": {
+      "type": "object",
+      "properties": {
+        "l3": {
+          "type": "string",
+          "enum": [
+            "Vers",
+            "Smoothies",
+            "Gekoeld",
+            "Vruchtensap"
+          ]
+        },
+        "reasoning": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "l3",
+        "reasoning"
+      ],
+      "additionalProperties": false
+    }
+  }
+]
+temperature in payload: undefined
+
+=== 3. PLATFORM stored shape, then GET returns it ===
+temperature on the API response: undefined
+
+=== 4. PULL -> materialized -> YAML ===
+model: openai/gpt-5.4-mini
+messages:
+  - role: system
+    content: |
+      Classify the product into Picnic's L3 taxonomy.
+  - role: user
+    content: 'Classify: {{product_name}}'
+response_format:
+  name: picnic_category
+  schema:
+    type: object
+    properties:
+      l3:
+        type: string
+        enum:
+          - Vers
+          - Smoothies
+          - Gekoeld
+          - Vruchtensap
+      reasoning:
+        type: string
+    required:
+      - l3
+      - reasoning
+    additionalProperties: false
+
+=== 5. Lossless? ===
+response_format identical after push->pull: true
+temperature still absent: true

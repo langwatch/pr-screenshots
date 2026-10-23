@@ -1,0 +1,13 @@
+# POST $GATEWAY/v1/audio/speech  {"model":"gpt-4o-mini-tts","voice":"nova","response_format":"mp3","stream_format":"audio"}
+status=200 ttfb=2.267255s total=2.760115s bytes=124032
+
+# response headers
+HTTP/1.1 200 OK
+Content-Type: audio/mpeg
+Traceparent: 00-0d61bf05cafc0fbd387e73df9abcf5ed-fabb98894563a985-01
+X-Langwatch-Gateway-Request-Id: req_e80806cf0dfa577627ebf9afc44cbb
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_abb6bf9c3b584e16a24c1da8ec1ce5fb
+Date: Tue, 06 Oct 2026 16:53:35 GMT
+Transfer-Encoding: chunked
+

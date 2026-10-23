@@ -1,0 +1,17 @@
+# C9 live proof, head 05b70ba, 2026-10-07T00:39:17Z
+
+$ python3 c9live.py modules/github/scripts/lib   # 8484 bodies fetched live from GitHub userContentEdits
+8484 16:16Z ready-report body (edit 15:25:39Z): C9 FAIL - proof section has no raw capture from the running app (HTTP status line, `$ cmd` + output block, or linked .txt/.log) — images and test/CI output do not count; add one or mark `<!-- ui-only -->`
+8484 18:43Z evidence-update body (edit 18:42:35Z): C9 PASS - proof section has a raw capture from the running app
+8484 current live body: C9 PASS - proof section has a raw capture from the running app
+
+$ modules/github/scripts/pr-ready-check.sh --format text drewdrewthis langwatch-sweatshop 8
+=== feat(pr-ready): C9 running-app evidence criterion ===
+overall: NOT_READY ✗
+  FAIL  C9: proof section has no raw capture from the running app (HTTP status line, `$ cmd` + output block, or linked .txt/.log) — images and test/CI output do not count; add one or mark `<!-- ui-only -->`
+exit=1
+
+$ modules/github/scripts/pr-ready-check.sh --format text langwatch scenario 996
+overall: NOT_READY ✗
+  FAIL  C9: proof section has no raw capture from the running app (HTTP status line, `$ cmd` + output block, or linked .txt/.log) — images and test/CI output do not count; add one or mark `<!-- ui-only -->`
+exit=1

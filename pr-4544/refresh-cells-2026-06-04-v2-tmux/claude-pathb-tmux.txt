@@ -1,0 +1,55 @@
+bash-5.3$ node /tmp/lw-codex-gemini/typescript-sdk/dist/cli/index.js claude
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+╭─── Claude Code v2.1.162 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                   │ Tips for getting started                                                                  │
+│                   Welcome back!                   │ Run /init to create a CLAUDE.md file with instructions for Claude                         │
+│                                                   │ ───────────────────────────────────────────────────────────────────────────────────────── │
+│                      ▐▛███▜▌                      │ What's new                                                                                │
+│                     ▝▜█████▛▘                     │ `claude agents --json` now includes `waitingFor` showing what a waiting session is block… │
+│                       ▘▘ ▝▝                       │ `--tools`: explicitly listing Grep/Glob now provides the dedicated search tools on nativ… │
+│                                                   │ `/effort` now confirms when your chosen level will persist as the default for new sessio… │
+│   Opus 4.7 with high effort · API Usage Billing   │ /release-notes for more                                                                   │
+│                   /private/tmp                    │                                                                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+ ⚠ Both claude.ai and ANTHROPIC_API_KEY set · auth may not work as expected
+   · to use claude.ai: Unset the ANTHROPIC_API_KEY environment variable, or claude /logout then say "No" to the API key approval before login.
+   · to use ANTHROPIC_API_KEY: claude /logout to sign out of claude.ai.
+ ⚠ 1 setup issue: MCP · /doctor
+
+❯ Reply EXACTLY this token and nothing else: PONG-CLAUDE-PATHB-INTERACTIVE-153655
+
+⏺ PONG-CLAUDE-PATHB-INTERACTIVE-153655
+
+✻ Brewed for 3s
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ accept edits on (shift+tab to cycle) · ← for agents                                                                           42133 tokens
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

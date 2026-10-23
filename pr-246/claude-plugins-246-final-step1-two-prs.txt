@@ -1,0 +1,21 @@
+$ date -u
+2026-10-10T16:35:32Z
+a
+b
+c
+c95869310b0cd522058df1b3423a428bbc497d2e fix(b): change b five
+run https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38068293721 success c95869310b0cd522058df1b3423a428bbc497d2e
+release-please	Run googleapis/release-please-action@v4	2026-10-10T16:35:49.3947968Z ✔ Updating reference heads/release-please--branches--main--components--c to 78ade5d12c6a9186ac5013f791b8ae334c7eb2a2
+release-please	Run googleapis/release-please-action@v4	2026-10-10T16:35:49.4472602Z ✔ Updating reference heads/release-please--branches--main--components--b to 1b33de4d1aa44d60a5e74cf234d914eb08d0e294
+release-please	Repair release manifests	2026-10-10T16:35:55.0510715Z ok: release-please--branches--main--components--b
+release-please	Repair release manifests	2026-10-10T16:35:55.8803313Z ok: release-please--branches--main--components--c
+release-please	Repair release manifests	2026-10-10T16:35:55.8806626Z checked: 2 release PR(s)
+$ open PRs
+{"number":7,"title":"chore(main): release b 0.2.3","headRefName":"release-please--branches--main--components--b","head":"1b33de4d1aa44d60a5e74cf234d914eb08d0e294","author":"app/github-actions","labels":["autorelease: pending"]}
+{"number":4,"title":"chore(main): release c 0.1.1","headRefName":"release-please--branches--main--components--c","head":"78ade5d12c6a9186ac5013f791b8ae334c7eb2a2","author":"app/github-actions","labels":["autorelease: pending"]}
+main c95869310b0cd522058df1b3423a428bbc497d2e
+{
+  "plugins/a": "0.2.0",
+  "plugins/b": "0.2.2",
+  "plugins/c": "0.1.0"
+}

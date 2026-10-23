@@ -1,0 +1,18 @@
+$ haven sim analytics list --provider customerio --id AScFBzbv7ZtlpaD7SsKOg
+# head de44dc2 after a fresh dev host; uses_coding_agent with Unix-seconds dates
+rec_000291 15:40:36 identify {"createdAt": 1792683619, "...": "..."}
+rec_000293 15:42:11 identify {"createdAt": 1792683731, "...": "..."}
+rec_000294 15:42:11 group organization_0001cK590pSBU69udUXDiwiOd5HQe {"name": "UsesCA Five", "plan": "free"}
+rec_000295 15:42:11 event signed_up {"leadSource": "cli", "onboardingVariant": "classic", "primary_intent": "llm_ops", "terms": true}
+rec_000298 15:42:36 identify {"coding_last_session_at": 1792683753}
+rec_000299 15:42:36 identify {"coding_agent_types": ["claude_code"], "coding_first_session_at": 1792683753}
+rec_000300 15:42:36 event coding_agent_first_session {"agent_type": "claude_code", "project_id": "project_0001cPGqvSsxSfnMsg35eldDXD9db"}
+rec_000301 15:42:36 identify {"uses_coding_agent": true}
+rec_000302 15:42:36 identify {"coding_active_days": 1}
+rec_000303 15:42:36 identify {"first_trace_at": 1792683753, "has_traces": true, "sdk_framework": "unknown", "sdk_language": "unknown"}
+rec_000304 15:42:36 event first_trace_integrated {"project_id": "project_0001cPGqvSsxSfnMsg35eldDXD9db", "sdk_framework": "unknown", "sdk_language": "unknown"}
+rec_000307 15:42:45 identify {"app_last_opened_at": 1792683765}
+rec_000308 15:42:45 event sessions_page_viewed {"page": "me_sessions"}
+-- uses_coding_agent records: 1; integration_method records: 0
+# date -u -d @1792683753 -> 2026-10-22T15:42:33Z
+# date -u -d @1792683765 -> 2026-10-22T15:42:45Z

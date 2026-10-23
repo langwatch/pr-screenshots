@@ -1,0 +1,11 @@
+start 2026-10-20T05:14:49.814Z
+end 2026-10-20T05:15:21.014Z
+req 1: HTTP 200 11.453199s {"conversationId":"burst-run4-n8-1-26818","turnId":"langyturn_db8e85db0c398da531597995752a9207","status":"completed","error":null,"reply":{"role":"assistant","text":"Hi, I’m Langy. I help with traces, evaluations, prom
+req 2: HTTP 200 26.665948s {"conversationId":"burst-run4-n8-2-21837","turnId":"langyturn_234eb4943bf1d266fe0df4fec2c511f9","status":"completed","error":null,"reply":{"role":"assistant","text":"Hi, I’m Langy. I help with traces, evaluations, prom
+req 3: HTTP 200 31.053291s {"conversationId":"burst-run4-n8-3-17740","turnId":"langyturn_8324f177b3e1f0ec4caaaed63c6347d8","status":"completed","error":null,"reply":{"role":"assistant","text":"Hi, I’m Langy. I help with traces, evaluations, prom
+req 4: HTTP 503 2.121379s {"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"2b5bdca0c08cbc95097133c5bc5388eb","span_id":"da270e0fa108ed14","trace":{"traceId":"2b5bdca0c08cbc950971
+req 5: HTTP 200 12.050154s {"conversationId":"burst-run4-n8-5-13369","turnId":"langyturn_d8f3fbfe8b9983232f59be9d911b4897","status":"completed","error":null,"reply":{"role":"assistant","text":"Hi, I’m Langy. I help with traces, evaluations, prom
+req 6: HTTP 200 20.997806s {"conversationId":"burst-run4-n8-6-24525","turnId":"langyturn_eb2e82e0897a7cb5467b1aa2bc997afc","status":"completed","error":null,"reply":{"role":"assistant","text":"Hi, I’m Langy. I help with traces, evaluations, prom
+req 7: HTTP 503 2.150749s {"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"fe549ff1b0d189cb2ca720c4f17422da","span_id":"ad81559eab758307","trace":{"traceId":"fe549ff1b0d189cb2ca7
+req 8: HTTP 503 1.989642s {"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"e38d1ff40503ca46e7cc2e02855ff2cf","span_id":"dc7fd932c58b6ac7","trace":{"traceId":"e38d1ff40503ca46e7cc
+HTTP codes: {'200': 5, '503': 3}; conflict log lines: 13; requests with >=1 conflict: 6; conflicted then admitted (200): 3; exhausted retries (non-200): 3

@@ -1,0 +1,22 @@
+$ date -u
+2026-10-10T16:34:56Z
+$ git log -1
+d97fd347bf2664565bb586290b2fe86228243536 chore: update repair script
+$ git ls-files -s
+100755 81b2a16aff742b9fc20b1e6d53f2c555e62bb3c7 0	.github/scripts/repair-release-manifests.sh
+$ sha256sum
+8ee4d1cb865aaf366ec7f37f82a7181c8a937fb91866d17ce13c97162685998f  .github/scripts/repair-release-manifests.sh
+5b7e26abc69f1da820ea649151bf72e6b95319b503b213229eea7a3bc173e92a  .github/workflows/release-please.yml
+$ gh run list
+[{"conclusion":"","databaseId":38068252203,"headSha":"d97fd347bf2664565bb586290b2fe86228243536","status":"in_progress","url":"https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38068252203"},{"conclusion":"success","databaseId":38065132064,"headSha":"5f2a00cc0b56b2c6ca5c79636ebcf08325091a8d","status":"completed","url":"https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38065132064"}]
+run https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38068252203
+success d97fd347bf2664565bb586290b2fe86228243536
+release-please	Run googleapis/release-please-action@v4	2026-10-10T16:35:12.4340989Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+release-please	Repair release manifests	﻿2026-10-10T16:35:13.1945856Z ##[group]Run .github/scripts/repair-release-manifests.sh release-please-config.json .release-please-manifest.json
+release-please	Repair release manifests	2026-10-10T16:35:13.1946402Z ^[[36;1m.github/scripts/repair-release-manifests.sh release-please-config.json .release-please-manifest.json^[[0m
+release-please	Repair release manifests	2026-10-10T16:35:13.2445939Z shell: /usr/bin/bash -e {0}
+release-please	Repair release manifests	2026-10-10T16:35:13.2446167Z env:
+release-please	Repair release manifests	2026-10-10T16:35:13.2447782Z   GH_TOKEN: ***
+release-please	Repair release manifests	2026-10-10T16:35:13.2447912Z ##[endgroup]
+release-please	Repair release manifests	2026-10-10T16:35:14.8210436Z ok: release-please--branches--main--components--c
+release-please	Repair release manifests	2026-10-10T16:35:14.8211155Z checked: 1 release PR(s)

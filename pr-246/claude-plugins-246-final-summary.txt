@@ -1,0 +1,39 @@
+$ gh run view 38068542571 --repo drewdrewthis/scratch-rp-race-232 --log | grep -E "remained the same|Repair release manifests.*(repaired|warning|ok:|checked)"
+Run googleapis/release-please-action@v4	2026-10-10T16:39:38.0873638Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+Repair release manifests	2026-10-10T16:39:42.8704591Z repaired: release-please--branches--main--components--c (plugins/b 0.2.2 -> 0.2.3)
+Repair release manifests	2026-10-10T16:39:42.8726792Z ##[warning]release-please--branches--main--components--c: restored manifest lines set back by release-please (plugins/b 0.2.2 -> 0.2.3)
+Repair release manifests	2026-10-10T16:39:42.8735687Z checked: 1 release PR(s)
+
+$ git log --format='%h %an: %s' da68096..origin/release-please--branches--main--components--c
+c228a01 github-actions[bot]: chore(release): restore manifest lines set back by release-please
+7aa1b85 Andrew Garde Joia: chore(main): release c 0.1.1
+
+$ git show --name-only --format= origin/release-please--branches--main--components--c
+.release-please-manifest.json
+
+$ git diff 7aa1b85 origin/release-please--branches--main--components--c   # the repair commit
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+-  "plugins/b": "0.2.2",
++  "plugins/b": "0.2.3",
+   "plugins/c": "0.1.1"
+ }
+
+$ git diff da68096 origin/release-please--branches--main--components--c -- .release-please-manifest.json   # branch against its merge base
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+   "plugins/b": "0.2.3",
+-  "plugins/c": "0.1.0"
++  "plugins/c": "0.1.1"
+ }
+
+$ gh run view 38068600917 --repo drewdrewthis/scratch-rp-race-232 --log | grep -E "remained the same|Repair release manifests.*(ok:|checked)"   # the next run
+Run googleapis/release-please-action@v4	2026-10-10T16:40:28.3916130Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+Repair release manifests	2026-10-10T16:40:31.0582893Z ok: release-please--branches--main--components--c
+Repair release manifests	2026-10-10T16:40:31.0585503Z checked: 1 release PR(s)

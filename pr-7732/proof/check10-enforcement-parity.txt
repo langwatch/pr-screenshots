@@ -1,0 +1,17 @@
+### Functional enforcement parity: langwatch_lwql on BOTH servers ###
+======== BASH/XML (dc-proof) ========
+-- effective settings as the user sees them --
+1	4	10	
+-- attempt to change a CONST setting (expect rejection) --
+Code: 164. DB::Exception: Received from localhost:9000. DB::Exception: Cannot modify 'max_threads' setting in readonly mode. (READONLY)
+-- attempt to change the changeable_in_readonly setting (expect SUCCESS) --
+deadbeef
+
+======== GO/YAML (dc-go) ========
+-- effective settings as the user sees them --
+1	4	10	
+-- attempt to change a CONST setting (expect rejection) --
+Code: 164. DB::Exception: Received from localhost:9000. DB::Exception: Cannot modify 'max_threads' setting in readonly mode. (READONLY)
+-- attempt to change the changeable_in_readonly setting (expect SUCCESS) --
+deadbeef
+

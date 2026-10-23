@@ -1,0 +1,7 @@
+$ laze browser login "Test Login" --vault qa-test-login
+Waiting for approval of The Internet test site (public demo login). Waiting for an answer (cards expire after 12 hours)...
+laze vault: The Internet test site (public demo login) approved by Laze Mac QA
+Signed in.
+The Internet
+https://the-internet.herokuapp.com/secure
+Screenshot: $TMPDIR/laze-browser/brw_0001FIdCDGYVQVx7GPWy7kXOxcklc-login-1792681943033.jpg

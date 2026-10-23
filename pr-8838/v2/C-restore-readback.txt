@@ -1,0 +1,8 @@
+$ restore langyturn_e77689902a26a9738638a108c2f14ead from original-langyturn_e77689902a26a9738638a108c2f14ead.tsv (expected md5 fa91556bed59059274bdbf6fecd1be65, status completed)
+SET
+                   turnId                   |  status   |            parts_md5             
+--------------------------------------------+-----------+----------------------------------
+ langyturn_e77689902a26a9738638a108c2f14ead | completed | fa91556bed59059274bdbf6fecd1be65
+(1 row)
+
+UPDATE 1

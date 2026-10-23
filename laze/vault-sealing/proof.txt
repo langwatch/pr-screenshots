@@ -1,0 +1,22 @@
+[proof] agent link exit 0 Linked as Scout (local_agent_00085ef2CKlPIZNXD4E4w1gKa2x1c), profile "agent-scout" for /root/Projects/laze/.claude/tmp/sealing-wt/modules/vault/browser.
+[proof] workspace local_workspace_00085e8rbfcWtucBmkTUXdzRtEZ0K owner iTamiV6o2CCf9XhBBkPkG9c80oBt0ZRm agent local_agent_00085ef2CKlPIZNXD4E4w1gKa2x1c
+[proof] egress up, agent registered
+[proof] screenshot /root/Projects/laze/.claude/tmp/sealing/e2e/shots/01-enrolled-device.png
+[proof] screenshot /root/Projects/laze/.claude/tmp/sealing/e2e/shots/02-sealed-secret.png
+[proof] db row: local_vaultconn_00085gDXyKC2UXfZU1Tq7AkyeU75Y | sealed_v2 | ciphertext null | blob 91 bytes | recipients 1 | no data key
+[proof] devices: local_vaultdev_00085gDXyKC2UXfZU1Tq7AkyeU75U active | recipients deviceIds: [{"epk": "...", "deviceId": "local_vaultdev_00085gDXyKC2UXfZU1Tq7AkyeU75U", "wrappedKey": "..."}]
+[proof] backup bytes: 220043 | contains the value: false | contains it base64: false
+[proof] server reveal with the master key answers: 409 vault_sealed
+[proof] screenshot /root/Projects/laze/.claude/tmp/sealing/e2e/shots/03-sealed-approval-card.png
+[proof] screenshot /root/Projects/laze/.claude/tmp/sealing/e2e/shots/04-approved-on-device.png
+[proof] first run output: Waiting for approval of Metabase...
+<sha256>  -
+[proof] first run exit 0 | sha256 printed by the command matches the sealed value: true
+[proof] releases stored at approval: 1 | left after the run took it: 0
+[proof] release row ciphertext present now: false
+[proof] second run exit 75 | output: Waiting for approval of Metabase...
+Waiting for approval of Metabase. Not approved yet; ask again later.
+[proof] approval cards for this connection: 2 (approved_once,pending)
+[proof] audit: device_enrolled, create, run, run, answer, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run, run
+[proof] screenshot /root/Projects/laze/.claude/tmp/sealing/e2e/shots/05-feed-after-second-ask.png
+[proof] egress log tail: {"time":"2026-10-14T20:48:31.834664444Z","level":"INFO","msg":"egress","kind":"vault_release","method":"POST","agent":"local_agent_00085ef2CKlPIZNXD4E4w1gKa2x1c","decision":"forward","ms":10} || {"time":"2026-10-14T20:48:34.860168559Z","level":"INFO","msg":"egress","kind":"vault_release","method":"POST","agent":"local_agent_00085ef2CKlPIZNXD4E4w1gKa2x1c","decision":"forward","ms":22} || {"time":"2026-10-14T20:48:37.882398512Z","level":"INFO","msg":"egress","decision":"forward","ms":19,"kind":"vault_release","method":"POST","agent":"local_agent_00085ef2CKlPIZNXD4E4w1gKa2x1c"} || {"time":"2026-1

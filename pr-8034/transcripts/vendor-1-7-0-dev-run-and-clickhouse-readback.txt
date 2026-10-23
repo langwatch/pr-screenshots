@@ -1,0 +1,54 @@
+## Vendored scenario SDK proof at c5ae877721 (2026-09-10T06:50:35Z)
+### app SDK version (node_modules/@langwatch/scenario/package.json)
+  "version": "1.7.0-dev.29dea33",
+### vendored tarball
+langwatch-scenario-1.7.0-dev.29dea33.tgz
+181cd299f41e95c5692e3628d3d65638614bd55c5040beb182546e79a2b45279  vendor/langwatch-scenario-1.7.0-dev.29dea33.tgz
+### scenario under test: local_scenario_0008BzyUwsflk3hpBzi8GJmM0yONp
+### newest runs of the scenario (excluding browser voicecall_ runs)
+   ┌─ScenarioRunId─────────────────────────────┬─Status─┬─Verdict─┬─DurationMs─┬───────────────CreatedAt─┐
+1. │ scenariorun_0002mz2FOX0FmRBTfPCRLLK23czeT │ FAILED │ failure │      61960 │ 2026-09-10 06:39:57.578 │
+2. │ scenariorun_0002TTW2xgF4jr8zAogAecGVT1Ra8 │ FAILED │ failure │      35845 │ 2026-09-10 06:01:07.200 │
+3. │ scenariorun_0004IcJTMzwskzmzf7rIokjtCK2AO │ FAILED │ failure │      42059 │ 2026-09-09 15:34:09.609 │
+4. │ scenariorun_0004EAGalxm7BDX9pe71bSmbpxv5l │ ERROR  │ failure │      10085 │ 2026-09-09 15:25:17.762 │
+   └───────────────────────────────────────────┴────────┴─────────┴────────────┴─────────────────────────┘
+### newest run: scenariorun_0002mz2FOX0FmRBTfPCRLLK23czeT
+### span scopes and SDK version on the run's traces
+   ┌─ScopeName───────────┬─ScopeVersion─┬─sdk───────────────┬─count()─┐
+1. │ @langwatch/scenario │ ᴺᵁᴸᴸ         │                   │      18 │
+2. │ ai                  │ ᴺᵁᴸᴸ         │                   │      14 │
+3. │ @langwatch/scenario │ ᴺᵁᴸᴸ         │ 1.7.0-dev.29dea33 │       3 │
+   └─────────────────────┴──────────────┴───────────────────┴─────────┘
+### span names on the run's traces
+   ┌─SpanName────────────────────┬─count()─┐
+1. │ ai.generateText             │       7 │
+2. │ ai.generateText.doGenerate  │       7 │
+3. │ ElevenLabsAgentAdapter.call │       3 │
+4. │ Scenario Turn               │       3 │
+5. │ _UserSimulatorAgent.call    │       3 │
+6. │ voice.turn                  │       3 │
+7. │ voice.audio.receive         │       3 │
+8. │ voice.audio.send            │       3 │
+9. │ _JudgeAgent.call            │       3 │
+   └─────────────────────────────┴─────────┘
+### verdict and messages of the run
+Row 1:
+──────
+Status:        FAILED
+Verdict:       failure
+Reasoning:     The transcript shows the assistant explicitly declined to provide opening hours: the assistant replied "I don't have access to specific opening hours. Is there something else I can help you with?" When asked how to check hours it suggested the website but did not state any hours. When asked to send a website link, the assistant again refused: "I cannot send links directly. You can s
+UnmetCriteria: ['States the opening hours clearly']
+DurationMs:    61960
+Messages.Role: ['user','assistant','user','assistant','user','assistant']
+### span names on the 1.6.0 run (scenariorun_0004IcJTMzwskzmzf7rIokjtCK2AO) for comparison
+   ┌─SpanName────────────────────┬─count()─┐
+1. │ ai.generateText             │       3 │
+2. │ ai.generateText.doGenerate  │       3 │
+3. │ ElevenLabsAgentAdapter.call │       1 │
+4. │ Scenario Turn               │       1 │
+5. │ _UserSimulatorAgent.call    │       1 │
+6. │ voice.turn                  │       1 │
+7. │ voice.audio.receive         │       1 │
+8. │ voice.audio.send            │       1 │
+9. │ _JudgeAgent.call            │       1 │
+   └─────────────────────────────┴─────────┘

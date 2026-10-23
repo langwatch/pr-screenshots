@@ -1,0 +1,25 @@
+$ release branch heads BEFORE
+3fe3c55dfd1ce2b4baf5538062826dde25a9590c release-please--branches--main--components--a
+c58b9eb5375d42828a4987be2d4d43b776db1ba6 release-please--branches--main--components--b
+c59ca91066a002cccf0d1ef5b5ebf9b0fbba50c9 release-please--branches--main--components--c
+$ GH_TOKEN=$(gh auth token) GITHUB_REPOSITORY=drewdrewthis/scratch-rp-race-232 DRY_RUN=1 repair-release-manifests.sh release-please-config.json .release-please-manifest.json
+would repair: release-please--branches--main--components--a (plugins/b 0.2.0 -> 0.2.1)
+ok: release-please--branches--main--components--c
+checked: 2 release PR(s)
+exit=0
+$ release branch heads AFTER dry run
+3fe3c55dfd1ce2b4baf5538062826dde25a9590c release-please--branches--main--components--a
+c58b9eb5375d42828a4987be2d4d43b776db1ba6 release-please--branches--main--components--b
+c59ca91066a002cccf0d1ef5b5ebf9b0fbba50c9 release-please--branches--main--components--c
+$ GH_TOKEN=invalid GH_ENTERPRISE_TOKEN= GITHUB_TOKEN= (no DRY_RUN)
+gh: Bad credentials (HTTP 401)
+::error::cannot list open pull requests
+exit=1
+$ confirm gh uses invalid token
+{
+  "message": "Bad credentials",
+  "documentation_url": "https://docs.github.com/rest",
+$ release branch heads AFTER invalid-token run
+3fe3c55dfd1ce2b4baf5538062826dde25a9590c release-please--branches--main--components--a
+c58b9eb5375d42828a4987be2d4d43b776db1ba6 release-please--branches--main--components--b
+c59ca91066a002cccf0d1ef5b5ebf9b0fbba50c9 release-please--branches--main--components--c

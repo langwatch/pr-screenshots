@@ -1,0 +1,10 @@
+$ psql (db mydb, schema mydb) <<SQL
+update "LangyConversationTurnProjection" set status = 'stopped', "answerParts" = (select jsonb_agg(p order by i) from jsonb_array_elements("answerParts"::jsonb) with ordinality as e(p, i) where p->>'type' <> 'text') where "turnId" = 'langyturn_8505c5e454010b5e3cadf54d0524cce0' returning "turnId", status, (select json_agg(p->>'type') from jsonb_array_elements("answerParts"::jsonb) p) as part_types, (select count(*) from jsonb_array_elements("answerParts"::jsonb) p where p->>'type'='text') as text_parts;
+SQL
+SET
+                   turnId                   | status  |                    part_types                    | text_parts 
+--------------------------------------------+---------+--------------------------------------------------+------------
+ langyturn_8505c5e454010b5e3cadf54d0524cce0 | stopped | ["tool-ls", "tool-local_ls", "tool-code_access"] |          0
+(1 row)
+
+UPDATE 1

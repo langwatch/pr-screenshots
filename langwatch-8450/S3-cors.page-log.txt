@@ -1,0 +1,4 @@
+--- call 1: POST /v1/live/sessions from http://localhost:5591
+fetch  TypeError: Failed to fetch  (the browser blocked the response: no Access-Control-Allow-Origin for http://localhost:5591)
+browser console: Access to fetch at 'http://localhost:5573/v1/live/sessions' from origin 'http://localhost:5591' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+browser console: Failed to load resource: net::ERR_FAILED

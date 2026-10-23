@@ -1,0 +1,58 @@
+# claude-plugins PR 252, head 38608015f726fe7653918f5dda7ce077ae43aea1, 2026-10-10T23:26:52Z
+# real harness runs in the PR worktree; fake generated tokens only
+
+$ git rev-parse HEAD
+38608015f726fe7653918f5dda7ce077ae43aea1
+exit=0
+
+$ git merge-base HEAD refs/remotes/origin/main
+1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719
+exit=0
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py reference
+reference=1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719 rule=merge-base library_changed=True
+exit=0
+
+$ env GIT_DIR=/nonexistent python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py reference
+reference=1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719 rule=merge-base library_changed=True
+exit=0
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py fuzz --mode builtin --seed 1 --n 1000
+reference=1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719 rule=merge-base library_changed=True
+mode=builtin gitleaks_present=False
+corpus_sha256=c7d8d2be33aa4709f21d500ef7dbcddc15bd7521e6149b690b9ee341de40cec6
+outputs_differ=0
+worse=0
+exit=0
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py case --name F --candidate-fixture cb0ab84
+reference=1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719 rule=merge-base library_changed=True
+mode=builtin gitleaks_present=False
+outputs_differ=1
+worse=1
+text 0
+  in : 'npm_**************************************************************'
+  out: 'npm_********************<redacted:aws-access-key><redacted:glued-secrets>'
+exit=1
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py fuzz --mode builtin --seed 2 --n 1000 --candidate-sha 05b246073138548869adc73427eed69f980c9567
+reference=1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719 rule=merge-base library_changed=True
+mode=builtin gitleaks_present=False
+corpus_sha256=d395a44f9de132696cc04d4e27fe8f1c50d417df3c62b0397617e96e79820c0a
+outputs_differ=208
+worse=200
+text 3
+  in : 'gho_**************************************glsa******************************************sk_l****************************'
+  out: '<redacted:github-pat>_iDD**************************************<redacted:stripe-key>'
+text 4
+... (596 more output lines cut; all are worse texts of this run)
+exit=1
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py fuzz --mode builtin --reference-sha 92308c9505265b98cb4b4157430c4b3b74ad0198
+usage: redact_diff_fuzz.py [-h] {fuzz,case,reference,selftest} ...
+redact_diff_fuzz.py: error: unrecognized arguments: --reference-sha 92308c9505265b98cb4b4157430c4b3b74ad0198
+exit=2
+
+$ python3 plugins/worklog/hooks/tests/redact_diff_fuzz.py case --name F --candidate-sha 1d2a9fd4fa9b2b6fb3649ff3196ffca4d1049719
+reference is identical to the candidate
+exit=2

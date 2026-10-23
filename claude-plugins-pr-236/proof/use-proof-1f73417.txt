@@ -1,0 +1,44 @@
+$ H=plugins/worklog/hooks/tests/redact_diff_fuzz.py   # in the PR checkout
+$ git rev-parse HEAD
+1f734179b5ac41c4c27d37c889c1634cbe79b9a6
+exit=0
+# fake transcript: 1056113 bytes, 16001 records, first record = the asked prompt
+$ H=origin/main:plugins/worklog/hooks/worklog-record.sh (4270dfa)
+$ printf STOP-payload | env HOME=<fake> WORKLOG_JSONL=<fake> bash $H
+exit=0
+$ jq -r .ask_uuid <store>   # expected ask_uuid: 11111111-1111-4111-8111-11111111aaa1
+null
+$ H=head:plugins/worklog/hooks/worklog-record.sh (1f73417)
+$ printf STOP-payload | env HOME=<fake> WORKLOG_JSONL=<fake> bash $H
+exit=0
+$ jq -r .ask_uuid <store>   # expected ask_uuid: 11111111-1111-4111-8111-11111111aaa1
+11111111-1111-4111-8111-11111111aaa1
+$ python3 $H case --name F
+mode=builtin gitleaks_present=False
+outputs_differ=0
+worse=0
+exit=0
+$ python3 $H case --name F --candidate-sha cb0ab84
+mode=builtin gitleaks_present=False
+outputs_differ=1
+worse=1
+text 0
+  in : 'npm_**************************************************************'
+  out: 'npm_********************<redacted:aws-access-key><redacted:glued-secrets>'
+exit=1
+$ python3 $H case --name H1 --candidate-sha f1f1f8a
+mode=gitleaks gitleaks_present=True version=8.30.1 failed=False
+outputs_differ=1
+worse=1
+text 0
+  in : 'key = "pul-***********************************************"'
+  out: 'key = "pul-<redacted:aws-access-key>fjOW**"'
+exit=1
+$ python3 $H fuzz --mode gitleaks
+mode=gitleaks gitleaks_present=True version=8.30.1 failed=False
+corpus_sha256=262675c6acebfa4739938f38cc6cca0b2b09eb6d08e0f0eba01addbd83f6878f
+confirm_cap=40
+flagged=0 confirmed=0
+outputs_differ=0
+worse=0
+exit=0

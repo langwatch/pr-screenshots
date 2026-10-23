@@ -1,0 +1,17 @@
+$ make features   (exit 0)
+
+scenarios passed: 17
+    --- PASS: TestFeatures/Migrate_runs_before_Start_at_boot_and_is_idempotent_across_restarts (0.19s)
+PASS
+ok  	github.com/drewdrewthis/supergraph/features	12.870s
+
+$ make features-red   (exit 0 = suite failed red as required)
+
+439.391416ms
+--- FAIL: TestFeatures (0.44s)
+    --- FAIL: TestFeatures/A_deliberately-unmet_scenario_fails_the_runner_red (0.43s)
+        suite.go:640: this step is intentionally unmet
+    suite_test.go:78: godog suite reported a non-zero status
+FAIL
+FAIL	github.com/drewdrewthis/supergraph/features	2.027s
+FAIL

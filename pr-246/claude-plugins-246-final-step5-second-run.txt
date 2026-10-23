@@ -1,0 +1,27 @@
+$ date -u
+2026-10-10T16:40:09Z
+C head before c228a010465e551e286747d5b27b095a3427cdbb
+pushed 80089ac2ac07b668d62c1c0216fe660535b6a42f
+run https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38068600917 success 80089ac2ac07b668d62c1c0216fe660535b6a42f
+release-please	Run googleapis/release-please-action@v4	2026-10-10T16:40:28.3916130Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+release-please	Repair release manifests	2026-10-10T16:40:31.0582893Z ok: release-please--branches--main--components--c
+release-please	Repair release manifests	2026-10-10T16:40:31.0585503Z checked: 1 release PR(s)
+main 80089ac2ac07b668d62c1c0216fe660535b6a42f
+C head after c228a010465e551e286747d5b27b095a3427cdbb
+c228a01 parent=7aa1b85 author=github-actions[bot] chore(release): restore manifest lines set back by release-please
+7aa1b85 parent=da68096 author=Andrew Garde Joia chore(main): release c 0.1.1
+da68096 parent=71af79d author=github-actions[bot] chore(main): release b 0.2.3 (#7)
+merge-base da680964dc8035d86f70706c67e88ac689eaae7e
+diff --git a/.release-please-manifest.json b/.release-please-manifest.json
+index 8736f22..d2e7c0f 100644
+--- a/.release-please-manifest.json
++++ b/.release-please-manifest.json
+@@ -1,5 +1,5 @@
+ {
+   "plugins/a": "0.2.0",
+   "plugins/b": "0.2.3",
+-  "plugins/c": "0.1.0"
++  "plugins/c": "0.1.1"
+ }
+{"state":"OPEN","title":"chore(main): release c 0.1.1","labels":["autorelease: pending"]}
+e28fb5225e6dbc842ce3848bcb2c4e127b48b31560e1c4eee7a1b83a7400d0d3  -

@@ -1,0 +1,14 @@
+--- call 1: POST /v1/live/sessions from http://localhost:5590
+http 201  x-langwatch-session-id req_046bfdb726e0eb6c05830400695729
+pc  remote audio track, recording started
+pc  connecting
+pc  connected
+dc  open
+dc  session.started  vendor session live_u0_EW2sKp3oN9B03OgXCrcfja193bsBH6Z4
+dc  session.usage.updated  usage {"seconds":15}
+dc  session.closed  usage {"seconds":15}  reason close_requested  vendor session live_u0_EW2sKp3oN9B03OgXCrcfja193bsBH6Z4
+call ended by the server side: this page did not hang up
+recording saved: 227413 bytes
+dc  closed
+--- call 2: POST /v1/live/sessions from http://localhost:5590
+http 402 budget_exceeded  {"error":{"type":"budget_exceeded","code":"budget_exceeded","message":"The virtual key spending limit (per month) for this request has been reached. Contact your LangWatch admin to raise it.","retryable":false,"meta":{"budget_id":"Ix2emKtJBOa30TnWdQHSB","budge

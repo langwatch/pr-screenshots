@@ -1,0 +1,23 @@
+$ gh pr view 5
+MERGED 5fb122248ee14c87e700ba1276a2487a2bf8a955
+$ git show origin/main:.release-please-manifest.json
+{
+  "plugins/a": "0.2.0",
+  "plugins/b": "0.2.1",
+  "plugins/c": "0.1.0"
+}
+$ gh run
+https://github.com/drewdrewthis/scratch-rp-race-232/actions/runs/38064956482 success 5fb122248ee14c87e700ba1276a2487a2bf8a955 chore(main): release a 0.2.0 (#5)
+$ git ls-remote --tags origin
+5fb122248ee14c87e700ba1276a2487a2bf8a955	refs/tags/a-v0.2.0
+677c033c1cf259b332f15f5150139d06bb79d90f	refs/tags/b-v0.2.0
+97b2a9261e3da2d536cc39913614083546781252	refs/tags/b-v0.2.1
+$ run log
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:46:24.6420851Z   include-component-in-tag: false
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:46:27.8462644Z ❯ adding labels: autorelease: tagged from issue/pull 5
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:46:28.9639171Z ❯ looking for tagName: c-v0.1.0
+release-please	Run googleapis/release-please-action@v4	2026-10-10T15:46:33.6506107Z ✔ PR https://github.com/drewdrewthis/scratch-rp-race-232/pull/4 remained the same
+release-please	Check out the repair script	2026-10-10T15:46:33.6769622Z   fetch-tags: false
+release-please	Check out the repair script	2026-10-10T15:46:33.9825022Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5fb122248ee14c87e700ba1276a2487a2bf8a955:refs/re
+release-please	Repair release manifests	2026-10-10T15:46:37.3984325Z ok: release-please--branches--main--components--c
+release-please	Repair release manifests	2026-10-10T15:46:37.3985344Z checked: 1 release PR(s)

@@ -1,0 +1,1568 @@
+# use-proof for https://github.com/drewdrewthis/claude-plugins/pull/233
+# start: 2026-10-10T23:05:53Z   host: Linux 6.1.0-53-amd64 x86_64   nproc: 8
+# $R (AFTER)  = checkout at 595bced8b7f2be0e87c9e0c2caea20fe16d409bf
+# $R (BEFORE) = git archive of 92308c9 (92308c9505265b98cb4b4157430c4b3b74ad0198) = merge-base of the PR head and origin/main
+# $R (PREV)   = git archive of ebcd00d (ebcd00dc1e0f6628e42083369a9694b78abf9dfb) = the previous PR head; used for the AC 17 leftovers, AC 18, AC 19 only
+# work dir (this run only): /tmp/driver-233.CgRqDi
+# every run: throwaway HOME (mktemp -d), env -u CODEX_STORE_ROOTS -u PROCEDURES_STATE_DIR -u KNOWLEDGE_HOME -u CLAUDE_CONFIG_DIR,
+#   then CODEX_STORE_ROOTS=$HOME/default-store (main #199: a drain with no store root is skipped),
+#   stub claude first on PATH, LIBRARIAN_SETTLE_SECS=0 LIBRARIAN_NO_FLOCK=1 LIBRARIAN_LOCK=<state-dir>/librarian.lock,
+#   outer bound: timeout 120
+# worker run (Terms): LIBRARIAN_LOAD_CEILING=8 LIBRARIAN_IOWAIT_CEILING=30 LIBRARIAN_MIN_INTERVAL_SECS=0,
+#   LP_LOADAVG_FILE / LP_STAT_FILE fixtures, LP_STAT_SAMPLE_SLEEP='bash fx/sampler.sh' (appends 1 line to the sample counter per check)
+# <state-dir> = $HOME/.local/state/procedures/librarian ; <log> = <state-dir>/librarian-poke.log
+  CHECK ok   [AFTER 595bced] checkout HEAD starts with 595bced: 595bced
+===== BEFORE: origin/main 92308c9 =====
+
+================================================================
+AC1 [BEFORE 92308c9] load at or over the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac1.4yFIMf/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac1.4yFIMf/.local/state/procedures
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC1 load=8.00 lines with '>= ceiling': 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC1 load=8.00 claude started (the bug: at the ceiling it drains): 1
+AC1 [BEFORE 92308c9] load=8.00 ceil=8 iowait=9% -> exit=0 claude_started=1 last-drain-start=yes log: (no log line)
+# pressure plan (load iowait%) per check: [50.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac1.1sl6uf/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:05:53+00:00 librarian-poke: deferred, load=50.00 > ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=50.00 >= ceiling=8' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC1 load=50.00 lines with '>= ceiling': 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC1 load=50.00 lines 'deferred, load=50.00 > ceiling=8': 1
+AC1 [BEFORE 92308c9] load=50.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=50.00 > ceiling=8
+
+================================================================
+AC2 [BEFORE 92308c9] iowait at the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [1.00 30] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac2.KJVEeF/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac2.KJVEeF/.local/state/procedures
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC2 claude started (the bug: at the ceiling it drains): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC2 'deferred' lines: 0
+AC2 [BEFORE 92308c9] load=1.00 iowait=30% ceil=30% -> exit=0 claude_started=1 log: (no log line)
+
+================================================================
+AC4 [BEFORE 92308c9] pressure that rises during the batch defers the drain
+================================================================
+
+--- AC4 variant b
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 30] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac4b.fmgM9W/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac4b.fmgM9W/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4b claude started (the bug: no mid-batch re-check): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4b 'batch deferred' lines: 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4b cursor files: 2
+AC4b [BEFORE 92308c9] plan: 1.00 9 1.00 30 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+
+--- AC4 variant c
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 9] [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac4c.fRpFS4/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac4c.fRpFS4/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4c claude started (the bug: no mid-batch re-check): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4c 'batch deferred' lines: 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4c cursor files: 2
+AC4c [BEFORE 92308c9] plan: 1.00 9 1.00 9 8.00 9 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+
+--- AC4 variant a
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac4a.upWhk2/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac4a.upWhk2/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4a claude started (the bug: no mid-batch re-check): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4a 'batch deferred' lines: 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC4a cursor files: 2
+AC4a [BEFORE 92308c9] plan: 1.00 9 8.00 9 -> exit=0 claude_started=1 manifest=yes cursors=2 log: (no log line)
+
+================================================================
+AC17 [BEFORE 92308c9] a batch scan killed by the runtime cap is not a drain
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: wc = record the call, sleep 3, exec the real wc. Cap: LIBRARIAN_MAX_RUNTIME_SEC=1
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+run 1 wall time: 7s ; slow wc calls: 2
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac17.TFiquq/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac17.TFiquq/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.issued librarian.lock.d last-drain-start (in state dir)
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+  batch.manifest.issued
+  last-drain-start
+$ grep -cF 'batch scan exceeded 1s cap, killed' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17 slow wc calls (scan not capped: it ran on): ran
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17 claude started (after the slow scan): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17 lines 'batch scan exceeded': 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17 run 1 took longer than the 1 s cap: yes
+AC17 [BEFORE 92308c9] slow wc (3s/call), cap=1s -> exit=0 run1_wall=7s claude_started=1 cursors=1 last-drain-start=yes lock=no log: (no log line)
+
+================================================================
+AC17 leftovers [BEFORE 92308c9] a scan killed mid-range leaves no batch.manifest.tmp / batch.txt.part
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: head -n N = 1st call fast; 2nd call: wait 0.4s, record which partial files exist, sleep 4, exec the real head. Cap: LIBRARIAN_MAX_RUNTIME_SEC=1
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 5s
+$ cat head.record
+  head -n 3 fast
+  head -n 4 SLOW at-this-moment: batch.txt.part=yes batch.manifest.tmp=yes tmp-ranges=1
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac17m.rCCIhX/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac17m.rCCIhX/.local/state/proced
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest.tmp batch.txt.part batch.manifest last-drain-start librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest
+  last-drain-start
+$ grep -cF 'batch scan exceeded 1s cap, killed' <log>   -> 0
+$ grep -cF 'batch failed' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17m claude started (main has no scan cap: the slow scan ran on, then drained): 1
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17m lines 'batch scan exceeded': 0
+  CHECK ok   [BEFORE 92308c9] BEFORE AC17m wall time over the 1 s cap: yes
+AC17 leftovers [BEFORE 92308c9] kill mid-range, cap=1s -> exit=0 wall=5s claude_started=1 batch.manifest.tmp=no batch.txt.part=no log: (no log line)
+
+================================================================
+AC18 [BEFORE 92308c9] the scan and the drain share one runtime cap
+================================================================
+--- slow scan: wc sleeps 3 s, LIBRARIAN_MAX_RUNTIME_SEC=120
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=120 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 3s
+$ cut -c1-150 timeout.record   (field 3 = the duration)
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac1
+scan timeout duration(s): []   claude timeout duration(s): [120]
+claude started: 1 time(s) ; cursor t1=3 ; per-transcript wc calls: 1
+$ cat <log>
+  (no log file)
+  CHECK ok   [BEFORE 92308c9] AC18 slow: slowed wc calls (the scan reached the slow step): 1
+  CHECK ok   [BEFORE 92308c9] AC18 slow: claude started: 1
+  CHECK ok   [BEFORE 92308c9] AC18 slow: cursor t1: 3
+  CHECK ok   [BEFORE 92308c9] AC18 slow: run took at least the 3 s of the slow scan: yes
+  CHECK ok   [BEFORE 92308c9] BEFORE AC18 slow: duration of the timeout that wraps claude: 120
+  CHECK ok   [BEFORE 92308c9] BEFORE AC18 slow: timeout calls that wrap the scan (main has no scan cap): 0
+AC18 [BEFORE 92308c9] cap=120s, scan slowed 3s -> timeout(scan)=[none] timeout(claude)=[120] claude_started=1 cursor t1=3
+
+================================================================
+AC19 [BEFORE 92308c9] only a real cap overrun is called one (cap = 600 s)
+================================================================
+--- variant a: the real batch script is SIGKILLed mid-scan (exit 137)
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: wc = find the top 'bash .../librarian-batch.sh' process above it, record the pid, kill -9 that pid
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat kill.record
+  SIGKILL pid=4005928 cmd=bash librarian-batch.sh parent=bash
+  CHECK ok   [BEFORE 92308c9] AC19a SIGKILL sent to the batch process (kill.record lines with SIGKILL): 1
+  CHECK ok   [BEFORE 92308c9] AC19a wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.manifest.tmp
+  batch.txt
+  cursors
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:12+00:00 librarian-poke: batch failed, drain skipped: 
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'last-drain-start': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  batch.manifest.tmp
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'batch scan exceeded' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] AC19a exit: 0
+  CHECK ok   [BEFORE 92308c9] AC19a claude started: 0
+  CHECK ok   [BEFORE 92308c9] AC19a cursor files: 0
+  CHECK ok   [BEFORE 92308c9] AC19a claim dir librarian.lock.d exists: no
+  CHECK ok   [BEFORE 92308c9] AC19a total log lines: 1
+  CHECK ok   [BEFORE 92308c9] AC19a 'batch failed, drain skipped' lines: 1
+  CHECK ok   [BEFORE 92308c9] AC19a 'batch scan exceeded' lines: 0
+  CHECK ok   [BEFORE 92308c9] AC19a last-drain-start exists: no
+AC19a [BEFORE 92308c9] batch SIGKILLed (137) after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: batch failed, drain skipped: 
+
+--- variant b: the scan exits 124 at once
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: bash = exit 124 when asked to run librarian-batch.sh; every other call goes to the real bash
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [BEFORE 92308c9] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat scan.record
+  scan stand-in: exit 124
+  CHECK ok   [BEFORE 92308c9] AC19b the scan stand-in ran: 1
+  CHECK ok   [BEFORE 92308c9] AC19b wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac19b.GN4EYd/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:12+00:00 librarian-poke: batch failed, drain skipped: 
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'last-drain-start': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'batch scan exceeded' <log>   -> 0
+  CHECK ok   [BEFORE 92308c9] AC19b exit: 0
+  CHECK ok   [BEFORE 92308c9] AC19b claude started: 0
+  CHECK ok   [BEFORE 92308c9] AC19b cursor files: 0
+  CHECK ok   [BEFORE 92308c9] AC19b claim dir librarian.lock.d exists: no
+  CHECK ok   [BEFORE 92308c9] AC19b total log lines: 1
+  CHECK ok   [BEFORE 92308c9] AC19b 'batch failed, drain skipped' lines: 1
+  CHECK ok   [BEFORE 92308c9] AC19b 'batch scan exceeded' lines: 0
+  CHECK ok   [BEFORE 92308c9] AC19b last-drain-start exists: no
+AC19b [BEFORE 92308c9] scan exit 124 after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: batch failed, drain skipped: 
+===== PREV: previous PR head ebcd00d (AC17 leftovers, AC18, AC19 only) =====
+
+================================================================
+AC17 leftovers [PREV ebcd00d] a scan killed mid-range leaves no batch.manifest.tmp / batch.txt.part
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: head -n N = 1st call fast; 2nd call: wait 0.4s, record which partial files exist, sleep 4, exec the real head. Cap: LIBRARIAN_MAX_RUNTIME_SEC=1
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [PREV ebcd00d] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 1s
+$ cat head.record
+  head -n 3 fast
+  head -n 4 SLOW at-this-moment: batch.txt.part=yes batch.manifest.tmp=yes tmp-ranges=1
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.manifest.tmp
+  batch.txt
+  batch.txt.part
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:13+00:00 librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest.tmp batch.txt.part batch.manifest last-drain-start librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  batch.manifest.tmp
+  batch.txt.part
+  last-drain-start
+$ grep -cF 'batch scan exceeded 1s cap, killed' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+  CHECK ok   [PREV ebcd00d] AC17m head -n calls (2nd one is the slow one): 2
+  CHECK ok   [PREV ebcd00d] AC17m at the slow step: batch.txt.part on disk: 1
+  CHECK ok   [PREV ebcd00d] AC17m at the slow step: batch.manifest.tmp on disk with 1 range: 1
+  CHECK ok   [PREV ebcd00d] AC17m exit: 0
+  CHECK ok   [PREV ebcd00d] AC17m claude started: 0
+  CHECK ok   [PREV ebcd00d] AC17m cursor files: 0
+  CHECK ok   [PREV ebcd00d] AC17m lines 'batch scan exceeded 1s cap, killed': 1
+  CHECK ok   [PREV ebcd00d] AC17m total log lines: 1
+  CHECK ok   [PREV ebcd00d] AC17m last-drain-start exists: yes
+  CHECK ok   [PREV ebcd00d] AC17m claim dir librarian.lock.d exists: no
+  CHECK ok   [PREV ebcd00d] AC17m batch.manifest exists: no
+  CHECK ok   [PREV ebcd00d] PREV AC17m batch.manifest.tmp exists after the kill (the leftover): yes
+  CHECK ok   [PREV ebcd00d] PREV AC17m batch.txt.part exists after the kill (the leftover): yes
+AC17 leftovers [PREV ebcd00d] kill mid-range, cap=1s -> exit=0 wall=1s claude_started=0 batch.manifest.tmp=yes batch.txt.part=yes log: librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+
+================================================================
+AC18 [PREV ebcd00d] the scan and the drain share one runtime cap
+================================================================
+--- slow scan: wc sleeps 3 s, LIBRARIAN_MAX_RUNTIME_SEC=120
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=120 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [PREV ebcd00d] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 4s
+$ cut -c1-150 timeout.record   (field 3 = the duration)
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 bash /tmp/driver-233.CgRqDi/prev-src/plugins/procedures/hooks/../scripts/librarian-batch.sh --p
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac1
+scan timeout duration(s): [120]   claude timeout duration(s): [120]
+claude started: 1 time(s) ; cursor t1=3 ; per-transcript wc calls: 1
+$ cat <log>
+  (no log file)
+  CHECK ok   [PREV ebcd00d] AC18 slow: slowed wc calls (the scan reached the slow step): 1
+  CHECK ok   [PREV ebcd00d] AC18 slow: claude started: 1
+  CHECK ok   [PREV ebcd00d] AC18 slow: cursor t1: 3
+  CHECK ok   [PREV ebcd00d] AC18 slow: run took at least the 3 s of the slow scan: yes
+  CHECK ok   [PREV ebcd00d] PREV AC18 slow: duration of the timeout that wraps claude (full cap again: scan + drain could take 2 x cap): 120
+  CHECK ok   [PREV ebcd00d] PREV AC18 slow: duration of the timeout that wraps the scan: 120
+AC18 [PREV ebcd00d] cap=120s, scan slowed 3s -> timeout(scan)=[120] timeout(claude)=[120] claude_started=1 cursor t1=3
+
+================================================================
+AC19 [PREV ebcd00d] only a real cap overrun is called one (cap = 600 s)
+================================================================
+--- variant a: the real batch script is SIGKILLed mid-scan (exit 137)
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: wc = find the top 'bash .../librarian-batch.sh' process above it, record the pid, kill -9 that pid
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [PREV ebcd00d] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat kill.record
+  SIGKILL pid=4008403 cmd=bash librarian-batch.sh parent=timeout
+  CHECK ok   [PREV ebcd00d] AC19a SIGKILL sent to the batch process (kill.record lines with SIGKILL): 1
+  CHECK ok   [PREV ebcd00d] AC19a wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.manifest.tmp
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:17+00:00 librarian-poke: batch scan exceeded 600s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  batch.manifest.tmp
+  last-drain-start
+$ grep -cF 'batch failed, drain skipped' <log>   -> 0
+$ grep -cF 'batch scan exceeded' <log>   -> 1
+  CHECK ok   [PREV ebcd00d] AC19a exit: 0
+  CHECK ok   [PREV ebcd00d] AC19a claude started: 0
+  CHECK ok   [PREV ebcd00d] AC19a cursor files: 0
+  CHECK ok   [PREV ebcd00d] AC19a claim dir librarian.lock.d exists: no
+  CHECK ok   [PREV ebcd00d] AC19a total log lines: 1
+  CHECK ok   [PREV ebcd00d] PREV AC19a lines 'batch scan exceeded 600s cap, killed' (the wrong label, after ~0 s of a 600 s cap): 1
+  CHECK ok   [PREV ebcd00d] PREV AC19a 'batch failed, drain skipped' lines: 0
+  CHECK ok   [PREV ebcd00d] PREV AC19a last-drain-start exists (a cooldown the scan did not earn): yes
+AC19a [PREV ebcd00d] batch SIGKILLed (137) after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=yes log: librarian-poke: batch scan exceeded 600s cap, killed; cursors not advanced, lock released, next drain waits fo
+
+--- variant b: the scan exits 124 at once
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: bash = exit 124 when asked to run librarian-batch.sh; every other call goes to the real bash
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [PREV ebcd00d] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat scan.record
+  scan stand-in: exit 124
+  CHECK ok   [PREV ebcd00d] AC19b the scan stand-in ran: 1
+  CHECK ok   [PREV ebcd00d] AC19b wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac19b.e09eGz/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:17+00:00 librarian-poke: batch scan exceeded 600s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  last-drain-start
+$ grep -cF 'batch failed, drain skipped' <log>   -> 0
+$ grep -cF 'batch scan exceeded' <log>   -> 1
+  CHECK ok   [PREV ebcd00d] AC19b exit: 0
+  CHECK ok   [PREV ebcd00d] AC19b claude started: 0
+  CHECK ok   [PREV ebcd00d] AC19b cursor files: 0
+  CHECK ok   [PREV ebcd00d] AC19b claim dir librarian.lock.d exists: no
+  CHECK ok   [PREV ebcd00d] AC19b total log lines: 1
+  CHECK ok   [PREV ebcd00d] PREV AC19b lines 'batch scan exceeded 600s cap, killed' (the wrong label, after ~0 s of a 600 s cap): 1
+  CHECK ok   [PREV ebcd00d] PREV AC19b 'batch failed, drain skipped' lines: 0
+  CHECK ok   [PREV ebcd00d] PREV AC19b last-drain-start exists (a cooldown the scan did not earn): yes
+AC19b [PREV ebcd00d] scan exit 124 after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=yes log: librarian-poke: batch scan exceeded 600s cap, killed; cursors not advanced, lock released, next drain waits fo
+===== AFTER: PR head 595bced =====
+
+================================================================
+AC1 [AFTER 595bced] load at or over the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac1.dOUSnM/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:17+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+  CHECK ok   [AFTER 595bced] AC1 load=8.00 exit: 0
+  CHECK ok   [AFTER 595bced] AC1 load=8.00 claude started: 0
+  CHECK ok   [AFTER 595bced] AC1 load=8.00 lines 'deferred, load=8.00 >= ceiling=8': 1
+  CHECK ok   [AFTER 595bced] AC1 load=8.00 total log lines: 1
+  CHECK ok   [AFTER 595bced] AC1/AC6 load=8.00 last-drain-start exists: no
+AC1 [AFTER 595bced] load=8.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=8.00 >= ceiling=8
+# pressure plan (load iowait%) per check: [50.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac1.QAnJTt/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:17+00:00 librarian-poke: deferred, load=50.00 >= ceiling=8
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'deferred, load=50.00 >= ceiling=8' <log>   -> 1
+  CHECK ok   [AFTER 595bced] AC1 load=50.00 exit: 0
+  CHECK ok   [AFTER 595bced] AC1 load=50.00 claude started: 0
+  CHECK ok   [AFTER 595bced] AC1 load=50.00 lines 'deferred, load=50.00 >= ceiling=8': 1
+  CHECK ok   [AFTER 595bced] AC1 load=50.00 total log lines: 1
+  CHECK ok   [AFTER 595bced] AC1/AC6 load=50.00 last-drain-start exists: no
+AC1 [AFTER 595bced] load=50.00 ceil=8 iowait=9% -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: deferred, load=50.00 >= ceiling=8
+
+================================================================
+AC2 [AFTER 595bced] iowait at the ceiling defers at spawn
+================================================================
+# pressure plan (load iowait%) per check: [1.00 30] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac2.LrkKQo/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:18+00:00 librarian-poke: deferred, iowait=30% >= ceiling=30%
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 1
+  CHECK ok   [AFTER 595bced] AC2 exit: 0
+  CHECK ok   [AFTER 595bced] AC2 claude started: 0
+  CHECK ok   [AFTER 595bced] AC2 lines 'deferred, iowait=30% >= ceiling=30%': 1
+  CHECK ok   [AFTER 595bced] AC2 sample counter (the iowait sample ran): 1
+AC2 [AFTER 595bced] load=1.00 iowait=30% ceil=30% -> exit=0 claude_started=0 log: librarian-poke: deferred, iowait=30% >= ceiling=30%
+
+================================================================
+AC3 [AFTER 595bced] just under both ceilings still drains
+================================================================
+# pressure plan (load iowait%) per check: [7.99 29] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac3.QdHFde/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac3.QdHFde/.local/state/procedures
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  transcript t1: lines=3 cursor=3
+$ wc -l < sample-counter   -> 1
+  CHECK ok   [AFTER 595bced] AC3 exit: 0
+  CHECK ok   [AFTER 595bced] AC3 claude started: 1
+  CHECK ok   [AFTER 595bced] AC3 cursor t1 (transcript has 3 lines): 3
+  CHECK ok   [AFTER 595bced] AC3 'deferred' lines: 0
+
+================================================================
+AC4 [AFTER 595bced] pressure that rises during the batch defers the drain
+================================================================
+
+--- AC4 variant b
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 30] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:18+00:00 librarian-poke: deferred, iowait=30% >= ceiling=30%
+  2026-10-10T23:06:18+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 0
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 1
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC4b exit: 0
+  CHECK ok   [AFTER 595bced] AC4b claude started: 0
+  CHECK ok   [AFTER 595bced] AC4b batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC4b batch.manifest.tmp exists: no
+  CHECK ok   [AFTER 595bced] AC4b batch.txt.part exists: no
+  CHECK ok   [AFTER 595bced] AC4b librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC4b cursor files: 0
+  CHECK ok   [AFTER 595bced] AC4b lines 'deferred, iowait=30% >= ceiling=30%': 1
+  CHECK ok   [AFTER 595bced] AC4b 'deferred, ' lines that are not cooldown: 1
+  CHECK ok   [AFTER 595bced] AC4b 'batch deferred' lines: 1
+  CHECK ok   [AFTER 595bced] AC4b 'batch failed' lines: 0
+  CHECK ok   [AFTER 595bced] AC4b last-drain-start exists (AC6): yes
+  CHECK ok   [AFTER 595bced] AC4b sample counter (spawn + re-check 1): 2
+AC4b [AFTER 595bced] plan: 1.00 9 1.00 30 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, iowait=30% >= ceiling=30% | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+--- AC4 variant c
+# pressure plan (load iowait%) per check: [1.00 9] [1.00 9] [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T23:06:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC4c exit: 0
+  CHECK ok   [AFTER 595bced] AC4c claude started: 0
+  CHECK ok   [AFTER 595bced] AC4c batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC4c batch.manifest.tmp exists: no
+  CHECK ok   [AFTER 595bced] AC4c batch.txt.part exists: no
+  CHECK ok   [AFTER 595bced] AC4c librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC4c cursor files: 0
+  CHECK ok   [AFTER 595bced] AC4c lines 'deferred, load=8.00 >= ceiling=8': 1
+  CHECK ok   [AFTER 595bced] AC4c 'deferred, ' lines that are not cooldown: 1
+  CHECK ok   [AFTER 595bced] AC4c 'batch deferred' lines: 1
+  CHECK ok   [AFTER 595bced] AC4c 'batch failed' lines: 0
+  CHECK ok   [AFTER 595bced] AC4c last-drain-start exists (AC6): yes
+  CHECK ok   [AFTER 595bced] AC4c sample counter (spawn + re-check 1; re-check 2 stops on load): 2
+AC4c [AFTER 595bced] plan: 1.00 9 1.00 9 8.00 9 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, load=8.00 >= ceiling=8 | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+--- AC4 variant a
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T23:06:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.tmp batch.txt.part librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+$ grep -cF 'deferred, load=8.00 >= ceiling=8' <log>   -> 1
+$ grep -cF 'deferred, iowait=30% >= ceiling=30%' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC4a exit: 0
+  CHECK ok   [AFTER 595bced] AC4a claude started: 0
+  CHECK ok   [AFTER 595bced] AC4a batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC4a batch.manifest.tmp exists: no
+  CHECK ok   [AFTER 595bced] AC4a batch.txt.part exists: no
+  CHECK ok   [AFTER 595bced] AC4a librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC4a cursor files: 0
+  CHECK ok   [AFTER 595bced] AC4a lines 'deferred, load=8.00 >= ceiling=8': 1
+  CHECK ok   [AFTER 595bced] AC4a 'deferred, ' lines that are not cooldown: 1
+  CHECK ok   [AFTER 595bced] AC4a 'batch deferred' lines: 1
+  CHECK ok   [AFTER 595bced] AC4a 'batch failed' lines: 0
+  CHECK ok   [AFTER 595bced] AC4a last-drain-start exists (AC6): yes
+  CHECK ok   [AFTER 595bced] AC4a sample counter (spawn check only; re-check 1 stops on load): 1
+AC4a [AFTER 595bced] plan: 1.00 9 8.00 9 -> exit=0 claude_started=0 manifest=no cursors=0 log: librarian-poke: deferred, load=8.00 >= ceiling=8 | librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+
+================================================================
+AC5 [AFTER 595bced] a deferred drain loses nothing (same HOME as AC4 variant a, second run, calm)
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac4a.FcTc3Q/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac4a.FcTc3Q/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  2026-10-10T23:06:19+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T23:06:19+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 4
+  CHECK ok   [AFTER 595bced] AC5 claude started: 1
+  CHECK ok   [AFTER 595bced] AC5 batch.manifest ranges (slug:start:end): t1:0:3 t2:0:4
+  CHECK ok   [AFTER 595bced] AC5 cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC5 cursor t2: 4
+
+================================================================
+AC6 [AFTER 595bced] a mid-batch defer backs off
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] [8.00 9] 
+# run 1 = the AC4 run
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+  CHECK ok   [AFTER 595bced] AC6 last-drain-start exists after the mid-batch defer: yes
+  CHECK ok   [AFTER 595bced] AC6 run 1 'batch deferred' lines (run 1 really was a mid-batch defer): 1
+counter before run 2: 1 ; 'deferred, cooldown' lines before: 0 ; claude started so far: 0
+# run 2: calm, cooldown 1800
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MIN_INTERVAL_SECS=1800 LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:21+00:00 librarian-poke: deferred, load=8.00 >= ceiling=8
+  2026-10-10T23:06:21+00:00 librarian-poke: batch deferred, pressure rose mid-scan; cursors not advanced, next drain waits for the cooldown
+  2026-10-10T23:06:21+00:00 librarian-poke: deferred, cooldown, last drain started 0s ago < 1800s
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+counter gained: 1 line(s) ; 'deferred, cooldown' gained: 1 line(s)
+  CHECK ok   [AFTER 595bced] AC6 run 2 claude started: 0
+  CHECK ok   [AFTER 595bced] AC6 run 2 sample counter gain: 1
+  CHECK ok   [AFTER 595bced] AC6 run 2 'deferred, cooldown' gain: 1
+# spawn-check defer (AC1 shape) writes no last-drain-start:
+# pressure plan (load iowait%) per check: [8.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+$ ls -A <state-dir>
+  librarian-poke.log
+  CHECK ok   [AFTER 595bced] AC6 spawn-check defer: last-drain-start exists: no
+  CHECK ok   [AFTER 595bced] AC6 spawn-check defer: 'deferred, load=8.00 >= ceiling=8' lines: 1
+
+================================================================
+AC7 [AFTER 595bced] a running drain is never signalled by the gate
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# stub claude: traps TERM/INT -> markers/signalled; sets load fixture to 50.00; sleep 2; markers/finished; exit 0
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+$ cat fx/loadavg -> 50.00 0.50 0.50 1/100 4242
+$ ls markers
+  finished
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac7.d9vHdq/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac7.d9vHdq/.local/state/procedures
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'deferred' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC7 load fixture was raised to 50.00 by the running claude: 50.00
+  CHECK ok   [AFTER 595bced] AC7 markers/finished exists: yes
+  CHECK ok   [AFTER 595bced] AC7 markers/signalled exists: no
+  CHECK ok   [AFTER 595bced] AC7 cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC7 cursor t2: 4
+  CHECK ok   [AFTER 595bced] AC7 'deferred' lines: 0
+
+================================================================
+AC8 [AFTER 595bced] unreadable pressure during a re-check fails open, quietly
+================================================================
+--- (i) --load-ok with both pressure files absent
+log lines before: 1
+$ LP_LOADAVG_FILE=<absent> LP_STAT_FILE=<absent> bash $R/plugins/procedures/hooks/librarian-poke.sh --load-ok </dev/null
+exit=0
+log lines after: 1
+  CHECK ok   [AFTER 595bced] AC8(i) --load-ok exit: 0
+  CHECK ok   [AFTER 595bced] AC8(i) log lines added: 0
+--- (i-control) the same --load-ok with load 8.00 present: exit 75 and one log line (the check is live, and it can log)
+exit=75
+log lines after: 2
+  CHECK ok   [AFTER 595bced] AC8(i-control) --load-ok exit at load 8.00: 75
+  CHECK ok   [AFTER 595bced] AC8(i-control) log lines added: 1
+--- (ii) worker run, both pressure files absent for the whole run
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 LP_LOADAVG_FILE=/tmp/driver-233.CgRqDi/ac8ii.Qo9fFh/fx/absent-load LP_STAT_FILE=/tmp/driver-233.CgRqDi/ac8ii.Qo9fFh/fx/absent-stat bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac8ii.Qo9fFh/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac8ii.Qo9fFh/.local/state/proced
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  2026-10-10T23:06:25+00:00 librarian-poke: fail-open, loadavg unreadable — proceeding without that signal
+  2026-10-10T23:06:25+00:00 librarian-poke: fail-open, iowait unreadable — proceeding without that signal
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 0
+$ grep -cF 'fail-open, loadavg unreadable' <log>   -> 1
+$ grep -cF 'fail-open, iowait unreadable' <log>   -> 1
+  CHECK ok   [AFTER 595bced] AC8(ii) batch.manifest ranges: t1:0:3 t2:0:4
+  CHECK ok   [AFTER 595bced] AC8(ii) claude started: 1
+  CHECK ok   [AFTER 595bced] AC8(ii) 'fail-open, loadavg unreadable' lines: 1
+  CHECK ok   [AFTER 595bced] AC8(ii) 'fail-open, iowait unreadable' lines: 1
+--- (iii) batch script alone, --pressure-check <wrapper that records, then runs the hook --load-ok>
+$ LIBRARIAN_RECHECK_SECS=0 LP_LOADAVG_FILE=/tmp/driver-233.CgRqDi/ac8iii.7ewyL0/fx/absent-load LP_STAT_FILE=/tmp/driver-233.CgRqDi/ac8iii.7ewyL0/fx/absent-stat bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac8iii.7ewyL0/wrapper.sh
+librarian-batch: 2 transcript range(s), 303 bytes -> /tmp/driver-233.CgRqDi/ac8iii.7ewyL0/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac8iii.7ewyL0/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat wrapper.record
+  called: --load-ok
+  called: --load-ok
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+  CHECK ok   [AFTER 595bced] AC8(iii) batch exit: 0
+  CHECK ok   [AFTER 595bced] AC8(iii) wrapper record lines: 2
+  CHECK ok   [AFTER 595bced] AC8(iii) batch.manifest ranges: t1:0:3 t2:0:4
+
+================================================================
+AC9 [AFTER 595bced] the re-check is time-triggered, not per file
+================================================================
+corpus: 23 transcripts, 20 pre-seeded cursors (fully read)
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=3600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+$ cat batch.manifest.issued
+  new1	0	3
+  new2	0	3
+  new3	0	3
+$ wc -l < sample-counter   -> 1
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=3600 corpus files: 23
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=3600 claude started: 1
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=3600 issued ranges: new1:0:3 new2:0:3 new3:0:3
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=3600 sample counter: 1
+
+corpus: 23 transcripts, 20 pre-seeded cursors (fully read)
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+$ cat batch.manifest.issued
+  new1	0	3
+  new2	0	3
+  new3	0	3
+$ wc -l < sample-counter   -> 24
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=0 corpus files: 23
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=0 claude started: 1
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=0 issued ranges: new1:0:3 new2:0:3 new3:0:3
+  CHECK ok   [AFTER 595bced] AC9 RECHECK_SECS=0 sample counter: 24
+
+================================================================
+AC10 [AFTER 595bced] the batch script alone is not gated
+================================================================
+$ LP_LOADAVG_FILE=/tmp/driver-233.CgRqDi/ac10.sNZBzS/fx/loadavg LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh 
+librarian-batch: 2 transcript range(s), 299 bytes -> /tmp/driver-233.CgRqDi/ac10.sNZBzS/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac10.sNZBzS/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+  CHECK ok   [AFTER 595bced] AC10 batch exit: 0
+  CHECK ok   [AFTER 595bced] AC10 batch.manifest ranges: t1:0:3 t2:0:4
+
+================================================================
+AC11 [AFTER 595bced] only exit 75 from the check is a defer
+================================================================
+
+--- check script: 75
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac11-75.hW7LoZ/check.sh
+librarian-batch: deferred, pressure check asked to stop
+exit=75
+$ cat batch.manifest
+  (no batch.manifest)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+check script ran: 1 time(s)
+  CHECK ok   [AFTER 595bced] AC11 check=75 batch exit: 75
+  CHECK ok   [AFTER 595bced] AC11 check=75 batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC11 check=75 check script calls: 1
+
+--- check script: 1
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac11-1.sdvM02/check.sh
+librarian-batch: 2 transcript range(s), 303 bytes -> /tmp/driver-233.CgRqDi/ac11-1.sdvM02/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac11-1.sdvM02/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+check script ran: 2 time(s)
+  CHECK ok   [AFTER 595bced] AC11 check=1 batch exit: 0
+  CHECK ok   [AFTER 595bced] AC11 check=1 ranges: t1:0:3 t2:0:4
+  CHECK ok   [AFTER 595bced] AC11 check=1 check script calls: 2
+
+--- check script: 127
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac11-127.XhDbl5/check.sh
+librarian-batch: 2 transcript range(s), 307 bytes -> /tmp/driver-233.CgRqDi/ac11-127.XhDbl5/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac11-127.XhDbl5/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+check script ran: 2 time(s)
+  CHECK ok   [AFTER 595bced] AC11 check=127 batch exit: 0
+  CHECK ok   [AFTER 595bced] AC11 check=127 ranges: t1:0:3 t2:0:4
+  CHECK ok   [AFTER 595bced] AC11 check=127 check script calls: 2
+
+--- check script: missing
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac11-missing.9Ga5Ml/check.sh
+librarian-batch: 2 transcript range(s), 315 bytes -> /tmp/driver-233.CgRqDi/ac11-missing.9Ga5Ml/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac11-missing.9Ga5Ml/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+check script ran: 0 time(s)
+  CHECK ok   [AFTER 595bced] AC11 check=missing batch exit: 0
+  CHECK ok   [AFTER 595bced] AC11 check=missing check.sh exists: no
+  CHECK ok   [AFTER 595bced] AC11 check=missing ranges: t1:0:3 t2:0:4
+
+--- check script: eats-stdin
+$ LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/scripts/librarian-batch.sh --pressure-check /tmp/driver-233.CgRqDi/ac11-eats-stdin.fVPF4D/check.sh
+librarian-batch: 2 transcript range(s), 321 bytes -> /tmp/driver-233.CgRqDi/ac11-eats-stdin.fVPF4D/.local/state/procedures/librarian/batch.txt (manifest /tmp/driver-233.CgRqDi/ac11-eats-stdin.fVPF4D/.local/state/procedures/librarian/batch.manifest)
+exit=0
+$ cat batch.manifest
+  t1	0	3
+  t2	0	4
+$ ls -A <state-dir>
+  batch.manifest
+  batch.txt
+  cursors
+check script ran: 2 time(s)
+  CHECK ok   [AFTER 595bced] AC11 check=eats-stdin batch exit: 0
+  CHECK ok   [AFTER 595bced] AC11 check=eats-stdin ranges: t1:0:3 t2:0:4
+  CHECK ok   [AFTER 595bced] AC11 check=eats-stdin check script calls: 2
+
+================================================================
+AC12 [AFTER 595bced] a failed batch is still a failure
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_BATCH_BYTES=nope bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac12.QPWo4a/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:31+00:00 librarian-poke: batch failed, drain skipped: librarian-batch: LIBRARIAN_BATCH_BYTES must be a positive integer
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'deferred' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC12 'batch failed, drain skipped' lines: 1
+  CHECK ok   [AFTER 595bced] AC12 'deferred' lines: 0
+  CHECK ok   [AFTER 595bced] AC12 last-drain-start exists: no
+  CHECK ok   [AFTER 595bced] AC12 claude started: 0
+
+================================================================
+AC13 [AFTER 595bced] the batch runs at idle priority
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store  bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+$ cat ionice.record
+  -c3 nice -n19 bash /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-check /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/librarian-poke.sh
+  -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac13.Qz6lIX/.local/state/procedures/librarian --add-dir /tmp/tmp.FCKa5ke6Vy/plugins/procedures --add-dir /tmp/dr
+$ cat nice.record
+  -n19 bash /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-check /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/librarian-poke.sh
+  -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac13.Qz6lIX/.local/state/procedures/librarian --add-dir /tmp/tmp.FCKa5ke6Vy/plugins/procedures --add-dir /tmp/driver-233.
+  CHECK ok   [AFTER 595bced] AC13 ionice lines with -c3 AND librarian-batch.sh: 1
+  CHECK ok   [AFTER 595bced] AC13 ionice lines with librarian-batch.sh: 1
+  CHECK ok   [AFTER 595bced] AC13 nice lines with -n19 AND librarian-batch.sh: 1
+  CHECK ok   [AFTER 595bced] AC13 nice lines with librarian-batch.sh: 1
+  CHECK ok   [AFTER 595bced] AC13 claude started (the niced batch still issued): 1
+
+================================================================
+AC15 [AFTER 595bced] a bad re-check interval cannot stop the drain
+================================================================
+
+--- LIBRARIAN_RECHECK_SECS='nope'
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS=nope bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac15.gCKu6E/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac15.gCKu6E/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='nope' claude started: 1
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='nope' cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='nope' cursor t2: 4
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='nope' 'batch failed' lines: 0
+
+--- LIBRARIAN_RECHECK_SECS=''
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_RECHECK_SECS= bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/ac15.7XQG1h/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac15.7XQG1h/.local/state/procedur
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='' claude started: 1
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='' cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='' cursor t2: 4
+  CHECK ok   [AFTER 595bced] AC15 RECHECK_SECS='' 'batch failed' lines: 0
+
+================================================================
+AC17 [AFTER 595bced] a batch scan killed by the runtime cap is not a drain
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: wc = record the call, sleep 3, exec the real wc. Cap: LIBRARIAN_MAX_RUNTIME_SEC=1
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+run 1 wall time: 1s ; slow wc calls: 1
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:34+00:00 librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest batch.manifest.issued librarian.lock.d last-drain-start (in state dir)
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.issued': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  last-drain-start
+$ grep -cF 'batch scan exceeded 1s cap, killed' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC17 exit: 0
+  CHECK ok   [AFTER 595bced] AC17 slow wc calls (the scan reached the slow step): 1
+  CHECK ok   [AFTER 595bced] AC17 claude started: 0
+  CHECK ok   [AFTER 595bced] AC17 cursor files: 0
+  CHECK ok   [AFTER 595bced] AC17 batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC17 batch.manifest.issued exists: no
+  CHECK ok   [AFTER 595bced] AC17 lines 'batch scan exceeded 1s cap, killed': 1
+  CHECK ok   [AFTER 595bced] AC17 'batch failed' lines: 0
+  CHECK ok   [AFTER 595bced] AC17 'batch deferred' lines: 0
+  CHECK ok   [AFTER 595bced] AC17 total log lines: 1
+  CHECK ok   [AFTER 595bced] AC17 last-drain-start exists: yes
+  CHECK ok   [AFTER 595bced] AC17 claim dir librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC17 batch.manifest.tmp exists: no
+  CHECK ok   [AFTER 595bced] AC17 batch.txt.part exists: no
+# run 2: same HOME, inside the cooldown (LIBRARIAN_MIN_INTERVAL_SECS=1800), calm, slow wc still on PATH
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 LIBRARIAN_MIN_INTERVAL_SECS=1800 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+run 2 wall time: 0s
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:34+00:00 librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  2026-10-10T23:06:34+00:00 librarian-poke: deferred, cooldown, last drain started 0s ago < 1800s
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 2
+  CHECK ok   [AFTER 595bced] AC17 run 2 slow wc calls gained (no scan): 0
+  CHECK ok   [AFTER 595bced] AC17 run 2 sample counter gain (spawn check only): 1
+  CHECK ok   [AFTER 595bced] AC17 run 2 'deferred, cooldown' gain: 1
+  CHECK ok   [AFTER 595bced] AC17 run 2 log lines gained: 1
+  CHECK ok   [AFTER 595bced] AC17 run 2 claude started: 0
+  CHECK ok   [AFTER 595bced] AC17 run 2 cursor files: 0
+AC17 [AFTER 595bced] slow wc (3s/call), cap=1s -> exit=0 run1_wall=1s claude_started=0 cursors=0 last-drain-start=yes lock=no log: librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown | librarian-poke: deferred, cooldown, last drain started 0s ago < 1800s
+
+================================================================
+AC17 leftovers [AFTER 595bced] a scan killed mid-range leaves no batch.manifest.tmp / batch.txt.part
+================================================================
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: head -n N = 1st call fast; 2nd call: wait 0.4s, record which partial files exist, sleep 4, exec the real head. Cap: LIBRARIAN_MAX_RUNTIME_SEC=1
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 1s
+$ cat head.record
+  head -n 3 fast
+  head -n 4 SLOW at-this-moment: batch.txt.part=yes batch.manifest.tmp=yes tmp-ranges=1
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.txt
+  cursors
+  last-drain-start
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:35+00:00 librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d batch.manifest.tmp batch.txt.part batch.manifest last-drain-start librarian.lock.d (in state dir)
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  last-drain-start
+$ grep -cF 'batch scan exceeded 1s cap, killed' <log>   -> 1
+$ grep -cF 'batch failed' <log>   -> 0
+$ grep -cF 'batch deferred' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC17m head -n calls (2nd one is the slow one): 2
+  CHECK ok   [AFTER 595bced] AC17m at the slow step: batch.txt.part on disk: 1
+  CHECK ok   [AFTER 595bced] AC17m at the slow step: batch.manifest.tmp on disk with 1 range: 1
+  CHECK ok   [AFTER 595bced] AC17m exit: 0
+  CHECK ok   [AFTER 595bced] AC17m claude started: 0
+  CHECK ok   [AFTER 595bced] AC17m cursor files: 0
+  CHECK ok   [AFTER 595bced] AC17m lines 'batch scan exceeded 1s cap, killed': 1
+  CHECK ok   [AFTER 595bced] AC17m total log lines: 1
+  CHECK ok   [AFTER 595bced] AC17m last-drain-start exists: yes
+  CHECK ok   [AFTER 595bced] AC17m claim dir librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC17m batch.manifest exists: no
+  CHECK ok   [AFTER 595bced] AC17m batch.manifest.tmp exists after the kill: no
+  CHECK ok   [AFTER 595bced] AC17m batch.txt.part exists after the kill: no
+AC17 leftovers [AFTER 595bced] kill mid-range, cap=1s -> exit=0 wall=1s claude_started=0 batch.manifest.tmp=no batch.txt.part=no log: librarian-poke: batch scan exceeded 1s cap, killed; cursors not advanced, lock released, next drain waits for the cooldown
+
+================================================================
+AC18 [AFTER 595bced] the scan and the drain share one runtime cap
+================================================================
+--- slow scan: wc sleeps 3 s, LIBRARIAN_MAX_RUNTIME_SEC=120
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=120 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 4s
+$ cut -c1-150 timeout.record   (field 3 = the duration)
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 bash /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-chec
+  --signal=TERM --kill-after=60 116 ionice -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac1
+scan timeout duration(s): [120]   claude timeout duration(s): [116]
+claude started: 1 time(s) ; cursor t1=3 ; per-transcript wc calls: 1
+$ cat <log>
+  (no log file)
+  CHECK ok   [AFTER 595bced] AC18 slow: slowed wc calls (the scan reached the slow step): 1
+  CHECK ok   [AFTER 595bced] AC18 slow: claude started: 1
+  CHECK ok   [AFTER 595bced] AC18 slow: cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC18 slow: run took at least the 3 s of the slow scan: yes
+  CHECK ok   [AFTER 595bced] AC18 slow: duration of the timeout that wraps claude (120 minus ~3 s scan): 116 (in 113..117)
+  CHECK ok   [AFTER 595bced] AC18 slow: duration of the timeout that wraps the scan: 120
+AC18 [AFTER 595bced] cap=120s, scan slowed 3s -> timeout(scan)=[120] timeout(claude)=[116] claude_started=1 cursor t1=3
+
+--- fast scan: same shims, wc not slowed
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=120 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+$ cut -c1-150 timeout.record   (field 3 = the duration)
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 bash /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-chec
+  --signal=TERM --kill-after=60 120 ionice -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac1
+scan timeout duration(s): [120]   claude timeout duration(s): [120]
+claude started: 1 time(s) ; cursor t1=3 ; per-transcript wc calls: 1
+$ cat <log>
+  (no log file)
+  CHECK ok   [AFTER 595bced] AC18 fast: duration of the timeout that wraps claude: 120 (in 118..120)
+  CHECK ok   [AFTER 595bced] AC18 fast: duration of the timeout that wraps the scan: 120
+  CHECK ok   [AFTER 595bced] AC18 fast: claude started: 1
+AC18 [AFTER 595bced] cap=120s, fast scan -> timeout(scan)=[120] timeout(claude)=[120]
+
+--- floor (min 1): cap=1 s, scan slowed 3 s, and the scan's timeout does not fire
+# (the timeout shim records the scan's call, then runs the scan without the limit: a scan that
+#  ends over the cap with exit 0. The claude call goes to the real timeout.)
+# pressure plan (load iowait%) per check: [1.00 9] 
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=1 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+$ cut -c1-150 timeout.record   (field 3 = the duration)
+  --signal=TERM --kill-after=60 1 ionice -c3 nice -n19 bash /tmp/tmp.FCKa5ke6Vy/plugins/procedures/hooks/../scripts/librarian-batch.sh --pressure-check 
+  --signal=TERM --kill-after=60 1 ionice -c3 nice -n19 claude -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/ac18m
+scan timeout duration(s): [1]   claude timeout duration(s): [1]
+claude started: 1 time(s) ; cursor t1=3 ; per-transcript wc calls: 1
+$ cat <log>
+  (no log file)
+  CHECK ok   [AFTER 595bced] AC18 floor: duration of the timeout that wraps claude (1 - 3 < 1, so 1): 1
+  CHECK ok   [AFTER 595bced] AC18 floor: duration of the timeout that wraps the scan: 1
+  CHECK ok   [AFTER 595bced] AC18 floor: claude started: 1
+  CHECK ok   [AFTER 595bced] AC18 floor: cursor t1: 3
+  CHECK ok   [AFTER 595bced] AC18 floor: 'batch scan exceeded' lines (the scan exited 0): 0
+AC18 [AFTER 595bced] cap=1s, scan took 3s and exited 0 -> timeout(claude)=[1] (floor) claude_started=1
+
+================================================================
+AC19 [AFTER 595bced] only a real cap overrun is called one (cap = 600 s)
+================================================================
+--- variant a: the real batch script is SIGKILLed mid-scan (exit 137)
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: wc = find the top 'bash .../librarian-batch.sh' process above it, record the pid, kill -9 that pid
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat kill.record
+  SIGKILL pid=4023556 cmd=bash librarian-batch.sh parent=timeout
+  CHECK ok   [AFTER 595bced] AC19a SIGKILL sent to the batch process (kill.record lines with SIGKILL): 1
+  CHECK ok   [AFTER 595bced] AC19a wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  batch.manifest.tmp
+  batch.txt
+  cursors
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+$ cat <log>
+  2026-10-10T23:06:44+00:00 librarian-poke: batch failed, drain skipped: 
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'last-drain-start': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+  batch.manifest.tmp
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'batch scan exceeded' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC19a exit: 0
+  CHECK ok   [AFTER 595bced] AC19a claude started: 0
+  CHECK ok   [AFTER 595bced] AC19a cursor files: 0
+  CHECK ok   [AFTER 595bced] AC19a claim dir librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC19a total log lines: 1
+  CHECK ok   [AFTER 595bced] AC19a 'batch failed, drain skipped' lines: 1
+  CHECK ok   [AFTER 595bced] AC19a 'batch scan exceeded' lines: 0
+  CHECK ok   [AFTER 595bced] AC19a last-drain-start exists: no
+AC19a [AFTER 595bced] batch SIGKILLed (137) after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: batch failed, drain skipped: 
+
+--- variant b: the scan exits 124 at once
+# pressure plan (load iowait%) per check: [1.00 9] 
+# PATH shim: bash = exit 124 when asked to run librarian-batch.sh; every other call goes to the real bash
+$ CODEX_STORE_ROOTS=$HOME/default-store LIBRARIAN_MAX_RUNTIME_SEC=600 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker
+exit=0
+  CHECK ok   [AFTER 595bced] fixture has a store root ('no store roots resolved' log lines): 0
+wall time: 0s
+$ cat scan.record
+  scan stand-in: exit 124
+  CHECK ok   [AFTER 595bced] AC19b the scan stand-in ran: 1
+  CHECK ok   [AFTER 595bced] AC19b wall time far below the 600 s cap: yes
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/ac19b.p0BQhw/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:44+00:00 librarian-poke: batch failed, drain skipped: 
+  transcript t1: lines=3 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 1
+$ ls -d last-drain-start librarian.lock.d batch.manifest batch.manifest.tmp batch.txt.part (in state dir)
+  ls: cannot access 'last-drain-start': No such file or directory
+  ls: cannot access 'librarian.lock.d': No such file or directory
+  ls: cannot access 'batch.manifest': No such file or directory
+  ls: cannot access 'batch.manifest.tmp': No such file or directory
+  ls: cannot access 'batch.txt.part': No such file or directory
+$ grep -cF 'batch failed, drain skipped' <log>   -> 1
+$ grep -cF 'batch scan exceeded' <log>   -> 0
+  CHECK ok   [AFTER 595bced] AC19b exit: 0
+  CHECK ok   [AFTER 595bced] AC19b claude started: 0
+  CHECK ok   [AFTER 595bced] AC19b cursor files: 0
+  CHECK ok   [AFTER 595bced] AC19b claim dir librarian.lock.d exists: no
+  CHECK ok   [AFTER 595bced] AC19b total log lines: 1
+  CHECK ok   [AFTER 595bced] AC19b 'batch failed, drain skipped' lines: 1
+  CHECK ok   [AFTER 595bced] AC19b 'batch scan exceeded' lines: 0
+  CHECK ok   [AFTER 595bced] AC19b last-drain-start exists: no
+AC19b [AFTER 595bced] scan exit 124 after 0s, cap=600s -> exit=0 claude_started=0 last-drain-start=no log: librarian-poke: batch failed, drain skipped: 
+
+================================================================
+AC14 [AFTER 595bced] docs match behaviour (run in plugins/procedures)
+================================================================
+$ grep -nF '> ceiling' hooks/librarian-poke.sh
+exit=1
+$ grep -c 'at or over' hooks/librarian-poke.sh
+3
+exit=0
+$ grep -n pressure-check scripts/librarian-batch.sh
+7:#   bash librarian-batch.sh [--out FILE] [--pressure-check PATH]
+28:# --pressure-check PATH: every LIBRARIAN_RECHECK_SECS (default 5; 0 = every
+30:# partial output and exits 75 (pressure-check abort), so no manifest is left.
+56:        --pressure-check) CHECK="${2:?--pressure-check needs a path}"; shift 2 ;;
+exit=0
+$ grep -n LIBRARIAN_RECHECK_SECS hooks/librarian-poke.sh scripts/librarian-batch.sh
+hooks/librarian-poke.sh:155:# batch re-runs this check (--load-ok) every LIBRARIAN_RECHECK_SECS (default 5)
+scripts/librarian-batch.sh:28:# --pressure-check PATH: every LIBRARIAN_RECHECK_SECS (default 5; 0 = every
+scripts/librarian-batch.sh:50:RECHECK="${LIBRARIAN_RECHECK_SECS:-5}"
+exit=0
+$ grep -n 'ceiling of 0' hooks/librarian-poke.sh
+150:#       window. A ceiling of 0 defers every drain (load and iowait are never
+209:# a reading at or over its ceiling defers, so a ceiling of 0 always defers.
+exit=0
+  CHECK ok   [AFTER 595bced] AC14 '> ceiling' lines in the hook: 0
+  CHECK ok   [AFTER 595bced] AC14 'at or over' count in the hook: 3 (>= 3)
+  CHECK ok   [AFTER 595bced] AC14 header-comment 'pressure-check' lines (before 'set -euo') that name 75: 1 (>= 1)
+  CHECK ok   [AFTER 595bced] AC14 lines with LIBRARIAN_RECHECK_SECS and 'default 5': 2 (>= 1)
+  CHECK ok   [AFTER 595bced] AC14 'ceiling of 0' lines in the hook: 2 (>= 1)
+# control: the same greps on the BEFORE tree
+  CHECK ok   [AFTER 595bced] AC14 control: BEFORE tree '> ceiling' lines (the grep can match): 2 (>= 1)
+
+================================================================
+AC16 the version bump is automated
+================================================================
+$ gh pr view 233 -R drewdrewthis/claude-plugins --json title,files,headRefOid
+{"title":"fix(procedures): librarian gate defers at the ceiling and re-checks pressure mid-scan","headRefOid":"595bced8b7f2be0e87c9e0c2caea20fe16d409bf","files":["plugins/procedures/hooks/librarian-poke.sh","plugins/procedures/hooks/tests/librarian-batch.bats","plugins/procedures/hooks/tests/librarian-poke.bats","plugins/procedures/scripts/librarian-batch.sh","plugins/procedures/specs/features/librarian-pressure-gate.feature"]}
+  CHECK ok   [AFTER 595bced] AC16 gh returned a PR (file count > 0): yes
+  CHECK ok   [AFTER 595bced] AC16 title starts with 'fix(procedures):': yes
+  CHECK ok   [AFTER 595bced] AC16 files that are plugin.json or .release-please-manifest.json: 0
+  CHECK ok   [AFTER 595bced] AC16 PR headRefOid is the checkout under test: 595bced8b7f2be0e87c9e0c2caea20fe16d409bf
+===== REAL /proc of this box =====
+
+================================================================
+REAL /proc [AFTER 595bced] no fixture seams: the hook reads /proc/loadavg and /proc/stat of this box
+================================================================
+$ cat /proc/loadavg -> 9.92 11.96 17.84 6/1890 4024035
+$ LIBRARIAN_LOAD_CEILING=9.42 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker   (LP_* seams unset)
+exit=0
+claude started: 0 time(s)
+$ ls -A <state-dir>
+  librarian-poke.log
+$ ls -A <state-dir>/cursors
+  ls: cannot access '/tmp/driver-233.CgRqDi/real-defer.ES37NN/.local/state/procedures/librarian/cursors': No such file or directory
+$ cat <log>
+  2026-10-10T23:06:45+00:00 librarian-poke: deferred, load=9.92 >= ceiling=9.42
+  transcript t1: lines=3 cursor=<no cursor file>
+  transcript t2: lines=4 cursor=<no cursor file>
+$ wc -l < sample-counter   -> 0
+  CHECK ok   [AFTER 595bced] REAL defer exit: 0
+  CHECK ok   [AFTER 595bced] REAL defer claude started: 0
+  CHECK ok   [AFTER 595bced] REAL defer lines 'deferred, load=' with '>= ceiling=9.42': 1
+  CHECK ok   [AFTER 595bced] REAL defer total log lines: 1
+REAL /proc [AFTER 595bced] box load=9.92, ceiling=9.42 -> exit=0 claude_started=0 log: librarian-poke: deferred, load=9.92 >= ceiling=9.42
+
+$ cat /proc/loadavg -> 9.92 11.96 17.84 5/1893 4024115
+$ LIBRARIAN_LOAD_CEILING=100000 LIBRARIAN_IOWAIT_CEILING=1000 LIBRARIAN_RECHECK_SECS=0 bash $R/plugins/procedures/hooks/librarian-poke.sh --worker   (LP_* seams unset)
+exit=0
+claude started: 1 time(s)
+  claude cwd=/tmp/driver-233.CgRqDi/real-drain.51W0cm/.local/state/procedures/librarian -p --setting-sources user --permission-mode dontAsk --add-dir /tmp/driver-233.CgRqDi/real-drain.51W0cm/.local/st
+$ ls -A <state-dir>
+  batch.manifest
+  batch.manifest.issued
+  batch.txt
+  cursors
+  last-drain-start
+  store-status.before
+$ ls -A <state-dir>/cursors
+  t1.line
+  t2.line
+$ cat <log>
+  (no log file)
+$ cat <state-dir>/batch.manifest (slug start end)
+  t1	0	3
+  t2	0	4
+  transcript t1: lines=3 cursor=3
+  transcript t2: lines=4 cursor=4
+$ wc -l < sample-counter   -> 0
+  CHECK ok   [AFTER 595bced] REAL drain exit: 0
+  CHECK ok   [AFTER 595bced] REAL drain claude started: 1
+  CHECK ok   [AFTER 595bced] REAL drain cursor t1: 3
+  CHECK ok   [AFTER 595bced] REAL drain cursor t2: 4
+  CHECK ok   [AFTER 595bced] REAL drain log lines (no defer, no fail-open on a box with /proc): 0
+REAL /proc [AFTER 595bced] ceilings load=100000 iowait=1000 -> exit=0 claude_started=1 cursors: t1=3 t2=4 log: (no log line)
+
+================================================================
+SUMMARY
+================================================================
+# end: 2026-10-10T23:06:49Z
+headline lines: /tmp/driver-233.CgRqDi/headline.txt
+CHECKS: 343 ok, 0 failed (BEFORE 92308c9 / PREV ebcd00d vs AFTER 595bced)
+headline copy: /tmp/claude-1001/-home-ubuntu-worktrees-claude-plugins-issue166/6a4a19a9-d9e2-4008-a4e3-5032c759fdb9/scratchpad/headline-595bced.txt

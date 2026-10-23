@@ -1,0 +1,14 @@
+# POST $GATEWAY/v1/audio/transcriptions -F model=gpt-4o-transcribe-diarize -F response_format=diarized_json -F chunking_strategy=auto -F file=@long.wav
+status=200 total=15.518822s
+# response headers
+HTTP/1.1 100 Continue
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Traceparent: 00-b0cc73f69e69ed0049302593ce8529ba-b87ed88e2c190852-01
+X-Langwatch-Gateway-Request-Id: req_8ff00e5d973d6097b39d6a81206191
+X-Langwatch-Gateway-Version: dev
+X-Request-Id: req_778e2eb6ab55453a80aa1a1dd4c70127
+Date: Tue, 06 Oct 2026 16:53:54 GMT
+Transfer-Encoding: chunked
+

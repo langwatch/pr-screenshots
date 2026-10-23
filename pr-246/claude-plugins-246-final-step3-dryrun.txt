@@ -1,0 +1,14 @@
+$ date -u
+2026-10-10T16:38:18Z
+$ heads before
+8bfe857d43248fe2394d5208101ffee97a6d116d refs/heads/release-please--branches--main--components--a
+1b33de4d1aa44d60a5e74cf234d914eb08d0e294 refs/heads/release-please--branches--main--components--b
+7aa1b85e30836a2b09fc8c18d0e97c3bf22b9c34 refs/heads/release-please--branches--main--components--c
+$ GITHUB_REPOSITORY=... DRY_RUN=1 .github/scripts/repair-release-manifests.sh release-please-config.json .release-please-manifest.json
+would repair: release-please--branches--main--components--c (plugins/b 0.2.2 -> 0.2.3)
+checked: 1 release PR(s)
+exit=0
+$ heads after
+8bfe857d43248fe2394d5208101ffee97a6d116d refs/heads/release-please--branches--main--components--a
+1b33de4d1aa44d60a5e74cf234d914eb08d0e294 refs/heads/release-please--branches--main--components--b
+7aa1b85e30836a2b09fc8c18d0e97c3bf22b9c34 refs/heads/release-please--branches--main--components--c
