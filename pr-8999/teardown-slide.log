@@ -1,0 +1,27 @@
+teardown 2026-10-26T11:33:58Z, slide boot for head 3c79c95 (session 2094043, started with setsid; boot 2026-10-26T11:20:49Z)
+$ ps -eo pid --sid 2094043 (before)
+2094043 2094104 2094151 2094154 2112915 2112951 2112971 2112972 2112996 2113117 2113119 
+sent KILL to group 2094043
+sent KILL to group 2094151
+sent KILL to group 2112951
+sent KILL to group 2113117
+$ ps --sid 2094043 (after)
+(none, exit 1)
+$ processes with my env (DATABASE_URL on localhost:25432)
+$ any process with :25432 or PORT=5640 in its env
+2094437 2094437 /home/ubuntu/.nvm/versions/node/v24.13.0/bin/node --conditions development /home/ubuntu/worktr
+2094673 2094673 /home/ubuntu/.nvm/versions/node/v24.13.0/bin/node --conditions development /home/ubuntu/worktr
+(end)
+2094437 started Mon Oct 26 11:20:50 2026 cwd /home/ubuntu/worktrees/langwatch-insights-one-list DATABASE_URL=postgresql://***@localhost:25432/mydb?schema=mydb PORT=5640 
+2094673 started Mon Oct 26 11:20:51 2026 cwd /home/ubuntu/worktrees/langwatch-insights-one-list DATABASE_URL=postgresql://***@localhost:25432/mydb?schema=mydb PORT=5640 
+$ kill 2094437 2094673  (nx daemons from this boot)
+(gone, exit 1)
+$ docker rm -f -v lw-insights-pr8999-postgres lw-insights-pr8999-clickhouse lw-insights-pr8999-redis
+lw-insights-pr8999-postgres
+lw-insights-pr8999-clickhouse
+lw-insights-pr8999-redis
+$ docker ps -a | grep lw-insights-pr8999
+(exit 1)
+$ ss -ltn | grep :5640
+(exit 1)
+Shared dev stores (langwatch-postgres-1, langwatch-clickhouse-1, lw-redis) not touched. No files deleted; scratch in $TMPDIR/pr8999-slide.
