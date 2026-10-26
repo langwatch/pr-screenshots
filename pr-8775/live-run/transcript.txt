@@ -1,0 +1,27 @@
+PR 8775 live Langy run: the sandbox CLI has no API key
+Source: https://gist.github.com/drewdrewthis/543ad336072176f4cb4bace18236a70b
+PR head of the run: 1ca3d984a88ac4cd3d77286fbaefc53b3a1b3822 (local haven stack, +langy, model openai/gpt-5.4-mini)
+How the failure was made: the langy worker ran under `env -u LANGWATCH_API_KEY`, so every `langwatch` call fails as when the sandbox credential is missing.
+Excerpt of the worker session (keys redacted, the `login --help` / `login --device` steps cut).
+
+[user] How many traces did my project get in the last 7 days, and what did they cost in total?
+
+[assistant toolCall] $ langwatch analytics query --metric trace-count --aggregation sum --time-scale full --format json
+[toolResult bash] {
+  "ok": false,
+  "error": {
+    "code": "missing_api_key",
+    "kind": "missing_api_key",
+    "message": "Not logged in and LANGWATCH_API_KEY is not set. Sign in interactively with `langwatch login`, ...",
+    "httpStatus": 0,
+    "isHandled": true,
+    "suggestions": [
+      "Run `langwatch login` to authenticate",
+      "Or set LANGWATCH_API_KEY in your environment or .env file"
+    ]
+  }
+}
+Error: you're not logged in, and LANGWATCH_API_KEY is not set.
+Command exited with code 1
+
+[assistant] I hit an internal auth block on the analytics read, so I couldn't retrieve the 7-day trace count or total cost from this session.
