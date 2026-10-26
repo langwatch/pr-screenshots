@@ -392,3 +392,57 @@ $ curl /api/v1/analytics/reports (control, should still work)
 
 ## Line 8
 ![list](dashboards-page-list.png) ![board](dashboards-page-board-opens.png)
+
+---
+## Follow-up on head 99d6255b556
+
+## (a) line 6: org API key created in UI (Settings > API keys, Personal, scope Organization, 7 days); key redacted
+```
+$ node dist/cli/index.js organization get
+Using API key from LANGWATCH_API_KEY. Switch: langwatch login --project | --device
+{"ok":false,"error":{"code":"enterprise_plan_required","kind":"enterprise_plan_required","message":"Failed to fetch the organization: The management API requires an Enterprise plan","httpStatus":402,"meta":{"feature":"MANAGEMENT_API"},"isHandled":true,"retryable":false,"traceId":"7c1c3b80227535a9943e73942c582334","suggestions":["This part of the API is available on the Enterprise plan; meta.feature names which capability was refused","Talk to your account team or visit the pricing page to upgrade the organization's plan"],"docUrl":"https://langwatch.ai/docs/pricing","terminal":true}}
+Failed to fetch the organization: The management API requires an Enterprise plan
+
+[exit 1]
+
+```
+## (b) widget create platformUrl
+```
+$ node dist/cli/index.js dashboards widgets create dashboard_0002Slvj92kMPiGYFZPb9CHiVIyWm --name W1 --code-file /tmp/p8896/w.tsx --queries-file /tmp/p8896/q.json -f json
+{
+  "id": "widget_0002Slvj92kMPiGYFZPb9CHiVIyWn",
+  "name": "W1",
+  "definition": {
+    "version": 1,
+    "code": "export default function W(){return <div>hi</div>}\n",
+    "queries": [],
+    "source": {
+      "kind": "api"
+    }
+  },
+  "createdAt": "2026-10-26T12:27:58.464Z",
+  "updatedAt": "2026-10-26T12:27:58.464Z",
+  "platformUrl": "https://app.langwatch-v2-board.langwatch.localhost/local-dev-project/dashboards/dashboard_0002Slvj92kMPiGYFZPb9CHiVIyWm",
+  "dashboardId": "dashboard_0002Slvj92kMPiGYFZPb9CHiVIyWm",
+  "gridColumn": 0,
+  "gridRow": 0,
+  "colSpan": 4,
+  "rowSpan": 3
+}
+
+[exit 0]
+
+```
+## (c) line 3 re-run, real dated form
+```
+$ curl /api/v1/dashboards 
+200 xav=latest {"data":[{"id":"dashboard_0002MEgJIlv7oNNhiGPly944vAcwc","name":"curl board","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-26T12:
+$ curl /api/v1/dashboards -H 'X-API-Version: 2026-10-26'
+200 xav=2026-10-26 {"data":[{"id":"dashboard_0002MEgJIlv7oNNhiGPly944vAcwc","name":"curl board","description":null,"scope":"PROJECT","createdById":null,"createdAt":"2026-10-26T12:
+$ curl /api/v1/dashboards -H 'X-API-Version: 2026-08-07'
+200 xav=2026-08-07 {"data":[]}
+$ curl /api/v1/dashboards -H 'X-API-Version: 2026-13-45'
+400 xav= {"type":"bad_request","code":"invalid_api_version","message":"The API version must be latest or a real date in YYYY-MM-DD form","retryable":false,"fault":"custo
+$ curl /api/v1/dashboards/2026-10-26 -H 'X-API-Version: 2026-08-07'
+400 xav= {"type":"bad_request","code":"api_version_conflict","message":"The API version in the URL and header must match","retryable":false,"fault":"customer"}
+```
