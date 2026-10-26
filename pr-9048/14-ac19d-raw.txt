@@ -1,0 +1,57 @@
+# AC19d raw capture, 2026-10-26, stack langwatch-switchover
+# worktree /home/ubuntu/worktrees/langwatch-switchover HEAD 9dc74ead95e94df3d0dd2029034deb801a25658b (PR 9055 = 9048 HEAD 1f6be902746 + nav commit)
+# board: My dashboard, widget 'How much work did my agent handle?', range 24h, refresh every 5m (localStorage langwatch.dashboard.autoRefresh = 5m)
+
+## Clean run (screenshots 13 -> 14). Same page throughout: performance.timeOrigin 2026-10-26T08:50:09.390Z, marker set 08:50:27 still present after the refresh.
+### BEFORE (page load)
+#1411 POST /api/trpc/analytics.lwql.query 200 109ms
+timeWindow {'start': '2026-10-25T08:51:00.000Z', 'end': '2026-10-26T08:51:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[{"bucket":"2026-10-26 08:00:00","traces":3}],"statistics":{"elapsedMs":8,"rowsRead":5939,"bytesRead":636425,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":true,"granularitySeconds":3600,"
+
+### trace sent after load
+traceId 8d9d93a1d47859fd8193c2d724c9e036
+$ curl -sk -X POST https://app.langwatch-switchover.langwatch.localhost/api/otel/v1/traces -H 'Content-Type: application/json' -H "Authorization: Bearer $LOCAL_PROJECT_API_KEY" --data @otlp4.json -w '\nHTTP %{http_code}\n'
+sent at 2026-10-26T08:51:30Z
+{"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
+HTTP 200
+in trace_metrics at 08:51:33: rows=1
+
+### AFTER (interval refresh ~08:55:09, no reload)
+#1445 POST /api/trpc/analytics.lwql.query 200 84ms
+timeWindow {'start': '2026-10-25T08:56:00.000Z', 'end': '2026-10-26T08:56:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[{"bucket":"2026-10-26 08:00:00","traces":4}],"statistics":{"elapsedMs":7,"rowsRead":5941,"bytesRead":636622,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":true,"granularitySeconds":3600,"
+
+=> window end 08:51:00 -> 08:56:00 (length 24h kept), traces 3 -> 4, HTTP 200 both
+
+## Earlier runs (screenshots 10, 11, 12). Not clean: the haven lane unloads its page after 2 min idle, so the next CLI command reloaded it.
+### 08:32 widget query (screenshot 10: 'No traces in this period')
+#573 POST /api/trpc/analytics.lwql.query 200 84ms
+timeWindow {'start': '2026-10-25T08:32:00.000Z', 'end': '2026-10-26T08:32:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[],"statistics":{"elapsedMs":9,"rowsRead":5936,"bytesRead":589632,"rowsReturned":0},"diagnos
+
+$ date -u; curl -sk -X POST https://app.langwatch-switchover.langwatch.localhost/api/otel/v1/traces -H 'Content-Type: application/json' -H "Authorization: Bearer $LOCAL_PROJECT_API_KEY" --data @otlp.json -w '\nHTTP %{http_code}\n'
+2026-10-26T08:32:15Z
+{"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
+HTTP 200
+
+### 08:39 (screenshot 11, count 1)
+#966 POST /api/trpc/analytics.lwql.query 200 204ms
+timeWindow {'start': '2026-10-25T08:39:00.000Z', 'end': '2026-10-26T08:39:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[{"bucket":"2026-10-26 08:00:00","traces":1}],"statistics":{"elapsedMs":14,"rowsRead":5938,"
+
+traceId 9b02ff563836c3874b88482ac2300e55
+$ curl -sk -X POST https://app.langwatch-switchover.langwatch.localhost/api/otel/v1/traces -H 'Content-Type: application/json' -H "Authorization: Bearer $LOCAL_PROJECT_API_KEY" --data @otlp2.json -w '\nHTTP %{http_code}\n'
+sent at 2026-10-26T08:41:04Z
+{"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
+HTTP 200
+in trace_metrics at 08:41:08: rows=1
+
+### 08:44:33 (screenshot 12, count 2; a reload, not the interval)
+#1201 POST /api/trpc/analytics.lwql.query 200 50ms
+timeWindow {'start': '2026-10-25T08:45:00.000Z', 'end': '2026-10-26T08:45:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[{"bucket":"2026-10-26 08:00:00","traces":2}],"statistics":{"elapsedMs":9,"rowsRead":5939,"b

@@ -1,0 +1,15 @@
+# PR 9055 nav switch-over raw capture, 2026-10-26 08:45-08:48 UTC, stack langwatch-switchover, lane bt-switchover, admin
+# worktree /home/ubuntu/worktrees/langwatch-switchover HEAD 9dc74ead95e94df3d0dd2029034deb801a25658b
+
+## flag ON (deployment answer; this browser's override store langwatch:dev:feature-flag-overrides = null)
+eval on /local-dev-project: Analytics link href = ["/local-dev-project/dashboards"]
+click "Analytics" (LLM Ops sidebar) -> location /local-dev-project/dashboards/dashboard_0000XeeJzpwBrM7VIqnERGPpm4ppW, h1 "My dashboard"
+Dashboards sidebar: link "Legacy analytics" (bottom block, above Settings/Support)
+click "Legacy analytics" -> location /local-dev-project/analytics, title "LangWatch - Local Dev Project - Analytics", page renders (Traces 835, Threads 191, Users 1, chart)
+goto /local-dev-project/analytics directly -> final url /local-dev-project/analytics (navigation type "navigate", no redirect), title "... - Analytics"
+
+## flag OFF (this browser only: ?ff_release_dashboards=off, a localStorage override; no shared state touched)
+goto /local-dev-project?ff_release_dashboards=off -> overrides {"release_dashboards":false}
+Analytics link href = ["/local-dev-project/analytics"]; "Starred dashboards" block absent from the LLM Ops sidebar
+click "Analytics" -> location /local-dev-project/analytics, title "... - Analytics"
+override cleared afterwards with ?ff_release_dashboards=clear

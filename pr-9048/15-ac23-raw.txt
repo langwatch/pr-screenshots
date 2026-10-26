@@ -1,0 +1,22 @@
+# AC23 raw capture, 2026-10-26 ~09:00 UTC, stack langwatch-switchover
+# worktree /home/ubuntu/worktrees/langwatch-switchover HEAD 9dc74ead95e94df3d0dd2029034deb801a25658b
+# board: My dashboard (24h). 3 widgets: 'How much work did my agent handle?', 'Are conversations with my agent getting longer?', 'New widget' (built via 'I'll build it myself'; its query typed in the editor as: SELECT count() AS events FROM ac23_no_such_table)
+# requests from one fresh load of the board (haven browser goto):
+
+#2140 POST /api/trpc/analytics.lwql.query 200 104ms
+timeWindow {'start': '2026-10-25T09:00:00.000Z', 'end': '2026-10-26T09:00:00.000Z'} granularitySeconds 3600
+sql: SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, uniqExact(TraceId) AS traces FROM trace_metrics WHERE OccurredAt >= {dashboard_context_period_start:Dat
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"traces","type":"UInt64"}],"rows":[{"bucket":"2026-10-26 08:00:00","traces":4}],"statistics":{"elapsedMs":9,"rowsRead":5942,"bytesRead":636722,"rowsReturned":1},"diagnostics":[],"follows
+
+#2141 POST /api/trpc/analytics.lwql.query 200 104ms
+timeWindow {'start': '2026-10-25T09:00:00.000Z', 'end': '2026-10-26T09:00:00.000Z'} granularitySeconds 3600
+sql: SELECT bucket, avg(turns) AS turns, count() AS conversations FROM ( SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, ConversationId, uniqExact(TraceId) 
+response: {"result":{"data":{"columns":[{"name":"bucket","type":"DateTime"},{"name":"turns","type":"Float64"},{"name":"conversations","type":"UInt64"}],"rows":[],"statistics":{"elapsedMs":8,"rowsRead":5942,"bytesRead":689165,"rowsReturned":0},"diagnostics":[],"followsTi
+
+#2142 POST /api/trpc/analytics.lwql.query 400 67ms
+timeWindow {'start': '2026-10-25T09:00:00.000Z', 'end': '2026-10-26T09:00:00.000Z'} granularitySeconds 3600
+sql: SELECT count() AS events FROM ac23_no_such_table
+response: {"error":{"message":"lwql_not_permitted","code":-32600,"data":{"code":"BAD_REQUEST","httpStatus":400,"path":"analytics.lwql.query","cause":null,"error":{"code":"lwql_not_permitted","kind":"lwql_not_permitted","meta":{"violations":[{"code":"TABLE_NOT_ALLOWED","
+
+# widgets region text after load:
+How much work did my agent handle? (4 traces, chart) / Are conversations with my agent getting longer? / Needs conversation / None of the traces in this period have it. / New widget / Couldn't load New widget / This endpoint runs one read-only SELECT over the analytics datasets. Remove anything else and try again. / Retry
