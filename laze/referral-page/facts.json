@@ -1,0 +1,8 @@
+{
+  "card": "offer",
+  "linkOrigin": "https://laze.so",
+  "lightCardText": "Recommend Laze to a friend When a friend signs up with your link and starts Team, you both get 50% off Team for a month. Read more",
+  "lightUrl": "/workspaces/<ws>/referrals",
+  "darkCardText": "Recommend Laze to a friend When a friend signs up with your link and starts Team, you both get 50% off Team for a month. Read more",
+  "darkUrl": "/workspaces/<ws>/referrals"
+}

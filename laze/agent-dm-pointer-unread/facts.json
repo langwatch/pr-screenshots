@@ -1,0 +1,26 @@
+{
+  "before": {
+    "unread": 0,
+    "lastSeq": 15
+  },
+  "lines": [
+    {
+      "kind": "notice",
+      "ref": "incoming",
+      "body": "Laze Mac QA in #pointer-proof-mvp78606: @Idle Proof Reply here with the single w"
+    },
+    {
+      "kind": "notice",
+      "ref": "replied",
+      "body": "Idle Proof posted in #pointer-proof-mvp78606"
+    }
+  ],
+  "afterLines": {
+    "unread": 0,
+    "lastSeq": 17
+  },
+  "channel": {
+    "unread": 1
+  },
+  "unreadAfterSidebarLoad": 0
+}
