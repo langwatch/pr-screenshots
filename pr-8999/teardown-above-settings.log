@@ -13,3 +13,12 @@ lw-insights-pr8999-redis
 $ docker ps -a | grep lw-insights-pr8999
 (exit 1)
 Notes: ClickHouse image langwatch/clickhouse-serverless:0.4.0 (0.2.0 from dev/compose.dev.yml fails lwql provisioning with UNKNOWN_SETTING). release_insights set by a FeatureFlag rule for the proof project only; release_dashboards via FEATURE_FLAG_FORCE_ENABLE. Shared dev stores were not touched.
+
+Follow-up 2026-10-26T08:39:13Z: port 5640 freed once the lanes outside the group exited (pid 4184190 held it). Two nx daemons from this boot left over (env PORT=5640, DATABASE_URL on 127.0.0.1:25432): 4039650 4040276.
+$ kill 4040276 4039650
+$ ps -p 4039650,4040276
+    PID TTY          TIME CMD
+4039650 ?        00:03:18 MainThread
+4040276 ?        00:00:05 MainThread
+$ ss -ltn | grep ':5640 '
+(exit 1)
