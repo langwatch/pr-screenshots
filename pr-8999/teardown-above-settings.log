@@ -1,0 +1,15 @@
+teardown 2026-10-26T08:38:39Z, proof boot for head 88380b9e1c0 (process group 4138116, started with setsid)
+$ pgrep -g 4138116
+4138116 4138137 
+sent KILL to group
+$ pgrep -g 4138116 (after)
+(none, exit 1)
+$ ss -ltn | grep -E ':5640 '
+LISTEN 0      511                                         *:5640             *:*          
+$ docker rm -f -v lw-insights-pr8999-postgres lw-insights-pr8999-clickhouse lw-insights-pr8999-redis
+lw-insights-pr8999-postgres
+lw-insights-pr8999-clickhouse
+lw-insights-pr8999-redis
+$ docker ps -a | grep lw-insights-pr8999
+(exit 1)
+Notes: ClickHouse image langwatch/clickhouse-serverless:0.4.0 (0.2.0 from dev/compose.dev.yml fails lwql provisioning with UNKNOWN_SETTING). release_insights set by a FeatureFlag rule for the proof project only; release_dashboards via FEATURE_FLAG_FORCE_ENABLE. Shared dev stores were not touched.
