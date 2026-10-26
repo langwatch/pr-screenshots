@@ -1,0 +1,20 @@
+# AC4: unhappy paths, the credential schema is still strict
+# PR https://github.com/langwatch/langwatch/pull/9054  code under test: 54221e93804  captured 2026-10-26 08:12:12Z
+# stack: haven, https://app.agent-ab338ee14acc1855a.langwatch.localhost
+# 1. A key that does not exist is refused:
+$ curl -sk -X POST 'https://app.agent-ab338ee14acc1855a.langwatch.localhost/api/v1/query' -H 'Authorization: Bearer sk-lw-notarealkey000000000000000000000000' -H 'Content-Type: application/json' -d '{"sql":"SELECT 1"}' -w '\nHTTP %{http_code}'
+{"type":"unauthenticated","code":"invalid_credentials","message":"Invalid auth token.","retryable":false,"trace_id":"508f4add838ece15413a7b242b3d001a","span_id":"e790003cd9f8f314","trace":{"traceId":"508f4add838ece15413a7b242b3d001a","spanId":"e790003cd9f8f314"},"fault":"customer"}
+HTTP 401
+
+# 2. A caller cannot inject a credential field: extra BODY fields are not part of the credential (the body schema ignores them,
+#    same as on main) and the key keeps its own reach:
+$ curl -sk -X POST 'https://app.agent-ab338ee14acc1855a.langwatch.localhost/api/v1/query' -H 'Authorization: Bearer sk-lw-…REDACTED' -H 'Content-Type: application/json' -d '{"sql":"SELECT count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY","isLangySessionKey":"yes","kind":"project","bogusField":1}' -w '\nHTTP %{http_code}'
+{"columns":[{"name":"traces","type":"UInt64"}],"rows":[{"traces":2}],"statistics":{"elapsedMs":7,"rowsRead":126,"bytesRead":14382,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+# 3. The credential schema the door parses with, invoked live from the PR head source (not a test):
+$ node --experimental-transform-types reach-probe.ts   # langWatchQLKeyReachSchema.safeParse(...) on 4 credentials
+langy key (isLangySessionKey: true)        -> ACCEPTED
+normal key (flag absent)                   -> ACCEPTED
+unknown field (somethingElse: true)        -> REFUSED: Unrecognized key: "somethingElse"
+wrong type (isLangySessionKey: 'yes')      -> REFUSED: Invalid input: expected boolean, received string

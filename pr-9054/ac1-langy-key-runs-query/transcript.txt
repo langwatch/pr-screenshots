@@ -1,0 +1,19 @@
+# AC1: a Langy session key runs a LangWatchQL query
+# PR https://github.com/langwatch/langwatch/pull/9054  code under test: 54221e93804  captured 2026-10-26 08:12:09Z
+# stack: haven, https://app.agent-ab338ee14acc1855a.langwatch.localhost
+# The key: API key HOMumfpRBQqqrqgXRR3oZ, name 'Langy session' (the name the token resolver marks isLangySessionKey: true),
+# system-managed, restricted to analytics:view + traces:view on project local-dev-project, expires in 6h.
+$ psql -U prisma -d mydb -c 'SELECT id, name, "isSystemManaged", "permissionMode", ... FROM "ApiKey" WHERE id IN (...)'
+SET
+          id           |     name      | isSystemManaged | permissionMode | expires | revokedAt 
+-----------------------+---------------+-----------------+----------------+---------+-----------
+ HOMumfpRBQqqrqgXRR3oZ | Langy session | t               | restricted     | t       | 
+(1 row)
+
+$ curl -sk -X POST 'https://app.agent-ab338ee14acc1855a.langwatch.localhost/api/v1/query' -H 'Authorization: Bearer sk-lw-…REDACTED' -H 'Content-Type: application/json' -d '{"sql":"SELECT toDate(OccurredAt) AS day, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 30 DAY GROUP BY day ORDER BY day DESC LIMIT 5"}' -w '\nHTTP %{http_code}'
+{"columns":[{"name":"day","type":"Date"},{"name":"traces","type":"UInt64"}],"rows":[{"day":"2026-10-26","traces":2},{"day":"2026-10-21","traces":40},{"day":"2026-10-20","traces":67},{"day":"2026-10-19","traces":1855}],"statistics":{"elapsedMs":7,"rowsRead":15739,"bytesRead":727231,"rowsReturned":4},"diagnostics":[{"code":"INCOMPLETE_COMPARISON_PERIOD","message":"The newest day period has not finished yet, so it holds less data than the ones before it. Comparing it with an earlier period compares unequal spans of time — end the range at the last completed period instead.","meta":{"timeColumn":"day","reason":"unfinished_newest_period","periodMs":86400000,"newestPeriodStart":"2026-10-26T00:00:00.000Z","unevenPeriodCount":0}},{"code":"MISSING_TIME_BUCKETS","message":"4 day buckets inside the range have no rows, so the answer has holes rather than zeros. A bucket with no matching row is absent from a grouped result — fill the gaps on your side if the series has to be continuous.","meta":{"timeColumn":"day","missingBucketCount":4,"bucketMs":86400000,"gapsAfter":["2026-10-21T00:00:00.000Z"]}}],"followsTimeWindow":false,"followsGranularity":false}
+HTTP 200
+
+# Same key through the real CLI (key from LANGWATCH_API_KEY in ./.env, endpoint the local api):
+$ cat q1.sql; langwatch query run --sql-file q1.sql   # q1.sql = SELECT toDate(OccurredAt) AS day, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 30 DAY GROUP BY day ORDER BY day DESC LIMIT 5
+[{"day":"2026-10-26","traces":2},{"day":"2026-10-21","traces":40},{"day":"2026-10-20","traces":67},{"day":"2026-10-19","traces":1855}]
