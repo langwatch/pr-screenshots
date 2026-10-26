@@ -1,0 +1,17 @@
+# PR 9055 nav switch-over redo, head 638cf6fcedd, 2026-10-26 13:02:07 UTC, stack langwatch-switchover, admin
+## 1 flag ON sidebar
+{"url":"/local-dev-project","title":"LangWatch - Local Dev Project","pill":true,"banner":false,"openDashBtn":false}
+## 1b after click sidebar Analytics (pill entry)
+{"url":"/local-dev-project/analytics","title":"LangWatch - Local Dev Project - Analytics","pill":true,"banner":true,"openDashBtn":true}
+## 2 click Open Dashboards
+{"url":"/local-dev-project/dashboards/dashboard_0000XeeJzpwBrM7VIqnERGPpm4ppW","title":"LangWatch - Local Dev Project","pill":false,"banner":false,"openDashBtn":false}
+## 3 flag OFF (?ff_release_dashboards=off), project home
+{"url":"/local-dev-project?ff_release_dashboards=off","title":"LangWatch - Local Dev Project","pill":false,"banner":false,"openDashBtn":false}
+override store: {"release_dashboards":false}
+override cleared: {}
+analytics link hrefs (flag off): /local-dev-project/analytics
+## 3b flag OFF click sidebar Analytics
+{"url":"/local-dev-project/analytics","title":"LangWatch - Local Dev Project - Analytics","pill":false,"banner":false,"openDashBtn":false}
+override cleared: {}
+
+# note: two failed click attempts (bad locator, empty ref) were dropped from this capture; the walk was re-run from a fresh browser for the flag-off click.
