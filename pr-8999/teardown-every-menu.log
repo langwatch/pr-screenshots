@@ -1,0 +1,29 @@
+teardown 2026-10-26T08:57:58Z, proof boot for head 035a6b250ac (session 398700, started with setsid; boot 2026-10-26T08:51:29Z)
+$ ps -eo pid --sid 398700 (before)
+ 398700  398732  398768  398771  442912  442982  443180  443181  443273  443398  443409 
+sent KILL to group 398700
+sent KILL to group 398768
+sent KILL to group 442982
+sent KILL to group 443398
+$ ps --sid 398700 (after)
+(none, exit 1)
+$ nx daemons with my env (PORT=5640 and DATABASE_URL on 127.0.0.1:25432)
+$ docker rm -f -v lw-insights-pr8999-postgres lw-insights-pr8999-clickhouse lw-insights-pr8999-redis
+lw-insights-pr8999-postgres
+lw-insights-pr8999-clickhouse
+lw-insights-pr8999-redis
+$ docker ps -a | grep lw-insights-pr8999
+(exit 1)
+Follow-up 2026-10-26T08:58:07Z:
+$ ss -ltn | grep :5640
+(exit 1)
+$ any process with localhost:25432 in its env
+398991  398991 /home/ubuntu/.nvm/versions/node/v24.13.0/bin/node --conditions development /home/u
+399206  399206 /home/ubuntu/.nvm/versions/node/v24.13.0/bin/node --conditions development /home/u
+(end)
+$ kill 398991 399206  (nx daemons from this boot, own sessions, DATABASE_URL on 127.0.0.1:25432)
+ 398991
+ 399206
+$ ps -p 398991,399206 (5s after TERM)
+(gone, exit 1)
+Shared dev stores (langwatch-postgres-1, lw-redis) not touched. No files deleted; scratch in $TMPDIR/pr8999-every.
