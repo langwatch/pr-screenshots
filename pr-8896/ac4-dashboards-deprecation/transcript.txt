@@ -1,0 +1,122 @@
+# AC4: /api/v1/dashboards and /api/dashboards keep the Reports response; flag OFF no Deprecation header; flag ON Deprecation + Link (successor /api/v1/boards), never blocked, no Sunset
+# PR https://github.com/langwatch/langwatch/pull/8896  code under test: db976480c5f  captured 2026-10-26 08:41:43Z
+# stack: haven, https://app.wt-8896-proof.langwatch.localhost (project project_0000abodEHMIJw9KbQ3SDBb5VruVs, its own project made for this proof)
+# minted service API key _AvvsCgyRXrKBoYbU8_41 (scoped to project project_0000abodEHMIJw9KbQ3SDBb5VruVs only); token never printed
+
+######## flag OFF for this project ########
+ release_dashboards | f       | []    | local-dev-admin-user
+(1 row)
+
+
+$ curl -sSk -i $H/api/v1/dashboards -H "X-Auth-Token: $KEY" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 200 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"data":[]}
+
+$ curl -sSk -i -X POST $H/api/v1/dashboards -H "X-Auth-Token: $KEY" -H "Content-Type: application/json" -d "{\"name\":\"ac4 reports (flag off)\"}" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 201 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"id":"dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","name":"ac4 reports (flag off)","order":0,"createdAt":"2026-10-26T08:41:50.147Z","updatedAt":"2026-10-26T08:41:50.147Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dDhvjK22P4P92oUauPOIxQn0S"}
+
+$ curl -sSk -i $H/api/dashboards -H "X-Auth-Token: $KEY" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 200 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"data":[{"id":"dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","name":"ac4 reports (flag off)","order":0,"createdAt":"2026-10-26T08:41:50.147Z","updatedAt":"2026-10-26T08:41:50.147Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","graphCount":0}]}
+
+######## flag ON for this project ########
+ release_dashboards | f       | [{"match": {"projectId": "project_0000abodEHMIJw9KbQ3SDBb5VruVs"}, "enabled": true}] | local-dev-admin-user
+(1 row)
+
+
+$ curl -sSk -i $H/api/v1/dashboards -H "X-Auth-Token: $KEY" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 200 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+warning: 299 - "This endpoint is deprecated; use /api/v1/boards"
+x-api-deprecation-notice: This endpoint is deprecated; use /api/v1/boards
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"data":[{"id":"dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","name":"ac4 reports (flag off)","order":0,"createdAt":"2026-10-26T08:41:50.147Z","updatedAt":"2026-10-26T08:41:50.147Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","graphCount":0}]}
+
+$ curl -sSk -i -X POST $H/api/v1/dashboards -H "X-Auth-Token: $KEY" -H "Content-Type: application/json" -d "{\"name\":\"ac4 reports (flag on)\"}" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 201 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+warning: 299 - "This endpoint is deprecated; use /api/v1/boards"
+x-api-deprecation-notice: This endpoint is deprecated; use /api/v1/boards
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"id":"dashboard_0000dGoxHItIn0zDaj07GhXb6J78C","name":"ac4 reports (flag on)","order":1,"createdAt":"2026-10-26T08:41:56.468Z","updatedAt":"2026-10-26T08:41:56.468Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dGoxHItIn0zDaj07GhXb6J78C"}
+
+$ curl -sSk -i $H/api/dashboards -H "X-Auth-Token: $KEY" | grep -viE "^(traceparent|x-portless|cross-origin|referrer-policy|x-content-type|x-frame|date|content-length):"
+HTTP/2 200 
+content-type: application/json
+cross-origin-resource-policy: same-origin
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+warning: 299 - "This endpoint is deprecated; use /api/v1/boards"
+x-api-deprecation-notice: This endpoint is deprecated; use /api/v1/boards
+x-api-version: latest
+x-api-version-status: latest
+x-content-type-options: nosniff
+x-frame-options: DENY
+
+{"data":[{"id":"dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","name":"ac4 reports (flag off)","order":0,"createdAt":"2026-10-26T08:41:50.147Z","updatedAt":"2026-10-26T08:41:50.147Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","graphCount":0},{"id":"dashboard_0000dGoxHItIn0zDaj07GhXb6J78C","name":"ac4 reports (flag on)","order":1,"createdAt":"2026-10-26T08:41:56.468Z","updatedAt":"2026-10-26T08:41:56.468Z","platformUrl":"https://app.wt-8896-proof.langwatch.localhost/proof-8896-boards-5VruVs/analytics/reports?dashboard=dashboard_0000dGoxHItIn0zDaj07GhXb6J78C","graphCount":0}]}
+
+$ curl -sSk -i $H/api/v1/dashboards/$RID -H "X-Auth-Token: $KEY" | grep -iE "^(HTTP|deprecation|link|sunset)"
+HTTP/2 200 
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+
+$ curl -sSk -i -X PATCH $H/api/v1/dashboards/$RID -H "X-Auth-Token: $KEY" -H "Content-Type: application/json" -d "{\"name\":\"ac4 reports renamed\"}" | grep -iE "^(HTTP|deprecation|link|sunset)"
+HTTP/2 200 
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+
+# Sunset header count over every call above, flag on (want 0):
+
+$ for p in /api/v1/dashboards /api/dashboards /api/v1/dashboards/$RID; do curl -sSk -D - -o /dev/null $H$p -H "X-Auth-Token: $KEY"; done | grep -ic "^sunset:"
+0
+
+# clean up the Reports dashboards this proof made (still answered while deprecated):
+
+$ curl -sSk -i -X DELETE $H/api/v1/dashboards/$RID -H "X-Auth-Token: $KEY" | grep -iE "^(HTTP|deprecation|link|sunset|\{)"
+HTTP/2 200 
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+{"id":"dashboard_0000dDhvjK22P4P92oUauPOIxQn0S","name":"ac4 reports (flag off)"}
+
+$ curl -sSk -i -X DELETE $H/api/v1/dashboards/$RID -H "X-Auth-Token: $KEY" | grep -iE "^(HTTP|deprecation|link|sunset|\{)"
+HTTP/2 200 
+deprecation: true
+link: </api/v1/boards>; rel="successor-version"
+{"id":"dashboard_0000dGoxHItIn0zDaj07GhXb6J78C","name":"ac4 reports renamed"}
+# revoke key _AvvsCgyRXrKBoYbU8_41: HTTP 200
