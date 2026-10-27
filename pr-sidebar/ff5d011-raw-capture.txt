@@ -1,0 +1,90 @@
+# pr-sidebar raw capture, head ff5d0114458, haven browser lane d (admin)
+
+
+## 1. project page, nothing pinned
+URL: https://app.langwatch-dash-sidebar.langwatch.localhost/local-dev-project
+
+              - link "Annotations" [ref=f1e115] [cursor=pointer]:
+                - /url: /local-dev-project/annotations
+                - paragraph [ref=f1e121]: Annotations
+          - button "Expand Build" [ref=f1e123] [cursor=pointer]:
+            - paragraph [ref=f1e125]: Build
+          - region "Dashboards" [ref=f1e129]:
+            - generic [ref=f1e130]:
+              - paragraph [ref=f1e131]: Dashboards
+              - button "New dashboard" [ref=f1e133] [cursor=pointer]
+            - list [ref=f1e135]:
+              - listitem [ref=f1e136]:
+                - button "Add dashboard" [ref=f1e137] [cursor=pointer]
+        - generic [ref=f1e140]:
+          - link "Settings" [ref=f1e141] [cursor=pointer]:
+            - /url: /settings
+            - paragraph [ref=f1e147]: Settings
+          - button "Support" [ref=f1e149] [cursor=pointer]:
+            - paragraph [ref=f1e159]: Support
+          - radiogroup "Theme" [ref=f1e163]:
+            - radio "Set theme to light" [ref=f1e172] [cursor=pointer]
+            - radio "Set theme to system" [checked] [ref=f1e177] [cursor=pointer]
+
+## 2. after clicking Add dashboard
+URL: https://app.langwatch-dash-sidebar.langwatch.localhost/local-dev-project/dashboards/dashboard_0003tdxkhhCo6A5oSAnMWHM4k6dsX?addBlock=open
+
+  - dialog [ref=f1e469]:
+    - generic [ref=f1e471]:
+      - heading "Add a widget" [level=2] [ref=f1e472]
+      - button "I'll build it myself" [ref=f1e473] [cursor=pointer]
+      - button "Close" [ref=f1e474] [cursor=pointer]
+    - generic [ref=f1e478]:
+      - generic [ref=f1e481]:
+... truncated at 9000 chars (411 lines omitted); narrow with --grep <text>
+--- page heading lines ---
+                              - heading [level=1]: Untitled dashboard 3
+                              - button: Add a widget
+      - heading "Add a widget" [level=2] [ref=f1e472]
+
+## 3. project page again
+URL: https://app.langwatch-dash-sidebar.langwatch.localhost/local-dev-project
+
+              - link "Annotations" [ref=f2e115] [cursor=pointer]:
+                - /url: /local-dev-project/annotations
+                - paragraph [ref=f2e121]: Annotations
+          - button "Expand Build" [ref=f2e123] [cursor=pointer]:
+            - paragraph [ref=f2e125]: Build
+          - region "Dashboards" [ref=f2e129]:
+            - generic [ref=f2e130]:
+              - paragraph [ref=f2e131]: Dashboards
+              - button "New dashboard" [ref=f2e133] [cursor=pointer]
+            - list [ref=f2e135]:
+              - listitem [ref=f2e136]:
+                - link "Untitled dashboard 3" [ref=f2e137] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/dashboard_0003tWBBpk3e8Idd5OWYcXyqNupZB
+              - listitem [ref=f2e145]:
+                - link "Untitled dashboard 3" [ref=f2e146] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/dashboard_0003tdxkhhCo6A5oSAnMWHM4k6dsX
+        - generic [ref=f2e155]:
+          - link "Settings" [ref=f2e156] [cursor=pointer]:
+            - /url: /settings
+            - paragraph [ref=f2e162]: Settings
+          - button "Support" [ref=f2e164] [cursor=pointer]:
+
+## 4. gateway page (full sidebar+header lines; no Dashboards region)
+URL: https://app.langwatch-dash-sidebar.langwatch.localhost/gateway/virtual-keys
+
+          - button "Switch product" [ref=f3e12] [cursor=pointer]:
+            - paragraph [ref=f3e20]: Gateway
+          - link "Virtual keys" [ref=f3e56] [cursor=pointer]:
+          - link "Model providers" [ref=f3e63] [cursor=pointer]:
+          - link "Budgets" [ref=f3e78] [cursor=pointer]:
+          - link "Routing policies" [ref=f3e85] [cursor=pointer]:
+          - link "Cache rules" [ref=f3e93] [cursor=pointer]:
+          - link "Guardrails" [ref=f3e99] [cursor=pointer]:
+          - link "Usage" [ref=f3e105] [cursor=pointer]:
+          - link "Billing events" [ref=f3e112] [cursor=pointer]:
+          - link "Webhooks" [ref=f3e118] [cursor=pointer]:
+          - link "Settings" [ref=f3e128] [cursor=pointer]:
+                        - link "deploy-ci" [ref=f3e214]:
+                        - link "Usage for deploy-ci, this month" [ref=f3e230]:
+                          - link "tt123-internal-test" [ref=f3e249]:
+                          - link "Usage for tt123-internal-test, this month" [ref=f3e266]:
+
+region Dashboards present on gateway: False
