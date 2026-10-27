@@ -1,0 +1,109 @@
+# PR 9055 raw capture, head 3e466f22aad, haven browser (headless), 2026-10-27T08:55:09Z
+## 1 project page
+URL: https://app.langwatch-switchover.langwatch.localhost/local-dev-project
+            - generic [ref=f1e74]:
+              - link "Analytics" [ref=f1e75] [cursor=pointer]:
+                - /url: /local-dev-project/dashboards
+                - paragraph [ref=f1e81]: Analytics
+              - link "Trace Explorer" [ref=f1e82] [cursor=pointer]:
+...
+                - /url: /local-dev-project/dashboards
+                - paragraph [ref=f1e81]: Analytics
+              - link "Trace Explorer" [ref=f1e82] [cursor=pointer]:
+                - /url: /local-dev-project/traces
+                - paragraph [ref=f1e89]: Trace Explorer
+...
+              - link "View dashboards" [ref=f1e302] [cursor=pointer]:
+                - /url: /local-dev-project/analytics
+            - generic [ref=f1e309]:
+              - generic [ref=f1e310]:
+                - heading "Traces" [level=2] [ref=f1e311]
+...
+## 2 click Analytics
+URL: https://app.langwatch-switchover.langwatch.localhost/local-dev-project/dashboards/dashboard_0000XeeJzpwBrM7VIqnERGPpm4ppW
+            - generic [ref=f1e575]:
+              - generic [ref=f1e576]: Looking for the old Analytics? It is still here.
+              - link "Open Analytics" [ref=f1e577] [cursor=pointer]:
+                - /url: /local-dev-project/analytics
+          - generic [ref=f1e578]:
+...
+              - generic [ref=f1e576]: Looking for the old Analytics? It is still here.
+              - link "Open Analytics" [ref=f1e577] [cursor=pointer]:
+                - /url: /local-dev-project/analytics
+          - generic [ref=f1e578]:
+            - generic [ref=f1e579]:
+...
+## 3 click Open Analytics
+URL: https://app.langwatch-switchover.langwatch.localhost/local-dev-project/analytics
+              - link "Analytics" [ref=f1e715] [cursor=pointer]:
+                - /url: /local-dev-project/dashboards
+                - paragraph [ref=f1e721]: Analytics
+              - link "Trace Explorer" [ref=f1e722] [cursor=pointer]:
+...
+            - paragraph [ref=f1e765]: Build
+          - region "Starred dashboards" [ref=f1e769]:
+            - paragraph [ref=f1e770]: Starred dashboards
+            - list [ref=f1e771]:
+...
+          - region "Starred dashboards" [ref=f1e769]:
+            - paragraph [ref=f1e770]: Starred dashboards
+            - list [ref=f1e771]:
+              - listitem [ref=f1e772]:
+...
+                - link "My dashboard" [ref=f1e773] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/dashboard_0000XeeJzpwBrM7VIqnERGPpm4ppW
+              - listitem [ref=f1e778]:
+                - link "Can I trust my numbers?" [ref=f1e779] [cursor=pointer]:
+...
+                - link "Can I trust my numbers?" [ref=f1e779] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/curated/data
+              - listitem [ref=f1e784]:
+                - link "Release check" [ref=f1e785] [cursor=pointer]:
+...
+                - link "Release check" [ref=f1e785] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/curated/release
+              - listitem [ref=f1e790]:
+                - link "Where my agent breaks" [ref=f1e791] [cursor=pointer]:
+...
+                - link "Where my agent breaks" [ref=f1e791] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/curated/breaks
+        - generic [ref=f1e157]:
+          - link "Settings" [ref=f1e158] [cursor=pointer]:
+...
+              - generic [ref=f1e802]:
+                - generic [ref=f1e803]: You are viewing legacy analytics Dashboards replaces this view.
+                - link "Open Dashboards" [ref=f1e804] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards
+...
+                - generic [ref=f1e803]: You are viewing legacy analytics Dashboards replaces this view.
+                - link "Open Dashboards" [ref=f1e804] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards
+            - generic [ref=f1e805]:
+...
+                - link "Open Dashboards" [ref=f1e804] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards
+            - generic [ref=f1e805]:
+              - heading "Analytics" [level=1] [ref=f1e806]
+...
+                  - /url: /local-dev-project/analytics/evaluations
+                - button "Dashboards" [ref=f1e813] [cursor=pointer]
+              - generic [ref=f1e817]:
+                - button [ref=f1e819] [cursor=pointer]:
+...
+                          - generic [ref=f1e1198]: 17s
+              - heading "Custom Dashboards" [level=2] [ref=f1e1200]
+              - generic [ref=f1e1203]:
+                - generic [ref=f1e1204]:
+...
+## 4 /dashboards/templates
+URL: https://app.langwatch-switchover.langwatch.localhost/local-dev-project/dashboards/templates
+            - generic [ref=f4e196]:
+              - generic [ref=f4e197]: Looking for the old Analytics? It is still here.
+              - link "Open Analytics" [ref=f4e198] [cursor=pointer]:
+                - /url: /local-dev-project/analytics
+...
+              - generic [ref=f4e197]: Looking for the old Analytics? It is still here.
+              - link "Open Analytics" [ref=f4e198] [cursor=pointer]:
+                - /url: /local-dev-project/analytics
+          - generic [ref=f4e199]:
+...
