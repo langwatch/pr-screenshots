@@ -1,0 +1,17 @@
+$ tab A open: http://localhost:5650/flicker-org-MlQyc8/datasets
+  title: LangWatch - Flicker Org - Datasets
+$ tab B moves to /second-project-x1/datasets
+  tab B title: LangWatch - Second Project - Datasets
+  tab A title: LangWatch - Flicker Org - Datasets
+  shared storage selectedProjectSlug: "second-project-x1"
+$ tab B moves to /second-project-x1/prompts
+  tab B title: LangWatch - Second Project - Prompts
+  tab A title: LangWatch - Flicker Org - Datasets
+  shared storage selectedProjectSlug: "second-project-x1"
+$ tab B moves to /second-project-x1/datasets
+  tab B title: LangWatch - Second Project - Datasets
+  tab A title: LangWatch - Flicker Org - Datasets
+  shared storage selectedProjectSlug: "second-project-x1"
+$ back to tab A (focus + click)
+  tab A title: LangWatch - Flicker Org - Datasets
+  every title tab A showed: ["LangWatch - Flicker Org - Datasets"]
