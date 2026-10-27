@@ -1,0 +1,54 @@
+PR 9090 capture, head ccc889d5d44, stack langwatch-dash-sidebar, lane p9090 (haven browser, admin)
+
+Setup: 4 seed pins (My dashboard + 3 curated) were unstarred via the UI (Dashboards page, Unstar dashboard buttons, 4 clicks).
+
+== 1. URL https://app.langwatch-dash-sidebar.langwatch.localhost/local-dev-project (nothing pinned)
+          - button "Expand Build" [ref=f8e123] [cursor=pointer]:
+            - paragraph [ref=f8e125]: Build
+          - region "Dashboards" [ref=f8e129]:
+            - generic [ref=f8e130]:
+              - paragraph [ref=f8e131]: Dashboards
+              - button "New dashboard" [ref=f8e133] [cursor=pointer]
+            - list [ref=f8e135]:
+              - listitem [ref=f8e136]:
+                - button "Add dashboard" [ref=f8e137] [cursor=pointer]
+        - generic [ref=f8e140]:
+computed style (p elements): Build: 12px|500|Inter|rgb(61,61,77)|none|normal ; Dashboards: identical ; Test (existing title): identical
+
+== 2. click Add dashboard -> URL .../local-dev-project/dashboards/dashboard_0003tWBBpk3e8Idd5OWYcXyqNupZB?addBlock=open
+network: POST /api/trpc/boards.create 200, POST /api/trpc/boards.star 200
+
+                              - heading [level=1]: Untitled dashboard 3
+                              - button: Add a widget
+                                    - heading [level=3]: Release check
+                                    - heading [level=3]: Can I trust my numbers?
+                                    - heading [level=3]: Where my agent breaks
+  - dialog [ref=f8e469]:
+      - heading "Add a widget" [level=2] [ref=f8e472]
+          - heading "More usage and users" [level=3] [ref=f8e529]
+          - heading "Productive agents" [level=3] [ref=f8e584]
+          - heading "Keep users" [level=3] [ref=f8e707]
+          - heading "Is my agent right?" [level=3] [ref=f8e730]
+          - heading "Is my agent working?" [level=3] [ref=f8e834]
+          - heading "Did a change break my agent?" [level=3] [ref=f8e976]
+
+== 3. URL .../local-dev-project (after create)
+          - button "Expand Build" [ref=f9e123] [cursor=pointer]:
+            - paragraph [ref=f9e125]: Build
+          - region "Dashboards" [ref=f9e129]:
+            - generic [ref=f9e130]:
+              - paragraph [ref=f9e131]: Dashboards
+              - button "New dashboard" [ref=f9e133] [cursor=pointer]
+            - list [ref=f9e135]:
+              - listitem [ref=f9e136]:
+                - link "Untitled dashboard 3" [ref=f9e137] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/dashboard_0003tWBBpk3e8Idd5OWYcXyqNupZB
+              - listitem [ref=f9e145]:
+                - link "Untitled dashboard 3" [ref=f9e146] [cursor=pointer]:
+                  - /url: /local-dev-project/dashboards/dashboard_0003tdxkhhCo6A5oSAnMWHM4k6dsX
+        - generic [ref=f9e155]:
+
+NOTE: two 'Untitled dashboard 3' rows (ids dashboard_0003tWBB... and dashboard_0003tdxk...). My lane issued exactly one boards.create; the second was not made by this lane (another session on this stack/DB, or a double create: unexplained).
+
+== 4a. /local-dev-project/dashboards (Dashboards product): sidebar sections YOUR DASHBOARDS / STARRED / FROM LANGWATCH; no Build/Dashboards project section.
+== 4b. /gateway/virtual-keys (Gateway): sidebar Virtual keys..Webhooks; eval count of p 'Build'|'Dashboards' = 0.
