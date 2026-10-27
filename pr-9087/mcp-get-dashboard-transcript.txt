@@ -1,0 +1,22 @@
+# PR 9087 use-proof: MCP get_dashboard resolves a Dashboards id (Reports API 404s it)
+# stack: https://app.wt-8896-proof.langwatch.localhost  (Dashboards flag on)  MCP built from worktree head f0b1a380b68
+
+$ curl -X POST $B/api/v1/dashboards -H "X-API-Version: 2026-10-26" -d {"name":"PR 9087 proof board"}
+HTTP 201
+{"id":"dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug","name":"PR 9087 proof board","scope":"PROJECT","createdAt":"2026-10-27T08:15:15.836Z", ...}
+
+$ curl .../api/v1/analytics/reports/dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug   (old Reports API)
+HTTP 404
+
+$ node dist/index.js   (stdio; LANGWATCH_ENDPOINT=https://app.wt-8896-proof.langwatch.localhost)
+>>> requests
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"proof","version":"1"}}}
+{"jsonrpc":"2.0","method":"notifications/initialized"}
+{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"platform_get_dashboard","arguments":{"id":"dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug"}}}
+<<< responses
+{"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"LangWatch","version":"2.2.0"}},"jsonrpc":"2.0","id":1}
+{"result":{"content":[{"type":"text","text":"# PR 9087 proof board\n\n**ID**: dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug\n**Created**: 2026-10-27T08:15:15.836Z\n**Updated**: 2026-10-27T08:15:15.836Z\n**URL**: https://app.wt-8896-proof.langwatch.localhost/local-dev-project/dashboards/dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug"}]},"jsonrpc":"2.0","id":2}
+
+$ curl -X DELETE .../api/v1/dashboards/dashboard_0003EU5cS71qDCwqGqVsgTvaoU9Ug
+HTTP 200
+(then GET dashboard: HTTP 404)
