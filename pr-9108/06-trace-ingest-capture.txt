@@ -1,0 +1,3 @@
+$ curl -i -X POST http://localhost:5671/api/otel/v1/traces -H "Authorization: Bearer sk-lw-***" -H "Content-Type: application/json" --data @trace.json
+HTTP/1.1 200 OK
+{"message":"Trace received successfully.","partialSuccess":{"rejectedSpans":0,"errorMessage":""}}
