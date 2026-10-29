@@ -1,0 +1,17 @@
+$ ClickHouse version
+25.10.2.65
+$ CREATE DATABASE eval_results_proof; apply 00124_create_eval_results.sql (goose Up, ENVSUB)
+applied
+$ SELECT sorting_key, partition_key FROM system.tables
+Row 1:
+──────
+sorting_key:   TenantId, TraceId, SpanId, QuestionHash, JudgeModel, InputHash, SourceId, JudgedAt
+partition_key: toYearWeek(OccurredAt)
+$ insert: same trace+question, input vs output (two InputHash), plus an exact retry
+$ recall read: TenantId first, OccurredAt window, current KeyVersion, judged only
+   ┌─InputHash─┬─Probability─┬─rows─┐
+1. │ in-h      │        0.91 │    1 │
+2. │ out-h     │        0.12 │    1 │
+   └───────────┴─────────────┴──────┘
+$ DROP DATABASE eval_results_proof
+dropped
