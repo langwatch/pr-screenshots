@@ -1,0 +1,27 @@
+# CI runner capture: app / package-suites (1/8) on https://github.com/langwatch/langwatch/pull/9194 at a766f6d83e5
+# job https://github.com/langwatch/langwatch/actions/jobs/124297536734  (fetched 2026-10-30T20:48:06Z)
+$ gh api repos/langwatch/langwatch/actions/jobs/124297536734/logs | grep -c ERR_NETWORK_CHANGED
+0
+$ gh api repos/langwatch/langwatch/actions/jobs/124297536734/logs | grep -ci ryuk
+0
+$ gh api repos/langwatch/langwatch/actions/jobs/124297536734/logs | grep -E '(started: |##\[group\]@).*(test:integration|test:browser)|lantern-bleed-stacking'
+20:35:13.3233120Z started: @langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration
+20:40:26.3384694Z ##[group]@langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration (313s)
+20:40:30.1495066Z started: @langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration
+20:40:42.9115406Z ##[group]@langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration (13s)
+20:40:47.1414864Z started: @langwatch/project-browser (modules/project/browser) — pnpm run test:browser
+20:41:12.5950427Z ##[group]@langwatch/project-browser (modules/project/browser) — pnpm run test:browser (25s)
+20:41:12.6121448Z  ✓  chromium  src/ui/sections/home/__tests__/lantern-bleed-stacking.browser.test.tsx (2 tests) 326ms
+20:41:12.6128148Z started: @langwatch/suite-process (modules/suite/process) — pnpm run test:integration
+20:41:31.8708848Z ##[group]@langwatch/suite-process (modules/suite/process) — pnpm run test:integration (19s)
+20:41:31.9428692Z started: @langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration
+20:41:42.7212477Z ##[group]@langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration (11s)
+20:41:42.7238052Z started: @langwatch/share-process (modules/share/process) — pnpm run test:integration
+20:41:45.4737835Z ##[group]@langwatch/share-process (modules/share/process) — pnpm run test:integration (3s)
+20:41:45.4896594Z started: @langwatch/upgrade (packages/upgrade) — pnpm run test:integration
+20:41:51.2560953Z ##[group]@langwatch/upgrade (packages/upgrade) — pnpm run test:integration (6s)
+$ gh api repos/langwatch/langwatch/actions/jobs/124297536734/logs | grep -E 'Test Files|Tests  ' | tail -4
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+ Test Files  3 passed (3)
+      Tests  110 passed (110)
