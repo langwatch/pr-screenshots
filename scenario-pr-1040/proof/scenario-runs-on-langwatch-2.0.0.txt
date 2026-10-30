@@ -1,0 +1,41 @@
+$ git -C scenario checkout 6ee9f86f06eab06ee9e6be377ca53d52f9ec3606   # PR #1040 head
+$ uv venv -q -p 3.12 && uv pip install -q "langwatch-scenario @ ./scenario/python" "langwatch @ git+https://github.com/langwatch/langwatch@4852bff259ad77f1a118115bcfd14237f7ae4529#subdirectory=sdks/python"   # langwatch 2.0.0 = release PR #8109 head
+$ uv pip show langwatch-scenario | grep -E "^(Name|Version)"
+Name: langwatch-scenario
+Version: 1.6.0
+$ grep "langwatch" .venv/lib/python3.12/site-packages/langwatch_scenario-*.dist-info/METADATA
+Requires-Dist: langwatch<3,>=1.0.0
+$ uv pip show langwatch | grep Version
+Version: 2.0.0
+$ uv pip check
+All installed packages are compatible
+$ cat run_scenario.py
+import asyncio
+import langwatch, scenario
+
+@langwatch.connect_agent(name="echo-agent")
+def agent(messages) -> str:
+    return f"answered {messages[-1]['content']}"
+
+async def main():
+    result = await scenario.run(
+        name="connected agent under langwatch 2.0.0",
+        description="the user says hello and the connected agent answers",
+        agents=[agent, scenario.UserSimulatorAgent(model="openai/gpt-5-mini")],
+        script=[scenario.user("hello"), scenario.agent(), scenario.succeed()],
+    )
+    print("success:", result.success)
+    for msg in result.messages:
+        print(f"  {msg['role']}: {msg['content']}")
+
+asyncio.run(main())
+$ .venv/bin/python run_scenario.py   # no LangWatch key: runs locally, events not reported
+   • Set LANGWATCH_API_KEY environment variable
+────────────────────────────────────────────────────────────
+User: hello
+No LangWatch api_key configured (set LANGWATCH_API_KEY env var or call langwatch.setup(api_key=...) before scenarios run); scenario events will not be reported.
+
+Agent: answered hello
+success: True
+  user: hello
+  assistant: answered hello
