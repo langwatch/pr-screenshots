@@ -1,0 +1,170 @@
+{
+ "console": [
+  {
+   "at": "2026-10-30T12:51:13.246Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "dashboard",
+   "attributes": {
+    "dashboardKind": "stored",
+    "widgetCount": 1
+   }
+  },
+  {
+   "boundary": "MARK",
+   "name": "COMPOSER typed + Enter",
+   "at": "2026-10-30T12:51:20.883Z"
+  },
+  {
+   "at": "2026-10-30T12:51:21.310Z",
+   "version": "2025-05-29",
+   "boundary": "langy",
+   "action": "asked",
+   "name": "question",
+   "attributes": {
+    "surface": "composer"
+   }
+  },
+  {
+   "boundary": "MARK",
+   "name": "END",
+   "at": "2026-10-30T12:51:25.395Z"
+  }
+ ],
+ "posthog": [
+  {
+   "at": "2026-10-30T12:51:15.274Z",
+   "event": "dashboards.viewed.dashboard",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$host": "localhost:5700",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 900,
+    "$screen_width": 1440,
+    "$viewport_height": 900,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "s7qsbuw4zqizys55",
+    "$time": 1793364673.219,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T12:51:12.260Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 5,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "dashboardKind": "stored",
+    "widgetCount": 1,
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+     "windowWidth": 1440,
+     "windowHeight": 900,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18cd6-b134-7127-a0bf-5c15ea19cf63",
+    "$window_id": "01a18cdd-3f27-789e-a78d-3a7cc60ddcfc",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$session_entry_host": "localhost:5700",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18cdd-3f25-7d60-b32b-3bdf9bd3a21a",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 99
+   }
+  },
+  {
+   "at": "2026-10-30T12:51:24.220Z",
+   "event": "langy.asked.question",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$host": "localhost:5700",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 900,
+    "$screen_width": 1440,
+    "$viewport_height": 900,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "x2xeqxa5qreay4ka",
+    "$time": 1793364681.215,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T12:51:12.260Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 5,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "surface": "composer",
+    "boundary": "langy",
+    "context": {
+     "href": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+     "windowWidth": 1440,
+     "windowHeight": 900,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18cd6-b134-7127-a0bf-5c15ea19cf63",
+    "$window_id": "01a18cdd-3f27-789e-a78d-3a7cc60ddcfc",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5700/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$session_entry_host": "localhost:5700",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001UgrM0UnFqCZKaHU1Z3tbogILo",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18cdd-3f25-7d60-b32b-3bdf9bd3a21a",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 99
+   }
+  }
+ ]
+}

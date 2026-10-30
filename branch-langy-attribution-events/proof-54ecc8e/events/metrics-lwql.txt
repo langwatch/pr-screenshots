@@ -1,0 +1,7 @@
+lwql_queries_total{caller="dashboard_widget",outcome="ok"} 20
+lwql_queries_total{caller="dashboard_widget",outcome="empty"} 6
+lwql_queries_total{caller="rest_api",outcome="ok"} 5
+lwql_queries_total{caller="cli",outcome="ok"} 3
+lwql_queries_total{caller="mcp",outcome="lwql_not_permitted"} 2
+lwql_queries_total{caller="mcp",outcome="ok"} 2
+lwql_queries_total{caller="langy",outcome="ok"} 2

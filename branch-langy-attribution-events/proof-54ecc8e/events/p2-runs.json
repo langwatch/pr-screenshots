@@ -1,0 +1,49 @@
+[
+ {
+  "label": "curl, plain key, no client header",
+  "headersSent": {
+   "user-agent": "curl/<version>"
+  },
+  "response": "ather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":false,\"params\":{}}\nHTTP 200"
+ },
+ {
+  "label": "spoof: x-langwatch-sdk-name=evil, x-langwatch-surface=evil, user-agent=evil/1.0",
+  "headersSent": {
+   "x-langwatch-sdk-name": "evil",
+   "x-langwatch-surface": "evil",
+   "user-agent": "evil/1.0"
+  },
+  "status": 200,
+  "response": "{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":4,\"rowsRead\":3,\"bytesRead\":369,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":"
+ },
+ {
+  "label": "real CLI: langwatch query run",
+  "exit": 0,
+  "stdout": "{\n  \"rows\": [\n    {\n      \"traces\": 0\n    }\n  ],\n  \"params\": {},\n  \"diagnostics\": [\n    {\n      \"code\": \"UNBOUNDED_TIME_RANGE\",\n      \"message\": \"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on Occurred",
+  "stderr": "Using API key for project \"Proof 9190 Org\". Switch: langwatch login --project | --device\n"
+ },
+ {
+  "label": "real MCP server: run_query (ok)",
+  "reply": "{\"content\":[{\"type\":\"text\",\"text\":\"| traces |\\n| --- |\\n| 0 |\\n\\nReturned 1 row in 4ms.\\nUNBOUNDED_TIME_RANGE: traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\\n\\nRan with t"
+ },
+ {
+  "label": "real MCP server: run_query DROP TABLE (refused, P3)",
+  "reply": "{\"content\":[{\"type\":\"text\",\"text\":\"LangWatch API error 400: The submitted SQL is not permitted by the LangWatchQL analytics policy.\\nCode: lwql_not_permitted\\nDetails: {\\\"violations\\\":[{\\\"code\\\":\\\"STATEMENT_NOT_ALLOWED\\\",\\\"clause\\\":\\\"statement\\\",\\\"message\\\":\\\"Only a single SELECT statement, optional",
+  "stderr": "[MCP tool] run_query failed: LangWatch API error 400: The submitted SQL is not permitted by the LangWatchQL analytics policy.\nCode: lwql_not_permitted\nDetails: {\"violations\":[{\"code\":\"STATEMENT_NOT_ALLOWED\",\"clause\":\"statement\",\"message\":\"Only a single SELECT statement, optionally with a WITH clause"
+ },
+ {
+  "label": "Langy session key, no client header",
+  "headersSent": {},
+  "status": 200,
+  "response": "{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":5,\"rowsRead\":3,\"bytesRead\":369,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":"
+ },
+ {
+  "label": "Langy session key, sent with the CLI's identity header",
+  "headersSent": {
+   "x-langwatch-surface": "cli",
+   "user-agent": "langwatch-cli/0.0.0"
+  },
+  "status": 200,
+  "response": "{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":10,\"rowsRead\":3,\"bytesRead\":369,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\""
+ }
+]

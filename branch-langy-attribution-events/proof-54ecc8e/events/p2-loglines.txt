@@ -1,0 +1,7 @@
+{"time": "2026-10-30T13:05:58.963Z", "msg": "LangWatchQL executed", "caller": "rest_api", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
+{"time": "2026-10-30T13:05:59.005Z", "msg": "LangWatchQL executed", "caller": "rest_api", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
+{"time": "2026-10-30T13:05:59.247Z", "msg": "LangWatchQL executed", "caller": "cli", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
+{"time": "2026-10-30T13:06:00.838Z", "msg": "LangWatchQL failed", "caller": "mcp", "outcome": "lwql_not_permitted", "queryHash": "b71ce603a37151a1"}
+{"time": "2026-10-30T13:06:00.841Z", "msg": "LangWatchQL executed", "caller": "mcp", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
+{"time": "2026-10-30T13:06:14.344Z", "msg": "LangWatchQL executed", "caller": "langy", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
+{"time": "2026-10-30T13:06:14.394Z", "msg": "LangWatchQL executed", "caller": "langy", "outcome": "ok", "rowsRead": 3, "queryHash": "d15e2476d077e338"}
