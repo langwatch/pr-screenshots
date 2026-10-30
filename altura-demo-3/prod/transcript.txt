@@ -1,0 +1,179 @@
+# altura-demo @ 7a2cc29 on this box: uvicorn app.server:app --port 8010 (Gemini: ALTURA_MODEL=google_genai:gemini-3.5-flash, ALTURA_EMBEDDING_MODEL=google_genai:gemini-embedding-001), connector connect_agent.py, LANGWATCH_ENDPOINT=https://app.langwatch.ai
+# 2026-10-30T08:45:26Z BEFORE the run
+$ curl -s -i http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+HTTP/1.1 200 OK
+date: Fri, 30 Oct 2026 08:45:26 GMT
+server: uvicorn
+content-length: 174
+content-type: application/json
+
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true}]}
+
+# 2026-10-30T08:45:26Z START the suite run on the platform
+$ POST https://app.langwatch.ai/api/v1/test-suites/suite_00034tRqtAuST5S0BKKTe1x9e3rdo/run  (X-Auth-Token: <project key>)
+{"targets": [{"type": "connected", "referenceId": "altura-bid-companion@staging", "runParameters": {"account_type": "zoetermeer"}}, {"type": "connected", "referenceId": "altura-bid-companion@staging", "runParameters": {"account_type": "eindhoven"}}], "note": "Production proof of the scenario setup/teardown hooks (altura-demo PR 3)"}
+HTTP 422 b'{"type":"unprocessable_entity","code":"scenario_parameter_unknown","message":"Unknown scenario parameters: account_type. Declared: none","retryable":false,"meta":{"unknownKeys":["account_type"],"declaredNames":[]},"trace_id":"abccb415273d6570cee664842028af93","span_id":"9589605034a3f1e3","trace":{"traceId":"abccb415273d6570cee664842028af93","spanId":"9589605034a3f1e3"},"fault":"customer"}'
+
+# Each scenario now declares account_type with the default from its file (1: zoetermeer, 2: eindhoven, 3: zoetermeer); the run supplies no value, so each takes its default.
+# 2026-10-30T08:45:58Z START the suite run on the platform
+$ POST https://app.langwatch.ai/api/v1/test-suites/suite_00034tRqtAuST5S0BKKTe1x9e3rdo/run  (X-Auth-Token: <project key>)
+{"targets": [{"type": "connected", "referenceId": "altura-bid-companion@staging"}], "note": "Production proof of the scenario setup/teardown hooks (altura-demo PR 3)"}
+HTTP 200
+{
+ "scheduled": true,
+ "batchRunId": "scenariobatch_de133523d93cb81799297f6e9ea7600e",
+ "setId": "__internal__suite_00035HJi5hUokjiXuBfdMXqufQgXR__suite",
+ "jobCount": 3,
+ "skippedArchived": {
+  "scenarios": [],
+  "targets": []
+ },
+ "items": [
+  {
+   "scenarioRunId": "scenariorun_b77aba5b9992b63d18458a9df3fc5228",
+   "scenarioId": "scenario_00034ty1Tq3KrFF34oDEoHiIRjTjU",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "List my open tenders"
+  },
+  {
+   "scenarioRunId": "scenariorun_0750cc0a0e75075b863278397222749f",
+   "scenarioId": "scenario_00034ty1Tq3Kr9LznqrDfLjDarFbM",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "Requirements still to answer"
+  },
+  {
+   "scenarioRunId": "scenariorun_57484af93239bdff2a2a9f780adaccab",
+   "scenarioId": "scenario_00034ty1Tq3KrFF34oDEoHiIRjTjW",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "Asking about another organization's tender"
+  }
+ ],
+ "runPlanId": "suite_00035HJi5hUokjiXuBfdMXqufQgXR",
+ "planName": "All test cases altura-bid-companion",
+ "created": true,
+ "platformUrl": "https://app.langwatch.ai/altura-demo-gXO6bY/simulations/run-plans/all-test-cases-altura-bid-companion"
+}
+
+# 2026-10-30T08:46:05Z DURING the run
+$ curl -s -i http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+HTTP/1.1 200 OK
+date: Fri, 30 Oct 2026 08:46:05 GMT
+server: uvicorn
+content-length: 566
+content-type: application/json
+
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true},{"account_id":"demo-c74f0debac07","template":"zoetermeer","label":"scenariorun_b77aba5b9992b63d18458a9df3fc5228","built_in":false},{"account_id":"demo-966a884baee6","template":"eindhoven","label":"scenariorun_0750cc0a0e75075b863278397222749f","built_in":false},{"account_id":"demo-01512ee84880","template":"zoetermeer","label":"scenariorun_57484af93239bdff2a2a9f780adaccab","built_in":false}]}
+
+# 2026-10-30T08:47:10Z AFTER the run (connector log: 3 setup, 3 teardown)
+$ curl -s -i http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+HTTP/1.1 200 OK
+date: Fri, 30 Oct 2026 08:47:10 GMT
+server: uvicorn
+content-length: 174
+content-type: application/json
+
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true}]}
+
+$ grep -E "^(setup|teardown)" connector.log
+setup scenariorun_b77aba5b9992b63d18458a9df3fc5228 -> demo-c74f0debac07 (zoetermeer)
+setup scenariorun_0750cc0a0e75075b863278397222749f -> demo-966a884baee6 (eindhoven)
+setup scenariorun_57484af93239bdff2a2a9f780adaccab -> demo-01512ee84880 (zoetermeer)
+teardown scenariorun_b77aba5b9992b63d18458a9df3fc5228 -> deleted demo-c74f0debac07
+teardown scenariorun_57484af93239bdff2a2a9f780adaccab -> deleted demo-01512ee84880
+teardown scenariorun_0750cc0a0e75075b863278397222749f -> deleted demo-966a884baee6
+
+# ===== RUN 2 =====
+# Run 1 above: setup and teardown worked, but every agent turn got Gemini 429 RESOURCE_EXHAUSTED (free-tier quota: 20 requests per day for gemini-3.5-flash).
+# Run 2: agent ALTURA_MODEL=google_genai:gemini-3.1-flash-lite, simulator gemini/gemini-3.5-flash-lite, judge gemini/gemini-3-flash-preview (separate quota buckets).
+# 2026-10-30T08:47:55Z BEFORE
+$ curl -s http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true}]}
+# 2026-10-30T08:47:55Z START
+$ POST https://app.langwatch.ai/api/v1/test-suites/suite_00034tRqtAuST5S0BKKTe1x9e3rdo/run  (X-Auth-Token: <project key>)
+{"targets": [{"type": "connected", "referenceId": "altura-bid-companion@staging"}], "simulatorModel": "gemini/gemini-3.5-flash-lite", "judgeModel": "gemini/gemini-3-flash-preview", "note": "Production proof of the scenario setup/teardown hooks (altura-demo PR 3)"}
+HTTP 200
+{
+ "scheduled": true,
+ "batchRunId": "scenariobatch_a331f1ca3ca87f4e73222349a65b0647",
+ "setId": "__internal__suite_00035HJi5hUokjiXuBfdMXqufQgXR__suite",
+ "jobCount": 3,
+ "skippedArchived": {
+  "scenarios": [],
+  "targets": []
+ },
+ "items": [
+  {
+   "scenarioRunId": "scenariorun_9fcb1761cfd842a0ccfc155ff27a81b7",
+   "scenarioId": "scenario_00034ty1Tq3KrFF34oDEoHiIRjTjU",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "List my open tenders"
+  },
+  {
+   "scenarioRunId": "scenariorun_d77fa78462e87f59f4b859cfeba6b1a9",
+   "scenarioId": "scenario_00034ty1Tq3Kr9LznqrDfLjDarFbM",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "Requirements still to answer"
+  },
+  {
+   "scenarioRunId": "scenariorun_e786f42c22c970325c2801bc475ccc0c",
+   "scenarioId": "scenario_00034ty1Tq3KrFF34oDEoHiIRjTjW",
+   "target": {
+    "type": "connected",
+    "referenceId": "agent_00034KAEg3AnPsYCmpMjfuzQnekIS"
+   },
+   "name": "Asking about another organization's tender"
+  }
+ ],
+ "runPlanId": "suite_00035HJi5hUokjiXuBfdMXqufQgXR",
+ "planName": "All test cases altura-bid-companion",
+ "created": false,
+ "platformUrl": "https://app.langwatch.ai/altura-demo-gXO6bY/simulations/run-plans/all-test-cases-altura-bid-companion"
+}
+# 2026-10-30T08:48:00Z DURING
+$ curl -s -i http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+HTTP/1.1 200 OK
+date: Fri, 30 Oct 2026 08:48:00 GMT
+server: uvicorn
+content-length: 566
+content-type: application/json
+
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true},{"account_id":"demo-f893846347e6","template":"eindhoven","label":"scenariorun_d77fa78462e87f59f4b859cfeba6b1a9","built_in":false},{"account_id":"demo-8abbee86341c","template":"zoetermeer","label":"scenariorun_9fcb1761cfd842a0ccfc155ff27a81b7","built_in":false},{"account_id":"demo-ec9198589ced","template":"zoetermeer","label":"scenariorun_e786f42c22c970325c2801bc475ccc0c","built_in":false}]}
+
+# 2026-10-30T08:49:30Z AFTER
+$ curl -s -i http://127.0.0.1:8010/accounts -H "Authorization: Bearer altura-demo-key"
+HTTP/1.1 200 OK
+date: Fri, 30 Oct 2026 08:49:30 GMT
+server: uvicorn
+content-length: 174
+content-type: application/json
+
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true}]}
+
+$ grep -E "^(setup|turn|teardown)" connector.log   # run 2 lines
+setup scenariorun_d77fa78462e87f59f4b859cfeba6b1a9 -> demo-f893846347e6 (eindhoven)
+setup scenariorun_9fcb1761cfd842a0ccfc155ff27a81b7 -> demo-8abbee86341c (zoetermeer)
+setup scenariorun_e786f42c22c970325c2801bc475ccc0c -> demo-ec9198589ced (zoetermeer)
+turn vtOGkVOe account=demo-8abbee86341c
+turn vtOGkVOe account=demo-8abbee86341c
+turn RX8x7tuA account=demo-ec9198589ced
+turn 0Et3nDGd account=demo-f893846347e6
+turn RX8x7tuA account=demo-ec9198589ced
+turn 0Et3nDGd account=demo-f893846347e6
+teardown scenariorun_d77fa78462e87f59f4b859cfeba6b1a9 -> deleted demo-f893846347e6
+teardown scenariorun_9fcb1761cfd842a0ccfc155ff27a81b7 -> deleted demo-8abbee86341c
+teardown scenariorun_e786f42c22c970325c2801bc475ccc0c -> deleted demo-ec9198589ced
