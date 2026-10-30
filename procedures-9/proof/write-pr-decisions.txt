@@ -1,0 +1,27 @@
+$ git show origin/docs/pr-decisions-table:records/procedures/github/write-pr/PROCEDURE.md | sed -n '/What changed\*\* (2/,/How it works\*\*/p'
+- **What changed** (2–4 bullets) — Plain words: what is different after this PR. Single-commit trivial PRs may point at the commit instead of restating. The choices behind the change go in **Decisions**, not here.
+- **Decisions** (REQUIRED, right after "What changed") — A markdown table, one row per real choice made in this PR, in plain short words a reader with no context gets in one read:
+
+  ```markdown
+  | Decision | Why | Other options considered |
+  | --- | --- | --- |
+  | Default the spot flag to on, per box | Keeps the plan diff at zero for every other box | One global type change (would destroy and recreate every box) |
+  ```
+
+  A real choice is anything a reviewer could ask "why this way?" about: an approach, a default value, a library, a scope cut, a name that other code depends on. Each **Why** is grounded in a real constraint or effect, not "it is cleaner". **Other options considered** names what you did not pick and, in a few words, why not. A trivial PR still gets one row (e.g. `| Fix the typo only | Nothing else was wrong | — |`).
+
+  Put the table inside the `## Decisions` section, as real markdown (not in a code block). Blank rows do not count as decisions.
+
+  Good row: `| Retry 3 times, then fail | The API drops about 1 in 100 calls; 3 tries covers it | Retry forever (can hang the job); no retry (users see errors) |`
+
+  Bad rows, and why:
+  - `| Refactored the retry logic | Better code | — |` (a change, not a choice; "better" is not a reason; no alternative)
+  - `| Exponential backoff with jitter | Mitigates thundering-herd saturation of the upstream dependency | Linear backoff |` (too technical to scan; say "Wait longer after each try, with some randomness | So retries do not all hit the API at once")
+  - A row per file or per commit (that restates the diff; one row per choice)
+- **How it works** — Show a tree of modules that were created or modified, what their single responsibilities are, and how it all functions together.
+
+$ bash scripts/lint-frontmatter.sh
+lint-frontmatter: OK (295 records)
+exit=0
+$ bash scripts/check-sanitization.sh
+check-sanitization: OK
