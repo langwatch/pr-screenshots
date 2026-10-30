@@ -1,0 +1,83 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:34:03.649Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:34:03.901Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:34:09.623Z",
+      "boundary": "dashboards",
+      "action": "added",
+      "name": "widget",
+      "attributes": {
+        "addedFrom": "catalogue",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:34:09.637Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "draft"
+      }
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.added.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "addedFrom": "catalogue",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "draft",
+        "boundary": "dashboards"
+      }
+    }
+  ]
+}

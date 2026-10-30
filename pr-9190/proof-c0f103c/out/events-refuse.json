@@ -1,0 +1,68 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:50:08.117Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:50:08.419Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:50:11.428Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "F1 new dashboard, server refuses",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:50:15.720Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "F2 delete widget, server refuses",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:50:22.044Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "F3 duplicate widget, server refuses",
+      "attributes": null
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:33:26.915Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:33:27.442Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:33:30.340Z",
+      "boundary": "dashboards",
+      "action": "created",
+      "name": "dashboard",
+      "attributes": {
+        "createdFrom": "blank"
+      }
+    },
+    {
+      "at": "2026-10-30T05:33:30.425Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.created.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "createdFrom": "blank",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+### :9471 (apps/api)
+# HELP lwql_query_duration_seconds LangWatchQL run time, the database's plus hydration's, by caller
+# TYPE lwql_query_duration_seconds histogram
+lwql_query_duration_seconds_bucket{caller="workbench",le="0.01"} 33
+lwql_query_duration_seconds_bucket{caller="workbench",le="0.05"} 41
+lwql_query_duration_seconds_bucket{caller="workbench",le="0.1"} 43
+lwql_query_duration_seconds_bucket{caller="workbench",le="0.25"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="0.5"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="1"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="2.5"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="5"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="10"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="30"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="60"} 44
+lwql_query_duration_seconds_bucket{caller="workbench",le="+Inf"} 44
+lwql_query_duration_seconds_sum{caller="workbench"} 0.6500000000000001
+lwql_query_duration_seconds_count{caller="workbench"} 44
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="0.01"} 45
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="0.05"} 62
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="0.1"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="0.25"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="0.5"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="1"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="2.5"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="5"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="10"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="30"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="60"} 66
+lwql_query_duration_seconds_bucket{caller="dashboard_widget",le="+Inf"} 66
+lwql_query_duration_seconds_sum{caller="dashboard_widget"} 0.9320000000000004
+lwql_query_duration_seconds_count{caller="dashboard_widget"} 66
+lwql_query_duration_seconds_bucket{caller="rest_api",le="0.01"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="0.05"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="0.1"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="0.25"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="0.5"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="1"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="2.5"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="5"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="10"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="30"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="60"} 2
+lwql_query_duration_seconds_bucket{caller="rest_api",le="+Inf"} 2
+lwql_query_duration_seconds_sum{caller="rest_api"} 0.006
+lwql_query_duration_seconds_count{caller="rest_api"} 2
+# HELP lwql_rows_read Rows the database read for one LangWatchQL run, by caller
+# TYPE lwql_rows_read histogram
+lwql_rows_read_bucket{caller="workbench",le="1"} 32
+lwql_rows_read_bucket{caller="workbench",le="100"} 44
+lwql_rows_read_bucket{caller="workbench",le="1000"} 44
+lwql_rows_read_bucket{caller="workbench",le="10000"} 44
+lwql_rows_read_bucket{caller="workbench",le="100000"} 44
+lwql_rows_read_bucket{caller="workbench",le="1000000"} 44
+lwql_rows_read_bucket{caller="workbench",le="10000000"} 44
+lwql_rows_read_bucket{caller="workbench",le="100000000"} 44
+lwql_rows_read_bucket{caller="workbench",le="+Inf"} 44
+lwql_rows_read_sum{caller="workbench"} 82
+lwql_rows_read_count{caller="workbench"} 44
+lwql_rows_read_bucket{caller="dashboard_widget",le="1"} 47
+lwql_rows_read_bucket{caller="dashboard_widget",le="100"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="1000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="10000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="100000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="1000000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="10000000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="100000000"} 66
+lwql_rows_read_bucket{caller="dashboard_widget",le="+Inf"} 66
+lwql_rows_read_sum{caller="dashboard_widget"} 144
+lwql_rows_read_count{caller="dashboard_widget"} 66
+lwql_rows_read_bucket{caller="rest_api",le="1"} 2
+lwql_rows_read_bucket{caller="rest_api",le="100"} 2
+lwql_rows_read_bucket{caller="rest_api",le="1000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="10000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="100000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="1000000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="10000000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="100000000"} 2
+lwql_rows_read_bucket{caller="rest_api",le="+Inf"} 2
+lwql_rows_read_sum{caller="rest_api"} 2
+lwql_rows_read_count{caller="rest_api"} 2
+# HELP lwql_queries_total LangWatchQL runs by caller and outcome (ok, empty, or the error code)
+# TYPE lwql_queries_total counter
+lwql_queries_total{caller="workbench",outcome="empty"} 36
+lwql_queries_total{caller="workbench",outcome="ok"} 8
+lwql_queries_total{caller="dashboard_widget",outcome="empty"} 59
+lwql_queries_total{caller="dashboard_widget",outcome="ok"} 7
+lwql_queries_total{caller="workbench",outcome="project_not_found"} 1
+lwql_queries_total{caller="workbench",outcome="lwql_not_permitted"} 1
+lwql_queries_total{caller="rest_api",outcome="ok"} 2
+lwql_queries_total{caller="rest_api",outcome="project_not_found"} 1
+lwql_queries_total{caller="rest_api",outcome="lwql_not_permitted"} 1
+### :9472 (dev-runtime worker)

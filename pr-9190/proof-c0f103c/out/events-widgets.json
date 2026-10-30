@@ -1,0 +1,242 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:37:15.205Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:37:15.515Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:18.526Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "S1 add langy source + save",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:37:19.484Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "draft"
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:26.366Z",
+      "boundary": "dashboards",
+      "action": "edited",
+      "name": "widget",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:37:26.366Z",
+      "boundary": "dashboards",
+      "action": "toggled",
+      "name": "langy_traces",
+      "attributes": {
+        "included": true
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:29.800Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "S2 remove langy source + save",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:37:30.730Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "draft"
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:38.353Z",
+      "boundary": "dashboards",
+      "action": "edited",
+      "name": "widget",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:37:38.353Z",
+      "boundary": "dashboards",
+      "action": "toggled",
+      "name": "langy_traces",
+      "attributes": {
+        "included": false
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:41.772Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "S3 rename only + save",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:37:42.677Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "draft"
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:50.536Z",
+      "boundary": "dashboards",
+      "action": "edited",
+      "name": "widget",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:37:53.994Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "S4 duplicate widget",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:37:55.005Z",
+      "boundary": "dashboards",
+      "action": "added",
+      "name": "widget",
+      "attributes": {
+        "addedFrom": "duplicate",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:37:58.513Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "S5 delete widget",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:37:59.517Z",
+      "boundary": "dashboards",
+      "action": "deleted",
+      "name": "widget",
+      "attributes": {}
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "draft",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.edited.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.toggled.langy_traces",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "included": true,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "draft",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.edited.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.toggled.langy_traces",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "included": false,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "draft",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.edited.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.added.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "addedFrom": "duplicate",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.deleted.widget",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "boundary": "dashboards"
+      }
+    }
+  ]
+}

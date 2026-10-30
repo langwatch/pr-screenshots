@@ -1,0 +1,335 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:40:38.877Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:40:39.255Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:40:42.185Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "B3 unstar then star a From LangWatch template",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:40:43.184Z",
+      "boundary": "dashboards",
+      "action": "favourited",
+      "name": "dashboard",
+      "attributes": {
+        "starred": false
+      }
+    },
+    {
+      "at": "2026-10-30T05:40:47.547Z",
+      "boundary": "dashboards",
+      "action": "favourited",
+      "name": "dashboard",
+      "attributes": {
+        "starred": true
+      }
+    },
+    {
+      "at": "2026-10-30T05:40:51.011Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "B4 ask Langy from the board ask box (question)",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:40:53.153Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "question"
+      }
+    },
+    {
+      "at": "2026-10-30T05:40:56.247Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "B5 duplicate stored board",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:40:57.279Z",
+      "boundary": "dashboards",
+      "action": "created",
+      "name": "dashboard",
+      "attributes": {
+        "createdFrom": "duplicate"
+      }
+    },
+    {
+      "at": "2026-10-30T05:40:57.419Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:00.762Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "B6 duplicate a From LangWatch board to edit",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:41:03.141Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:06.382Z",
+      "boundary": "dashboards",
+      "action": "created",
+      "name": "dashboard",
+      "attributes": {
+        "createdFrom": "duplicate_curated",
+        "templateId": "release"
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:06.448Z",
+      "boundary": "dashboards",
+      "action": "asked",
+      "name": "langy",
+      "attributes": {
+        "askKind": "draft"
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:06.678Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 5
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:09.855Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "B7 new blank board then start from template",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:41:09.948Z",
+      "boundary": "dashboards",
+      "action": "created",
+      "name": "dashboard",
+      "attributes": {
+        "createdFrom": "blank"
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:10.134Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:41:13.687Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "curated",
+        "widgetCount": 4,
+        "templateId": "data"
+      }
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.favourited.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "starred": false,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.favourited.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "starred": true,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "question",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.created.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "createdFrom": "duplicate",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 1,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.created.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "createdFrom": "duplicate_curated",
+        "templateId": "release",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.asked.langy",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "askKind": "draft",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 5,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "dashboards.created.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "createdFrom": "blank",
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "curated",
+        "widgetCount": 4,
+        "templateId": "data",
+        "boundary": "dashboards"
+      }
+    }
+  ]
+}

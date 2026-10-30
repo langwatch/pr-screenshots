@@ -1,0 +1,347 @@
+{
+  "console": [
+    {
+      "at": "2026-10-30T05:44:49.893Z",
+      "boundary": null,
+      "action": null,
+      "name": "signed_in",
+      "attributes": {}
+    },
+    {
+      "at": "2026-10-30T05:44:50.344Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:44:53.257Z",
+      "boundary": "MARK",
+      "action": null,
+      "name": "P1 create + move to a second project",
+      "attributes": null
+    },
+    {
+      "at": "2026-10-30T05:44:56.589Z",
+      "boundary": null,
+      "action": "created",
+      "name": "project",
+      "attributes": {
+        "project_slug": "second-proof-project-yPw2Rk",
+        "language": "other",
+        "framework": "other"
+      }
+    },
+    {
+      "at": "2026-10-30T05:44:58.418Z",
+      "boundary": null,
+      "action": "viewed",
+      "name": "onboarding_progress",
+      "attributes": {
+        "project_id": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+        "completion_percentage": 11,
+        "completed_tasks_count": 1,
+        "total_tasks_count": 9,
+        "all_complete": false,
+        "has_first_message": false,
+        "has_team_members": false,
+        "has_model_providers": false,
+        "has_prompts": false,
+        "has_simulations": false,
+        "has_online_evaluations": false,
+        "has_workflows": false,
+        "has_datasets": false,
+        "count_team_members": 1,
+        "count_model_providers": 0,
+        "count_prompts": 0,
+        "count_simulations": 0,
+        "count_online_evaluations": 0,
+        "count_workflows": 0,
+        "count_datasets": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:45:06.208Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:45:13.725Z",
+      "boundary": "dashboards",
+      "action": "viewed",
+      "name": "dashboard",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:45:32.373Z",
+      "boundary": null,
+      "action": "viewed",
+      "name": "onboarding_progress",
+      "attributes": {
+        "project_id": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+        "completion_percentage": 11,
+        "completed_tasks_count": 1,
+        "total_tasks_count": 9,
+        "all_complete": false,
+        "has_first_message": false,
+        "has_team_members": false,
+        "has_model_providers": false,
+        "has_prompts": false,
+        "has_simulations": false,
+        "has_online_evaluations": false,
+        "has_workflows": false,
+        "has_datasets": false,
+        "count_team_members": 1,
+        "count_model_providers": 0,
+        "count_prompts": 0,
+        "count_simulations": 0,
+        "count_online_evaluations": 0,
+        "count_workflows": 0,
+        "count_datasets": 0
+      }
+    },
+    {
+      "at": "2026-10-30T05:45:43.804Z",
+      "boundary": null,
+      "action": "viewed",
+      "name": "onboarding_progress",
+      "attributes": {
+        "project_id": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+        "completion_percentage": 11,
+        "completed_tasks_count": 1,
+        "total_tasks_count": 9,
+        "all_complete": false,
+        "has_first_message": false,
+        "has_team_members": false,
+        "has_model_providers": false,
+        "has_prompts": false,
+        "has_simulations": false,
+        "has_online_evaluations": false,
+        "has_workflows": false,
+        "has_datasets": false,
+        "count_team_members": 1,
+        "count_model_providers": 0,
+        "count_prompts": 0,
+        "count_simulations": 0,
+        "count_online_evaluations": 0,
+        "count_workflows": 0,
+        "count_datasets": 0
+      }
+    }
+  ],
+  "posthog": [
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "signed_in",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "MARK P1 create + move to a second project",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "created.project",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "viewed.onboarding_progress",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "MARK P3 back to first project",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001cMg0H15oXf2KuKa9KQWyPw2Rk",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "dashboards.viewed.dashboard",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {
+        "dashboardKind": "stored",
+        "widgetCount": 0,
+        "boundary": "dashboards"
+      }
+    },
+    {
+      "event": "MARK P4 pages with no project in scope",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "MARK visited /settings -> http://localhost:5680/settings",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "MARK visited /settings/members -> http://localhost:5680/settings/directory",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$pageview",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "viewed.onboarding_progress",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "MARK visited /onboarding/welcome -> http://localhost:5680/proof-9190-org-P9fenQ",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "MARK visited /me -> http://localhost:5680/me",
+      "projectId": null,
+      "attributes": {}
+    },
+    {
+      "event": "$set",
+      "projectId": "local_project_0001chQpvYouRxa9t4dd3iCG2RXHO",
+      "attributes": {}
+    },
+    {
+      "event": "$groupidentify",
+      "projectId": "local_project_0001chQpvYouRxa9t4dd3iCG2RXHO",
+      "attributes": {}
+    },
+    {
+      "event": "viewed.onboarding_progress",
+      "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+      "attributes": {}
+    },
+    {
+      "event": "MARK visited /account -> http://localhost:5680/account",
+      "projectId": null,
+      "attributes": {}
+    }
+  ]
+}
