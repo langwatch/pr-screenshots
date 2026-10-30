@@ -1,0 +1,15 @@
+sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval])) * 60
+sum by (outcome) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval])) * 60
+histogram_quantile(0.5, sum by (le, caller) (rate(lwql_query_duration_seconds_bucket{caller=~"$caller"}[$__rate_interval])))
+histogram_quantile(0.95, sum by (le, caller) (rate(lwql_query_duration_seconds_bucket{caller=~"$caller"}[$__rate_interval])))
+sum by (caller) (rate(lwql_queries_total{caller=~"$caller",outcome!~"ok|empty|aborted"}[$__rate_interval])) / sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval]))
+sum by (caller) (rate(lwql_queries_total{caller=~"$caller",outcome="empty"}[$__rate_interval])) / sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval]))
+histogram_quantile(0.5, sum by (le, caller) (rate(lwql_rows_read_bucket{caller=~"$caller"}[$__rate_interval])))
+histogram_quantile(0.95, sum by (le, caller) (rate(lwql_rows_read_bucket{caller=~"$caller"}[$__rate_interval])))
+{
+  "qryType": 1,
+  "query": "label_values(lwql_queries_total, caller)",
+  "refId": "PrometheusVariableQueryEditor-VariableQuery"
+}
+label_values(lwql_queries_total, caller)
+

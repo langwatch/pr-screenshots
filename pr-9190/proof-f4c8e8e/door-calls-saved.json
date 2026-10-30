@@ -1,0 +1,12 @@
+[
+ {
+  "path": "analytics.savedWorkbenchCharts.create",
+  "status": 200,
+  "body": "{\"result\":{\"data\":{\"id\":\"local_chart_0001uPuToOwKO775I39Eisz1IsAHg\",\"projectId\":\"local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ\",\"name\":\"proof r2 saved chart\",\"definition\":{\"version\":1,\"sql\":\"SELECT count() AS traces FROM traces\",\"parameters\":{},\"vegaLiteSpec\":{\"data\":{\"name\":\"query_result\"},\"mark\":\"bar\",\"$schema\":\"https://vega.github.io/schema/vega-lite/v6.json\",\"encoding\":{\"y\":{\"type\":\"quantitative\",\"field\":\"traces\"}}}},\"dashboardId\":null,\"gridColumn\":0,\"gridRow\":0,\"colSpan\":1,\"rowSpan\":1,\"createdAt\":\"2026-10-30T06:20:53.358Z\",\"updatedAt\":\"2026-10-30T06:20:53.358Z\"}}}"
+ },
+ {
+  "path": "analytics.savedWorkbenchCharts.run",
+  "status": 200,
+  "body": "{\"result\":{\"data\":{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":5,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":false,\"params\":{}}}}"
+ }
+]

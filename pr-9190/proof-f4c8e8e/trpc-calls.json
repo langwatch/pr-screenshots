@@ -1,0 +1,36 @@
+[
+ {
+  "label": "T1 workbench-shaped run (no telemetry)",
+  "status": 200,
+  "body": "{\"result\":{\"data\":{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":5,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":fals"
+ },
+ {
+  "label": "T2 widget-shaped run (telemetry from the browser)",
+  "status": 200,
+  "body": "{\"result\":{\"data\":{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":3,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":fals"
+ },
+ {
+  "label": "T3 UNHAPPY: browser names the caller inside telemetry",
+  "status": 400,
+  "body": "{\"error\":{\"message\":\"validation_error\",\"code\":-32600,\"data\":{\"code\":\"BAD_REQUEST\",\"httpStatus\":400,\"path\":\"analytics.lwql.query\",\"cause\":null,\"error\":{\"code\":\"validation_error\",\"kind\":\"validation_error\",\"meta\":{\"fieldErrors\":{\"telemetry\":[\"Unrecognized key: \\\"caller\\\"\"]},\"formErrors\":[]},\"httpStatus\":422,\"fault\":\"customer\",\"retryable\":false,\"reasons\":[]},\"authored\":false}}}"
+ },
+ {
+  "label": "T4 UNHAPPY: browser names caller at the top level",
+  "status": 200,
+  "body": "{\"result\":{\"data\":{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":4,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":fals"
+ },
+ {
+  "label": "T5 refused: projects ['al']",
+  "status": 404,
+  "body": "{\"error\":{\"message\":\"project_not_found\",\"code\":-32004,\"data\":{\"code\":\"NOT_FOUND\",\"httpStatus\":404,\"path\":\"analytics.lwql.query\",\"cause\":null,\"error\":{\"code\":\"project_not_found\",\"kind\":\"project_not_found\",\"meta\":{},\"traceId\":\"956079195cbf9402caa25006aef97471\",\"spanId\":\"d11fa5a5c8e3a568\",\"httpStatus\":404,\"fault\":\"customer\",\"retryable\":false,\"reasons\":[]},\"authored\":false,\"traceId\":\"956079195cbf9402caa25006aef97471\"}}}"
+ },
+ {
+  "label": "T6 failing statement (unknown table)",
+  "status": 400,
+  "body": "{\"error\":{\"message\":\"lwql_not_permitted\",\"code\":-32600,\"data\":{\"code\":\"BAD_REQUEST\",\"httpStatus\":400,\"path\":\"analytics.lwql.query\",\"cause\":null,\"error\":{\"code\":\"lwql_not_permitted\",\"kind\":\"lwql_not_permitted\",\"meta\":{\"violations\":[{\"code\":\"TABLE_NOT_ALLOWED\",\"clause\":\"from\",\"message\":\"The view \\\"no_such_table\\\" is not available to you. Use one of the views from the schema endpoint.\",\"hint\":\"Use one of the views named in this violation's availableViews, or listed by GET /api/v1/query/schema.\",\"at"
+ },
+ {
+  "label": "T7 caller hangs up mid-run",
+  "status": "client-aborted: AbortError"
+ }
+]

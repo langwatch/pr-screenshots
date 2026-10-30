@@ -1,0 +1,38 @@
+[
+ {
+  "label": "R1 REST run with a project key",
+  "request": {
+   "sql": "SELECT count() AS traces FROM traces"
+  },
+  "status": 200,
+  "response": "{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":3,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":false,\"params\":{}}"
+ },
+ {
+  "label": "R2 REST refused: projects ['al']",
+  "request": {
+   "sql": "SELECT count() AS traces FROM traces",
+   "projects": [
+    "al"
+   ]
+  },
+  "status": 404,
+  "response": "{\"type\":\"not_found\",\"code\":\"project_not_found\",\"message\":\"Project not found\",\"retryable\":false,\"trace_id\":\"734ddd9fe61b23b7dd6d4e9085087b7c\",\"span_id\":\"f20ed3f84ed6d213\",\"trace\":{\"traceId\":\"734ddd9fe61b23b7dd6d4e9085087b7c\",\"spanId\":\"f20ed3f84ed6d213\"},\"fault\":\"customer\"}"
+ },
+ {
+  "label": "R3 REST failing statement",
+  "request": {
+   "sql": "SELECT * FROM no_such_table"
+  },
+  "status": 400,
+  "response": "{\"type\":\"bad_request\",\"code\":\"lwql_not_permitted\",\"message\":\"The submitted SQL is not permitted by the LangWatchQL analytics policy.\",\"retryable\":false,\"meta\":{\"violations\":[{\"code\":\"TABLE_NOT_ALLOWED\",\"clause\":\"from\",\"message\":\"The view \\\"no_such_table\\\" is not available to you. Use one of the views from the schema endpoint.\",\"hint\":\"Use one of the views named in this violation's availableViews, or listed by GET /api/v1/query/schema.\",\"at\":{\"line\":1,\"column\":15},\"availableViews\":[\"pd9190.agents"
+ },
+ {
+  "label": "R4 REST body names a caller",
+  "request": {
+   "sql": "SELECT count() AS traces FROM traces",
+   "caller": "dashboard_widget"
+  },
+  "status": 200,
+  "response": "{\"columns\":[{\"name\":\"traces\",\"type\":\"UInt64\"}],\"rows\":[{\"traces\":0}],\"statistics\":{\"elapsedMs\":4,\"rowsRead\":1,\"bytesRead\":123,\"rowsReturned\":1},\"diagnostics\":[{\"code\":\"UNBOUNDED_TIME_RANGE\",\"message\":\"traces was read with no condition on OccurredAt, so the read covers the whole history this project has rather than a window of it. Add a range on OccurredAt to bound the scan.\",\"meta\":{\"view\":\"traces\",\"timeColumn\":\"OccurredAt\"}}],\"followsTimeWindow\":false,\"followsGranularity\":false,\"params\":{}}"
+ }
+]
