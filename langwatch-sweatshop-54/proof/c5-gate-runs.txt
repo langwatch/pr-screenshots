@@ -1,0 +1,15 @@
+$ modules/github/scripts/pr-ready-check.sh --format text drewdrewthis langwatch-sweatshop 54 | grep -E '^PR|C5'
+=== feat(pr-ready): C5 requires a filled Decisions table ===
+PR: https://github.com/drewdrewthis/langwatch-sweatshop/pull/54
+  PASS  C5: body has '## Decisions' (5 row(s)) + '## Human verification' + '## How I can prove I was successful'
+
+$ modules/github/scripts/pr-ready-check.sh --format text drewdrewthis langwatch-sweatshop 51 | grep -E '^PR|C5'
+PR: https://github.com/drewdrewthis/langwatch-sweatshop/pull/51
+  FAIL  C5: body missing '## Decisions', '## Human verification', '## How I can prove I was successful' — reformat with /write-pr
+
+$ modules/github/scripts/pr-ready-check.sh --format text langwatch langwatch 9195 | grep -E '^PR|C5'
+PR: https://github.com/langwatch/langwatch/pull/9195
+  FAIL  C5: body missing '## Decisions' — reformat with /write-pr
+
+$ ~/Projects/langwatch-sweatshop/modules/github/scripts/pr-ready-check.sh --format text drewdrewthis langwatch-sweatshop 51 | grep C5   # main, before this PR
+  FAIL  C5: body missing '## Human verification', '## How I can prove I was successful' — reformat with /write-pr
