@@ -10,18 +10,23 @@ $ git show origin/docs/pr-decisions-table:records/procedures/github/write-pr/PRO
 
   A real choice is anything a reviewer could ask "why this way?" about: an approach, a default value, a library, a scope cut, a name that other code depends on. Each **Why** is grounded in a real constraint or effect, not "it is cleaner". **Other options considered** names what you did not pick and, in a few words, why not. A trivial PR still gets one row (e.g. `| Fix the typo only | Nothing else was wrong | — |`).
 
+  Put the table inside the `## Decisions` section, as real markdown (not in a code block). Blank rows do not count as decisions.
+
   Good row: `| Retry 3 times, then fail | The API drops about 1 in 100 calls; 3 tries covers it | Retry forever (can hang the job); no retry (users see errors) |`
 
   Bad rows, and why:
   - `| Refactored the retry logic | Better code | — |` (a change, not a choice; "better" is not a reason; no alternative)
-  - `| Used exponential backoff with jitter per RFC-style guidance to mitigate thundering-herd effects on upstream dependency saturation | ... |` (too long and too technical to scan; say "Wait longer after each try, with some randomness, so retries do not all hit at once")
+  - `| Exponential backoff with jitter | Mitigates thundering-herd saturation of the upstream dependency | Linear backoff |` (too technical to scan; say "Wait longer after each try, with some randomness | So retries do not all hit the API at once")
   - A row per file or per commit (that restates the diff; one row per choice)
 - **How it works** — Show a tree of modules that were created or modified, what their single responsibilities are, and how it all functions together.
 
 $ git show origin/docs/pr-decisions-table:records/procedures/review-qa/pr-ready-check/PROCEDURE.md | grep '| C5 |'
 | C5 | write-pr format sections | Body has `## Decisions` (a table with at least one filled row, inside that section, outside code fences), `## Human verification` AND `## How I can prove I was successful`. |
 
-$ bash scripts/validate.sh --paths <3 changed files>
+$ git show origin/docs/pr-decisions-table:records/policies/pull-request-policies.md | grep -o 'Fill every required section.\{0,150\}'
+Fill every required section — including **Decisions** (a `| Decision | Why | Other options considered |` table, one row per real choice) and **How I can prove I was successful**
+
+$ bash scripts/validate.sh --paths <4 changed files>
 check-common-mistakes-current: SKIP — scripts/gen-common-mistakes.sh not found at /home/ubuntu/.claude/scripts/gen-common-mistakes.sh (set GEN_COMMON_MISTAKES_SH to override)
 check-decision-direction-class: OK
 validate (shared): OK
