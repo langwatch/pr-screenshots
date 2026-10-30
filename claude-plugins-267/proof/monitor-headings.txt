@@ -1,0 +1,6 @@
+$ git show origin/docs/ship-decisions-heading:plugins/ship/skills/ship/references/monitor.md | python3 -c '<print line no. + text around each "## Decisions">'
+29:te-pr/PROCEDURE.md` — must include the `## Decisions` table (`| Decision | Why | Other options considered |`, one row per real choice, plain short words), and the
+123:as blocking); write-pr format present (`## Decisions` with at least one filled table row + `## Human verification` + `## How I can prove I was successful`); use-p
+
+$ git show origin/main:plugins/ship/skills/ship/references/monitor.md | grep -c 'Decisions'   # before this PR
+0
