@@ -1,18 +1,18 @@
-# server: altura-demo @ 094f64b (feat/scenario-hooks-connector), uvicorn app.server:app --port 8731, ALTURA_MAX_ACCOUNTS=1, dummy OPENAI_API_KEY
+# server: altura-demo @ 5f22f79 (feat/scenario-hooks-connector), uvicorn app.server:app --port 8731, ALTURA_MAX_ACCOUNTS=1, dummy OPENAI_API_KEY
 
 $ curl -s -i -X POST http://127.0.0.1:8731/accounts -H "Authorization: Bearer altura-demo-key" -H "Content-Type: application/json" -d '{"template":"eindhoven","label":"scenariorun_proof"}'
 HTTP/1.1 201 Created
-date: Fri, 30 Oct 2026 06:56:38 GMT
+date: Fri, 30 Oct 2026 07:02:35 GMT
 server: uvicorn
 content-length: 85
 content-type: application/json
 
-{"account_id":"demo-2844a5b3fdbf","template":"eindhoven","label":"scenariorun_proof"}
+{"account_id":"demo-7636d4945ee5","template":"eindhoven","label":"scenariorun_proof"}
 
 
 $ curl -s -i -X POST http://127.0.0.1:8731/accounts -H "Authorization: Bearer altura-demo-key" -H "Content-Type: application/json" -d '{}'   # over ALTURA_MAX_ACCOUNTS=1
 HTTP/1.1 429 Too Many Requests
-date: Fri, 30 Oct 2026 06:56:40 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 89
 content-type: application/json
@@ -21,43 +21,43 @@ content-type: application/json
 
 $ curl -s -i http://127.0.0.1:8731/accounts -H "Authorization: Bearer altura-demo-key"
 HTTP/1.1 200 OK
-date: Fri, 30 Oct 2026 06:56:40 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 277
 content-type: application/json
 
-{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true},{"account_id":"demo-2844a5b3fdbf","template":"eindhoven","label":"scenariorun_proof","built_in":false}]}
+{"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true},{"account_id":"demo-7636d4945ee5","template":"eindhoven","label":"scenariorun_proof","built_in":false}]}
 
-$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-2844a5b3fdbf -H "Authorization: Bearer altura-demo-key"
+$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-7636d4945ee5 -H "Authorization: Bearer altura-demo-key"
 HTTP/1.1 200 OK
-date: Fri, 30 Oct 2026 06:56:40 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 52
 content-type: application/json
 
-{"deleted":"demo-2844a5b3fdbf","data_removed":false}
+{"deleted":"demo-7636d4945ee5","data_removed":false}
 
-$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-2844a5b3fdbf -H "Authorization: Bearer altura-demo-key"   # again
+$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-7636d4945ee5 -H "Authorization: Bearer altura-demo-key"   # again
 HTTP/1.1 404 Not Found
-date: Fri, 30 Oct 2026 06:56:41 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 42
 content-type: application/json
 
-{"error":"No account 'demo-2844a5b3fdbf'"}
+{"error":"No account 'demo-7636d4945ee5'"}
 
 $ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/eindhoven -H "Authorization: Bearer altura-demo-key"   # built-in
 HTTP/1.1 403 Forbidden
-date: Fri, 30 Oct 2026 06:56:41 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 68
 content-type: application/json
 
 {"error":"'eindhoven' is a built-in account and can not be deleted"}
 
-$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-2844a5b3fdbf -H "Authorization: Bearer wrong-key"   # bad token
+$ curl -s -i -X DELETE http://127.0.0.1:8731/accounts/demo-7636d4945ee5 -H "Authorization: Bearer wrong-key"   # bad token
 HTTP/1.1 401 Unauthorized
-date: Fri, 30 Oct 2026 06:56:41 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 24
 content-type: application/json
@@ -66,7 +66,7 @@ content-type: application/json
 
 $ curl -s -i http://127.0.0.1:8731/accounts -H "Authorization: Bearer altura-demo-key"   # after
 HTTP/1.1 200 OK
-date: Fri, 30 Oct 2026 06:56:41 GMT
+date: Fri, 30 Oct 2026 07:02:37 GMT
 server: uvicorn
 content-length: 174
 content-type: application/json
@@ -74,5 +74,5 @@ content-type: application/json
 {"accounts":[{"account_id":"zoetermeer","template":"zoetermeer","label":null,"built_in":true},{"account_id":"eindhoven","template":"eindhoven","label":null,"built_in":true}]}
 
 $ grep -E "created account|deleted account" server.log
-INFO:altura.server:created account demo-2844a5b3fdbf from eindhoven (label 'scenariorun_proof')
-INFO:altura.server:deleted account demo-2844a5b3fdbf (data removed: False)
+INFO:altura.server:created account demo-7636d4945ee5 from eindhoven (label 'scenariorun_proof')
+INFO:altura.server:deleted account demo-7636d4945ee5 (data removed: False)
