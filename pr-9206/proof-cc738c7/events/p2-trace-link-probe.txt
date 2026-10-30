@@ -1,0 +1,11 @@
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193&lw_from=alert
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193&lw_from=alert
+TRACKED: "[PostHog.js]"
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193
+TRACKED: {"version":"2025-05-29","boundary":"automations","action":"opened","name":"alert_link","attributes":{"landedOn":"trace"},"context":{"href":"http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193&lw_from=alert","windowWidth":1280,"windowHeight":720,"userAgent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"}}
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces?lw_from=alert&drawer.t=1793371094193&drawer.open=traceV2Details&drawer.traceId=trace_proof9206_1793371088
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces?drawer.t=1793371094193&drawer.open=traceV2Details&drawer.traceId=trace_proof9206_1793371088
+final: http://localhost:5720/proof-9206-org-l69Ime/traces?drawer.t=1793371094193&drawer.open=traceV2Details&drawer.traceId=trace_proof9206_1793371088
+-- reload
+nav: http://localhost:5720/proof-9206-org-l69Ime/traces?drawer.t=1793371094193&drawer.open=traceV2Details&drawer.traceId=trace_proof9206_1793371088
+final after reload: http://localhost:5720/proof-9206-org-l69Ime/traces?drawer.t=1793371094193&drawer.open=traceV2Details&drawer.traceId=trace_proof9206_1793371088

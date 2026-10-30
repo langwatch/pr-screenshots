@@ -1,0 +1,6 @@
+{"at":"2026-10-30T14:32:37.841Z","src":"server","path":"/batch/","event":"insights.filed.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"filedVia":"chat","tone":"bad","fromBoard":false,"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}
+{"at":"2026-10-30T14:32:37.841Z","src":"server","path":"/batch/","event":"insights.seen.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}
+{"at":"2026-10-30T14:32:37.841Z","src":"server","path":"/batch/","event":"insights.filed.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"filedVia":"chat","tone":"good","fromBoard":false,"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}
+{"at":"2026-10-30T14:32:37.841Z","src":"server","path":"/batch/","event":"insights.seen.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}
+{"at":"2026-10-30T14:33:45.083Z","src":"server","path":"/batch/","event":"insights.archived.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}
+{"at":"2026-10-30T14:35:11.870Z","src":"server","path":"/batch/","event":"insights.kept.insight","distinct_id":"nhBqqLomSGFVltmK2eKG3","props":{"projectId":"project_0005rodVKTMvlnJCpLmhwQNl69Ime"}}

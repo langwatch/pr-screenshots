@@ -1,0 +1,15 @@
+== slack (custom template)
+   http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088
+== email (digest, default)
+   http://localhost:5720/api/unsubscribe?token=[redacted]
+   http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193&lw_from=alert
+   http://localhost:5720/unsubscribe?token=[redacted]
+   http://localhost:5720/unsubscribe?token=[redacted]
+== slack (default message)
+   http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088?t=1793371094193&lw_from=alert
+== webhook (custom body)
+   http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088
+   http://localhost:5720/proof-9206-org-l69Ime
+   http://localhost:5720/proof-9206-org-l69Ime/automations?drawer.open=automation&drawer.automationId=trigger_0005vXXWTm5MlGRodDWF4UNwVpYhu&drawer.source=email-link
+== webhook (default body)
+   http://localhost:5720/proof-9206-org-l69Ime/traces/trace_proof9206_1793371088
