@@ -1,0 +1,35 @@
+{
+ "label": "stored2",
+ "url": "http://localhost:5680/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qU2BsVdxT6CfmJzLtHuQku4VE",
+ "posthogDashboardEvents": [
+  {
+   "at": "2026-10-30T06:55:31.241Z",
+   "event": "dashboards.viewed.dashboard",
+   "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+   "dashboardKind": "stored",
+   "widgetCount": 0
+  }
+ ],
+ "firstViewed": {
+  "at": "2026-10-30T06:55:31.241Z",
+  "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+  "dashboardKind": "stored"
+ },
+ "marks": [
+  {
+   "name": "stored2:load",
+   "at": "2026-10-30T06:55:26.274Z",
+   "ph": 0
+  },
+  {
+   "name": "stored2:rerender",
+   "at": "2026-10-30T06:55:43.007Z",
+   "ph": 5
+  },
+  {
+   "name": "stored2:end",
+   "at": "2026-10-30T06:55:56.944Z",
+   "ph": 5
+  }
+ ]
+}

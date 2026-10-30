@@ -1,0 +1,17 @@
+parses: yes; panels: 6
+## Error rate and empty rate by caller
+(sum by (caller) (rate(lwql_queries_total{caller=~"$caller",outcome!~"ok|empty|aborted"}[$__rate_interval])) or (sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval])) * 0)) / sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval]))
+desc: Share of runs refused or failed, and share that answered no rows. A run its caller hung up on (aborted) is not an error. A caller with no errors or no empty runs reads 0 rather than dropping off. The red line is the error-rate alert threshold.
+
+## Error rate and empty rate by caller
+(sum by (caller) (rate(lwql_queries_total{caller=~"$caller",outcome="empty"}[$__rate_interval])) or (sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval])) * 0)) / sum by (caller) (rate(lwql_queries_total{caller=~"$caller"}[$__rate_interval]))
+desc: Share of runs refused or failed, and share that answered no rows. A run its caller hung up on (aborted) is not an error. A caller with no errors or no empty runs reads 0 rather than dropping off. The red line is the error-rate alert threshold.
+
+## Top 20 slowest query hashes
+fields queryHash, caller, elapsedMs, widgetId, dashboardId
+| filter msg = "LangWatchQL executed"
+| stats max(elapsedMs) as slowestMs, avg(elapsedMs) as averageMs, count(*) as runs by queryHash, caller, dashboardId, widgetId
+| sort slowestMs desc
+| limit 20
+desc: The slowest statements from the "LangWatchQL executed" log line, one row per query hash, caller, dashboard and widget, so a slow hash names the widget that runs it. A run that is no widget's has no dashboardId or widgetId. The hash never carries the SQL text.
+

@@ -1,0 +1,106 @@
+[
+ {
+  "label": "stored1-cleanstorage",
+  "url": "http://localhost:5680/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001opoXNmR77Zlb9YxiQ0eeinkP3",
+  "localStorageKeysAfter": [
+   "ph_debug",
+   "_pendo_utm.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_accountId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_sessionId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_guides_blocked.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "selectedOrganizationId",
+   "selectedTeamId",
+   "_pendo_visitorId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "langwatch:nav:last-product:local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE:v1",
+   "selectedProjectSlug",
+   "ph_phc_proof9190dummy_posthog",
+   "_pendo_meta.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "crisp-client/session/cca9eacd-c4d6-4258-a7fc-9606be6fd012",
+   "crisp-client/session/cca9eacd-c4d6-4258-a7fc-9606be6fd012:e",
+   "langwatch:user:HOrccsRH-0wi3yAi7d3t_:langy:store"
+  ],
+  "firstViewed": {
+   "at": "2026-10-30T06:56:57.786Z",
+   "event": "dashboards.viewed.dashboard",
+   "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+  },
+  "allEventsInOrder": [
+   {
+    "at": "2026-10-30T06:56:54.823Z",
+    "projectId": null
+   },
+   {
+    "at": "2026-10-30T06:56:57.786Z",
+    "event": "$set",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:56:57.786Z",
+    "event": "signed_in",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:56:57.786Z",
+    "event": "$groupidentify",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:56:57.786Z",
+    "event": "dashboards.viewed.dashboard",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   }
+  ]
+ },
+ {
+  "label": "curated-release-cleanstorage",
+  "url": "http://localhost:5680/proof-9190-org-P9fenQ/dashboards/curated/release",
+  "localStorageKeysAfter": [
+   "ph_debug",
+   "_pendo_utm.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_accountId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_sessionId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "_pendo_guides_blocked.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "selectedOrganizationId",
+   "selectedTeamId",
+   "_pendo_visitorId.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "langwatch:nav:last-product:local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE:v1",
+   "selectedProjectSlug",
+   "ph_phc_proof9190dummy_posthog",
+   "_pendo_meta.18f008fe-1a55-4b22-70d9-964d6e98b130",
+   "crisp-client/session/cca9eacd-c4d6-4258-a7fc-9606be6fd012",
+   "crisp-client/session/cca9eacd-c4d6-4258-a7fc-9606be6fd012:e",
+   "langwatch:user:HOrccsRH-0wi3yAi7d3t_:langy:store"
+  ],
+  "firstViewed": {
+   "at": "2026-10-30T06:57:14.669Z",
+   "event": "dashboards.viewed.dashboard",
+   "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+  },
+  "allEventsInOrder": [
+   {
+    "at": "2026-10-30T06:57:11.710Z",
+    "projectId": null
+   },
+   {
+    "at": "2026-10-30T06:57:14.669Z",
+    "event": "$set",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:57:14.669Z",
+    "event": "signed_in",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:57:14.669Z",
+    "event": "$groupidentify",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   },
+   {
+    "at": "2026-10-30T06:57:14.669Z",
+    "event": "dashboards.viewed.dashboard",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+   }
+  ]
+ }
+]

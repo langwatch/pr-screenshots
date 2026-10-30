@@ -1,0 +1,22 @@
+{
+ "url": "http://localhost:5680/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+ "marks": {
+  "load": "2026-10-30T06:58:55.334Z",
+  "rerender": "2026-10-30T06:59:12.131Z",
+  "end": "2026-10-30T06:59:27.218Z"
+ },
+ "widgetMenus": 5,
+ "firstViewed": {
+  "at": "2026-10-30T06:59:00.344Z",
+  "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+  "dashboardKind": "stored",
+  "widgetCount": 5
+ },
+ "dashboardEvents": [
+  {
+   "at": "2026-10-30T06:59:00.344Z",
+   "event": "dashboards.viewed.dashboard",
+   "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ"
+  }
+ ]
+}

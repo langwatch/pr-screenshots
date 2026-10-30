@@ -1,0 +1,36 @@
+{
+ "label": "curated_release",
+ "url": "http://localhost:5680/proof-9190-org-P9fenQ/dashboards/curated/release",
+ "posthogDashboardEvents": [
+  {
+   "at": "2026-10-30T06:56:02.140Z",
+   "event": "dashboards.viewed.dashboard",
+   "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+   "dashboardKind": "curated",
+   "widgetCount": 5,
+   "templateId": "release"
+  }
+ ],
+ "firstViewed": {
+  "at": "2026-10-30T06:56:02.140Z",
+  "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+  "dashboardKind": "curated"
+ },
+ "marks": [
+  {
+   "name": "curated_release:load",
+   "at": "2026-10-30T06:55:57.145Z",
+   "ph": 0
+  },
+  {
+   "name": "curated_release:rerender",
+   "at": "2026-10-30T06:56:13.943Z",
+   "ph": 5
+  },
+  {
+   "name": "curated_release:end",
+   "at": "2026-10-30T06:56:27.900Z",
+   "ph": 5
+  }
+ ]
+}

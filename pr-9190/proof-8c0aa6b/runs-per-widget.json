@@ -1,0 +1,69 @@
+{
+ "curated_release": {
+  "load_runs": 13,
+  "rerender_runs": 0,
+  "callers": [
+   "dashboard_widget"
+  ],
+  "dashboardIds": [
+   "curated/release"
+  ],
+  "runs_per_widget": {
+   "ship-verdict": 3,
+   "ship-suites": 3,
+   "ship-flaky": 2,
+   "ship-compare": 2,
+   "ship-rollout": 3
+  },
+  "widgets_missing_id": 0
+ },
+ "stored1": {
+  "load_runs": 0,
+  "rerender_runs": 0,
+  "callers": [],
+  "dashboardIds": [],
+  "runs_per_widget": {},
+  "widgets_missing_id": 0
+ },
+ "stored2": {
+  "load_runs": 0,
+  "rerender_runs": 0,
+  "callers": [],
+  "dashboardIds": [],
+  "runs_per_widget": {},
+  "widgets_missing_id": 0
+ },
+ "stored_copy": {
+  "load_runs": 13,
+  "rerender_runs": 0,
+  "callers": [
+   "dashboard_widget"
+  ],
+  "dashboardIds": [
+   "local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG"
+  ],
+  "per_widget_runs_distinct": {
+   "local_widget_0001qnkgLj5Ia5DnuQXepoBwzmnII": [
+    3,
+    3
+   ],
+   "local_widget_0001qnkgLj5Ia5DnuQXepoBwzmnIJ": [
+    3,
+    3
+   ],
+   "local_widget_0001qnkgLj5Ia5DnuQXepoBwzmnIL": [
+    3,
+    3
+   ],
+   "local_widget_0001qnkgLj5Ia5DnuQXepoBwzmnIK": [
+    2,
+    2
+   ],
+   "local_widget_0001qnkgLj5Ia5DnuQXepoBwzmnIH": [
+    2,
+    2
+   ]
+  },
+  "missing_widgetId": 0
+ }
+}
