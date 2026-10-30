@@ -1,0 +1,501 @@
+{
+ "log": [
+  {
+   "label": "load",
+   "share": [
+    1,
+    1,
+    1,
+    0.09,
+    0
+   ],
+   "viewedWidgetSent": 3
+  },
+  {
+   "label": "wheel+40 x1",
+   "share": [
+    1,
+    1,
+    1,
+    0.27,
+    0
+   ],
+   "viewedWidgetSent": 3
+  },
+  {
+   "label": "wheel+40 x2",
+   "share": [
+    1,
+    1,
+    1,
+    0.45,
+    0
+   ],
+   "viewedWidgetSent": 3
+  },
+  {
+   "label": "wheel+40 x3",
+   "share": [
+    1,
+    1,
+    1,
+    0.63,
+    0
+   ],
+   "viewedWidgetSent": 4
+  },
+  {
+   "label": "wheel+40 x4",
+   "share": [
+    1,
+    1,
+    1,
+    0.8,
+    0
+   ],
+   "viewedWidgetSent": 4
+  },
+  {
+   "label": "wheel+40 x5",
+   "share": [
+    1,
+    1,
+    1,
+    0.98,
+    0
+   ],
+   "viewedWidgetSent": 4
+  },
+  {
+   "label": "wheel+40 x6",
+   "share": [
+    1,
+    1,
+    1,
+    1,
+    0.09
+   ],
+   "viewedWidgetSent": 4
+  },
+  {
+   "label": "scrolled to top",
+   "share": [
+    1,
+    1,
+    1,
+    0.09,
+    0
+   ],
+   "viewedWidgetSent": 4
+  },
+  {
+   "label": "scrolled back down",
+   "share": [
+    0,
+    0.79,
+    0.79,
+    1,
+    1
+   ],
+   "viewedWidgetSent": 5
+  }
+ ],
+ "console": [
+  {
+   "at": "2026-10-30T11:37:23.413Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "dashboard",
+   "attributes": {
+    "dashboardKind": "stored",
+    "widgetCount": 5,
+    "dashboardKey": "dd4395e8e44420a1"
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:23.454Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "widget",
+   "attributes": {
+    "widgetSource": "catalogue"
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:23.454Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "widget",
+   "attributes": {
+    "widgetSource": "catalogue"
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:23.556Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "widget",
+   "attributes": {
+    "widgetSource": "catalogue"
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:34.666Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "widget",
+   "attributes": {
+    "widgetSource": "catalogue"
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:42.336Z",
+   "version": "2025-05-29",
+   "boundary": "dashboards",
+   "action": "viewed",
+   "name": "widget",
+   "attributes": {
+    "widgetSource": "catalogue"
+   }
+  }
+ ],
+ "posthog": [
+  {
+   "at": "2026-10-30T11:37:25.435Z",
+   "event": "dashboards.viewed.dashboard",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$host": "localhost:5690",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 860,
+    "$screen_width": 1440,
+    "$viewport_height": 860,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "k1bu0g9qiezemsjt",
+    "$time": 1793360243.372,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T11:37:22.349Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 3,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "dashboardKind": "stored",
+    "widgetCount": 5,
+    "dashboardKey": "dd4395e8e44420a1",
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+     "windowWidth": 1440,
+     "windowHeight": 860,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18c86-4e57-725b-bd24-ac6c2f01b42a",
+    "$window_id": "01a18c99-a6c5-79a6-937b-1bcccc9f8c9d",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards",
+    "$session_entry_host": "localhost:5690",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18c99-a6c3-7e7c-bffb-bc76453268b0",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 99
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:25.435Z",
+   "event": "dashboards.viewed.widget",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$host": "localhost:5690",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 860,
+    "$screen_width": 1440,
+    "$viewport_height": 860,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "ukfbjwgp45n7ehnj",
+    "$time": 1793360243.417,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T11:37:22.349Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 3,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "widgetSource": "catalogue",
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+     "windowWidth": 1440,
+     "windowHeight": 860,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18c86-4e57-725b-bd24-ac6c2f01b42a",
+    "$window_id": "01a18c99-a6c5-79a6-937b-1bcccc9f8c9d",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards",
+    "$session_entry_host": "localhost:5690",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18c99-a6c3-7e7c-bffb-bc76453268b0",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 98.45
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:25.435Z",
+   "event": "dashboards.viewed.widget",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$host": "localhost:5690",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 860,
+    "$screen_width": 1440,
+    "$viewport_height": 860,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "1gnwmm9eho6rcyof",
+    "$time": 1793360243.418,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T11:37:22.349Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 3,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "widgetSource": "catalogue",
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+     "windowWidth": 1440,
+     "windowHeight": 860,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18c86-4e57-725b-bd24-ac6c2f01b42a",
+    "$window_id": "01a18c99-a6c5-79a6-937b-1bcccc9f8c9d",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards",
+    "$session_entry_host": "localhost:5690",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18c99-a6c3-7e7c-bffb-bc76453268b0",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 97.46000000000001
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:25.435Z",
+   "event": "dashboards.viewed.widget",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$host": "localhost:5690",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 860,
+    "$screen_width": 1440,
+    "$viewport_height": 860,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "91srn2hfn6z8dhyy",
+    "$time": 1793360243.521,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T11:37:22.349Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 3,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "widgetSource": "catalogue",
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+     "windowWidth": 1440,
+     "windowHeight": 860,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18c86-4e57-725b-bd24-ac6c2f01b42a",
+    "$window_id": "01a18c99-a6c5-79a6-937b-1bcccc9f8c9d",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards",
+    "$session_entry_host": "localhost:5690",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18c99-a6c3-7e7c-bffb-bc76453268b0",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 97.49000000000001
+   }
+  },
+  {
+   "at": "2026-10-30T11:37:37.667Z",
+   "event": "dashboards.viewed.widget",
+   "properties": {
+    "$os": "Linux",
+    "$browser": "Chrome",
+    "$device_type": "Desktop",
+    "$timezone": "UTC",
+    "$timezone_offset": 0,
+    "$current_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$host": "localhost:5690",
+    "$pathname": "/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+    "$raw_user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "$browser_version": 141,
+    "$browser_language": "en-US",
+    "$browser_language_prefix": "en",
+    "$screen_height": 860,
+    "$screen_width": 1440,
+    "$viewport_height": 860,
+    "$viewport_width": 1440,
+    "$lib": "web",
+    "$lib_version": "1.415.6",
+    "$insert_id": "c2zln0ijf2xmdou7",
+    "$time": 1793360254.664,
+    "$sdk_dist_channel": "npm",
+    "$device_id": "01a18b3b-40a2-7cf8-8223-e99f2044b8bc",
+    "distinct_id": "HOrccsRH-0wi3yAi7d3t_",
+    "$initialization_time": "2026-10-30T11:37:22.349Z",
+    "$configured_session_timeout_ms": 1800000,
+    "$active_feature_flags": [],
+    "$feature_flag_payloads": {},
+    "$user_id": "HOrccsRH-0wi3yAi7d3t_",
+    "projectId": "local_project_0001ReVLLbolTXMtUdiwoLpP9fenQ",
+    "$groups": {
+     "organization": "local_organization_0001RYnSqJF76Iy5p8SUU9DhYjOZE"
+    },
+    "$sdk_debug_extensions_init_method": "synchronous",
+    "$sdk_debug_extensions_init_time_ms": 3,
+    "$referrer": "$direct",
+    "$referring_domain": "$direct",
+    "widgetSource": "catalogue",
+    "boundary": "dashboards",
+    "context": {
+     "href": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards/local_dashboard_0001qnkgLj5Ia5DnuQXepoBwzmnIG",
+     "windowWidth": 1440,
+     "windowHeight": 860,
+     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+    },
+    "token": "phc_proof9190dummy",
+    "$config_defaults": "unset",
+    "$session_id": "01a18c86-4e57-725b-bd24-ac6c2f01b42a",
+    "$window_id": "01a18c99-a6c5-79a6-937b-1bcccc9f8c9d",
+    "$session_entry_referrer": "$direct",
+    "$session_entry_referring_domain": "$direct",
+    "$session_entry_url": "http://localhost:5690/proof-9190-org-P9fenQ/dashboards",
+    "$session_entry_host": "localhost:5690",
+    "$session_entry_pathname": "/proof-9190-org-P9fenQ/dashboards",
+    "$recording_status": "disabled",
+    "$sdk_debug_retry_queue_size": 0,
+    "$lib_custom_api_host": "https://proof-stub.posthog.com",
+    "$pageview_id": "01a18c99-a6c3-7e7c-bffb-bc76453268b0",
+    "$is_identified": true,
+    "$process_person_profile": true,
+    "$lib_rate_limit_remaining_tokens": 99
+   }
+  }
+ ]
+}
