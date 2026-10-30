@@ -1,27 +1,27 @@
-# CI runner capture: app / package-suites (1/8) on https://github.com/langwatch/langwatch/pull/9194 at c3d869226c6
-# job https://github.com/langwatch/langwatch/actions/jobs/124330698188  (fetched 2026-10-30T22:12:10Z)
-$ gh api repos/langwatch/langwatch/actions/jobs/124330698188/logs | grep -c ERR_NETWORK_CHANGED
+# CI runner capture: app / package-suites (1/8) on https://github.com/langwatch/langwatch/pull/9194 at c89fc1a10d0
+# job https://github.com/langwatch/langwatch/actions/jobs/124342462286  (fetched 2026-10-30T22:38:12Z)
+$ gh api repos/langwatch/langwatch/actions/jobs/124342462286/logs | grep -c ERR_NETWORK_CHANGED
 0
-$ gh api repos/langwatch/langwatch/actions/jobs/124330698188/logs | grep -ci ryuk
+$ gh api repos/langwatch/langwatch/actions/jobs/124342462286/logs | grep -ci ryuk
 0
-$ gh api repos/langwatch/langwatch/actions/jobs/124330698188/logs | grep -E '(started: |##\[group\]@).*(test:integration|test:browser)|lantern-bleed-stacking'
-21:52:15.1560544Z started: @langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration
-21:58:35.8055562Z ##[group]@langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration (381s)
-21:59:29.3152465Z started: @langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration
-21:59:46.2744471Z ##[group]@langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration (17s)
-22:00:39.7015275Z started: @langwatch/project-browser (modules/project/browser) — pnpm run test:browser
-22:01:26.5874891Z ##[group]@langwatch/project-browser (modules/project/browser) — pnpm run test:browser (47s)
-22:01:26.6160894Z  ✓  chromium  src/ui/sections/home/__tests__/lantern-bleed-stacking.browser.test.tsx (2 tests) 251ms
-22:01:26.6172363Z started: @langwatch/suite-process (modules/suite/process) — pnpm run test:integration
-22:01:56.1297667Z ##[group]@langwatch/suite-process (modules/suite/process) — pnpm run test:integration (30s)
-22:02:21.6538888Z started: @langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration
-22:02:42.6836817Z ##[group]@langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration (21s)
-22:04:03.7067342Z started: @langwatch/share-process (modules/share/process) — pnpm run test:integration
-22:04:07.6768733Z ##[group]@langwatch/share-process (modules/share/process) — pnpm run test:integration (4s)
-22:04:22.1034631Z started: @langwatch/upgrade (packages/upgrade) — pnpm run test:integration
-22:04:32.1526306Z ##[group]@langwatch/upgrade (packages/upgrade) — pnpm run test:integration (10s)
-$ gh api repos/langwatch/langwatch/actions/jobs/124330698188/logs | grep -E 'Test Files|Tests  ' | tail -4
- Test Files  1 passed (1)
-      Tests  2 passed (2)
+$ gh api repos/langwatch/langwatch/actions/jobs/124342462286/logs | grep -E '(started: |##\[group\]@).*(test:integration|test:browser)|lantern-bleed-stacking'
+22:22:10.3002685Z started: @langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration
+22:27:13.0728750Z ##[group]@langwatch/analytics-process (modules/analytics/process) — pnpm run test:integration (303s)
+22:27:16.7764833Z started: @langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration
+22:27:31.6200815Z ##[group]@langwatch/evaluation-process (modules/evaluation/process) — pnpm run test:integration (15s)
+22:27:35.4799917Z started: @langwatch/project-browser (modules/project/browser) — pnpm run test:browser
+22:28:00.5666518Z ##[group]@langwatch/project-browser (modules/project/browser) — pnpm run test:browser (25s)
+22:28:00.5772445Z  ✓  chromium  src/ui/sections/home/__tests__/lantern-bleed-stacking.browser.test.tsx (2 tests) 138ms
+22:28:00.5776491Z started: @langwatch/suite-process (modules/suite/process) — pnpm run test:integration
+22:28:26.1146817Z ##[group]@langwatch/suite-process (modules/suite/process) — pnpm run test:integration (26s)
+22:28:26.1741870Z started: @langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration
+22:28:43.0986886Z ##[group]@langwatch/enterprise-licensing-process (enterprise/modules/licensing/process) — pnpm run test:integration (17s)
+22:28:43.1014650Z started: @langwatch/share-process (modules/share/process) — pnpm run test:integration
+22:28:46.6396453Z ##[group]@langwatch/share-process (modules/share/process) — pnpm run test:integration (4s)
+22:28:46.6573503Z started: @langwatch/upgrade (packages/upgrade) — pnpm run test:integration
+22:28:55.2776604Z ##[group]@langwatch/upgrade (packages/upgrade) — pnpm run test:integration (9s)
+$ gh api repos/langwatch/langwatch/actions/jobs/124342462286/logs | grep -E 'Test Files|Tests  ' | tail -4
  Test Files  1 passed (1)
       Tests  1 passed (1)
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
