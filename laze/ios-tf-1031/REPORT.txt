@@ -1,0 +1,54 @@
+ios-tf-1031 Mac check, 2026-10-31
+
+Last pushed sha on ios-tf-1031: 24201c4e1 (on top of the lane's bc0890e10).
+
+WHAT WAS BROKEN
+The branch did not compile. Some hunks of 356a5b985 had been applied twice:
+- LazeKit tests: FeedTests had deviceCard() and three device card tests twice (the first copy also mutated a let and double wrapped trpc); PendingDecisionsTests had the next button test twice. Kept the copies that compile.
+- App: VaultGallery had deviceCard() and its three gallery cards twice; DeviceGate had readPresence() twice.
+- modules/agent/process agent-vault-card.service.unit.test.ts had the "records the phone" test twice. Removed the copy. Not run here: the iOS worktree has no installed workspace packages (@laze/vault-contract missing), so the box gate has to run it.
+I scanned every file in 356a5b985 for other repeated blocks and found none.
+
+SWIFT TEST
+apps/ios/LazeKit swift test: 549 XCTest tests, 0 failures; 3 swift-testing tests in 2 suites passed.
+
+BUILD
+xcodegen generate + xcodebuild build-for-testing, scheme Laze, iPhone 17 Pro simulator, iOS 26.0: succeeds, no errors.
+
+UI TESTS (prod, Mac QA account, workspace Mac QA)
+1. testBackToHomeInWebSettingsClosesTheSheet: PASS. More > Settings shows the signed-in web Settings list (You, Agents, Connections, Workspace, Back to Home), no sign-in page. Back to Home closes the sheet and Home shows.
+2. testMoreVaultOpensSignedInWithPasskeysFirst: PASS after a test fix. The page was signed in from the first run, but XCUITest reads the web tabs as buttons, not tabs. The test now checks that Passkeys and Mine are buttons in the same row and that Passkeys is left of Mine.
+3. testDecisionsRowOpensASheetThatWalksThroughThem: everything new PASSED, then the run FAILED at its last step. This was a test bug, now fixed but not rerun.
+   Passed: row on Home above search, on Notifications, on the Feed above the date and greeting; Feed card and Approvals page Deny ask for a reason; sheet opens at "1 of 3"; new step: ">" (decisions-next, top left) shows "2 of 3" with nothing answered, then wraps back to "1 of 3"; Deny with a reason moves to "2 of 3"; count drops after Close; the remaining ones deny and the sheet closes.
+   Failed at the end: tapping notifications-bell found no bell. The test opened Notifications earlier and never went back, so the later Home tab tap returned to Notifications (the bell is not on that screen). Fixed in 24201c4e1: it now goes back to Home before the Feed.
+   Not rerun because every decision was denied in the run, and new ones cannot be made: the Mac QA workspace is out of Laze model credits ("agents on Laze models are paused") and Chief has used 1.88 of its 2.00 USD daily budget, so seed-decisions.sh got no asks. A top-up or a raised budget on Mac QA is needed to rerun it.
+4. Gallery (LAZE_VAULT_GALLERY=1), new test testDeviceCardsAndAddThisIPhoneInTheGallery: PASS. Device cards: active (Allow buttons), not one (Add this iPhone + Deny), waiting (waiting line + Deny). The sealed Add this iPhone has the same width as Allow once; its height differs by 1.3 pt only because the iPhone symbol is taller than the Face ID one. Deny is full width below it. No "Try Face ID again" text anywhere.
+   Gallery change: the sealed cards now show Deny under them, as the real cards do, and the device card's Allow buttons are both filled with the Face ID icon, matching the lane's bc0890e10.
+Also updated testRepliedBadgesAndApprovalsOnProd for the removed lease menu: it now checks the single full-width approve-lease button ends "(1 day)". Not run (it needs LAZE_QA_APPROVAL=1 and a pending ask).
+
+SCREENSHOTS
+web-settings-sheet-light/-dark: signed-in web Settings in the More sheet.
+web-settings-back-home: Home after Back to Home.
+web-vault-passkeys-first-light/-dark: signed-in web Vault; tab row Passkeys, Mine 5, Workspace 1, Agents, Leases.
+decisions-home: "3 decisions waiting on you" row above search.
+decisions-notifications: the row on top of Notifications.
+decisions-feed-light/-dark: the row at the top of the Feed above the date and greeting; cards with filled "Approve once" (Face ID) and Deny.
+decisions-approvals-reason: Approvals page Deny asks for an optional reason.
+decisions-sheet-light/-dark: sheet at "1 of 3", ">" top left, Close top right, stacked full-width buttons.
+decisions-skipped-to-second: after ">", "2 of 3" with nothing answered.
+decisions-deny-reason: Deny reason sheet with "Use the staging key instead".
+decisions-next: after the Deny, "2 of 3".
+gallery-sealed-add-iphone-light/-dark: sealed card and not-one card: full-width filled Add this iPhone, Deny full width below.
+gallery-device-cards-light/-dark: the three device card states plus the share card.
+
+THINGS THAT LOOK OFF
+- The web Settings page draws its own bottom tab bar (Feed, Home, Apps, Notifications, More) inside the More sheet, under the native one.
+- The web Vault page in the app says "This browser cannot hold a passkey" and Enrol a passkey is disabled; it opens on Mine, not on Passkeys.
+- The Feed tab shows a back chevron at the top left on its root screen.
+- The Feed decisions row runs edge to edge with square corners; the Home and Notifications rows are rounded pills.
+- Gallery "this iPhone is waiting": the waiting line is indented more than the other cards' text.
+- The first gallery sealed card ("Chief wants to use AWS prod") shows Add this iPhone, not Allow, because this simulator has no enrolled device; the Allow once state shows in "After Add this iPhone".
+
+LEFTOVERS
+seed-decisions.sh made four QA connections (ios-qa-decision-<n>-1/2, ids in .claude/tmp/decision-connections.txt in the iOS worktree); they are still there.
+No TestFlight upload, nothing submitted for review.
