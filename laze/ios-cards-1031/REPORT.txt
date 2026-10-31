@@ -1,0 +1,31 @@
+ios-cards-1031 phase 1 report (Mac, 2026-10-31)
+
+Last pushed sha: 377f621d771f790edab20177cd622f5f6c8e6c06 (on origin/ios-cards-1031)
+
+1. swift test (apps/ios/LazeKit), at 9bed310c3 and again at 377f621d7
+   Compiled with no errors and no code changes needed.
+   XCTest: 553 tests, 0 failures. Swift Testing: 3 tests in 2 suites, passed.
+   New cases passed:
+   - PendingDecisionsTests.testADeviceCardIsADecisionThatOpensPasskeys
+   - PendingDecisionsTests.testEveryCardOffersTheSameWords
+   - PendingDecisionsTests.testAFeedAnswerSaysItCameFromTheIPhone
+
+2. xcodegen generate, then xcodebuild build-for-testing, scheme Laze,
+   iPhone 17 Pro simulator (iOS 26.0), headless
+   Result: TEST BUILD SUCCEEDED, no errors, no code changes needed.
+   xcodegen left Laze.xcodeproj unchanged in git.
+
+3. Change: apps/ios/Laze/Debug/VaultGallery.swift (commit 377f621d7)
+   The debug vault gallery (LAZE_VAULT_GALLERY=1) now ends with a waiting
+   device card: a FeedItem decoded from JSON with approval null and
+   deviceApproval {deviceId: vaultdev_gallery}, title, summary and body copied
+   from deviceWaitingNotice on the server, shown through FeedDecisionCard.
+   The card has identifier decision-feeditem_gallery_device and its button
+   decision-open-passkeys, for the phase 2 screenshot.
+   Checked with a throwaway LazeKit test (not committed) that this JSON decodes,
+   FeedDisplay.opensPasskeys is true and choices is empty, so the card shows
+   Open Passkeys and no Allow or Deny. App build after the change: TEST BUILD
+   SUCCEEDED.
+
+Nothing was uploaded to TestFlight, nothing submitted for review.
+Waiting for phase 2.
