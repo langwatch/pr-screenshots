@@ -1,0 +1,12 @@
+ios-tf-1031 at 27754b096, Mac check 2 (interim, updated when TestFlight finishes)
+
+swift test (apps/ios/LazeKit): 550 XCTest tests, 0 failures; 3 swift-testing tests in 2 suites passed.
+App build: xcodegen + xcodebuild build-for-testing, iPhone 17 Pro simulator iOS 26.0, headless: succeeds.
+
+Screenshots:
+- laze/ios-tf-1031/27754-gallery-waiting-light.png and -dark.png: gallery device cards. "This iPhone is waiting for approval..." now starts at the same left edge as the other cards' text. The gallery UI test passes at 27754b096.
+- Feed with the decisions row: NOT taken. The row only shows while a decision waits, and the Mac QA account has none. New ones cannot be made: Mac QA is out of Laze model credits ("agents on Laze models are paused") and Chief is at 1.88 of 2.00 USD daily, so seed-decisions.sh got no ask (tried again at 27754b096). A person can only make a decision through a second account (app access or invite request). Needs an admin to top up Mac QA or raise Chief's budget, then I can shoot it.
+
+QA vault connections: deleted through vault.deleteConnection, no CLI step needed. There were six ios-qa-decision connections, not four (3048-1/2, 7956-1/2, 6072-1/2; the last two from my retry today). Listing now shows none.
+
+TestFlight: release-testflight.sh 27754b096 started as build 202610311052. It is waiting on Rogerio's kv approval for laze/prod/ASC_KEY_P8 (card ios-tf-1031). Nothing archived or uploaded yet. Processing state and group Team: pending.
