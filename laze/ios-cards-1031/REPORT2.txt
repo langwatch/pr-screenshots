@@ -1,0 +1,90 @@
+ios-cards-1031 phase 2 report (Mac, 2026-10-31)
+
+SHAs
+- Tested and released: 990ff23d2 (main, live on prod).
+- Branch ios-cards-1031 now dc64299da = 990ff23d2 + one test-only commit
+  (LazeUITests.swift). Force-pushed with lease over the old 377f621d7,
+  since main carries the gallery change as its own commit.
+- No app code changed, so TestFlight was built from 990ff23d2.
+
+1. swift test and build at 990ff23d2
+- swift test (apps/ios/LazeKit): XCTest 553 tests, 0 failures; Swift Testing 3 tests, passed.
+- xcodegen + xcodebuild build-for-testing, Laze scheme, iPhone 17 Pro iOS 26.0, headless:
+  TEST BUILD SUCCEEDED. Nothing to fix.
+
+2. UI tests against prod (QA account rogerio+laze-mac-qa, workspace Mac QA)
+- testFeedOffersNoBackFromATabRoot: PASS. Added light/dark shots.
+- testTheBarHighlightsOneTabAndBackReturnsWhereYouWere: FAIL on first run at
+  the last step, "Settings opens from More" (line 3519). True reason: More is a
+  lazy List and more-Settings sits below the fold, so the row did not exist; it
+  was not a label change. Fixed the test to swipe up as the other More tests do,
+  and Feed-from-a-conversation now shoots light and dark. Rerun: PASS.
+- testBackToHomeInWebSettingsClosesTheSheet: PASS.
+- testMoreVaultOpensSignedInWithPasskeysFirst: PASS with no wording change.
+  The test checks only the tab order, not the notice.
+- testDeviceCardsAndAddThisIPhoneInTheGallery: PASS. Extended: scrolls to the
+  waiting device card, asserts Open Passkeys is full width, labelled
+  "Open Passkeys", and the card has no Allow or Deny; shoots it. Rerun after a
+  scroll fix so the card is fully on screen: PASS.
+- testTheCardsAnswerOnThePhone (agent card gallery, near line 1704): PASS.
+- testRepliedBadgesAndApprovalsOnProd (Approvals, near line 540): PASS, but only
+  the Activity and workspace badge parts ran. The approval part needs
+  LAZE_QA_APPROVAL=1 plus another client denying the ask mid-test, and there
+  was no live ask (see 4), so it was not run.
+
+3. Screenshots (all in this folder, light and dark unless noted)
+- web-settings-sheet-*: web Settings in the sheet with "Back to Home". No web
+  bottom bar of Feed/Home/Apps/More. OFF: a strip about 34pt high (the
+  home-indicator safe area) stays at the bottom in another colour: white under
+  the grey list in light, slightly different shade in dark. It is the safe area
+  inset, not the old bar's height, but it is visible.
+- web-settings-back-home-light: Home after Back to Home closed the sheet.
+- web-vault-passkeys-first-*: web Vault in the sheet. Shows the new notice "Keep
+  your most critical secrets behind Touch ID or Face ID / Add this iPhone in
+  More, then Devices, and it approves with Face ID." No "This browser cannot
+  hold a passkey", no Enrol a passkey button. Note: Passkeys is the first tab
+  but the page opens on Mine. Same bottom strip shows in dark.
+- feed-root-no-back-*: Feed tab reached from Home at its root: no back chevron.
+- bar-feed-*: Feed reached from an open conversation: back chevron at top left.
+- bar-in-conversation, bar-in-thread, bar-apps, bar-notifications, bar-search,
+  bar-more (light): one tab highlighted at a time.
+- gallery-device-cards-*: the active device card: Allow once, Allow for 2 days,
+  Deny stacked full width; both Allow filled with the Face ID icon; then the
+  "not one" card (Add this iPhone + Deny) and the "waiting" card (Deny only).
+  No label wraps at full width.
+- gallery-sealed-add-iphone-*: sealed cards. On this simulator the sealed card
+  shows Add this iPhone + Deny (iPhone is not an enrolled device), same full
+  width filled style; "After Add this iPhone" shows Allow once with Face ID icon.
+- gallery-waiting-device-*: the new waiting device card (FeedDecisionCard,
+  approval null, deviceApproval set): title, Vault author, summary, body, and
+  one full-width filled "Open Passkeys", no Allow or Deny.
+  Open Passkeys is INERT in the gallery: VaultGallery does not pass
+  openPasskeys, so it uses the default empty closure. Not tapped. The real
+  wiring to Devices is only covered by the unit test, not by a UI run.
+- cards-* (fixtures): agent permission card reads Allow once, Allow for 1 hour,
+  Deny stacked full width. These agent Allow buttons carry no Face ID icon,
+  unlike the vault cards.
+- activity-replied-light, workspace-badges-light: Activity Replied badge and
+  workspace switcher badges, QA data only.
+
+4. Real vault ask denied from the Feed: NOT POSSIBLE.
+  seed-decisions.sh made two Ask connections and asked Chief in the QA channel;
+  Chief replied "The workspace is out of credits, so agents on Laze models are
+  paused." (same at 09:47 and 11:26 UTC). No ask became pending, so the "on iOS"
+  handled line could not be read. The two connections from this try were
+  deleted (vaultconn_0007CKJhSn0ZE3MmYS5wFXidP89Sa/Sd).
+
+5. TestFlight
+- release-testflight.sh 990ff23d2 -> build 202610311235, uploaded 12:39,
+  processing state VALID, internalBuildState IN_BETA_TESTING at 12:41.
+- Checked through the App Store Connect API (groups-check.sh): build id
+  5e448b2f-1fab-4bdf-b34b-011781ee14ea is in internal group Team
+  (cec9ca5a, hasAccessToAllBuilds true).
+- Nothing submitted for review; version under review untouched. ACME review
+  workspace, Sage and the review account not touched.
+
+Anything off
+- Bottom safe-area strip under the web sheets (Settings, Vault dark).
+- Vault opens on Mine, not on Passkeys.
+- Open Passkeys inert in the gallery (by design of the debug view).
+- No live vault ask: QA workspace out of credits.
