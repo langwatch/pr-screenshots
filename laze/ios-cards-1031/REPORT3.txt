@@ -1,0 +1,30 @@
+ios-cards-1031 phase 3 report (Mac, 2026-10-31)
+
+SHA: 8dfc53415 (main), checked out detached. No commits, nothing pushed to laze.
+No TestFlight.
+
+Build: xcodegen + xcodebuild build-for-testing, Laze scheme, iPhone 17 Pro
+iOS 26.0, headless: TEST BUILD SUCCEEDED.
+
+UI tests against prod (QA account, workspace Mac QA):
+- testBackToHomeInWebSettingsClosesTheSheet: PASS
+- testMoreVaultOpensSignedInWithPasskeysFirst: PASS
+For this run only, the Settings test also swiped the web view up four times
+and shot it, then swiped back down. That edit was local and is reverted.
+
+Screenshots (this folder):
+- web-settings-strip-fix-light/dark: web Settings sheet. The grey page
+  background runs to the bottom edge; no strip at the home indicator in either
+  theme (phase 2 had a ~34pt strip there).
+- web-vault-strip-fix-light/dark: web Vault sheet. Page runs to the bottom
+  edge, no strip in dark (it showed in phase 2). Notice unchanged.
+- web-settings-bottom-strip-fix-light/dark: Settings after four swipes up.
+  The page did not move: it looks the same as the top shot.
+
+Last rows vs the home indicator:
+- Billing is the last row on screen. Its bottom sits about 40pt above the
+  screen edge, so it is clear of the home indicator and tappable.
+- The swipes did not scroll the page. Either the whole list fits on an
+  iPhone 17 Pro (likely: the phase 2 shot also ended at Billing), or the web
+  page does not scroll here. I could not tell which from these runs. A
+  smaller phone or larger Dynamic Type would show it; not run.
