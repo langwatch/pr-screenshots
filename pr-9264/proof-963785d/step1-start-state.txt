@@ -1,0 +1,538 @@
+== 2026-11-02T23:20:40Z start state, agents_pg as left by the c9f48f6 run ==
+Row 1:
+──────
+name:        agents_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 2:
+──────
+name:        ai_tool_entries_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ai_tool_entries')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 3:
+──────
+name:        ai_tool_entry_departments_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ai_tool_entry_departments')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 4:
+──────
+name:        ai_tool_entry_teams_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ai_tool_entry_teams')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 5:
+──────
+name:        analytics_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_analytics')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 6:
+──────
+name:        annotation_queue_items_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_annotation_queue_items')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 7:
+──────
+name:        annotation_queue_scores_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_annotation_queue_scores')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 8:
+──────
+name:        annotation_queues_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_annotation_queues')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 9:
+───────
+name:        annotation_scores_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_annotation_scores')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 10:
+───────
+name:        annotations_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_annotations')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 11:
+───────
+name:        anomaly_alerts_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_anomaly_alerts')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 12:
+───────
+name:        anomaly_rules_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_anomaly_rules')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 13:
+───────
+name:        batch_evaluations_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_batch_evaluations')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 14:
+───────
+name:        costs_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_costs')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 15:
+───────
+name:        custom_graphs_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_custom_graphs')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 16:
+───────
+name:        custom_llm_model_costs_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_custom_llm_model_costs')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 17:
+───────
+name:        dashboard_widgets_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_dashboard_widgets')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 18:
+───────
+name:        dashboards_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_dashboards')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 19:
+───────
+name:        dashboards_v2_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_dashboards_v2')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 20:
+───────
+name:        data_privacy_policies_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_data_privacy_policies')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 21:
+───────
+name:        dataset_records_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_dataset_records')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 22:
+───────
+name:        datasets_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_datasets')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 23:
+───────
+name:        department_membership_histories_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_department_membership_histories')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 24:
+───────
+name:        departments_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_departments')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 25:
+───────
+name:        discovered_agents_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_discovered_agents')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 26:
+───────
+name:        discovered_persons_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_discovered_persons')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 27:
+───────
+name:        email_suppressions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_email_suppressions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 28:
+───────
+name:        erased_identifier_suppressions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_erased_identifier_suppressions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 29:
+───────
+name:        evaluators_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_evaluators')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 30:
+───────
+name:        experiment_versions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_experiment_versions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 31:
+───────
+name:        experiments_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_experiments')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 32:
+───────
+name:        gateway_budget_bucket_boundaries_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_budget_bucket_boundaries')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 33:
+───────
+name:        gateway_budget_ledgers_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_budget_ledgers')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 34:
+───────
+name:        gateway_budgets_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_budgets')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 35:
+───────
+name:        gateway_cache_rules_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_cache_rules')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 36:
+───────
+name:        gateway_change_events_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_change_events')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 37:
+───────
+name:        gateway_guardrails_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_guardrails')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 38:
+───────
+name:        gateway_realtime_sessions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_gateway_realtime_sessions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 39:
+───────
+name:        github_branch_pull_request_checks_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_github_branch_pull_request_checks')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 40:
+───────
+name:        github_installations_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_github_installations')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 41:
+───────
+name:        github_pull_requests_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_github_pull_requests')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 42:
+───────
+name:        governance_tenant_histories_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_governance_tenant_histories')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 43:
+───────
+name:        identity_match_suggestions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_identity_match_suggestions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 44:
+───────
+name:        identity_matches_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_identity_matches')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 45:
+───────
+name:        ingestion_pull_run_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ingestion_pull_run_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 46:
+───────
+name:        ingestion_sources_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ingestion_sources')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 47:
+───────
+name:        ingestion_templates_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_ingestion_templates')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 48:
+───────
+name:        langy_active_turns_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_langy_active_turns')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 49:
+───────
+name:        langy_conversation_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_langy_conversation_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 50:
+───────
+name:        langy_conversation_turn_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_langy_conversation_turn_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 51:
+───────
+name:        langy_message_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_langy_message_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 52:
+───────
+name:        langy_turn_requests_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_langy_turn_requests')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 53:
+───────
+name:        model_default_config_scopes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_model_default_config_scopes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 54:
+───────
+name:        model_default_configs_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_model_default_configs')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 55:
+───────
+name:        model_provider_scopes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_model_provider_scopes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 56:
+───────
+name:        model_providers_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_model_providers')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 57:
+───────
+name:        monitors_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_monitors')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 58:
+───────
+name:        notifications_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_notifications')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 59:
+───────
+name:        pinned_traces_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_pinned_traces')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 60:
+───────
+name:        process_manager_inboxes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_process_manager_inboxes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 61:
+───────
+name:        process_manager_instances_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_process_manager_instances')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 62:
+───────
+name:        process_manager_outbox_attempts_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_process_manager_outbox_attempts')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 63:
+───────
+name:        process_manager_outboxes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_process_manager_outboxes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 64:
+───────
+name:        projects_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_projects')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 65:
+───────
+name:        prompt_tag_assignments_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_prompt_tag_assignments')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 66:
+───────
+name:        prompt_tags_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_prompt_tags')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 67:
+───────
+name:        prompt_versions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_prompt_versions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 68:
+───────
+name:        prompts_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_prompts')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 69:
+───────
+name:        retention_policies_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_retention_policies')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 70:
+───────
+name:        routing_policies_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_routing_policies')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 71:
+───────
+name:        routing_policy_scopes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_routing_policy_scopes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 72:
+───────
+name:        saved_views_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_saved_views')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 73:
+───────
+name:        scenario_versions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_scenario_versions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 74:
+───────
+name:        scenarios_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_scenarios')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 75:
+───────
+name:        scheduled_jobs_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_scheduled_jobs')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 76:
+───────
+name:        share_links_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_share_links')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 77:
+───────
+name:        simulation_suites_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_simulation_suites')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 78:
+───────
+name:        topic_clustering_run_history_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_topic_clustering_run_history_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 79:
+───────
+name:        topic_clustering_run_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_topic_clustering_run_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 80:
+───────
+name:        topic_model_projections_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_topic_model_projections')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 81:
+───────
+name:        topics_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_topics')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 82:
+───────
+name:        trace_edit_overlays_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_trace_edit_overlays')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 83:
+───────
+name:        trigger_sents_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_trigger_sents')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 84:
+───────
+name:        triggers_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_triggers')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 85:
+───────
+name:        virtual_key_scopes_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_virtual_key_scopes')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 86:
+───────
+name:        virtual_keys_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_virtual_keys')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 87:
+───────
+name:        webhook_endpoint_deliveries_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_webhook_endpoint_deliveries')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 88:
+───────
+name:        workflow_versions_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_workflow_versions')
+comment:     lwql-credentials=51b71d2c84157994
+
+Row 89:
+───────
+name:        workflows_pg
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_workflows')
+comment:     lwql-credentials=51b71d2c84157994
+== read under prod-like search_path, before ==
+std::exception. Code: 1001, type: pqxx::undefined_table, e.what() = ERROR:  relation "lwql_agents" does not exist
+LINE 1: COPY (SELECT "CreatedAt" FROM "lwql_agents") TO STDOUT
+                                      ^
