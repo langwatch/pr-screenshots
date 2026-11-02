@@ -1,0 +1,8 @@
+== step2 apply stale.sql at 21:53:06Z
+HTTP 200
+== step2 system.columns after staling
+Origin
+HTTP 200
+== step2 SELECT Source
+Code: 47. DB::Exception: Unknown expression identifier `Source` in scope SELECT Source FROM lw9246proof.trace_metrics LIMIT 1. (UNKNOWN_IDENTIFIER) (version 25.10.2.65 (official build))
+HTTP 404
