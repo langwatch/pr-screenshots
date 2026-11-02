@@ -1,0 +1,8 @@
+account acc_6452349c
+run6-rest-record.json: raw token count=0 bytes=1310 [redacted] count=1
+run6-all-events.json: raw token count=0 bytes=8682 [redacted] count=3
+run6-hooks-event.json: raw token count=0 bytes=1041 [redacted] count=2
+run6-clickhouse-row.json: raw token count=0 bytes=10728 [redacted] count=6
+run6-llmsim-calls.json: raw token count=0 bytes=47370 [redacted] count=17
+stack.log: raw token count=0 bytes=795683 [redacted] count=4
+stand-in /chat requests=1, with the issued bearer=1
