@@ -1,32 +1,75 @@
 Laze iOS: Needs you, approval pushes, Feed labels and priority (branch ios-needs-you)
-Partial report, updated as the steps finish.
 
 Shas
-- ios-needs-you and ios: 90c7203dd (ios fast-forwarded to it).
+- ios-needs-you = origin/ios = ddaa63010 (ios fast-forwarded to it, never pushed to main).
+- TestFlight: release-testflight.sh started on origin/ios (ddaa63010) at 10:35, build 202611021035.
+  The build number is confirmed in the reply to the coordinator once processing ends.
+  Nothing was submitted for App Store review.
 
 What changed while landing it
-- The branch was cut from main and lacked 84 ios commits (laze.so, drafts, Away fix and more).
-  origin/ios was merged in. ios already had Feed priority and labels (ee3fec344), so its
-  version was kept and the branch's look was put on top: "High Priority" / "Low Priority" with
-  a chevron in quiet gray, labels as capsules in six system colours.
-- Needs you uses the branch's walk by id, the 0.45 s settle and the 0.8 s hold. The answered
-  button reads what was decided ("Allowed for 2 days") with a check, in place of "Done".
-- A card's own priority now shows when the reader has no rank of their own.
+- The branch was cut from main and lacked 84 ios commits. origin/ios was merged in. ios already
+  had Feed priority and labels (ee3fec344), so its version was kept and the branch's look was put
+  on top: "High Priority" / "Low Priority" with a chevron in quiet gray, labels as capsules in six
+  system colours.
+- Needs you uses the walk by id, the 0.45 s settle and the 0.8 s hold. The answered button reads
+  what was decided ("Allowed for 2 days", "Denied", "Approved") with a check, in place of "Done".
+- A card's own priority shows when the reader has no rank of their own.
+- An approval push opens its own workspace, so the push tests no longer wait for Home first.
 
 swift test (apps/ios/LazeKit)
-- 747 tests, 0 failures. Two stale assertions were fixed on the way: the From filter now lists
-  labels after agents, and with two answered the third reads "3 of 4".
+- 747 tests, 0 failures. Two stale assertions were fixed: the From filter lists labels after
+  agents, and with two answered the third reads "3 of 4".
 
 Build
 - xcodegen + xcodebuild build-for-testing, Laze scheme, iPhone 17 Pro simulator (iOS 26): passes.
-  MainTabView's body was too big to type-check; the decisions sheet moved to DecisionsSheetHost.
 
-UI tests
-- testThreeDecisionsInARowWithMixedButtonsEachAnswerTheCardShown: PASS. The log reads
+UI tests (all on ddaa63010)
+- testThreeDecisionsInARowWithMixedButtonsEachAnswerTheCardShown: PASS, light and dark. Log reads
   "Gmail: Allow for 2 days | Slack: Deny | Computer: Approve".
-  First run failed: the gallery sheet read its model before it was set and opened blank (fixed
-  by handing the model as the sheet's item). Second run: the runner crashed at bootstrap
-  (simulator flake). Third: the 0.8 s answer was missed because waitForExistence looks once a
-  second; the test now looks every 50 ms. Video frames show "Allowed for 2 days" then Slack.
-- testFeedCardsShowPriorityWordsAndLabels: PASS (after the card-level priority fix).
-- Remaining: push tests, decisions row regression, origin/main double-tap check.
+- testFeedCardsShowPriorityWordsAndLabels: PASS.
+- testTappingAnApprovalPushOpensNeedsYouOnItsCard: PASS with three live asks seeded on prod: the
+  push for the second ask opens Needs you on that card (card id checked).
+  Earlier fails were outside the app: seeded asks had expired (they last about 10 minutes) and the
+  test waited for Home although the push opens its own workspace (test fixed).
+- testAPushForAnAnsweredApprovalShowsOnePlainLine: PASS. With decisions waiting the line
+  "This request was already answered" sits above "1 of N"; with none it shows as a toast on Home.
+- testDecisionsRowOpensASheetThatWalksThroughThem: PASS.
+
+origin/main double-tap check (old app, fc2be7bd8, temporary probe test, not committed)
+- Three leased asks, Face ID enrolled. First tap on "Allow for 2 days" starts Face ID and the
+  buttons go disabled with a spinner. A second tap 0.1 s later did nothing: no Deny sheet, no
+  answer on the next card. Only the first card was answered and the sheet moved to "2 of 3".
+- So the double answer did not reproduce with a near-instant second tap on the old app. The risky
+  window is a tap just after the answer lands, when the next card slides under the finger; the
+  new walk closes that by showing one card at a time and taking taps only on the card shown.
+
+Live Feed on prod (Mac QA workspace)
+- A QA agent "Labels QA" (connected, linked from an isolated CLI config) posted three cards to the
+  QA person: "ACME renewal needs a reply today" (high, Revenue), "Typo on the QA sign-in page"
+  (low, Bugs), "Draft the QA launch post" (Content). Shot light and dark, then marked done.
+
+Screenshots (this folder)
+- needs-you-sheet-light/dark: gallery sheet, "1 of 3", Gmail ask with Allow once, Allow for 2
+  days, Deny.
+- allowed-for-2-days-light/dark: the answered card holding "Allowed for 2 days" with a check,
+  the other buttons dimmed.
+- already-answered-line-light: a push for an answered ask; the plain line above "1 of 3".
+- already-answered-toast-light: the same push with nothing waiting; a toast over Home (QA agents).
+- push-opens-needs-you-light/dark: Needs you opened from a push on the pushed card.
+- feed-gallery-light/dark: Urgent + Ops, High Priority + Revenue + Hiring, Low Priority + Bugs,
+  Content.
+- feed-live-light/dark: the live Feed filtered to Labels QA: High Priority + Revenue, Content,
+  Low Priority + Bugs.
+
+Anything off
+- Only the light already-answered shots exist; the seeded asks needed for a dark run could not be
+  made again because the QA workspace ran out of Laze model credits at 09:27, so Chief paused.
+  Topping up QA billing is a prod change and was left alone.
+- Chief's daily budget was raised to 6 USD earlier for the seeding runs.
+- The live Feed sorts cards by priority, not by time: the Content card (no priority, so 50) sits
+  between High and Low. That is the server's order and the app keeps it.
+
+Cleanup
+- Every seeded ask was denied or expired; every ios-qa-decision connection was deleted (none left,
+  no pending approvals). The three live cards are done. The "Labels QA" agent stays in the QA
+  workspace, offline.
