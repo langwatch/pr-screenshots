@@ -1,0 +1,32 @@
+Laze iOS: Needs you, approval pushes, Feed labels and priority (branch ios-needs-you)
+Partial report, updated as the steps finish.
+
+Shas
+- ios-needs-you and ios: 90c7203dd (ios fast-forwarded to it).
+
+What changed while landing it
+- The branch was cut from main and lacked 84 ios commits (laze.so, drafts, Away fix and more).
+  origin/ios was merged in. ios already had Feed priority and labels (ee3fec344), so its
+  version was kept and the branch's look was put on top: "High Priority" / "Low Priority" with
+  a chevron in quiet gray, labels as capsules in six system colours.
+- Needs you uses the branch's walk by id, the 0.45 s settle and the 0.8 s hold. The answered
+  button reads what was decided ("Allowed for 2 days") with a check, in place of "Done".
+- A card's own priority now shows when the reader has no rank of their own.
+
+swift test (apps/ios/LazeKit)
+- 747 tests, 0 failures. Two stale assertions were fixed on the way: the From filter now lists
+  labels after agents, and with two answered the third reads "3 of 4".
+
+Build
+- xcodegen + xcodebuild build-for-testing, Laze scheme, iPhone 17 Pro simulator (iOS 26): passes.
+  MainTabView's body was too big to type-check; the decisions sheet moved to DecisionsSheetHost.
+
+UI tests
+- testThreeDecisionsInARowWithMixedButtonsEachAnswerTheCardShown: PASS. The log reads
+  "Gmail: Allow for 2 days | Slack: Deny | Computer: Approve".
+  First run failed: the gallery sheet read its model before it was set and opened blank (fixed
+  by handing the model as the sheet's item). Second run: the runner crashed at bootstrap
+  (simulator flake). Third: the 0.8 s answer was missed because waitForExistence looks once a
+  second; the test now looks every 50 ms. Video frames show "Allowed for 2 days" then Slack.
+- testFeedCardsShowPriorityWordsAndLabels: PASS (after the card-level priority fix).
+- Remaining: push tests, decisions row regression, origin/main double-tap check.
