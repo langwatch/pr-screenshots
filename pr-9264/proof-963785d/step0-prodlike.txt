@@ -1,0 +1,4 @@
+ALTER ROLE lwql_ro SET search_path = "$user", public -> []
+ALTER VIEW public.lwql_agents RENAME TO lwql_agents_parked_963785d -> []
+SELECT rolconfig FROM pg_roles WHERE rolname='lwql_ro' -> [{"rolconfig":["default_transaction_read_only=on","statement_timeout=10s","search_path=\"$user\", public"]}]
+SELECT schemaname, viewname FROM pg_views WHERE viewname LIKE 'lwql_agents%' -> [{"schemaname":"public","viewname":"lwql_agents_parked_963785d"},{"schemaname":"mydb","viewname":"lwql_agents"}]
