@@ -1,0 +1,3 @@
+{"level":"info","time":"2026-11-02T23:21:36.502Z","pid":1099178,"hostname":"drew-sweatshop","name":"langwatch:task:lwql-provision","service":"langwatch-tasks","msg":"LangWatchQL self-provisioning complete"}
+23:22:25.955  backend    info   lwql reconvergence check found app-owned objects to converge  clickHouseObjects=1  name=langwatch:analytics:lwql:reconvergence  postgresViews=0  sample=["agents_pg"]  spanId=04bd24ad3f77d01e  traceId=2c05e431b80486c6ca36ecbc0d36e6fe
+23:22:26.130  backend    info   LangWatchQL self-provisioning complete  name=langwatch:task:lwql-provision  spanId=04bd24ad3f77d01e  traceId=2c05e431b80486c6ca36ecbc0d36e6fe
