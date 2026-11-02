@@ -1,0 +1,14 @@
+$ gh api --allow-escape-sequences repos/langwatch/langwatch/actions/jobs/125406822182/logs | grep -E "Lanes: |Shard |ERR_NETWORK_CHANGED|— pnpm run" | grep -v "^.*started:" | cut -c30-
+Lanes: browser (PACKAGE_SUITES_LANES).
+Shard 1/1: 11 of 237 packages, about 1308s of suites.
+##[group]@langwatch/design-system (packages/design-system) — pnpm run test:browser (39s)
+##[group]@langwatch/trace-browser (modules/trace/browser) — pnpm run test:browser (40s)
+##[group]@langwatch/analytics-browser (modules/analytics/browser) — pnpm run test:browser (15s)
+##[group]@langwatch/model-provider-browser (modules/model-provider/browser) — pnpm run test:browser (9s)
+##[group]@langwatch/experiment-browser (modules/experiment/browser) — pnpm run test:browser (9s)
+##[group]@langwatch/organization-browser (modules/organization/browser) — pnpm run test:browser (11s)
+##[group]@langwatch/user-browser (modules/user/browser) — pnpm run test:browser (8s)
+##[group]@langwatch/prompt-browser (modules/prompt/browser) — pnpm run test:browser (11s)
+##[group]@langwatch/navigation-browser (modules/navigation/browser) — pnpm run test:browser (9s)
+##[group]@langwatch/project-browser (modules/project/browser) — pnpm run test:browser (10s)
+##[group]@langwatch/secret-browser (modules/secret/browser) — pnpm run test:browser (9s)
