@@ -2,8 +2,7 @@ Laze iOS: Needs you, approval pushes, Feed labels and priority (branch ios-needs
 
 Shas
 - ios-needs-you = origin/ios = ddaa63010 (ios fast-forwarded to it, never pushed to main).
-- TestFlight: release-testflight.sh started on origin/ios (ddaa63010) at 10:35, build 202611021035.
-  The build number is confirmed in the reply to the coordinator once processing ends.
+- TestFlight: build 202611021035, VALID, group Team (from ddaa63010, origin/ios).
   Nothing was submitted for App Store review.
 
 What changed while landing it
