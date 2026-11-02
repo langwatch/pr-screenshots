@@ -1,0 +1,11 @@
+== 2026-11-02T23:22:34Z after the check, prod-like search_path (lwql_ro: "$user", public; only mydb.lwql_agents) ==
+Row 1:
+──────
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents', schema = 'mydb')
+comment:     lwql-credentials=5eb486161a15bbaa
+SELECT count() FROM lw9246proof.agents_pg ->
+0
+Row 1:
+──────
+with_schema:    89
+without_schema: 0
