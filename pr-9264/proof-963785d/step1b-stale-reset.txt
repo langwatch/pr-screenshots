@@ -1,0 +1,7 @@
+== 2026-11-02T23:21:55Z agents_pg reset by hand to the pre-963785d form (no schema, old stamp), so the reconvergence check must find and rebuild it ==
+Row 1:
+──────
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents')
+comment:     lwql-credentials=51b71d2c84157994
+std::exception. Code: 1001, type: pqxx::undefined_table, e.what() = ERROR:  relation "lwql_agents" does not exist
+LINE 1: COPY (SELECT "CreatedAt" FROM "lwql_agents") TO STDOUT
