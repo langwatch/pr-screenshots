@@ -1,0 +1,1 @@
+GET /accounts/acc_d9f7a63d -> {"error":"not found"} 404
