@@ -1,0 +1,19 @@
+{
+  "id": "widget_00046Ld4c8UrqTPWNW3tXMfwujGVd",
+  "name": "Requests (old label)",
+  "definition": {
+    "code": "export default function Widget() {\n  const n = LW.useChartQuery(\"main\", {}).data?.[0]?.n ?? 0;\n  return <span>{\"$\" + Number(n).toFixed(0)}</span>;\n}",
+    "queries": [
+      {
+        "sql": "SELECT count() + 1234.567 AS n FROM traces",
+        "name": "main",
+        "sources": [
+          "application"
+        ]
+      }
+    ],
+    "version": 1
+  },
+  "createdAt": "2026-11-02T11:40:39.331Z",
+  "updatedAt": "2026-11-02T11:40:39.331Z"
+}
