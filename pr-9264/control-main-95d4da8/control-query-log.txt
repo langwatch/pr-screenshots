@@ -1,0 +1,2 @@
+2026-11-02 23:10:37	ExceptionBeforeStart	60	Describe	DESCRIBE TABLE postgresql(lwql_postgres_lw9246proof, `table` = \'lwql_agents\') FORMAT JSONEachRow
+2026-11-02 23:10:37	QueryFinish	0	Create	CREATE OR REPLACE TABLE lw9246proof.agents_pg (TenantId String, AgentId String, Name String, Type String, WorkflowId Nullable(String), CopiedFromAgentId Nullable(String), Environment Nullable(String), OwnerUserId Nullable(String), HostLabel Nullable(String), LastSeenAt Nullable(DateTime64(6)), Archi
