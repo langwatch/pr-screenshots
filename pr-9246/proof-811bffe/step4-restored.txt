@@ -1,0 +1,17 @@
+$ (after restore, 01:55:17Z) worker log lines from dev.log line 1238+, then system.tables/system.columns, SELECT Source, query_log Creates and exceptions since 01:50:24
+01:50:30.218  backend    info   backend ready  changedFiles=2  files=["modules/analytics/process/src/features/provisioning/services/langwatch-ql-self-provisioning.service.ts","modules/analytics/process/src/tasks/lwql-provision.task.ts"]  generation=3  listenersRemoved=0  readyMs=5659  rssMiB=1433  swapMs=5611
+01:55:00.302  backend    info   lwql reconvergence check found app-owned objects to converge  clickHouseObjects=2  name=langwatch:analytics:lwql:reconvergence  postgresViews=0  sample=["pinned_traces_pg","pinned_traces"]  spanId=5a0d44382438cdfd  traceId=9011f491f91f47a7e4c33f1b2d2dba61
+01:55:00.442  backend    info   LangWatchQL self-provisioning complete  name=langwatch:task:lwql-provision  spanId=5a0d44382438cdfd  traceId=9011f491f91f47a7e4c33f1b2d2dba61
+== pinned_traces_pg
+PostgreSQL(lwql_postgres_lw9246proof, `table` = \'lwql_pinned_traces\')	lwql-credentials=51b71d2c84157994
+['TenantId','PinnedTraceId','TraceId','UserId','Source','Reason','CreatedAt']
+== pinned_traces
+	
+['TenantId','PinnedTraceId','TraceId','UserId','Source','Reason','CreatedAt']
+== SELECT Source FROM pinned_traces LIMIT 0:
+rc=0
+== query_log Creates on pinned_traces* since 01:50:24:
+2026-11-03 01:55:00.428342	QueryFinish	0	CREATE OR REPLACE TABLE lw9246proof.pinned_traces_pg (TenantId String, PinnedTraceId Strin
+2026-11-03 01:55:00.441388	QueryFinish	0	CREATE OR REPLACE VIEW lw9246proof.pinned_traces SQL SECURITY INVOKER AS SELECT   src.`Ten
+== exceptions since 01:50:24:
+0
