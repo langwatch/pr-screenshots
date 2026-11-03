@@ -1,0 +1,5 @@
+$ node $TMPDIR/pgq.mjs <queries>
+ALTER VIEW public.lwql_agents_parked_0d49558 RENAME TO lwql_agents -> []
+ALTER ROLE lwql_ro SET search_path = mydb, public -> []
+SELECT rolconfig FROM pg_roles WHERE rolname='lwql_ro' -> [{"rolconfig":["default_transaction_read_only=on","statement_timeout=10s","search_path=mydb, public"]}]
+SELECT schemaname, viewname FROM pg_views WHERE viewname LIKE 'lwql_agents%' -> [{"schemaname":"public","viewname":"lwql_agents"},{"schemaname":"mydb","viewname":"lwql_agents"}]
