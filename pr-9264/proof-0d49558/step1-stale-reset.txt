@@ -1,0 +1,19 @@
+== 2026-11-03T01:30:52Z after stack startup (worker already provisioned) ==
+$ curl $CH --data-binary "SELECT engine_full, comment FROM system.tables WHERE database='lw9246proof' AND name='agents_pg' FORMAT Vertical"
+Row 1:
+──────
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents', schema = 'mydb')
+comment:     lwql-credentials=5eb486161a15bbaa
+== reset agents_pg by hand to the pre-#9264 form (no schema, old stamp) ==
+$ curl $CH --data-binary "$(sed 's/^CREATE TABLE/CREATE OR REPLACE TABLE/' agents_pg_old.sql)"   # SHOW CREATE TABLE saved before the stack started
+$ curl $CH --data-binary "SELECT engine_full, comment FROM system.tables WHERE database='lw9246proof' AND name='agents_pg' FORMAT Vertical"
+Row 1:
+──────
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents')
+comment:     lwql-credentials=51b71d2c84157994
+$ curl $CH --data-binary "SELECT count() FROM lw9246proof.agents_pg"
+std::exception. Code: 1001, type: pqxx::undefined_table, e.what() = ERROR:  relation "lwql_agents" does not exist
+LINE 1: COPY (SELECT "CreatedAt" FROM "lwql_agents") TO STDOUT
+                                      ^
+ (version 25.10.2.65 (official build))
+
