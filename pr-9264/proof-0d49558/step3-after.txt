@@ -1,0 +1,15 @@
+== 2026-11-03T01:31:56Z after the check, prod-like search_path (lwql_ro: "$user", public; only mydb.lwql_agents) ==
+$ curl $CH --data-binary "SELECT engine_full, comment FROM system.tables WHERE database='lw9246proof' AND name='agents_pg' FORMAT Vertical"
+Row 1:
+──────
+engine_full: PostgreSQL(lwql_postgres_lw9246proof, `table` = 'lwql_agents', schema = 'mydb')
+comment:     lwql-credentials=5eb486161a15bbaa
+$ curl $CH --data-binary "SELECT count() FROM lw9246proof.agents_pg"
+0
+$ curl $CH --data-binary "SELECT count() AS exceptions_in_window FROM system.query_log WHERE event_time >= toDateTime('2026-11-03 01:31:00') AND type IN ('ExceptionBeforeStart','ExceptionWhileProcessing') AND (query ILIKE '%lw9246proof%' OR query ILIKE '%postgresql(%')"
+0
+$ curl $CH --data-binary "SELECT countIf(engine_full LIKE '%schema = %') AS with_schema, countIf(engine_full NOT LIKE '%schema = %') AS without_schema FROM system.tables WHERE database='lw9246proof' AND engine='PostgreSQL' FORMAT Vertical"
+Row 1:
+──────
+with_schema:    89
+without_schema: 0
