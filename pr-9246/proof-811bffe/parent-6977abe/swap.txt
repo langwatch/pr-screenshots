@@ -1,0 +1,7 @@
+$ git show 6977abe:$F > $F  for F in modules/analytics/process/src/features/provisioning/services/langwatch-ql-self-provisioning.service.ts modules/analytics/process/src/tasks/lwql-provision.task.ts   (worktree HEAD stays 811bffe; restored after with git checkout -- $F)
+2026-11-03T01:45:32Z
+ M modules/analytics/process/src/features/provisioning/services/langwatch-ql-self-provisioning.service.ts
+ M modules/analytics/process/src/tasks/lwql-provision.task.ts
+ .../services/langwatch-ql-self-provisioning.service.ts           | 8 --------
+ modules/analytics/process/src/tasks/lwql-provision.task.ts       | 9 ++-------
+ 2 files changed, 2 insertions(+), 15 deletions(-)
