@@ -1,0 +1,6 @@
+$ curl $CH --data-binary "SELECT event_time_microseconds, type, exception_code, query_kind, substring(replaceAll(query,'\n',' '),1,200) FROM system.query_log WHERE event_time >= toDateTime('2026-11-03 01:44:19') AND (query ILIKE '%pinned_traces%' OR query ILIKE '%lwql_agents%') AND query NOT ILIKE '%system.query_log%' AND query NOT ILIKE '%system.tables%' AND query NOT ILIKE '%system.columns%' AND type != 'QueryStart' ORDER BY event_time_microseconds FORMAT TSV"
+2026-11-03 01:44:53.560734	ExceptionBeforeStart	60	Describe	DESCRIBE TABLE postgresql(lwql_postgres_lw9246proof, `table` = \'lwql_agents\') FORMAT JSONEachRow
+== CREATE statements on pinned_traces* since 01:44:19:
+0
+== exceptions code 47 since 01:44:19:
+0
