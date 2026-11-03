@@ -1,0 +1,5 @@
+$ node $TMPDIR/pgq.mjs "ALTER ROLE lwql_ro SET search_path = \"\$user\", public" "ALTER VIEW public.lwql_agents RENAME TO lwql_agents_parked_811bffe" "select rolconfig from pg_roles where rolname='lwql_ro'"
+ALTER ROLE lwql_ro SET search_path = "$user", public -> []
+ALTER VIEW public.lwql_agents RENAME TO lwql_agents_parked_811bffe -> []
+select rolconfig from pg_roles where rolname='lwql_ro' -> [{"rolconfig":["default_transaction_read_only=on","statement_timeout=10s","search_path=\"$user\", public"]}]
+select table_schema from information_schema.views where table_name='lwql_agents' -> [{"table_schema":"mydb"}]
