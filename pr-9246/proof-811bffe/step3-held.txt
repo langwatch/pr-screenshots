@@ -1,0 +1,7 @@
+$ (system.tables engine_full/comment + system.columns for pinned_traces_pg and pinned_traces, at 01:45:25Z)
+== pinned_traces_pg
+PostgreSQL(lwql_postgres_lw9246proof, `table` = \'lwql_pinned_traces\')	lwql-credentials=00000000000000aa
+['TenantId','PinnedTraceId','TraceId','UserId','Reason','CreatedAt']
+== pinned_traces
+	
+['TenantId','PinnedTraceId','TraceId','UserId','Reason','CreatedAt']
