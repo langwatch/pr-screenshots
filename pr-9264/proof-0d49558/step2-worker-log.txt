@@ -1,0 +1,4 @@
+$ grep -E 'lwql (reconvergence|self-provisioning)|LangWatchQL self-provisioning|lwql.*(warn|error)' dev.log | sed 's/\x1b\[[0-9;]*m//g'   (lines at/after 01:30:52Z reset)
+01:31:29.680  backend    info   lwql reconvergence check found app-owned objects to converge  clickHouseObjects=1  name=langwatch:analytics:lwql:reconvergence  postgresViews=0  sample=["agents_pg"]  spanId=e88c4e23a22ef520  traceId=ce0203f3d6f837384655e2bdbcd4e258
+01:31:29.680  backend    info   self-provisioning the full LangWatchQL model — access model, PostgreSQL bridge, views  database=lw9246proof  name=langwatch:task:lwql-provision  sourceDatabase=lw9246proof  spanId=e88c4e23a22ef520  traceId=ce0203f3d6f837384655e2bdbcd4e258
+01:31:29.803  backend    info   LangWatchQL self-provisioning complete  name=langwatch:task:lwql-provision  spanId=e88c4e23a22ef520  traceId=ce0203f3d6f837384655e2bdbcd4e258
