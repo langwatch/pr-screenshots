@@ -1,0 +1,16 @@
+$ curl -s $CH --data-binary @<(statement)  # each statement of $TMPDIR/p9246e-reset.sql (split on ";;"), then SHOW CREATE / system.columns / SELECT Source
+== 01:44:18 reset
+> CREATE OR REPLACE TABLE lw9246proof.pinned_traces_pg (`TenantId` String, `PinnedTraceId` String, `TraceId` String, `UserId` Nullable(String)...
+rc=0
+> CREATE OR REPLACE VIEW lw9246proof.pinned_traces (`TenantId` String, `PinnedTraceId` String, `TraceId` String, `UserId` Nullable(String), `R...
+rc=0
+== pinned_traces_pg
+PostgreSQL(lwql_postgres_lw9246proof, `table` = \'lwql_pinned_traces\')	lwql-credentials=00000000000000aa
+['TenantId','PinnedTraceId','TraceId','UserId','Reason','CreatedAt']
+== pinned_traces
+	
+['TenantId','PinnedTraceId','TraceId','UserId','Reason','CreatedAt']
+== SELECT Source FROM pinned_traces LIMIT 0:
+Code: 47. DB::Exception: Unknown expression identifier `Source` in scope SELECT Source FROM lw9246proof.pinned_traces LIMIT 0. (UNKNOWN_IDENTIFIER) (version 25.10.2.65 (official build))
+== probe as the worker would (no schema):
+Code: 60. DB::Exception: PostgreSQL table lwql_agents does not exist. (UNKNOWN_TABLE) (version 25.10.2.65 (official build))
