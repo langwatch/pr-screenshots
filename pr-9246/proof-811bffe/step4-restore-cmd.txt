@@ -1,0 +1,5 @@
+$ git checkout -- <2 files>; node $TMPDIR/pgq.mjs "ALTER VIEW public.lwql_agents_parked_811bffe RENAME TO lwql_agents" "ALTER ROLE lwql_ro SET search_path = mydb, public" ...
+2026-11-03T01:50:24Z
+ALTER VIEW public.lwql_agents_parked_811bffe RENAME TO lwql_agents -> []
+ALTER ROLE lwql_ro SET search_path = mydb, public -> []
+select rolconfig from pg_roles where rolname='lwql_ro' -> [{"rolconfig":["default_transaction_read_only=on","statement_timeout=10s","search_path=mydb, public"]}]
