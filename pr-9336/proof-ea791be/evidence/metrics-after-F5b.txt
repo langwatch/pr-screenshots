@@ -1,0 +1,7 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+read: after-F5b
+# HELP lwql_query_failure_total Failed LangWatchQL queries by who wrote the statement (built_in or user_written)
+# TYPE lwql_query_failure_total counter
+lwql_query_failure_total{origin="user_written"} 5
+lwql_query_failure_total{origin="built_in"} 3
+HTTP 200

@@ -1,0 +1,20 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+CASE D
+door: POST /api/v1/query (X-Auth-Token project key)
+request body (project id is a local invented one):
+{
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 400
+response (first 8000 chars): {"type":"bad_request","code":"lwql_unknown_identifier","message":"The query names a column that does not exist.","retryable":false,"meta":{"reasons":[{"code":"unknown","message":"unknown","retryable":false}]},"trace_id":"1592f23cccbede22f664805e16665259","span_id":"c39f00e1c8404855","trace":{"traceId":"1592f23cccbede22f664805e16665259","spanId":"c39f00e1c8404855"},"tips":["Check the column name against the dataset's columns; a typo is the usual cause","Column existence is only known when the query runs, so a saved chart can carry this until it is run"],"fault":"customer"}
+
+app log lines in the request window (22 total, 2 relevant):
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:legacy-project-key", "service": "langwatch-worker", "traceId": "1592f23cccbede22f664805e16665259", "spanId": "c39f00e1c8404855", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "organizationId": "organization_0006OwtogsB9oavtuHquw9Co4tAGp", "route": "POST /api/v1/query/", "permission": null, "routeScopes": [], "suppressed": 0, "enforced": false, "msg": "legacy project key outside its scopes"}
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "traceId": "1592f23cccbede22f664805e16665259", "spanId": "c39f00e1c8404855", "route": "POST /", "family": "query", "client.address": "<masked>", "api_key.type": "legacy_project_key", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "credentialType": "legacy_project_key", "endpointClass": "api", "clientSource": "unknown", "method": "POST", "url": "/api/v1/query", "statusCode": 400, "duration": 42, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLUnknownIdentifierError", "message": "The query names a column that does not exist.", "code": "lwql_unknown_identifier"}, "errorType": "LangWatchQLUnknownIdentifierError", "handledErrorCode": "lwql_unknown_identifier", "handledErrorFault": "customer", "msg": "error handling request"}

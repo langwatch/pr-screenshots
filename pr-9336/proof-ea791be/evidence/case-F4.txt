@@ -1,0 +1,22 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+CASE F4
+door: POST /api/v1/query (X-Auth-Token project key)
+request body (project id is a local invented one):
+{
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ],
+ "parameters": {
+  "dashboard_context_sources": "x"
+ }
+}
+HTTP 400
+response (first 8000 chars): {"type":"bad_request","code":"lwql_reserved_parameter_supplied","message":"The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.","retryable":false,"meta":{"parameters":["dashboard_context_sources"]},"trace_id":"d3f7b01b8b11f6c49ce9df883ec5d852","span_id":"e487c52f3abfa39c","trace":{"traceId":"d3f7b01b8b11f6c49ce9df883ec5d852","spanId":"e487c52f3abfa39c"},"tips":["Read `meta.parameters`; it lists the reserved names the request set for itself","`dashboard_context_period_start` and `dashboard_context_period_end` are supplied by the surface showing the chart; send `timeWindow: { start, end }` instead and drop them from `parameters`","`dashboard_context_granularity_seconds` is likewise supplied by the surface; drop it from `parameters` and send it as the request's own `granularitySeconds` field instead","`dashboard_context_sources` and `dashboard_context_projects` are likewise supplied; drop them from `parameters` and send the request's own `sources` and `projects` fields instead"],"fault":"customer"}
+
+app log lines in the request window (1 total, 1 relevant):
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "traceId": "d3f7b01b8b11f6c49ce9df883ec5d852", "spanId": "e487c52f3abfa39c", "route": "POST /", "family": "query", "client.address": "<masked>", "api_key.type": "legacy_project_key", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "credentialType": "legacy_project_key", "endpointClass": "api", "clientSource": "unknown", "method": "POST", "url": "/api/v1/query", "statusCode": 400, "duration": 12, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLReservedParameterSuppliedError", "message": "The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.", "code": "lwql_reserved_parameter_supplied"}, "errorType": "LangWatchQLReservedParameterSuppliedError", "handledErrorCode": "lwql_reserved_parameter_supplied", "handledErrorFault": "customer", "msg": "error handling request"}

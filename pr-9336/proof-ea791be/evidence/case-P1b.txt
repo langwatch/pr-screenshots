@@ -1,0 +1,21 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+CASE P1b
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 200
+response (first 8000 chars): {"result":{"data":{"columns":[{"name":"traces","type":"UInt64"}],"rows":[{"traces":0}],"statistics":{"elapsedMs":4,"rowsRead":1,"bytesRead":117,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"completeness":{"state":"no_traffic","unit":"traces","total":0,"fields":[]},"params":{"period":{"start":"2026-10-01T00-00-00.000Z","end":"2026-11-04T00-00-00.000Z"},"dashboard_context_sources":["application"]}}}}
+
+app log lines in the request window (11 total, 2 relevant):
+{"level": "info", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "c6170f8b769e9d562d1eb13b4d37d62d", "spanId": "172ffac5f1ccfe07", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 45, "userAgent": "Python-urllib/3.11", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 200, "duration": 56, "userAgent": "Python-urllib/3.11", "msg": "request handled"}

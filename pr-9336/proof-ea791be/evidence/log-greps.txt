@@ -1,0 +1,37 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+new logger lines in the whole run: 6
+-- each line (hostname/userId masked, time and pid dropped):
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "e5d51accba541b3bace4cde6b8d1c55c", "spanId": "4190afeac243db32", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "b85bde4a8dd16ccc11ef9d4d5f91abe7", "spanId": "ce87750553a98698", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_parameter_missing", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "04588c2b4f33ef0aefcb29499514806b", "spanId": "dff53139ce4c1b8f", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "aba3eb81d9a4248cf0b7cb05b28bff37", "spanId": "5f63a960342b8f8f", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_parameter_missing", "statementHash": "9f4f0c558075c4d2c52b8b11512ff340376c806c116bd695f1dfeb1fcc4f40b2", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "7aeb3f38c3e97ad8a8beb0235751c678", "spanId": "33abcc26d5598ad4", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "0c9bcded099259815b20b4bc6d34c67f", "spanId": "3fb113fac5db1a94", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unavailable", "source": "traces", "msg": "built-in LangWatchQL statement failed"}
+
+-- greps on the new logger's lines only (grep -cF, matching lines)
+grep -cF 'dashboard_context_sources' newlogger: 0
+grep -cF 'trace_metrics.Source' newlogger: 0
+grep -cF 'uniqExact' newlogger: 0
+grep -cF 'FROM trace_metrics' newlogger: 0
+grep -cF 'SELEC' newlogger: 0
+grep -cF 'SELECT' newlogger: 0
+grep -cF 'TraceIdd' newlogger: 0
+grep -cF 'top-models' newlogger: 0
+grep -cF 'VALUEMARK_7f3a9c' newlogger: 0
+grep -cF 'zz_probe' newlogger: 0
+grep -cF 'TotalCost' newlogger: 0
+grep -cF 'gateway_request_spend' newlogger: 0
+grep -cF 'no_such_view_anywhere' newlogger: 0
+
+-- control: same tokens on OTHER loggers' lines (whole run)
+grep -cF 'dashboard_context_sources' otherloggers: 5
+grep -cF 'TraceIdd' otherloggers: 3
+grep -cF 'SELEC' otherloggers: 15
+grep -cF 'FROM trace_metrics' otherloggers: 6
+grep -cF 'TotalCost' otherloggers: 6
+grep -cF 'gateway_request_spend' otherloggers: 4
+grep -cF 'no_such_view_anywhere' otherloggers: 1
+grep -cF 'VALUEMARK_7f3a9c' otherloggers: 0
+
+-- 'source' values on the new logger's lines:
+      1 "source":"traces"

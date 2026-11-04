@@ -1,0 +1,9 @@
+head ea791bef5e0c6842b7c1ceba53fe5644ed07fa12
+CASE G0
+door: GET /api/trpc/dashboards.sourcePresence?input={projectId} (signed-in session cookie); six fixed probe statements
+{"result":{"data":{"traces":"absent","scenarios":"absent","judges":"absent","feedback":"absent","gateway":"absent","codingAgents":"absent"}}}
+HTTP 200
+
+relevant log lines:
+{"level": "info", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "ccc60873c117cadae34d87dd79339eb6", "spanId": "95eac0c760e6a1d3", "projectId": "project_0006OwtogsB9oavtuHquw9Co4tAGx", "userId": "<masked>", "path": "dashboards.sourcePresence", "type": "query", "duration": 57, "userAgent": "curl/7.88.1", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "curl", "method": "GET", "url": "/api/trpc/dashboards.sourcePresence", "statusCode": 200, "duration": 62, "userAgent": "curl/7.88.1", "msg": "request handled"}
