@@ -1,0 +1,9 @@
+=== case 8
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projdown-key>
+body: {"sql": "SELECT 'pm-8-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"clickhouse_unavailable","message":"Database temporarily unavailable","retryable":false,"meta":{"reasons":[{"code":"unknown","message":"unknown","retryable":false}]},"trace_id":"8be2ddf63ea84300ecfe18b39ddb4a9f","span_id":"45b6e7b7353e0e96","trace":{"traceId":"8be2ddf63ea84300ecfe18b39ddb4a9f","spanId":"45b6e7b7353e0e96"},"tips":["This is a temporary platform issue; retry in a few seconds","If it persists, check the LangWatch status page or contact support"],"fault":"platform"}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:03:17 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:03:17 UTC
+rows on PRIVATE: 0

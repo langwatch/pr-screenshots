@@ -1,0 +1,19 @@
+=== case 4b
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projshared-key>
+body: {"sql": "SELECT 'pm-4b-' AS marker, count() AS traces FROM proof_shared.traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"columns":[{"name":"marker","type":"String"},{"name":"traces","type":"UInt64"}],"rows":[{"marker":"pm-4b-","traces":1}],"statistics":{"elapsedMs":4,"rowsRead":2,"bytesRead":116,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":false,"followsGranularity":false,"params":{}}
+HTTP 200
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:02:55 UTC
+Row 1:
+──────
+event_time:       2026-11-04 13:02:55
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_shared
+databases:        ['proof_shared']
+tables:           ['proof_shared.lwql_api_key_tenant_map','proof_shared.trace_summaries','proof_shared.traces']
+query_head:       SELECT 'pm-4b-' AS marker, count() AS traces FROM proof_shared.traces WHERE OccurredAt > now() - INTERVAL 1 DAY LIMIT 10000 FORMAT JSON
+rows on SHARED: 1
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:02:55 UTC
+rows on PRIVATE: 0

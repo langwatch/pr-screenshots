@@ -1,0 +1,9 @@
+=== case 6c
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projprivate-key>
+body: {"sql": "SELEC nonsense 'pm-6c-' FROM"}
+{"type":"bad_request","code":"lwql_unparseable","message":"The submitted SQL could not be parsed.","retryable":false,"meta":{"violations":[{"code":"PARSE_FAILED","clause":"statement","message":"This is not valid ClickHouse SQL. Check the syntax and try again.","hint":"Check the SQL against standard ClickHouse SELECT syntax and try again.","at":{"line":1,"column":1}}]},"trace_id":"3d96b4204bc0fe1af40fdb04671209b1","span_id":"56e2fe967b413a44","trace":{"traceId":"3d96b4204bc0fe1af40fdb04671209b1","spanId":"56e2fe967b413a44"},"tips":["Read `meta.violations`; each entry carries the line and column the parser stopped at","The endpoint accepts native ClickHouse SQL; check for an unclosed quote, bracket, or parenthesis first"],"fault":"customer"}
+HTTP 400
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:03:08 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:03:08 UTC
+rows on PRIVATE: 0

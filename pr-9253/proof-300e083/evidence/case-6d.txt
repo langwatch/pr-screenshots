@@ -1,0 +1,9 @@
+=== case 6d
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projftp-key>
+body: {"sql": "SELEC nonsense 'pm-6d-' FROM"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"36d7eba25d94d751c1bb41552fccbd67","span_id":"24605d8fc3aa8bd6","trace":{"traceId":"36d7eba25d94d751c1bb41552fccbd67","spanId":"24605d8fc3aa8bd6"}}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:03:11 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:03:11 UTC
+rows on PRIVATE: 0

@@ -1,0 +1,19 @@
+=== case 1a
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projprivate-key>
+body: {"sql": "SELECT 'pm-1a-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"columns":[{"name":"marker","type":"String"},{"name":"traces","type":"UInt64"}],"rows":[{"marker":"pm-1a-","traces":1}],"statistics":{"elapsedMs":4,"rowsRead":2,"bytesRead":118,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":false,"followsGranularity":false,"params":{}}
+HTTP 200
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:02:41 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:02:41 UTC
+Row 1:
+──────
+event_time:       2026-11-04 13:02:41
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_head:       SELECT 'pm-1a-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY LIMIT 10000 FORMAT JSON
+rows on PRIVATE: 1

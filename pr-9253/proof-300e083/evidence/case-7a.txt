@@ -1,0 +1,9 @@
+=== case 7a
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projprivate-key>
+body: {"sql": "SELECT 'pm-7a-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY", "projects": ["projprivate", "projshared"]}
+{"type":"not_found","code":"project_not_found","message":"Project not found","retryable":false,"trace_id":"0e218b8626ccef6d57b2b8fefe6d391e","span_id":"535ab17a9e62abc5","trace":{"traceId":"0e218b8626ccef6d57b2b8fefe6d391e","spanId":"535ab17a9e62abc5"},"fault":"customer"}
+HTTP 404
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:03:13 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:03:13 UTC
+rows on PRIVATE: 0

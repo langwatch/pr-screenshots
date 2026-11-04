@@ -1,0 +1,27 @@
+## case 5a trace 4388068ba5ab422bc6d8844109e62ad5
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgnoroute"}
+{"level": "error", "logger": "langwatch:stores:private-dataplane", "msg": "Private dataplane unavailable: refusing the organization's reads and writes", "organizationId": "orgnoroute", "variable": "CLICKHOUSE_URL__proof__orgnoroute", "problem": "missing"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+{"level": "warn", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+## case 5b trace c3ed7fa630fa9b670dcf2dfde588f9b1
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgbadroute"}
+{"level": "warn", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+{"level": "error", "logger": "langwatch:stores:private-dataplane", "msg": "Private dataplane unavailable: refusing the organization's reads and writes", "organizationId": "orgbadroute", "variable": "CLICKHOUSE_URL__badlabel__orgbadroute", "problem": "malformed"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+## case 5c trace 4e290d6dcf490ad2fc6d28fa061c13a6
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgftp"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+## case 6a trace 53c29f3dca2282481ef5ff0e5d786913
+{"level": "warn", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+## case 6b trace eab483f7e4e202d3123b9e380fac8bf2
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+{"level": "warn", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "private_dataplane_unavailable", "error.type": "PrivateDataplaneUnavailableError", "error.message": "This organization keeps its data on its own ClickHouse, which this deployment cannot reach"}
+## case 6d trace 36d7eba25d94d751c1bb41552fccbd67
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+## case 8 trace 8be2ddf63ea84300ecfe18b39ddb4a9f
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgdown"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "clickhouse_unavailable", "error.type": "ClickHouseUnavailableError", "error.message": "Database temporarily unavailable"}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "clickhouse_unavailable", "error.type": "ClickHouseUnavailableError", "error.message": "Database temporarily unavailable"}

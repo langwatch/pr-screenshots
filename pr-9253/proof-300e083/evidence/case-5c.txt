@@ -1,0 +1,9 @@
+=== case 5c
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projftp-key>
+body: {"sql": "SELECT 'pm-5c-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"4e290d6dcf490ad2fc6d28fa061c13a6","span_id":"1099642be84ef368","trace":{"traceId":"4e290d6dcf490ad2fc6d28fa061c13a6","spanId":"1099642be84ef368"}}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 13:03:02 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 13:03:02 UTC
+rows on PRIVATE: 0

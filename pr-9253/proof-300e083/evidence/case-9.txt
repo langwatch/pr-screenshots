@@ -1,0 +1,30 @@
+=== case 9
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <projprivate-key>
+body: {"sql": "SELECT 'pm-9-' AS marker, count() AS traces FROM traces WHERE OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime}", "timeWindow": {"start": "2026-11-03T13:16:12.000Z", "end": "2026-11-04T14:16:12.000Z"}}
+{"columns":[{"name":"marker","type":"String"},{"name":"traces","type":"UInt64"}],"rows":[{"marker":"pm-9-","traces":1}],"statistics":{"elapsedMs":11,"rowsRead":3,"bytesRead":190,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"completeness":{"state":"complete","unit":"traces","total":1,"fields":[]},"params":{"period":{"start":"2026-11-03T13:16:12.000Z","end":"2026-11-04T14:16:12.000Z"}}}
+HTTP 200
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), LangWatchQL identity, since 2026-11-04 13:16:12 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), LangWatchQL identity, since 2026-11-04 13:16:12 UTC
+Row 1:
+──────
+event_time:       2026-11-04 13:16:12
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_text:       SELECT 'pm-9-' AS marker, count() AS traces FROM traces WHERE (OccurredAt >= _CAST(1793711772, 'DateTime')) AND (OccurredAt < _CAST(1793801772, 'DateTime')) LIMIT 10000 FORMAT JSON
+
+Row 2:
+──────
+event_time:       2026-11-04 13:16:12
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_text:       SELECT count() AS n FROM proof_private.traces WHERE (OccurredAt >= _CAST(1793711772, 'DateTime')) AND (OccurredAt < _CAST(1793801772, 'DateTime')) FORMAT JSON
+rows on PRIVATE: 2
