@@ -1,0 +1,22 @@
+head 05e2c99b1083b541498fd4cb25968502992eeffc
+CASE E
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 200
+response (first 1500 chars): {"result":{"data":{"columns":[{"name":"traces","type":"UInt64"}],"rows":[{"traces":0}],"statistics":{"elapsedMs":10,"rowsRead":2,"bytesRead":189,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"completeness":{"state":"no_traffic","unit":"traces","total":0,"fields":[]},"params":{"period":{"start":"2026-10-01T00-00-00.000Z","end":"2026-11-04T00-00-00.000Z"},"dashboard_context_sources":["application"]}}}}
+
+app log lines in the request window (21 total, 3 relevant):
+{"level": "info", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "8dceb35bc56e06eac689a91c4894f296", "spanId": "1dc582c33d8f71e1", "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 133, "userAgent": "Python-urllib/3.11", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 200, "duration": 154, "userAgent": "Python-urllib/3.11", "msg": "request handled"}
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:ops:platform-operators", "service": "langwatch-app", "traceId": "3159636328519a85229a6677a09b5b54", "spanId": "a07d828b98140d7a", "reason": "the hosted service never bootstraps; staff are granted by the task", "msg": "no platform operator was seeded; run `pnpm --filter @langwatch/tasks task grant-platform-operator <email>` to grant one"}

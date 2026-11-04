@@ -1,0 +1,11 @@
+head 05e2c99b1083b541498fd4cb25968502992eeffc
+CASE G0
+door: GET /api/trpc/dashboards.sourcePresence?input={projectId} (signed-in session cookie); six fixed probe statements
+{"result":{"data":{"traces":"absent","scenarios":"absent","judges":"absent","feedback":"failed","gateway":"absent","codingAgents":"absent"}}}
+HTTP 200
+
+relevant log lines:
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:dashboard:source-presence", "service": "langwatch-app", "traceId": "f508cc840657a01dc424f06e65265f4e", "spanId": "4ad8636dfdc4e377", "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx", "userId": "<masked>", "error": {"type": "POSTGRESQL_CONNECTION_FAILURE", "message": "Try 2. Connection to <host-and-port> failed with error: connection to server at \\\"<container>\\\" (<ip>), port <port> failed: Connection refused\\n\\tIs the server running on that host and accepting TCP\\/IP connections?\\n\\n. ", "code": "614"}, "source": "feedback", "msg": "dashboard source presence query failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "f508cc840657a01dc424f06e65265f4e", "spanId": "4ad8636dfdc4e377", "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx", "userId": "<masked>", "origin": "built_in", "errorCode": "614", "source": "feedback", "msg": "built-in LangWatchQL statement failed"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "f508cc840657a01dc424f06e65265f4e", "spanId": "4ad8636dfdc4e377", "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx", "userId": "<masked>", "path": "dashboards.sourcePresence", "type": "query", "duration": 35, "userAgent": "curl/7.88.1", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "curl", "method": "GET", "url": "/api/trpc/dashboards.sourcePresence", "statusCode": 200, "duration": 43, "userAgent": "curl/7.88.1", "msg": "request handled"}

@@ -1,0 +1,21 @@
+head 05e2c99b1083b541498fd4cb25968502992eeffc
+CASE C
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx",
+ "sql": "SELECT uniqExact(TraceIdd) AS traces FROM trace_metrics",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 400
+response (first 8000 chars): {"error":{"message":"lwql_unknown_identifier","code":-32600,"data":{"code":"BAD_REQUEST","httpStatus":400,"path":"analytics.lwql.query","cause":null,"error":{"code":"lwql_unknown_identifier","kind":"lwql_unknown_identifier","meta":{"identifier":"TraceIdd"},"traceId":"bc9103ac4d76d6903d7e25995d777c5a","spanId":"d37544d7b9a92c84","httpStatus":400,"fault":"customer","retryable":false,"tips":["Check the column name against the dataset's columns; a typo is the usual cause","Column existence is only known when the query runs, so a saved chart can carry this until it is run"],"reasons":[{"code":"unknown","kind":"unknown","retryable":false}]},"authored":false,"traceId":"bc9103ac4d76d6903d7e25995d777c5a"}}}
+
+app log lines in the request window (21 total, 2 relevant):
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "bc9103ac4d76d6903d7e25995d777c5a", "spanId": "d37544d7b9a92c84", "projectId": "project_0005kNLdpk1bkRwBsEalWGWMEzcXx", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 25, "userAgent": "Python-urllib/3.11", "statusCode": 400, "error": {"type": "TRPCError", "message": "The query names a column that does not exist: TraceIdd.: The query names a column that does not exist: TraceIdd.", "code": "BAD_REQUEST", "name": "TRPCError", "cause": {"type": "LangWatchQLUnknownIdentifierError", "message": "The query names a column that does not exist: TraceIdd.", "code": "lwql_unknown_identifier", "isHandled": true, "meta": {"identifier": "TraceIdd"}, "traceId": "bc9103ac4d76d6903d7e25995d777c5a", "spanId": "d37544d7b9a92c84", "httpStatus": 400, "fault": "customer", "retryable": false, "tips": ["Check the column name against the dataset's columns; a typo is the usual cause", "Column existence is only known when the query runs, so a saved chart can carry this until it is run"], "reasons": [{"code": "47", "type": "UNKNOWN_IDENTIFIER"}], "name": "LangWatchQLUnknownIdentifierError"}}, "handledErrorCode": "lwql_unknown_identifier", "handledErrorFault": "customer", "msg": "trpc call"}
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 400, "duration": 31, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLUnknownIdentifierError", "message": "The query names a column that does not exist: TraceIdd.", "code": "lwql_unknown_identifier"}, "errorType": "LangWatchQLUnknownIdentifierError", "handledErrorCode": "lwql_unknown_identifier", "handledErrorFault": "customer", "msg": "error handling request"}
