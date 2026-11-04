@@ -1,0 +1,48 @@
+=== case 1: private org (orgprivate / projprivate)
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_PRIVATE>
+body: {"sql":"SELECT 'proof9253-case1' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"columns":[{"name":"marker","type":"String"},{"name":"traces","type":"UInt64"}],"rows":[{"marker":"proof9253-case1","traces":1}],"statistics":{"elapsedMs":9,"rowsRead":2,"bytesRead":118,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":false,"followsGranularity":false,"params":{}}
+HTTP 200
+
+=== case 2: shared org (orgshared / projshared)
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_SHARED>
+body: {"sql":"SELECT 'proof9253-case2' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"columns":[{"name":"marker","type":"String"},{"name":"traces","type":"UInt64"}],"rows":[{"marker":"proof9253-case2","traces":1}],"statistics":{"elapsedMs":7,"rowsRead":2,"bytesRead":116,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":false,"followsGranularity":false,"params":{}}
+HTTP 200
+
+=== case 3: private org, route missing (orgnoroute / projnoroute)
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_NOROUTE>
+body: {"sql":"SELECT 'proof9253-case3' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"606f0922cbbfc2852e87890a1a4667fe","span_id":"18598ec0e96b7194","trace":{"traceId":"606f0922cbbfc2852e87890a1a4667fe","spanId":"18598ec0e96b7194"}}
+HTTP 503
+
+=== case 4 attempt: projprivate key naming projprivate + projshared
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_PRIVATE>
+body: {"sql":"SELECT 'proof9253-case4' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY","projects":["projprivate","projshared"]}
+{"type":"not_found","code":"project_not_found","message":"Project not found","retryable":false,"trace_id":"468947a63a59b2c9e8e7fd285cd2fd1c","span_id":"8db7d572180d691f","trace":{"traceId":"468947a63a59b2c9e8e7fd285cd2fd1c","spanId":"8db7d572180d691f"},"fault":"customer"}
+HTTP 404
+
+=== case 4 attempt: projshared key naming projshared + projprivate
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_SHARED>
+body: {"sql":"SELECT 'proof9253-case4b' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY","projects":["projshared","projprivate"]}
+{"type":"not_found","code":"project_not_found","message":"Project not found","retryable":false,"trace_id":"870b4e95ace972cc344b8aa8336449eb","span_id":"801326684da13b22","trace":{"traceId":"870b4e95ace972cc344b8aa8336449eb","spanId":"801326684da13b22"},"fault":"customer"}
+HTTP 404
+
+=== system.query_log on the SHARED ClickHouse (port 18123), LangWatchQL identity, since 2026-11-04 09:18:52 UTC
+   ┌──────────event_time─┬─user─────────────────┬─type────────┬─current_database─┬─query_head─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+1. │ 2026-11-04 09:18:52 │ langwatch_lwql_proof │ QueryFinish │ proof_shared     │ SELECT 'proof9253-case2' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY LI │
+   └─────────────────────┴──────────────────────┴─────────────┴──────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+--- marker counts on the SHARED server:
+   ┌─marker──────────┬─statements─┐
+1. │ proof9253-case2 │          1 │
+   └─────────────────┴────────────┘
+
+=== system.query_log on the PRIVATE ClickHouse (port 18124), LangWatchQL identity, since 2026-11-04 09:18:52 UTC
+   ┌──────────event_time─┬─user─────────────────┬─type────────┬─current_database─┬─query_head─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+1. │ 2026-11-04 09:18:52 │ langwatch_lwql_proof │ QueryFinish │ proof_private    │ SELECT 'proof9253-case1' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY LI │
+   └─────────────────────┴──────────────────────┴─────────────┴──────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+--- marker counts on the PRIVATE server:
+   ┌─marker──────────┬─statements─┐
+1. │ proof9253-case1 │          1 │
+   └─────────────────┴────────────┘
+
