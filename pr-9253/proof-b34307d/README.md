@@ -5,7 +5,7 @@ Head SHA proven: `b34307d192dd288bb58cf59518ac42bb2eaba958` (branch `fix/lwql-pr
 
 Local stack, seeded with SQL, no customer data. Test ids and passwords were generated per run; the app and both ClickHouse servers ran on 127.0.0.1 only.
 
-Later head `794543e1249ed7993e64bdd3dac94e85bcd191bc` changes only `specs/lwql/api.feature`, so this proof was not re-run on it.
+Later head `8d6d580bf4e48bf905f1857d6885b58385eb3f3a` changes only `specs/lwql/api.feature`, so this proof was not re-run on it.
 
 Setup scripts are not published; the `scripts/` names below describe the steps.
 
