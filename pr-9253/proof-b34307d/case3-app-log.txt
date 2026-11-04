@@ -1,0 +1,3 @@
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgnoroute"}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
