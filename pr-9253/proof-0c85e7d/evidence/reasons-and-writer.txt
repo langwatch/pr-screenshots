@@ -1,0 +1,18 @@
+=== (1) refusal reason per request: logger, msg, error.code, error.reasons[].message (stack not copied)
+B1 langwatch:api:rest | REST request failed | code: lwql_unavailable | reasons: ['bad name shape']
+B2 langwatch:api:rest | REST request failed | code: lwql_unavailable | reasons: ['bad name shape']
+B3 langwatch:api:rest | REST request failed | code: lwql_unavailable | reasons: ['bad name shape']
+D langwatch:api:rest | REST request failed | code: lwql_unavailable | reasons: ['reserved database']
+E langwatch:api:rest | REST request failed | code: lwql_unavailable | reasons: ['bad name shape']
+
+=== (2) worker event-store failures in the whole log, by organization and error (counts at the time of this read)
+28 ('orgacme', 'UNKNOWN_DATABASE', 'Database AcmeDB does not exist. ')
+28 ('orgbadroute', 'PrivateDataplaneUnavailableError', 'This organization keeps its data on its own ClickHouse, which this deployment cannot reach')
+28 ('orgdash', 'UNKNOWN_DATABASE', 'Database `acme-db` does not exist. ')
+28 ('orgnoroute', 'PrivateDataplaneUnavailableError', 'This organization keeps its data on its own ClickHouse, which this deployment cannot reach')
+28 ('orgsys', 'UNKNOWN_TABLE', 'Table system.event_log does not exist. Maybe you meant system.text_log?. : Table system.ev')
+
+=== (2b) the same path on the private server: failed statements of the server's admin user naming the route databases, since start (system.query_log)
+LangWatchQL identity, any statement naming AcmeDB / acme-db / system.event_log, either server:
+0
+0

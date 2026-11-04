@@ -1,0 +1,11 @@
+=== case D
+POST http://127.0.0.1:45560/api/v1/query   X-Auth-Token: <K_SYS>
+body: {"sql": "SELECT 'pm-D-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"8fc54f32a0fe350c50085efef31b6c07","span_id":"bff2ba2ea9568909","trace":{"traceId":"8fc54f32a0fe350c50085efef31b6c07","spanId":"bff2ba2ea9568909"}}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), LangWatchQL identity, since 2026-11-04 16:39:36 UTC
+rows on SHARED (LangWatchQL identity): 0
+rows on SHARED (any user, marker pm-D-): 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), LangWatchQL identity, since 2026-11-04 16:39:36 UTC
+rows on PRIVATE (LangWatchQL identity): 0
+rows on PRIVATE (any user, marker pm-D-): 0

@@ -1,0 +1,4 @@
+   ┌─user────┬─current_database─┬─exception_code─┬──n─┐
+1. │ default │ proof_private    │             60 │ 21 │
+2. │ default │ system           │             60 │ 74 │
+   └─────────┴──────────────────┴────────────────┴────┘

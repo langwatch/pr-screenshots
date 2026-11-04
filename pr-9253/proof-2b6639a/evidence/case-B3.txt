@@ -1,0 +1,9 @@
+=== case B3
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_DASH>
+body: {"sql": "SELECT 'pm-B3-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"f61f7cbef7ffb560d82cebb3147f5a77","span_id":"18f3d2ebb1b845bc","trace":{"traceId":"f61f7cbef7ffb560d82cebb3147f5a77","spanId":"18f3d2ebb1b845bc"}}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 15:37:45 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 15:37:45 UTC
+rows on PRIVATE: 0

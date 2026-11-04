@@ -1,0 +1,9 @@
+=== case 5a
+POST http://127.0.0.1:15560/api/v1/query   X-Auth-Token: <K_NOROUTE>
+body: {"sql": "SELECT 'pm-5a-' AS marker, count() AS traces FROM traces WHERE OccurredAt > now() - INTERVAL 1 DAY"}
+{"type":"internal_error","code":"private_dataplane_unavailable","message":"This organization keeps its data on its own ClickHouse, which this deployment cannot reach","retryable":false,"meta":{"organizationId":"orgnoroute","kind":"clickhouse","variable":"CLICKHOUSE_URL__proof__orgnoroute","problem":"missing"},"trace_id":"518bb0b4e2f8c7eb5574bd2717f53140","span_id":"cf5faf7dc49e8306","trace":{"traceId":"518bb0b4e2f8c7eb5574bd2717f53140","spanId":"cf5faf7dc49e8306"},"tips":["Set the variable this error names (CLICKHOUSE_URL__<label>__<orgId> or DATAPLANE_S3__<label>__<orgId>) and restart the api and worker","If it is set, check its value parses: a ClickHouse URL, or S3 JSON with endpoint, bucket, accessKeyId and secretAccessKey"],"fault":"platform"}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), statements of this case, since 2026-11-04 15:34:31 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), statements of this case, since 2026-11-04 15:34:31 UTC
+rows on PRIVATE: 0

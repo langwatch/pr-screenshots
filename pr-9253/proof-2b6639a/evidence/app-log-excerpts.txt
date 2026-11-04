@@ -1,0 +1,14 @@
+=== A1 trace 9207035344e29a2a7c26e555c48de3f8
+{"level": "warn", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 422}
+=== B1 trace be309eaa2839878f1c4a231406575064
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgdash"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+=== B2 trace 5c783d16dadc8ae30e1f211138fbcdd8
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+=== B3 trace f61f7cbef7ffb560d82cebb3147f5a77
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgdash"}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+=== 5a trace 518bb0b4e2f8c7eb5574bd2717f53140

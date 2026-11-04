@@ -1,0 +1,31 @@
+=== app log lines of case D (trace 8fc54f32a0fe350c50085efef31b6c07), level warn/error, selected fields
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgsys"}
+{"level": "info", "logger": "langwatch:legacy-project-key", "msg": "legacy project key request", "organizationId": "orgsys"}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+keys of every JSON line mentioning the trace (to see whether a reason field exists):
+['api_key.type', 'client.address', 'clientSource', 'credentialType', 'duration', 'endpointClass', 'enforced', 'error', 'error.code', 'error.fault', 'error.httpStatus', 'error.isHandled', 'error.message', 'error.meta', 'error.name', 'error.reasons', 'error.retryable', 'error.spanId', 'error.stack', 'error.tips', 'error.traceId', 'error.type', 'family', 'grantedBy', 'handledErrorCode', 'handledErrorFault', 'hostname', 'level', 'method', 'msg', 'name', 'organizationId', 'path', 'permission', 'pid', 'projectId', 'route', 'routeScopes', 'scopeFlagGranted', 'service', 'spanId', 'statusCode', 'suppressed', 'time', 'traceId', 'url', 'userAgent']
+=== app log lines of case E (trace 77dd5778cc29b82ca391cc307ebd4c22), level warn/error, selected fields
+{"level": "warn", "logger": "langwatch:legacy-project-key", "msg": "legacy project key outside its scopes", "organizationId": "orgacme"}
+{"level": "info", "logger": "langwatch:legacy-project-key", "msg": "legacy project key request", "organizationId": "orgacme"}
+{"level": "error", "logger": "langwatch:api:rest", "msg": "REST request failed", "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+{"level": "error", "logger": "langwatch:api:hono", "msg": "error handling request", "statusCode": 503, "error.code": "lwql_unavailable", "error.type": "LangWatchQLUnavailableError", "error.message": "LangWatchQL is not available for this organization's ClickHouse."}
+keys of every JSON line mentioning the trace (to see whether a reason field exists):
+['api_key.type', 'client.address', 'clientSource', 'credentialType', 'duration', 'endpointClass', 'enforced', 'error', 'error.code', 'error.fault', 'error.httpStatus', 'error.isHandled', 'error.message', 'error.meta', 'error.name', 'error.reasons', 'error.retryable', 'error.spanId', 'error.stack', 'error.tips', 'error.traceId', 'error.type', 'family', 'grantedBy', 'handledErrorCode', 'handledErrorFault', 'hostname', 'level', 'method', 'msg', 'name', 'organizationId', 'path', 'permission', 'pid', 'projectId', 'route', 'routeScopes', 'scopeFlagGranted', 'service', 'spanId', 'statusCode', 'suppressed', 'time', 'traceId', 'url', 'userAgent']
+=== reason texts anywhere in the whole log
+'reserved database': 1
+'bad name shape': 4
+=== route URL and password anywhere in the whole log (counts; -F fixed strings)
+'127.0.0.1:48124/system': 0
+'127.0.0.1:48124/AcmeDB': 0
+'48124/system': 0
+'48124/AcmeDB': 0
+'AcmeDB': 56
+'acme-db': 56
+'default:': 0
+'http://default': 0
+'@127.0.0.1:48124': 0
+CH_PASSWORD value: 0
+=== log lines of D and E only: any of the above
+trace 8fc54f32a0fe350c50085efef31b6c07: password 0, '48124' 0, '/system' 0, 'AcmeDB' 0, 'default:' 0
+trace 77dd5778cc29b82ca391cc307ebd4c22: password 0, '48124' 0, '/system' 0, 'AcmeDB' 0, 'default:' 0

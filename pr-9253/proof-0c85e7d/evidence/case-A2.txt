@@ -1,0 +1,41 @@
+=== case A2
+POST http://127.0.0.1:45560/api/v1/instant-evals   X-Auth-Token: <K_PRIVATE>
+body: {"sql": "SELECT TraceId, 'pm-A2-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM proof_private.traces"}
+{"id":"instanteval_0003J5Ta1qhAW3ha3ckEhvEZqPTd2","name":null,"sql":"SELECT TraceId, 'pm-A2-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM proof_private.traces","parameters":{},"questions":[{"id":"polite","function":"eval","kind":"boolean","reads":"probability","threshold":0.5}],"limit":10000,"status":"queued","total":null,"progress":0,"matched":null,"matchedByQuestion":{},"failed":0,"skipped":0,"tokens":0,"priceUsd":0,"error":null,"createdAt":"2026-11-04T16:39:21.295Z","updatedAt":"2026-11-04T16:39:21.295Z","startedAt":null,"finishedAt":null}
+HTTP 202
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), LangWatchQL identity, since 2026-11-04 16:39:21 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), LangWatchQL identity, since 2026-11-04 16:39:21 UTC
+Row 1:
+──────
+event_time:       2026-11-04 16:39:21
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_text:       SELECT * FROM ( SELECT TraceId, 'pm-A2-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM proof_private.traces ) AS q LIMIT 0 FORMAT JSON
+
+Row 2:
+──────
+event_time:       2026-11-04 16:39:21
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_text:       SELECT * FROM ( SELECT TraceId, 'pm-A2-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM proof_private.traces ) AS q LIMIT 0 FORMAT JSON
+
+Row 3:
+──────
+event_time:       2026-11-04 16:39:21
+user:             langwatch_lwql_proof
+type:             QueryFinish
+exception_code:   0
+current_database: proof_private
+databases:        ['proof_private']
+tables:           ['proof_private.lwql_api_key_tenant_map','proof_private.trace_summaries','proof_private.traces']
+query_text:       SELECT count() AS total FROM ( SELECT q.TraceId FROM ( SELECT TraceId, 'pm-A2-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM proof_private.traces ) AS q LIMIT 10001 ) AS c FORMAT JSON
+rows on PRIVATE: 3

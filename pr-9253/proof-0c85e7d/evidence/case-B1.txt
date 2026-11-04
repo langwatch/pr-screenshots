@@ -1,0 +1,9 @@
+=== case B1
+POST http://127.0.0.1:45560/api/v1/instant-evals   X-Auth-Token: <K_DASH>
+body: {"sql": "SELECT TraceId, 'pm-B1-' AS marker, eval(CapturedOutput, 'The answer is polite') AS polite FROM traces"}
+{"type":"internal_error","code":"internal_error","message":"An unknown error occurred","retryable":false,"trace_id":"b0dcda475068711c8d2982dbaeed3ee7","span_id":"fda4c5016eb35f5a","trace":{"traceId":"b0dcda475068711c8d2982dbaeed3ee7","spanId":"fda4c5016eb35f5a"}}
+HTTP 503
+--- system.query_log on the SHARED ClickHouse (database name proof_shared), LangWatchQL identity, since 2026-11-04 16:39:27 UTC
+rows on SHARED: 0
+--- system.query_log on the PRIVATE ClickHouse (database name proof_private), LangWatchQL identity, since 2026-11-04 16:39:27 UTC
+rows on PRIVATE: 0

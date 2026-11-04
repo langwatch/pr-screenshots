@@ -1,0 +1,23 @@
+=== case C (private proof ClickHouse, throwaway names)
+--- CREATE DATABASE `pm-c-db`
+
+--- CREATE TABLE `pm-c-db`.t (x UInt8) ENGINE = Memory
+
+--- INSERT INTO `pm-c-db`.t VALUES (1)
+
+--- SELECT count() FROM `pm-c-db`.t
+1
+
+--- SELECT count() FROM pm-c-db.t
+Code: 62. DB::Exception: Syntax error: failed at position 23 (-): -c-db.t. Expected one of: token sequence, Dot, token, OpeningRoundBracket, UUID, alias, AS, identifier, FINAL, SAMPLE, table, table function, subquery or list of joined tables, array join, LEFT ARRAY JOIN, INNER, ARRAY JOIN, GLOBAL, LOCAL, ANY, ALL, ASOF, SEMI, ANTI, ONLY, LEFT, RIGHT, FULL, CROSS, PASTE, JOIN, PREWHERE, WHERE, GROU
+--- SELECT count() FROM pm_c_db.t
+Code: 81. DB::Exception: Database pm_c_db does not exist. Maybe you meant `pm-c-db`?. (UNKNOWN_DATABASE) (version 25.10.2.65 (official build))
+
+--- as the dialled database (client option, no SQL text): ?database=pm-c-db
+1
+
+--- as the dialled database: ?database=acme-db (does not exist here)
+Code: 81. DB::Exception: Database `acme-db` does not exist. (UNKNOWN_DATABASE) (version 25.10.2.65 (official build))
+
+--- DROP DATABASE `pm-c-db`
+
