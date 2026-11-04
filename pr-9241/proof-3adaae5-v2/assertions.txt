@@ -1,0 +1,4 @@
+board {"h1":["My dashboard"],"oldNotice":false,"openAnalyticsLink":false,"errorCard":false,"retryButton":false,"badApiResponses":[],"url":"http://localhost:5700/proof-9241-KibIqG/dashboards/dashboard_00081NVkqBODhq62zDuE7IGYobhVR"}
+curated {"h1":["Release check"],"oldNotice":false,"openAnalyticsLink":false,"errorCard":false,"retryButton":false,"badApiResponses":[],"url":"http://localhost:5700/proof-9241-KibIqG/dashboards/curated/release"}
+templates {"h1":["Dashboard templates","Grow","Protect"],"oldNotice":false,"openAnalyticsLink":false,"errorCard":false,"retryButton":false,"badApiResponses":[],"url":"http://localhost:5700/proof-9241-KibIqG/dashboards/templates"}
+ALL ASSERTIONS PASSED
