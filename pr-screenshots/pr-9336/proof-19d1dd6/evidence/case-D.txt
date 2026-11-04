@@ -1,0 +1,19 @@
+head 19d1dd6e7879c83ecd16c39e8303978ee0b0732a
+CASE D
+door: POST /api/v1/query (X-Auth-Token project key)
+request body (project id is a local invented one):
+{
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00:00:00Z",
+  "end": "2026-11-04T00:00:00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 400
+response (first 1500 chars): {"type":"bad_request","code":"lwql_unknown_identifier","message":"The query names a column that does not exist.","retryable":false,"meta":{"reasons":[{"code":"unknown","message":"unknown","retryable":false}]},"trace_id":"07e46690710fb83ad408dd4508f7835b","span_id":"240c16b96ba80d47","trace":{"traceId":"07e46690710fb83ad408dd4508f7835b","spanId":"240c16b96ba80d47"},"tips":["Check the column name against the dataset's columns; a typo is the usual cause","Column existence is only known when the query runs, so a saved chart can carry this until it is run"],"fault":"customer"}
+
+app log lines in the request window (20 total, 1 relevant):
+{"level": "warn", "time": "2026-11-04T21:10:13.226Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "traceId": "07e46690710fb83ad408dd4508f7835b", "spanId": "240c16b96ba80d47", "route": "POST /", "family": "query", "client.address": "<masked>", "api_key.type": "legacy_project_key", "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp", "credentialType": "legacy_project_key", "endpointClass": "api", "clientSource": "unknown", "method": "POST", "url": "/api/v1/query", "statusCode": 400, "duration": 29, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLUnknownIdentifierError", "message": "The query names a column that does not exist.", "code": "lwql_unknown_identifier"}, "errorType": "LangWatchQLUnknownIdentifierError", "handledErrorCode": "lwql_unknown_identifier", "handledErrorFault": "customer", "msg": "error handling request"}

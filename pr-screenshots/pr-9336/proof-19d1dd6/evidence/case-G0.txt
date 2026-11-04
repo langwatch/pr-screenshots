@@ -1,0 +1,11 @@
+head 19d1dd6e7879c83ecd16c39e8303978ee0b0732a
+CASE G0
+door: GET /api/trpc/dashboards.sourcePresence?input={projectId} (signed-in session cookie); six fixed probe statements
+{"result":{"data":{"traces":"absent","scenarios":"absent","judges":"absent","feedback":"failed","gateway":"absent","codingAgents":"absent"}}}
+HTTP 200
+
+relevant log lines:
+{"level": "warn", "time": "2026-11-04T21:11:31.049Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:dashboard:source-presence", "service": "langwatch-app", "traceId": "17b97af86b44a61e104b1cd91daec0cd", "spanId": "1867ebe9739625a7", "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp", "userId": "<masked>", "error": {"type": "POSTGRESQL_CONNECTION_FAILURE", "message": "Try 2. Connection to `pg9336:55432` failed with error: connection to server at \\\"pg9336\\\" (<docker-ip>), port 55432 failed: Connection refused\\n\\tIs the server running on that host and accepting TCP\\/IP connections?\\n\\n. ", "code": "614"}, "source": "feedback", "msg": "dashboard source presence query failed"}
+{"level": "error", "time": "2026-11-04T21:11:31.049Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "17b97af86b44a61e104b1cd91daec0cd", "spanId": "1867ebe9739625a7", "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp", "userId": "<masked>", "origin": "built_in", "errorCode": "614", "msg": "built-in LangWatchQL statement failed"}
+{"level": "info", "time": "2026-11-04T21:11:31.051Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "17b97af86b44a61e104b1cd91daec0cd", "spanId": "1867ebe9739625a7", "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp", "userId": "<masked>", "path": "dashboards.sourcePresence", "type": "query", "duration": 56, "userAgent": "curl/7.88.1", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "time": "2026-11-04T21:11:31.051Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "curl", "method": "GET", "url": "/api/trpc/dashboards.sourcePresence", "statusCode": 200, "duration": 76, "userAgent": "curl/7.88.1", "msg": "request handled"}

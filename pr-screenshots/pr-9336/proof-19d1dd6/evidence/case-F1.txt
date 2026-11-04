@@ -1,0 +1,24 @@
+head 19d1dd6e7879c83ecd16c39e8303978ee0b0732a
+CASE F1
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00:00:00Z",
+  "end": "2026-11-04T00:00:00Z"
+ },
+ "sources": [
+  "application"
+ ],
+ "projects": [
+  "project_invented_unreadable"
+ ]
+}
+HTTP 404
+response (first 1500 chars): {"error":{"message":"project_not_found","code":-32004,"data":{"code":"NOT_FOUND","httpStatus":404,"path":"analytics.lwql.query","cause":null,"error":{"code":"project_not_found","kind":"project_not_found","meta":{},"traceId":"9ae3b8348e25bbdaf4e4f7c03d034c8f","spanId":"2fb297fef9d83ef5","httpStatus":404,"fault":"customer","retryable":false,"reasons":[]},"authored":false,"traceId":"9ae3b8348e25bbdaf4e4f7c03d034c8f"}}}
+
+app log lines in the request window (2 total, 2 relevant):
+{"level": "warn", "time": "2026-11-04T21:10:18.283Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "9ae3b8348e25bbdaf4e4f7c03d034c8f", "spanId": "2fb297fef9d83ef5", "projectId": "project_0005U9EPD1OMbVLRlA5XwohnqJSHp", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 40, "userAgent": "Python-urllib/3.11", "statusCode": 404, "error": {"type": "TRPCError", "message": "Project not found: Project not found", "code": "NOT_FOUND", "name": "TRPCError", "cause": {"type": "LangWatchQLProjectNotFoundError", "message": "Project not found", "code": "project_not_found", "isHandled": true, "meta": {}, "traceId": "9ae3b8348e25bbdaf4e4f7c03d034c8f", "spanId": "2fb297fef9d83ef5", "httpStatus": 404, "fault": "customer", "retryable": false, "tips": [], "reasons": [], "name": "LangWatchQLProjectNotFoundError"}}, "handledErrorCode": "project_not_found", "handledErrorFault": "customer", "msg": "trpc call"}
+{"level": "warn", "time": "2026-11-04T21:10:18.287Z", "pid": 1221849, "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 404, "duration": 51, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLProjectNotFoundError", "message": "Project not found", "code": "project_not_found"}, "errorType": "LangWatchQLProjectNotFoundError", "handledErrorCode": "project_not_found", "handledErrorFault": "customer", "msg": "error handling request"}
