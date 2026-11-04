@@ -1,0 +1,8 @@
+-- 00124 at cd5ada009c8 on local ClickHouse 25.10.2.65, scratch database
+sorting_key:   TenantId, TraceId, SpanId, QuestionHash, JudgeModel, InputHash, JudgedColumn, SourceId, JudgedAt
+-- input and output with the same (empty) InputHash, SourceId and JudgedAt, after OPTIMIZE FINAL:
+input	0.5
+output	0.2
+-- reader: KeyVersion=1, latest judged per JudgedColumn by (JudgedAt, UpdatedAt, SourceId); a KeyVersion 0 row at 09:00 is skipped:
+input	0.5
+output	0.9
