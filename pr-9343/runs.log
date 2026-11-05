@@ -1,0 +1,32 @@
+$ gh run view 41996190791 -R langwatch/langwatch --json event,headSha,status,conclusion,url,jobs  # green case; changes, failed jobs, ci-complete, review; skipped call count
+pull_request head=7696d870a94d851abc2d03dbd29c565146715c8b completed success https://github.com/langwatch/langwatch/actions/runs/41996190791
+  changes: success started=2026-11-05T08:39:44Z completed=2026-11-05T08:39:54Z
+  ci-complete: success started=2026-11-05T08:41:22Z completed=2026-11-05T08:41:38Z
+  review: success started=2026-11-05T08:41:41Z completed=2026-11-05T08:42:45Z
+  jobs by result: skipped=29 success=24
+
+$ gh run view 41995278975 -R langwatch/langwatch --json event,headSha,status,conclusion,url,jobs  # red case; changes, failed jobs, ci-complete, review; skipped call count
+pull_request head=f5d07d69311bfabc904d470e539a32435b0887e3 completed failure https://github.com/langwatch/langwatch/actions/runs/41995278975
+  changes: success started=2026-11-05T08:32:42Z completed=2026-11-05T08:33:01Z
+  sdk-go / test: failure started=2026-11-05T08:33:14Z completed=2026-11-05T08:35:07Z
+  sdk-go / build: failure started=2026-11-05T08:33:14Z completed=2026-11-05T08:34:04Z
+  sdk-go / sdk-go-complete: failure started=2026-11-05T08:35:10Z completed=2026-11-05T08:35:12Z
+  ci-complete: failure started=2026-11-05T08:35:15Z completed=2026-11-05T08:35:32Z
+  review: skipped started=2026-11-05T08:35:33Z completed=2026-11-05T08:35:32Z
+  jobs by result: failure=4 skipped=19 success=6
+
+$ gh run view 41995283014 -R langwatch/langwatch --json event,headSha,status,conclusion,url,jobs  # skipped-calls case; changes, failed jobs, ci-complete, review; skipped call count
+pull_request head=fdf75ae856c753098cfe590f18b3ecd14fb2863d completed success https://github.com/langwatch/langwatch/actions/runs/41995283014
+  changes: success started=2026-11-05T08:32:43Z completed=2026-11-05T08:32:50Z
+  ci-complete: success started=2026-11-05T08:32:53Z completed=2026-11-05T08:33:12Z
+  review: success started=2026-11-05T08:33:15Z completed=2026-11-05T08:34:07Z
+  jobs by result: skipped=10 success=3
+
+$ gh api repos/langwatch/langwatch/pulls/9343/reviews  # bot reviews on the head
+github-actions[bot] COMMENTED 7696d870a94d851abc2d03dbd29c565146715c8b https://github.com/langwatch/langwatch/pull/9343#pullrequestreview-5782015601
+**@LangWatchReviewBot** The automated review could not run (infrastructure error: Claude/API failure, timeout, or unusable reviewer output). This check passes so it does not block the merge. A human must review this PR. Run: https://github.com/langwatch/langwatch/actions/runs/41996190791
+
+<!-- review-infra-error -->
+
+$ gh run view 41996190791 -R langwatch/langwatch --job 127140663843 --log | grep result  # why the bot could not post
+"result": "You've hit your weekly limit · resets Nov 6, 1pm (UTC)"
