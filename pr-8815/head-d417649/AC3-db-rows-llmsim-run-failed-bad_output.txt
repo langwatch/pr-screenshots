@@ -1,0 +1,13 @@
+== schedule row (llmsim-backed run, 13:02 UTC) ==
+ boardKind | boardId |   boardName   | hour | timezone | lastRunOutcome | lastRunReason | lastRunFiled |          lastRunConversationId          
+-----------+---------+---------------+------+----------+----------------+---------------+--------------+-----------------------------------------
+ template  | release | Release check |   13 | UTC      | failed         | bad_output    |            0 | langyconv_0004MameXjNxokZvpDr1tkSwj6qJu
+(1 row)
+
+== insight rows (both hand-filed via insights.file, NOT from a run) ==
+                  id                   |     boardId     |           widgetId            |   boardName   |                       title                       
+---------------------------------------+-----------------+-------------------------------+---------------+---------------------------------------------------
+ insight_0004NO4silzJbD7l9UEnG3AkKJeIX | curated/release | ship-verdict                  | Release check | Ship verdict needs a look (hand-filed, not a run)
+ insight_0004MnEkjep1MWuE0rt7Kv47Ic8oq | curated/release | template:release:ship-verdict | Release check | Ship verdict needs a look (hand-filed, not a run)
+(2 rows)
+
