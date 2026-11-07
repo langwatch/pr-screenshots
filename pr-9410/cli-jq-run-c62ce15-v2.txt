@@ -1,0 +1,22 @@
+# langwatch CLI built from https://github.com/langwatch/langwatch/pull/9410 head c62ce156403
+# endpoint unreachable on purpose: status still prints JSON with null, string, number and object values
+
+$ langwatch status -o json --jq '.attention.erroredTraces24h[]'
+Error: Invalid --jq expression ".attention.erroredTraces24h[]": ".attention.erroredTraces24h[]" iterates over a non-array value (it is null). Redirect the answer to a file (`--format json > results.json`) and narrow it there: real `jq` and `python` are both in your shell.
+(exit 1)
+$ langwatch status -o json --jq '.attention.errors.budgetsAtRisk[]'
+Error: Invalid --jq expression ".attention.errors.budgetsAtRisk[]": ".attention.errors.budgetsAtRisk[]" iterates over a non-array value (it is a string). Redirect the answer to a file (`--format json > results.json`) and narrow it there: real `jq` and `python` are both in your shell.
+(exit 1)
+$ langwatch status -o json --jq '.resources.evaluators.count[0]'
+Error: Invalid --jq expression ".resources.evaluators.count[0]": ".resources.evaluators.count[0]" indexes a value that is not an array (it is a number). Redirect the answer to a file (`--format json > results.json`) and narrow it there: real `jq` and `python` are both in your shell.
+(exit 1)
+$ langwatch status -o json --jq '.attention.advisories[]'
+Error: Invalid --jq expression ".attention.advisories[]": ".attention.advisories[]" iterates over a non-array value (it is an empty object). Redirect the answer to a file (`--format json > results.json`) and narrow it there: real `jq` and `python` are both in your shell.
+(exit 1)
+$ langwatch status -o json --jq '.resources[]'
+Error: Invalid --jq expression ".resources[]": ".resources[]" iterates over a non-array value (it is an object with keys: evaluators, scenarios, suites, datasets, agents, …). Redirect the answer to a file (`--format json > results.json`) and narrow it there: real `jq` and `python` are both in your shell.
+(exit 1)
+
+# before: an older CLI build from main (dist dated 2026-10-09 02:29Z; exact commit unknown), same command
+$ langwatch status -o json --jq '.resources[]'
+Error: Invalid --jq expression ".resources[]": ".resources[]" iterates over a non-array value
