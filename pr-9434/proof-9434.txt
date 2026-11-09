@@ -1,0 +1,17 @@
+# PR 9434 at ed688b402bf5afd3acfcba05ae03e224c10df324, local stack (pnpm dev, PORT=5600), own ClickHouse db plg_proof_9434.
+# After creating evaluator "Proof exact match" in the UI as plg-proof-9434@example.com. $CH = the local ClickHouse HTTP URL from .env (credentials not shown).
+
+$ curl -s "$CH" --data-binary "SELECT EventType, AggregateType, AggregateId, TenantId, IdempotencyKey FROM plg_proof_9434.event_log WHERE EventType IN ('lw.evaluator.created') FORMAT Vertical"
+Row 1:
+──────
+EventType:      lw.evaluator.created
+AggregateType:  evaluator
+AggregateId:    evaluator_0008ncsaB2n00idf2UAMG08JeuLHn
+TenantId:       project_0008mkOe5MksFgSNT2GixsVh9Zf6R
+IdempotencyKey: project_0008mkOe5MksFgSNT2GixsVh9Zf6R:evaluator_0008ncsaB2n00idf2UAMG08JeuLHn:created
+
+$ curl -s "$CH" --data-binary "SELECT count() FROM plg_proof_9434.event_log WHERE EventType = 'lw.evaluator.created'"
+1
+
+# Cross-check, the app's own Postgres db plg_proof_9434 (select id, "projectId", name from "Evaluator"):
+id: evaluator_0008ncsaB2n00idf2UAMG08JeuLHn | projectId: project_0008mkOe5MksFgSNT2GixsVh9Zf6R | name: Proof exact match
