@@ -1,0 +1,24 @@
+head 550c452830dc740010a6cc81c586e45ce71ee71a
+read: after-F5c
+# HELP lwql_query_duration_seconds LangWatchQL run time, the database's plus hydration's, by caller
+# TYPE lwql_query_duration_seconds histogram
+# HELP lwql_rows_read Rows the database read for one LangWatchQL run, by caller
+# TYPE lwql_rows_read histogram
+# HELP lwql_queries_total LangWatchQL runs by caller and outcome (ok, empty, or the error code)
+# TYPE lwql_queries_total counter
+lwql_queries_total{caller="workbench",outcome="ok"} 2
+lwql_queries_total{caller="workbench",outcome="empty"} 1
+lwql_queries_total{caller="source_presence",outcome="empty"} 11
+lwql_queries_total{caller="workbench",outcome="lwql_not_permitted"} 6
+lwql_queries_total{caller="source_presence",outcome="lwql_not_permitted"} 1
+lwql_queries_total{caller="workbench",outcome="lwql_unknown_identifier"} 4
+lwql_queries_total{caller="rest_api",outcome="lwql_unknown_identifier"} 1
+lwql_queries_total{caller="workbench",outcome="project_not_found"} 1
+lwql_queries_total{caller="workbench",outcome="lwql_reserved_parameter_supplied"} 2
+lwql_queries_total{caller="rest_api",outcome="lwql_reserved_parameter_supplied"} 1
+lwql_queries_total{caller="workbench",outcome="lwql_parameter_missing"} 2
+# HELP lwql_query_failure_total Failed LangWatchQL queries by who wrote the statement (built_in or user_written)
+# TYPE lwql_query_failure_total counter
+lwql_query_failure_total{origin="user_written"} 5
+lwql_query_failure_total{origin="built_in"} 2
+HTTP 200

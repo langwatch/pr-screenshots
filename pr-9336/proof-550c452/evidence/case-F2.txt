@@ -1,0 +1,25 @@
+head 550c452830dc740010a6cc81c586e45ce71ee71a
+CASE F2
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ],
+ "parameters": {
+  "dashboard_context_sources": "x"
+ }
+}
+HTTP 400
+response (first 8000 chars): {"error":{"message":"lwql_reserved_parameter_supplied","code":-32600,"data":{"code":"BAD_REQUEST","httpStatus":400,"path":"analytics.lwql.query","cause":null,"error":{"code":"lwql_reserved_parameter_supplied","kind":"lwql_reserved_parameter_supplied","meta":{"parameters":["dashboard_context_sources"]},"traceId":"5c5f2d3c9b6bdaead6db9223231ca8dd","spanId":"7006eb7bb2553b17","httpStatus":400,"fault":"customer","retryable":false,"tips":["Read `meta.parameters`; it lists the reserved names the request set for itself","`dashboard_context_period_start` and `dashboard_context_period_end` are supplied by the surface showing the chart; send `timeWindow: { start, end }` instead and drop them from `parameters`","`dashboard_context_granularity_seconds` is likewise supplied by the surface; drop it from `parameters` and send it as the request's own `granularitySeconds` field instead","`dashboard_context_sources` and `dashboard_context_projects` are likewise supplied; drop them from `parameters` and send the request's own `sources` and `projects` fields instead"],"reasons":[]},"authored":false,"traceId":"5c5f2d3c9b6bdaead6db9223231ca8dd"}}}
+
+app log lines in the request window (3 total, 3 relevant):
+{"level": "info", "hostname": "<masked>", "name": "langwatch:analytics:lwql", "service": "langwatch-app", "traceId": "5c5f2d3c9b6bdaead6db9223231ca8dd", "spanId": "7006eb7bb2553b17", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "caller": "workbench", "queryHash": "cbeb97d9acb1be5b", "outcome": "lwql_reserved_parameter_supplied", "msg": "LangWatchQL failed"}
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "5c5f2d3c9b6bdaead6db9223231ca8dd", "spanId": "7006eb7bb2553b17", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 39, "userAgent": "Python-urllib/3.11", "statusCode": 400, "error": {"type": "TRPCError", "message": "The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.: The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.", "code": "BAD_REQUEST", "name": "TRPCError", "cause": {"type": "LangWatchQLReservedParameterSuppliedError", "message": "The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.", "code": "lwql_reserved_parameter_supplied", "isHandled": true, "meta": {"parameters": ["dashboard_context_sources"]}, "traceId": "5c5f2d3c9b6bdaead6db9223231ca8dd", "spanId": "7006eb7bb2553b17", "httpStatus": 400, "fault": "customer", "retryable": false, "tips": ["Read `meta.parameters`; it lists the reserved names the request set for itself", "`dashboard_context_period_start` and `dashboard_context_period_end` are supplied by the surface showing the chart; send `timeWindow: { start, end }` instead and drop them from `parameters`", "`dashboard_context_granularity_seconds` is likewise supplied by the surface; drop it from `parameters` and send it as the request's own `granularitySeconds` field instead", "`dashboard_context_sources` and `dashboard_context_projects` are likewise supplied; drop them from `parameters` and send the request's own `sources` and `projects` fields instead"], "reasons": [], "name": "LangWatchQLReservedParameterSuppliedError"}}, "handledErrorCode": "lwql_reserved_parameter_supplied", "handledErrorFault": "customer", "msg": "trpc call"}
+{"level": "warn", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 400, "duration": 50, "userAgent": "Python-urllib/3.11", "requestError": {"type": "LangWatchQLReservedParameterSuppliedError", "message": "The request supplied a value for dashboard_context_sources, which the surface sets itself. Send the `sources` field of the request instead.", "code": "lwql_reserved_parameter_supplied"}, "errorType": "LangWatchQLReservedParameterSuppliedError", "handledErrorCode": "lwql_reserved_parameter_supplied", "handledErrorFault": "customer", "msg": "error handling request"}
