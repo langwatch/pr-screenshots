@@ -1,0 +1,8 @@
+{"time": "2026-11-09T19:55:13.285Z", "level": "info", "msg": "PII redaction model call", "texts": 3, "characters": 161, "spansFound": 2, "outcome": "ok", "durationMs": 180}
+{"time": "2026-11-09T19:55:40.745Z", "level": "info", "msg": "PII redaction model call", "texts": 3, "characters": 9955, "spansFound": 0, "outcome": "too_long", "durationMs": 0}
+{"time": "2026-11-09T19:56:02.196Z", "level": "warn", "msg": "PII redaction model call", "texts": 3, "characters": 169, "spansFound": 0, "outcome": "error", "durationMs": 6, "errorName": "LangevalsPiiDetectionError"}
+{"time": "2026-11-09T19:57:49.104Z", "level": "warn", "msg": "PII redaction model call", "texts": 3, "characters": 167, "spansFound": 0, "outcome": "timeout", "durationMs": 50005, "errorName": "AbortError"}
+{"time": "2026-11-09T19:58:16.329Z", "level": "info", "msg": "PII redaction model call", "texts": 3, "characters": 171, "spansFound": 0, "outcome": "breaker_open", "durationMs": 0}
+{"time": "2026-11-09T20:00:02.353Z", "level": "info", "msg": "PII redaction model call", "texts": 3, "characters": 157, "spansFound": 2, "outcome": "ok", "durationMs": 170}
+{"time": "2026-11-09T20:00:05.499Z", "level": "info", "msg": "PII redaction model call", "texts": 3, "characters": 171, "spansFound": 2, "outcome": "ok", "durationMs": 144}
+{"time": "2026-11-09T20:06:44.776Z", "level": "warn", "msg": "PII redaction model call", "texts": 3, "characters": 167, "spansFound": 0, "outcome": "error", "durationMs": 3, "errorName": "LangevalsPiiDetectionError"}
