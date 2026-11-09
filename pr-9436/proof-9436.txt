@@ -1,0 +1,46 @@
+# PR 9436 at e4ef06097bafa1c3baacee5863ffac3ebbb5d776, local stack (pnpm dev, PORT=5610), own ClickHouse db plg_proof_9436.
+# Steps as plg-proof-9436@example.com: UI save prompt proof-prompt (v1); UI save v2 ('proof: version 2'); restore v1 via the app's tRPC prompts.restoreVersion from the signed-in page (gave v3 'Restore from version 1'); UI Delete prompt.
+# $CH = the local ClickHouse HTTP URL from .env (credentials not shown).
+
+$ curl -s "$CH" --data-binary "SELECT EventType, AggregateType, AggregateId, TenantId, IdempotencyKey FROM plg_proof_9436.event_log WHERE EventType IN ('lw.prompt.created','lw.prompt.version_saved','lw.prompt.deleted') ORDER BY EventTimestamp FORMAT Vertical"
+Row 1:
+──────
+EventType:      lw.prompt.created
+AggregateType:  prompt
+AggregateId:    prompt_00000VrrK1f6dmYfeqLObnc45MhTk
+TenantId:       project_000002I7cCV5yJ1ySgVwC1Bmj2cIF
+IdempotencyKey: project_000002I7cCV5yJ1ySgVwC1Bmj2cIF:prompt_00000VrrK1f6dmYfeqLObnc45MhTk:created
+
+Row 2:
+──────
+EventType:      lw.prompt.version_saved
+AggregateType:  prompt
+AggregateId:    prompt_00000VrrK1f6dmYfeqLObnc45MhTk
+TenantId:       project_000002I7cCV5yJ1ySgVwC1Bmj2cIF
+IdempotencyKey: project_000002I7cCV5yJ1ySgVwC1Bmj2cIF:prompt_00000VrrK1f6dmYfeqLObnc45MhTk:version:promptversion_00001HbZj4ppEGoSi9TOmxFDc8LOS
+
+Row 3:
+──────
+EventType:      lw.prompt.version_saved
+AggregateType:  prompt
+AggregateId:    prompt_00000VrrK1f6dmYfeqLObnc45MhTk
+TenantId:       project_000002I7cCV5yJ1ySgVwC1Bmj2cIF
+IdempotencyKey: project_000002I7cCV5yJ1ySgVwC1Bmj2cIF:prompt_00000VrrK1f6dmYfeqLObnc45MhTk:version:promptversion_00002UKAsdSAUwmDq1fvPyqF3A8OI
+
+Row 4:
+──────
+EventType:      lw.prompt.deleted
+AggregateType:  prompt
+AggregateId:    prompt_00000VrrK1f6dmYfeqLObnc45MhTk
+TenantId:       project_000002I7cCV5yJ1ySgVwC1Bmj2cIF
+IdempotencyKey: project_000002I7cCV5yJ1ySgVwC1Bmj2cIF:prompt_00000VrrK1f6dmYfeqLObnc45MhTk:deleted
+
+$ curl -s "$CH" --data-binary "SELECT EventType, count() FROM plg_proof_9436.event_log WHERE EventType IN ('lw.prompt.created','lw.prompt.version_saved','lw.prompt.deleted') GROUP BY EventType ORDER BY EventType FORMAT TSV"
+lw.prompt.created	1
+lw.prompt.deleted	1
+lw.prompt.version_saved	2
+
+# Cross-check (app's own Postgres db plg_proof_9436, "LlmPromptConfigVersion", and the restore response):
+v1 promptversion_00000VrrK1f6dmYfeqLObnc45MhTl 'Initial version'     (create: lw.prompt.created)
+v2 promptversion_00001HbZj4ppEGoSi9TOmxFDc8LOS 'proof: version 2'    (UI save: version_saved, Row 2)
+v3 promptversion_00002UKAsdSAUwmDq1fvPyqF3A8OI 'Restore from version 1' (restore, HTTP 200: version_saved, Row 3)
