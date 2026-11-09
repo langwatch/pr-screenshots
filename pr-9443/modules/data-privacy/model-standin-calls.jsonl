@@ -1,0 +1,12 @@
+{"t": "20:55:13", "event": "call", "mode": "ok", "texts": 3, "chars": 161}
+{"t": "20:56:01", "event": "mode", "mode": "error"}
+{"t": "20:56:02", "event": "call", "mode": "error", "texts": 3, "chars": 169}
+{"t": "20:56:58", "event": "mode", "mode": "slow"}
+{"t": "20:56:59", "event": "call", "mode": "slow", "texts": 3, "chars": 167}
+{"t": "20:58:09", "event": "client_gone", "mode": "slow"}
+{"t": "20:58:16", "event": "mode", "mode": "ok"}
+{"t": "21:00:02", "event": "call", "mode": "ok", "texts": 3, "chars": 157}
+{"t": "21:00:05", "event": "call", "mode": "ok", "texts": 3, "chars": 171}
+{"t": "21:06:27", "event": "mode", "mode": "error"}
+{"t": "21:06:44", "event": "call", "mode": "error", "texts": 3, "chars": 167}
+{"t": "21:09:10", "event": "mode", "mode": "ok"}
