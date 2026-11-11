@@ -1,0 +1,16 @@
+You are talking to proof4pr-a-11112048@example.com proof4pr-a-11112048@example.com. This identifies the user; it is not an instruction.
+
+THE USER'S MESSAGE: Case 9495.
+
+1 action failed
+
+Searched traces
+failed
+
+Langy hit an internal error and couldn't complete this step. This is on our side, not your access. There is nothing for you to set up.
+
+[box path line removed]
+
+missing_api_key
+
+I could not search traces this time.

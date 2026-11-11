@@ -1,0 +1,15 @@
+You are talking to proof4pr-a-11112048@example.com proof4pr-a-11112048@example.com. This identifies the user; it is not an instruction.
+
+THE USER'S MESSAGE: Case 9498, card-only-stub (developer-restricted).
+
+Creating evaluator failed
+
+This is outside your Developer seat
+
+Ask whoever manages seats for your team if you need it.
+
+permission_denied
+
+Show details
+
+I could not create the evaluator.
