@@ -1,0 +1,51 @@
+head 550c452830dc740010a6cc81c586e45ce71ee71a
+new logger (langwatch:analytics:lwql:query-failure) lines in the whole run: 4
+-- each line (hostname/userId masked, time and pid dropped):
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "94bcf6024476d01d0e9cb9bc1d72b0af", "spanId": "4bcac8b0de132a12", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "2a7ecfa5495e15947c03683e8d4f8770", "spanId": "51ce0593a95a1388", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "d792cdab861b7d8b83d9c1a447889c84", "spanId": "966b1add94362965", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unknown_identifier", "statementHash": "7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4", "msg": "built-in LangWatchQL statement failed"}
+{"level": "error", "hostname": "<masked>", "name": "langwatch:analytics:lwql:query-failure", "service": "langwatch-worker", "traceId": "30f0171a00d8ff17293adc3231ed6a30", "spanId": "067751fbbbf23072", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "origin": "built_in", "errorCode": "lwql_unavailable", "source": "traces", "msg": "built-in LangWatchQL statement failed"}
+
+-- greps on the new logger's lines only (grep -cF, matching lines)
+grep -cF 'dashboard_context_sources' newlogger: 0
+grep -cF 'trace_metrics.Source' newlogger: 0
+grep -cF 'uniqExact' newlogger: 0
+grep -cF 'FROM trace_metrics' newlogger: 0
+grep -cF 'SELEC' newlogger: 0
+grep -cF 'SELECT' newlogger: 0
+grep -cF 'TraceIdd' newlogger: 0
+grep -cF 'top-models' newlogger: 0
+grep -cF 'VALUEMARK_7f3a9c' newlogger: 0
+grep -cF 'zz_probe' newlogger: 0
+grep -cF 'TotalCost' newlogger: 0
+grep -cF 'gateway_request_spend' newlogger: 0
+grep -cF 'no_such_view_anywhere' newlogger: 0
+
+-- control: same tokens on OTHER loggers' lines (whole run; excludes the new logger and the run-telemetry logger)
+grep -cF 'dashboard_context_sources' otherloggers: 5
+grep -cF 'TraceIdd' otherloggers: 3
+grep -cF 'SELEC' otherloggers: 15
+grep -cF 'FROM trace_metrics' otherloggers: 6
+grep -cF 'TotalCost' otherloggers: 6
+grep -cF 'gateway_request_spend' otherloggers: 2
+grep -cF 'no_such_view_anywhere' otherloggers: 1
+grep -cF 'VALUEMARK_7f3a9c' otherloggers: 0
+
+-- 'source' values on the new logger's lines:
+      "source":"traces"
+
+-- run-telemetry logger (langwatch:analytics:lwql, from main) 'LangWatchQL failed' lines in the whole run: 20
+   (one per failed request or probe; fields: caller, hostname, level, msg, name, outcome, pid, projectId, queryHash, service, spanId, time, traceId, userId)
+grep -cF 'dashboard_context_sources' run-telemetry failed lines: 0
+grep -cF 'trace_metrics.Source' run-telemetry failed lines: 0
+grep -cF 'uniqExact' run-telemetry failed lines: 0
+grep -cF 'FROM trace_metrics' run-telemetry failed lines: 0
+grep -cF 'SELEC' run-telemetry failed lines: 0
+grep -cF 'SELECT' run-telemetry failed lines: 0
+grep -cF 'TraceIdd' run-telemetry failed lines: 0
+grep -cF 'top-models' run-telemetry failed lines: 0
+grep -cF 'VALUEMARK_7f3a9c' run-telemetry failed lines: 0
+grep -cF 'zz_probe' run-telemetry failed lines: 0
+grep -cF 'TotalCost' run-telemetry failed lines: 0
+grep -cF 'gateway_request_spend' run-telemetry failed lines: 0
+grep -cF 'no_such_view_anywhere' run-telemetry failed lines: 0

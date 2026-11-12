@@ -1,0 +1,22 @@
+head 550c452830dc740010a6cc81c586e45ce71ee71a
+CASE P1b
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 200
+response (first 8000 chars): {"result":{"data":{"columns":[{"name":"traces","type":"UInt64"}],"rows":[{"traces":0}],"statistics":{"elapsedMs":4,"rowsRead":1,"bytesRead":117,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"completeness":{"state":"no_traffic","unit":"traces","total":0,"fields":[]},"params":{"period":{"start":"2026-10-01T00-00-00.000Z","end":"2026-11-04T00-00-00.000Z"},"dashboard_context_sources":["application"]}}}}
+
+app log lines in the request window (11 total, 3 relevant):
+{"level": "info", "hostname": "<masked>", "name": "langwatch:analytics:lwql", "service": "langwatch-app", "traceId": "45dba68ad42153b252da5d865d50cfb7", "spanId": "4811635948edcdc1", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "caller": "workbench", "queryHash": "cbeb97d9acb1be5b", "outcome": "ok", "projectIds": ["project_0003VIWozMYPmhgH4sSVWUcyGenEV"], "tables": ["proof_shared.trace_metrics"], "rowsReturned": 1, "rowsRead": 1, "elapsedMs": 4, "diagnostics": [], "followsTimeWindow": true, "followsGranularity": false, "followsSources": true, "msg": "LangWatchQL executed"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:trpc", "service": "langwatch-app", "traceId": "45dba68ad42153b252da5d865d50cfb7", "spanId": "4811635948edcdc1", "projectId": "project_0003VIWozMYPmhgH4sSVWUcyGenEV", "userId": "<masked>", "path": "analytics.lwql.query", "type": "mutation", "duration": 61, "userAgent": "Python-urllib/3.11", "statusCode": null, "msg": "trpc call"}
+{"level": "info", "hostname": "<masked>", "name": "langwatch:api:hono", "service": "langwatch-worker", "family": "trpc", "client.address": "<masked>", "user.id": "<masked>", "endpointClass": "dashboard", "clientSource": "unknown", "method": "POST", "url": "/api/trpc/analytics.lwql.query", "statusCode": 200, "duration": 79, "userAgent": "Python-urllib/3.11", "msg": "request handled"}
