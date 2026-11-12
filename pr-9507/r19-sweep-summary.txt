@@ -1,0 +1,8 @@
+sha 8415fdbd75b (HEAD, branch fix/dashboards-stock-widgets-light-tables); profile p12_ship (1 GB / 60 s / 4 threads); db r19s_ref = views rendered from HEAD (byte-identical to r18 views modulo db name; r19_ref was already in use by the Postgres-28 proof so a separate db was made); CH 26.8.36.3 compat 25.10; dedup floor applied (floorLangWatchQLDedup, reproduces r18 rewritten.json exactly); one query at a time under ch-measure.lock, nice 10; widget SQL = fixture, identical to live catalogue (210/210).
+30 d: pass 182 / limit hits 0 (241 memory: 0, 159 timeout: 0) / errors 0 / not measured (pg) 28 (total 210)
+TOP peak MB: ans-review/present 893, ext-field-accuracy/checks 890, ans-outcomes/reasons 881, so-changes/present 879, fd-quality/present 878
+60 d: pass 179 / limit hits 3 (241 memory: 3, 159 timeout: 0) / errors 0 / not measured (pg) 28 (total 210)
+LIMIT evaluation-coverage/evaluators code=241 peak_mb=990.4 s=2.572 load=6.74/6.52
+LIMIT evaluation-coverage/evaluated code=241 peak_mb=997.0 s=1.623 load=6.52/6.52
+LIMIT ext-human-review/summary code=241 peak_mb=998.0 s=6.088 load=13.8/13.13
+TOP peak MB: ext-human-review/summary 998, evaluation-coverage/evaluated 997, evaluation-coverage/evaluators 990, cost-by-source/main 956, cost-waste/main 955
