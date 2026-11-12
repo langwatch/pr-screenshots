@@ -1,0 +1,228 @@
+# Nightly run 43147180545 (langwatch/langwatch, workflow_dispatch) at head 2d920a9b09771d721b7125c539a60386326be6b9
+# captured-at: Thu Nov 12 04:28:02 UTC 2026
+# jobs: 130947622055 'migration-compat / previous release image on head schema' = success
+#       130947622170 'gateway-matrix / matrix' = success
+#       130961571575 'nightly dashboard' = success
+# conclusions from: gh run view 43147180545 -R langwatch/langwatch --json jobs
+# source logs: gh run view 43147180545 -R langwatch/langwatch --job <id> --log  (saved as <id>.log)
+# Raw log lines, unedited except masking: 12-digit AWS account ids -> <account>; ghs_/gho_/ghp_/AKIA/ASIA tokens -> <masked> (none were found).
+# Log lines are prefixed '<job name> UNKNOWN STEP <timestamp>' by gh; step names come from the jobs API (step 10 = "Migrate with head's tasks", success).
+# Raw '[... N lines omitted ...]' markers are mine; everything else is verbatim.
+
+########## JOB 130947622055: migration-compat / previous release image on head schema (success)
+## Step 10 "Migrate with head's tasks" (success): log lines 1475-3608 of 130947622055.log; first 40 and last 40 shown
+## cmd: sed -n '1475,1514p' ; sed -n '3569,3608p'
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8752708Z ##[group]Run set -euo pipefail
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8752927Z ^[[36;1mset -euo pipefail^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8753156Z ^[[36;1m# Head's upgrade refuses to start without its secrets (api-key.pepper reads^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8753494Z ^[[36;1m# CREDENTIALS_SECRET); throwaway values, as the n-minus-one job does.^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8753816Z ^[[36;1mfor name in NEXTAUTH_SECRET CREDENTIALS_SECRET API_TOKEN_JWT_SECRET LW_VIRTUAL_KEY_PEPPER \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8754107Z ^[[36;1m  LW_GATEWAY_INTERNAL_SECRET LW_GATEWAY_JWT_SECRET; do^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8754315Z ^[[36;1m  export "${name}=$(openssl rand -hex 32)"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8754485Z ^[[36;1mdone^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8754611Z ^[[36;1mpnpm task upgrade^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8796109Z shell: /usr/bin/bash -e {0}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8796256Z env:
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8796373Z   NODE_ENV: test
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8796704Z   DATABASE_URL: ***localhost:5433/langwatch
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8796925Z   REDIS_URL: redis://localhost:6380
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8797141Z   CLICKHOUSE_BASE_URL: ***localhost:8123
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8797298Z   SKIP_ENV_VALIDATION: true
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8797465Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8797774Z   npm_config_node_gyp: /opt/hostedtoolcache/node/24.22.1/x64/lib/node_modules/node-gyp/bin/node-gyp.js
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8798102Z   CLICKHOUSE_URL: ***localhost:8123/langwatch
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8798282Z   BASE_HOST: http://localhost:5560
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8798442Z   NEXTAUTH_URL: http://localhost:5560
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.8798592Z ##[endgroup]
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.9192319Z $ pnpm run ensure:built && pnpm --filter @langwatch/tasks task upgrade
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:33.9361848Z $ FORCE_COLOR=0 NX_LOAD_DOT_ENV_FILES=false nx run-many -t build -p langwatch,@langwatch/mcp-server,@langwatch/ksuid,@langwatch/mail --outputStyle=static
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1551856Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1552763Z  NX   Running target build for 4 projects:
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553007Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553123Z - langwatch
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553281Z - @langwatch/mcp-server
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553588Z - @langwatch/ksuid
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553722Z - @langwatch/mail
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1553795Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1554017Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1869326Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1870676Z ##[group]🔁 > nx run langwatch:build  [local cache]
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1870939Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1871106Z $ pnpm run generate
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1871402Z $ pnpm run generate:server-types
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1871658Z $ ./copy-types.sh
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:36.1872730Z Wrote src/internal/generated/types/evaluator-attachments.ts (replaced the workflow-contract type import ("@langwatch/workflow-contract"); replaced the evaluator-contract type import ("@langwatch/evaluator-contract"))
+[... 2054 lines omitted ...]
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6641837Z   └─ 20261027160000_dataset_versions/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6641998Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6642336Z   └─ 20261104120000_nurturing_organization_last_trace_at/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6642521Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6642713Z   └─ 20261104120100_nurturing_organization_coding_first_days/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6642902Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6643132Z   └─ 20261104120101_nurturing_organization_coding_terminal_and_repositories/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6643354Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6643524Z   └─ 20261106120000_billing_license_renewal_claim/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6643698Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6643862Z   └─ 20261106120001_organization_seat_requests/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644030Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644292Z   └─ 20261106120002_organization_seat_lease/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644453Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644617Z   └─ 20261107120000_seat_request_seat_pending/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644785Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6644960Z   └─ 20261107130000_billing_subscription_seats_kept/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645136Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645298Z   └─ 20261107130100_organization_seat_holds/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645461Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645651Z   └─ 20261107130200_billing_subscription_seat_line_quantity/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645836Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6645990Z   └─ 20261108120000_user_erasure/
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6646139Z     └─ migration.sql
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6646216Z 
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:19:55.6646310Z All migrations have been successfully applied.
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:04.1860707Z {"level":"info","time":"2026-11-12T03:20:04.185Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:clickhouse:migrations","service":"langwatch-app","msg":"ClickHouse migrations completed."}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:04.2886988Z {"level":"info","time":"2026-11-12T03:20:04.288Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","elapsedMs":11148,"phase":"postgres-schema","release":null,"waitingOn":"nothing","phaseElapsedMs":11029,"next":"nothing to do: wait for the run to finish; `pnpm task upgrade status` shows its progress","msg":"phase postgres-schema succeeded in 11029 ms"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:04.2897744Z {"level":"info","time":"2026-11-12T03:20:04.289Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","elapsedMs":11149,"phase":"clickhouse-schema","release":null,"waitingOn":"nothing","phaseElapsedMs":11029,"next":"nothing to do: wait for the run to finish; `pnpm task upgrade status` shows its progress","msg":"phase clickhouse-schema succeeded in 11029 ms"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:04.2948730Z {"level":"info","time":"2026-11-12T03:20:04.294Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","elapsedMs":11155,"phase":"reconcile","waitingOn":"the reconcilers: ClickHouse TTL, LangWatchQL and the system-migrations pass request","next":"nothing to do: wait for the run to finish; `pnpm task upgrade status` shows its progress","msg":"phase reconcile started: waiting on the reconcilers: ClickHouse TTL, LangWatchQL and the system-migrations pass request"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:04.3184198Z {"level":"info","time":"2026-11-12T03:20:04.305Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:clickhouse:ttl-reconciler","service":"langwatch-app","updated":0,"skipped":25,"msg":"TTL reconciliation complete"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.0170464Z {"level":"info","time":"2026-11-12T03:20:11.015Z","pid":7136,"hostname":"runnervmwuk1x","name":"langwatch:task:lwql-provision","service":"langwatch-tasks","msg":"LWQL not configured, skipping"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.1061408Z {"level":"info","time":"2026-11-12T03:20:11.105Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","elapsedMs":17965,"phase":"reconcile","waitingOn":"nothing","phaseElapsedMs":6811,"next":"nothing to do: wait for the run to finish; `pnpm task upgrade status` shows its progress","msg":"phase reconcile succeeded in 6811 ms"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.1237372Z {"level":"info","time":"2026-11-12T03:20:11.122Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","elapsedMs":17982,"phase":"finished","runId":"[SECRET]","code":"done","waitingOn":"nothing","next":"start or restart the api and worker; `pnpm task upgrade status` shows every step and run","msg":"first run finished in 17982 ms: upgraded to this image"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.1239410Z {"level":"info","time":"2026-11-12T03:20:11.122Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","phase":"finished","code":"done","runId":"local_upgraderun_0001faRmSa5WEYoK0qdsn7cdmz72r","next":"start or restart the api and worker; `pnpm task upgrade status` shows every step and run","msg":"upgraded to this image"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.1241087Z {"level":"info","time":"2026-11-12T03:20:11.122Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:upgrade","service":"langwatch-app","phase":"finished","next":"start or restart the api and worker; `pnpm task upgrade status` shows every step and run","msg":"upgrade complete; the UI is at http://localhost:5560 (Upgrades, for platform operators); `pnpm task upgrade status` shows every step and run"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:11.1242379Z {"level":"info","time":"2026-11-12T03:20:11.122Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:langwatch-worker-upgrade","service":"langwatch-app","deadlineMs":60000,"msg":"shutting down"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.1284138Z {"level":"info","time":"2026-11-12T03:20:13.126Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:langwatch-worker-upgrade","service":"langwatch-app","phase":"tasks runtime","ms":2003,"msg":"shutdown phase was slow"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.1321078Z {"level":"info","time":"2026-11-12T03:20:13.131Z","pid":6886,"hostname":"runnervmwuk1x","name":"langwatch:langwatch-worker-upgrade","service":"langwatch-app","msg":"graceful shutdown complete"}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.2859224Z {"level":"info","time":"2026-11-12T03:20:13.284Z","pid":6828,"hostname":"runnervmwuk1x","name":"langwatch:tasks","service":"langwatch-tasks","task":"upgrade","msg":"task finished"}
+## Step 11-12 start image + health (log lines 3609-3671): cmd: sed -n '3609,3671p'
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3974603Z ##[group]Run set -euo pipefail
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3974811Z ^[[36;1mset -euo pipefail^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3974978Z ^[[36;1mdocker run -d --name previous --network host \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3975229Z ^[[36;1m  -e NODE_ENV=production -e INSTALL_METHOD=docker -e SKIP_ENV_VALIDATION=true \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3975511Z ^[[36;1m  -e DATABASE_URL="${DATABASE_URL}" -e REDIS_URL="${REDIS_URL}" \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3975815Z ^[[36;1m  -e CLICKHOUSE_URL="${CLICKHOUSE_BASE_URL}/langwatch" -e CLICKHOUSE_BACKUP_METRICS_ENABLED=false \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3976145Z ^[[36;1m  -e BASE_HOST=http://localhost:5560 -e NEXTAUTH_URL=http://localhost:5560 \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3976469Z ^[[36;1m  -e NEXTAUTH_SECRET="$(openssl rand -hex 32)" -e CREDENTIALS_SECRET="$(openssl rand -hex 32)" \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3976810Z ^[[36;1m  -e API_TOKEN_JWT_SECRET="$(openssl rand -hex 32)" -e LW_VIRTUAL_KEY_PEPPER="$(openssl rand -hex 32)" \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3977333Z ^[[36;1m  -e LW_GATEWAY_INTERNAL_SECRET="$(openssl rand -hex 32)" -e LW_GATEWAY_JWT_SECRET="$(openssl rand -hex 32)" \^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.3977602Z ^[[36;1m  "langwatch/langwatch:${RELEASE}"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4017379Z shell: /usr/bin/bash -e {0}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4017524Z env:
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4017635Z   NODE_ENV: test
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4017995Z   DATABASE_URL: ***localhost:5433/langwatch
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4018164Z   REDIS_URL: redis://localhost:6380
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4018371Z   CLICKHOUSE_BASE_URL: ***localhost:8123
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4018524Z   SKIP_ENV_VALIDATION: true
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4018687Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4018969Z   npm_config_node_gyp: /opt/hostedtoolcache/node/24.22.1/x64/lib/node_modules/node-gyp/bin/node-gyp.js
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4019225Z   RELEASE: 3.23.0
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.4019342Z ##[endgroup]
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.5706971Z c28eb16ebc812fb8649a706f1e3ef335a5cc544522c8d74919eda493067723f7
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6285974Z ##[group]Run set -euo pipefail
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6286269Z ^[[36;1mset -euo pipefail^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6286494Z ^[[36;1mfor attempt in $(seq 1 120); do^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6286824Z ^[[36;1m  if [ "$(docker inspect -f '{{.State.Running}}' previous)" != "true" ]; then^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6287291Z ^[[36;1m    echo "::error title=previous-release::the ${RELEASE} image exited on head's schema"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6287656Z ^[[36;1m    exit 1^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6287838Z ^[[36;1m  fi^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6288105Z ^[[36;1m  if curl -fsS -o /dev/null http://localhost:5560/api/health; then^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6288448Z ^[[36;1m    echo "healthy after ${attempt} probes"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6288695Z ^[[36;1m    break^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6288872Z ^[[36;1m  fi^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6289055Z ^[[36;1m  if [ "$attempt" -eq 120 ]; then^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6289510Z ^[[36;1m    echo "::error title=previous-release::the ${RELEASE} image never answered /api/health on head's schema"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6289974Z ^[[36;1m    exit 1^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6290148Z ^[[36;1m  fi^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6290312Z ^[[36;1m  sleep 5^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6290491Z ^[[36;1mdone^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6290746Z ^[[36;1m# A minute of background work reads and writes the tables it knows.^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6291050Z ^[[36;1msleep 60^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6291445Z ^[[36;1mmissing="$(docker logs previous 2>&1 | grep -E '(column|relation) "[^"]+" does not exist|P2021|P2022|Code: (47|60)\.' || true)"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6291891Z ^[[36;1mif [ -n "$missing" ]; then^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6292397Z ^[[36;1m  echo "::error title=previous-release::the ${RELEASE} image reads something head's schema no longer has"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6292804Z ^[[36;1m  echo "$missing"^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6293010Z ^[[36;1m  exit 1^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6293181Z ^[[36;1mfi^[[0m
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6344994Z shell: /usr/bin/bash -e {0}
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6345228Z env:
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6345400Z   NODE_ENV: test
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6345878Z   DATABASE_URL: ***localhost:5433/langwatch
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6346143Z   REDIS_URL: redis://localhost:6380
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6346480Z   CLICKHOUSE_BASE_URL: ***localhost:8123
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6346718Z   SKIP_ENV_VALIDATION: true
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6346967Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6347385Z   npm_config_node_gyp: /opt/hostedtoolcache/node/24.22.1/x64/lib/node_modules/node-gyp/bin/node-gyp.js
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6347757Z   RELEASE: 3.23.0
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6347944Z ##[endgroup]
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:13.6630125Z curl: (7) Failed to connect to localhost port 5560 after 0 ms: Could not connect to server
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:18.6852809Z curl: (7) Failed to connect to localhost port 5560 after 0 ms: Could not connect to server
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:23.7073111Z curl: (7) Failed to connect to localhost port 5560 after 0 ms: Could not connect to server
+migration-compat / previous release image on head schema	UNKNOWN STEP	2026-11-12T03:20:28.7346602Z healthy after 4 probes
+
+########## JOB 130947622170: gateway-matrix / matrix (success)
+## cmd: grep -nE 'Assuming role with OIDC|Could not assume role' 130947622170.log
+432:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.1828470Z Assuming role with OIDC
+433:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.6093638Z Retry AssumeRole: attempt 1 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 8ms.
+434:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.6176384Z Assuming role with OIDC
+435:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.7422561Z Retry AssumeRole: attempt 2 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 64ms.
+436:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.8079710Z Assuming role with OIDC
+437:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.9302983Z Retry AssumeRole: attempt 3 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 46ms.
+438:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:34.9768407Z Assuming role with OIDC
+439:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:35.1009828Z Retry AssumeRole: attempt 4 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 190ms.
+440:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:35.2914699Z Assuming role with OIDC
+441:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:35.4168566Z Retry AssumeRole: attempt 5 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 655ms.
+442:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:36.0723763Z Assuming role with OIDC
+443:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:36.2007855Z Retry AssumeRole: attempt 6 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 607ms.
+444:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:36.8087352Z Assuming role with OIDC
+445:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:36.9346755Z Retry AssumeRole: attempt 7 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 2889ms.
+446:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:39.8233941Z Assuming role with OIDC
+447:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:39.9476718Z Retry AssumeRole: attempt 8 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 434ms.
+448:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:40.3824329Z Assuming role with OIDC
+449:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:40.5064758Z Retry AssumeRole: attempt 9 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 11427ms.
+450:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:51.9353172Z Assuming role with OIDC
+451:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:52.0609333Z Retry AssumeRole: attempt 10 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 5671ms.
+452:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:57.7342375Z Assuming role with OIDC
+453:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:21:57.8577060Z Retry AssumeRole: attempt 11 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 26393ms.
+454:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:22:24.2520931Z Assuming role with OIDC
+455:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:22:24.3792738Z Retry AssumeRole: attempt 12 of 12 failed: Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity. Retrying after 24536ms.
+457:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:22:48.9192629Z ##[error]Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity
+## cmd: grep -n 'skipped  TEST_VK_' 130947622170.log
+3677:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1009055Z skipped  TEST_VK_OPENAI: no OPENAI_API_KEY, so its cells skip
+3678:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1009596Z skipped  TEST_VK_ANTHROPIC: no ANTHROPIC_API_KEY, so its cells skip
+3679:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1010131Z skipped  TEST_VK_GEMINI: no GEMINI_API_KEY, so its cells skip
+3680:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1010725Z skipped  TEST_VK_AZURE: no AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, so its cells skip
+3681:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1011466Z skipped  TEST_VK_BEDROCK: no AWS_ACCESS_KEY_ID (an AWS session from the credentials step), so its cells skip
+3682:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1012123Z skipped  TEST_VK_VERTEX: no VERTEX_SERVICE_ACCOUNT_JSON, so its cells skip
+3683:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1029322Z skipped  TEST_VK_VOYAGE: no VOYAGE_API_KEY, so its cells skip
+3684:gateway-matrix / matrix	UNKNOWN STEP	2026-11-12T03:25:13.1029953Z skipped  TEST_VK_ELEVENLABS: no ELEVENLABS_API_KEY, so its cells skip
+## cmd: grep -c -- '--- PASS' 130947622170.log
+PASS count: 0
+## cmd: grep -c -- '--- SKIP' 130947622170.log
+SKIP count: 52
+
+########## JOB 130961571575: nightly dashboard (success)
+## cmd: tail -n 25 130961571575.log
+nightly dashboard	Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a	2026-11-12T03:57:10.3149974Z Artifact download URL: https://github.com/langwatch/langwatch/actions/runs/43147180545/artifacts/13913224361
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	﻿2026-11-12T03:57:10.3378204Z Post job cleanup.
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.3383073Z ##[start-action display=Setup Node;id=__b385af07-942b-4077-9a91-9f1a9ed148a1.__actions_setup-node]
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.3423425Z Post job cleanup.
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.4855212Z ##[end-action id=__b385af07-942b-4077-9a91-9f1a9ed148a1.__actions_setup-node;outcome=success;conclusion=success;duration_ms=147]
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.4858292Z ##[start-action display=Setup pnpm;id=__b385af07-942b-4077-9a91-9f1a9ed148a1.__pnpm_action-setup]
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.4904956Z Post job cleanup.
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.6430401Z Pruning is unnecessary.
+nightly dashboard	Post Run ./.github/actions/setup-pnpm-node	2026-11-12T03:57:10.6507462Z ##[end-action id=__b385af07-942b-4077-9a91-9f1a9ed148a1.__pnpm_action-setup;outcome=success;conclusion=success;duration_ms=164]
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	﻿2026-11-12T03:57:10.6579397Z Post job cleanup.
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7431048Z [command]/usr/bin/git version
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7477927Z git version 2.56.0
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7513641Z Temporarily overriding HOME='/home/runner/work/_temp/450e529b-6f71-48db-9533-c41abe8c9311' before making global git config changes
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7515155Z Adding repository directory to the temporary git global config as a safe directory
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7519214Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/langwatch/langwatch
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7551467Z Removing SSH command configuration
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7557104Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7598740Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7953355Z Removing HTTP extra header
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7960739Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.7996912Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.8331040Z Removing includeIf entries pointing to credentials config files
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.8345079Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+nightly dashboard	Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1	2026-11-12T03:57:10.8375347Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+nightly dashboard	Complete job	﻿2026-11-12T03:57:10.8852353Z Cleaning up orphan processes
