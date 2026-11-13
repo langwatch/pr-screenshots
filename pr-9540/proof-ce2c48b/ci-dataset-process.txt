@@ -1,0 +1,7 @@
+CI log capture, langwatch/langwatch#9540 at ce2c48bc454, package-suites (3/8): https://github.com/langwatch/langwatch/actions/runs/43374423644/job/131718038596
+started: @langwatch/dataset-process (modules/dataset/process) — pnpm run test
+ ✓ src/app/__tests__/dataset-versioning.app.unit.test.ts (48 tests) 104ms
+ ✓ src/services/__tests__/dataset-upload.service.unit.test.ts (28 tests) 1304ms
+         ✓ accepts more rows than the limit of the earlier release under the default limits 1198ms
+ Test Files  56 passed (56)
+      Tests  548 passed (548)
