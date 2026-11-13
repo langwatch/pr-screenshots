@@ -1,0 +1,76 @@
+Shard 3/8: 1 of 6 packages, about 7s of suites.
+Running up to 2 suite(s) at once.
+started: @langwatch/enterprise-nurturing-process (enterprise/modules/nurturing/process) — pnpm run test
+##[group]@langwatch/enterprise-nurturing-process (enterprise/modules/nurturing/process) — pnpm run test (8s)
+
+ NX   Running target test for project @langwatch/enterprise-nurturing-process:
+
+- @langwatch/enterprise-nurturing-process
+
+
+
+> nx run @langwatch/enterprise-nurturing-process:test
+
+$ vitest run
+ RUN  v5.0.1 /home/runner/work/langwatch/langwatch/enterprise/modules/nurturing/process
+ ✓ src/services/__tests__/nurturing-delivery.service.unit.test.ts (39 tests) 163ms
+ ✓ src/services/__tests__/nurturing-organization-usage.service.unit.test.ts (34 tests) 31ms
+ ✓ src/eventing/__tests__/nurturing-project-usage.pipeline.unit.test.ts (45 tests) 19ms
+ ✓ src/services/__tests__/nurturing-delivery.member-facts.unit.test.ts (41 tests) 301ms
+ ✓ src/eventing/__tests__/nurturing.pipeline.unit.test.ts (21 tests) 99ms
+ ✓ src/services/__tests__/nurturing-coding-milestones.service.unit.test.ts (53 tests) 18ms
+ ✓ src/services/__tests__/nurturing-milestones.service.unit.test.ts (21 tests) 6ms
+ ✓ src/eventing/__tests__/nurturing.pipeline.project-facts.unit.test.ts (10 tests) 44ms
+ ✓ src/rules/__tests__/nurturing-guided-onboarding-service.rules.unit.test.ts (21 tests) 5ms
+ ✓ src/rules/__tests__/nurturing-project-usage.rules.unit.test.ts (24 tests) 6ms
+ ✓ src/services/__tests__/nurturing.service.unit.test.ts (11 tests) 4ms
+ ✓ src/services/__tests__/nurturing-delivery.coding-signals.unit.test.ts (45 tests) 163ms
+ ✓ src/rules/__tests__/nurturing-owner-signals.rules.lifecycle.unit.test.ts (16 tests) 2ms
+ ✓ src/rules/__tests__/nurturing-signup-identification-service.rules.unit.test.ts (12 tests) 3ms
+ ✓ src/rules/__tests__/nurturing-owner-signals.rules.unit.test.ts (17 tests) 3ms
+ ✓ src/services/__tests__/nurturing-trace-counting.service.unit.test.ts (9 tests) 5ms
+ ✓ src/repositories/memory/__tests__/memory.nurturing-milestones.coding.unit.test.ts (17 tests) 3ms
+ ✓ src/eventing/__tests__/nurturing-project-usage.registration.unit.test.ts (7 tests) 3ms
+ ✓ src/eventing/__tests__/nurturing.pipeline.insight.unit.test.ts (8 tests) 35ms
+ ✓ src/services/__tests__/nurturing-uncopied-projects.service.unit.test.ts (7 tests) 2ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-project-usage.repository.integration.test.ts (6 tests) 346ms
+ ✓ src/eventing/__tests__/nurturing-batch-lanes.unit.test.ts (3 tests) 4ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-milestones.coding.integration.test.ts (8 tests) 484ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-project-directory.repository.integration.test.ts (6 tests) 268ms
+ ✓ src/rules/__tests__/nurturing-membership-join-service.rules.unit.test.ts (13 tests) 5ms
+ ✓ src/eventing/__tests__/nurturing.pipeline.coding-and-app-open.unit.test.ts (3 tests) 6ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-trace-day.repository.integration.test.ts (5 tests) 78ms
+ ✓ src/rules/__tests__/nurturing-trace-day.rules.unit.test.ts (7 tests) 1ms
+ ✓ src/eventing/__tests__/nurturing-lane-aliases.unit.test.ts (4 tests) 3ms
+ ✓ src/rules/__tests__/nurturing-own-coding-session.rules.unit.test.ts (8 tests) 1ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-user-erasure.repository.integration.test.ts (2 tests) 78ms
+ ✓ src/rules/__tests__/nurturing-activity-tracking-service.rules.unit.test.ts (8 tests) 4ms
+ ✓ src/rules/__tests__/nurturing-project-active-day.rules.unit.test.ts (5 tests) 1ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-project-copies.repository.integration.test.ts (4 tests) 107ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-milestones.repository.integration.test.ts (5 tests) 117ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-project-placement.repository.integration.test.ts (2 tests) 102ms
+ ✓ src/rules/__tests__/nurturing-scenario-run.rules.unit.test.ts (6 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-feature-adoption-service.rules.unit.test.ts (4 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-app-opened.rules.unit.test.ts (15 tests) 4ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-organization-member.repository.integration.test.ts (2 tests) 85ms
+ ✓ src/services/__tests__/nurturing-own-coding-delivery.service.unit.test.ts (3 tests) 1ms
+ ✓ src/eventing/__tests__/nurturing-batch.subscriber.redelivery.test.ts (1 test) 1ms
+ ✓ src/eventing/__tests__/nurturing-trace-window-end.process.unit.test.ts (4 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-organization-member.rules.unit.test.ts (7 tests) 1ms
+ ✓ src/app/__tests__/nurturing.app.unit.test.ts (2 tests) 2ms
+ ✓ src/channels/http/__tests__/http.posthog.channel.unit.test.ts (3 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-prompt-creation-service.rules.unit.test.ts (3 tests) 0ms
+ ✓ src/rules/__tests__/nurturing-customer-io-timestamp.rules.unit.test.ts (3 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-subscription-sync-service.rules.unit.test.ts (2 tests) 1ms
+ ✓ src/rules/__tests__/nurturing-product-interest-service.rules.unit.test.ts (5 tests) 1ms
+ ✓ src/repositories/prisma/__tests__/prisma.nurturing-uncopied-project.repository.integration.test.ts (2 tests) 75ms
+ ✓ src/repositories/memory/__tests__/memory.nurturing-claim.repository.unit.test.ts (2 tests) 0ms
+ Test Files  52 passed (52)
+      Tests  611 passed (611)
+   Start at  06:27:02
+   Duration  4.27s (import 39%, tests 33%, transform 27%, setup 1%)
+
+
+
+ NX   Successfully ran target test for project @langwatch/enterprise-nurturing-process
+
