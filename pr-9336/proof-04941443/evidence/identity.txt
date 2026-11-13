@@ -1,0 +1,10 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+members made through the app: auth.requestSignUpVerification -> auth.register -> /api/auth/sign-in/email; admin: organization.createAndAssign, project.create; invite.createInvites (org EXTERNAL, team VIEWER) -> member sign-up -> invite.acceptInvite (all HTTP 200). Read back (read-only SELECT):
+-- OrganizationUser
+<admin>	ADMIN
+<lite member>	EXTERNAL
+-- RoleBinding (who, role, scope type, scope; shared team = the project's team)
+<admin>	ADMIN	ORGANIZATION	organization
+<admin>	ADMIN	TEAM	shared team
+<lite member>	ADMIN	TEAM	member personal workspace team
+<lite member>	VIEWER	TEAM	shared team

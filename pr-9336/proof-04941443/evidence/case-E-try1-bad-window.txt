@@ -1,0 +1,24 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+CASE E
+caller: organisation ADMIN
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00-00-00Z",
+  "end": "2026-11-04T00-00-00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 400
+response (first 8000 chars): {"error":{"message":"validation_error","code":-32600,"data":{"code":"BAD_REQUEST","httpStatus":400,"path":"analytics.lwql.query","cause":null,"error":{"code":"validation_error","kind":"validation_error","meta":{"fieldErrors":{"timeWindow":["Invalid input: expected date, received Date","Invalid input: expected date, received Date"]},"formErrors":[]},"httpStatus":422,"fault":"customer","retryable":false,"reasons":[]},"authored":false}}}
+
+counters before -> after: built_in none -> none; user_written none -> none; run (lwql_queries_total, failure outcomes) none -> none
+new-logger (langwatch:analytics:lwql:query-failure) lines in window: 0; run-logger 'LangWatchQL failed' lines in window: 0
+
+app log lines in the request window (1 total, 1 relevant; hostname, userId and client addresses masked, time, pid and stacks dropped):
+{"level":"warn","hostname":"<masked>","name":"langwatch:api:hono","service":"langwatch-worker","family":"trpc","client.address":"<masked>","user.id":"<masked>","endpointClass":"dashboard","clientSource":"unknown","method":"POST","url":"/api/trpc/analytics.lwql.query","statusCode":400,"duration":19,"userAgent":"proof-driver/9336","requestError":{"type":"ZodError","message":"[\n  {\n    \"expected\": \"date\",\n    \"code\": \"invalid_type\",\n    \"received\": \"Invalid Date\",\n    \"path\": [\n      \"timeWindow\",\n      \"start\"\n    ],\n    \"message\": \"Invalid input: expected date, received Date\"\n  },\n  {\n    \"expected\": \"date\",\n    \"code\": \"invalid_type\",\n    \"received\": \"Invalid Date\",\n    \"path\": [\n      \"timeWindow\",\n      \"end\"\n    ],\n    \"message\": \"Invalid input: expected date, received Date\"\n  }\n]"},"errorType":"ZodError","msg":"error handling request"}

@@ -1,0 +1,38 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+new logger (langwatch:analytics:lwql:query-failure) lines in the whole run: 3
+-- each line (hostname/userId masked, time and pid dropped):
+{"level":"error","hostname":"<masked>","name":"langwatch:analytics:lwql:query-failure","service":"langwatch-worker","traceId":"36183a23a6c1d502370ccf4f056c6529","spanId":"36605eb411d25331","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","origin":"built_in","errorCode":"lwql_unknown_identifier","statementHash":"7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4","msg":"built-in LangWatchQL statement failed"}
+{"level":"error","hostname":"<masked>","name":"langwatch:analytics:lwql:query-failure","service":"langwatch-worker","traceId":"c6615858a20468ca7926063a631d7970","spanId":"eb1515e2013f72a8","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","origin":"built_in","errorCode":"lwql_unknown_identifier","statementHash":"7ad695ddac786f00e57055860b37d478b36dd6e274e0d0496e42af28cde02ce4","msg":"built-in LangWatchQL statement failed"}
+{"level":"error","hostname":"<masked>","name":"langwatch:analytics:lwql:query-failure","service":"langwatch-worker","traceId":"92bfd4b1df10c0befe62fb679039d362","spanId":"d8d64fc112d8ed3f","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","origin":"built_in","errorCode":"lwql_unavailable","source":"traces","msg":"built-in LangWatchQL statement failed"}
+
+-- greps on the new logger's lines only (matching lines)
+grep -cF 'dashboard_context_sources' newlogger: 0
+grep -cF 'trace_metrics.Source' newlogger: 0
+grep -cF 'uniqExact' newlogger: 0
+grep -cF 'FROM trace_metrics' newlogger: 0
+grep -cF 'SELEC' newlogger: 0
+grep -cF 'SELECT' newlogger: 0
+grep -cF 'TraceIdd' newlogger: 0
+grep -cF 'TotalCost' newlogger: 0
+
+-- control: same tokens on OTHER loggers' lines (whole run; excludes the new logger and the run-telemetry logger)
+grep -cF 'dashboard_context_sources' otherloggers: 0
+grep -cF 'trace_metrics.Source' otherloggers: 0
+grep -cF 'uniqExact' otherloggers: 0
+grep -cF 'FROM trace_metrics' otherloggers: 0
+grep -cF 'SELEC' otherloggers: 2
+grep -cF 'SELECT' otherloggers: 2
+grep -cF 'TraceIdd' otherloggers: 1
+grep -cF 'TotalCost' otherloggers: 2
+
+-- 'source' values on the new logger's lines: ["traces"]
+
+-- run-telemetry logger (langwatch:analytics:lwql) 'LangWatchQL failed' lines in the whole run: 7
+grep -cF 'dashboard_context_sources' run-telemetry failed lines: 0
+grep -cF 'trace_metrics.Source' run-telemetry failed lines: 0
+grep -cF 'uniqExact' run-telemetry failed lines: 0
+grep -cF 'FROM trace_metrics' run-telemetry failed lines: 0
+grep -cF 'SELEC' run-telemetry failed lines: 0
+grep -cF 'SELECT' run-telemetry failed lines: 0
+grep -cF 'TraceIdd' run-telemetry failed lines: 0
+grep -cF 'TotalCost' run-telemetry failed lines: 0

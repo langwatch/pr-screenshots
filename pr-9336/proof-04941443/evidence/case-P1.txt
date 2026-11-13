@@ -1,0 +1,28 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+CASE P1
+caller: lite member (organisation EXTERNAL, team VIEWER)
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS",
+ "sql": "SELECT addSeconds(toStartOfInterval(subtractSeconds(OccurredAt, 345600), INTERVAL {dashboard_context_granularity_seconds:UInt32} SECOND), 345600) AS bucket, sum(TotalCost) AS cost\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})\nGROUP BY bucket\nORDER BY bucket",
+ "timeWindow": {
+  "start": "2026-10-01T00:00:00Z",
+  "end": "2026-11-04T00:00:00Z"
+ },
+ "sources": [
+  "application"
+ ],
+ "granularitySeconds": 86400
+}
+HTTP 400
+response (first 8000 chars): {"error":{"message":"lwql_not_permitted","code":-32600,"data":{"code":"BAD_REQUEST","httpStatus":400,"path":"analytics.lwql.query","cause":null,"error":{"code":"lwql_not_permitted","kind":"lwql_not_permitted","meta":{"violations":[{"code":"GATED_COLUMN","clause":"projection","message":"The field \"TotalCost\" is not available to you. Remove it from the query.","hint":"Remove the field, or use one of the columns named in this violation's availableColumns.","at":{"line":1,"column":162},"view":"lwql9336_0494144.trace_metrics","missingGates":["cost:view"]}]},"traceId":"5fab43840f33657ec29a552453b4593c","spanId":"722129d2ef99cfc1","httpStatus":400,"fault":"customer","retryable":false,"tips":["Read `meta.violations`; each entry names the rule (`code`) and the clause (`clause`) that was refused","Submit one read-only SELECT; writes, DDL, SETTINGS, FORMAT, INTO OUTFILE and table functions are all refused","Read only the datasets the schema endpoint lists for this key, and select fields by name rather than with `*`"],"reasons":[]},"authored":false,"traceId":"5fab43840f33657ec29a552453b4593c"}}}
+
+counters before -> after: built_in none -> none; user_written none -> none; run (lwql_queries_total, failure outcomes) none -> 1
+new-logger (langwatch:analytics:lwql:query-failure) lines in window: 0; run-logger 'LangWatchQL failed' lines in window: 1
+
+app log lines in the request window (12 total, 4 relevant; hostname, userId and client addresses masked, time, pid and stacks dropped):
+{"level":"info","hostname":"<masked>","name":"langwatch:analytics:lwql","service":"langwatch-app","traceId":"5fab43840f33657ec29a552453b4593c","spanId":"722129d2ef99cfc1","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","violations":["GATED_COLUMN"],"msg":"LangWatchQL refused by policy"}
+{"level":"info","hostname":"<masked>","name":"langwatch:analytics:lwql","service":"langwatch-app","traceId":"5fab43840f33657ec29a552453b4593c","spanId":"722129d2ef99cfc1","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","caller":"workbench","queryHash":"ea9bc69dd6db83ec","outcome":"lwql_not_permitted","msg":"LangWatchQL failed"}
+{"level":"warn","hostname":"<masked>","name":"langwatch:trpc","service":"langwatch-app","traceId":"5fab43840f33657ec29a552453b4593c","spanId":"722129d2ef99cfc1","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","path":"analytics.lwql.query","type":"mutation","duration":36,"userAgent":"proof-driver/9336","statusCode":400,"error":{"type":"TRPCError","message":"The submitted SQL is not permitted by the LangWatchQL analytics policy.: The submitted SQL is not permitted by the LangWatchQL analytics policy.","code":"BAD_REQUEST","name":"TRPCError","cause":{"type":"LangWatchQLNotPermittedError","message":"The submitted SQL is not permitted by the LangWatchQL analytics policy.","code":"lwql_not_permitted","isHandled":true,"meta":{"violations":[{"code":"GATED_COLUMN","clause":"projection","message":"The field \"TotalCost\" is not available to you. Remove it from the query.","hint":"Remove the field, or use one of the columns named in this violation's availableColumns.","at":{"line":1,"column":162},"view":"lwql9336_0494144.trace_metrics","missingGates":["cost:view"]}]},"traceId":"5fab43840f33657ec29a552453b4593c","spanId":"722129d2ef99cfc1","httpStatus":400,"fault":"customer","retryable":false,"tips":["Read `meta.violations`; each entry names the rule (`code`) and the clause (`clause`) that was refused","Submit one read-only SELECT; writes, DDL, SETTINGS, FORMAT, INTO OUTFILE and table functions are all refused","Read only the datasets the schema endpoint lists for this key, and select fields by name rather than with `*`"],"reasons":[],"name":"LangWatchQLNotPermittedError"}},"handledErrorCode":"lwql_not_permitted","handledErrorFault":"customer","msg":"trpc call"}
+{"level":"warn","hostname":"<masked>","name":"langwatch:api:hono","service":"langwatch-worker","family":"trpc","client.address":"<masked>","user.id":"<masked>","endpointClass":"dashboard","clientSource":"unknown","method":"POST","url":"/api/trpc/analytics.lwql.query","statusCode":400,"duration":46,"userAgent":"proof-driver/9336","requestError":{"type":"LangWatchQLNotPermittedError","message":"The submitted SQL is not permitted by the LangWatchQL analytics policy.","code":"lwql_not_permitted"},"errorType":"LangWatchQLNotPermittedError","handledErrorCode":"lwql_not_permitted","handledErrorFault":"customer","msg":"error handling request"}

@@ -1,0 +1,11 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+broken view: CREATE OR REPLACE VIEW lwql9336_0494144.trace_metrics, copy of the live text without the Source column; Source column count after: 0
+Source count before A: 0
+Source count before B: 0
+Source count before C: 0
+Source count before F5a: 0
+Source count before F5b: 0
+restored: Source column count 1; byte diff vs live text: 0 lines; grants for lwql user covering trace_metrics: 1
+before: trace_analytics trace_analytics_id_index trace_analytics_id_index_mv trace_analytics_rollup 
+rename rc=0; after rename: trace_analytics_away_9336 trace_analytics_id_index trace_analytics_id_index_mv trace_analytics_rollup 
+rename back rc=0; after: trace_analytics trace_analytics_id_index trace_analytics_id_index_mv trace_analytics_rollup 

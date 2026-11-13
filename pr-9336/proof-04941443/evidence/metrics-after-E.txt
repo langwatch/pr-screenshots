@@ -1,0 +1,10 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+read: after-E
+# HELP lwql_query_duration_seconds LangWatchQL run time, the database's plus hydration's, by caller
+# TYPE lwql_query_duration_seconds histogram
+# HELP lwql_rows_read Rows the database read for one LangWatchQL run, by caller
+# TYPE lwql_rows_read histogram
+# HELP lwql_queries_total LangWatchQL runs by caller and outcome (ok, empty, or the error code)
+# TYPE lwql_queries_total counter
+lwql_queries_total{caller="workbench",outcome="ok"} 1
+HTTP 200

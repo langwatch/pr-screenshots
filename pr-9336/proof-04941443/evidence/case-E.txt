@@ -1,0 +1,26 @@
+head 04941443d792e0ca69e8bd0376b0d1c2d6deac7e
+CASE E
+caller: organisation ADMIN
+door: POST /api/trpc/analytics.lwql.query (signed-in session cookie)
+request body (project id is a local invented one):
+{
+ "projectId": "project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS",
+ "sql": "SELECT uniqExact(TraceId) AS traces\nFROM trace_metrics\nWHERE trace_metrics.Source IN {dashboard_context_sources:Array(String)} AND ( OccurredAt >= {dashboard_context_period_start:DateTime} AND OccurredAt < {dashboard_context_period_end:DateTime})",
+ "timeWindow": {
+  "start": "2026-10-01T00:00:00Z",
+  "end": "2026-11-04T00:00:00Z"
+ },
+ "sources": [
+  "application"
+ ]
+}
+HTTP 200
+response (first 8000 chars): {"result":{"data":{"columns":[{"name":"traces","type":"UInt64"}],"rows":[{"traces":0}],"statistics":{"elapsedMs":7,"rowsRead":2,"bytesRead":189,"rowsReturned":1},"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"completeness":{"state":"no_traffic","unit":"traces","total":0,"fields":[]},"params":{"period":{"start":"2026-10-01T00:00:00.000Z","end":"2026-11-04T00:00:00.000Z"},"dashboard_context_sources":["application"]}}}}
+
+counters before -> after: built_in none -> none; user_written none -> none; run (lwql_queries_total, failure outcomes) none -> none
+new-logger (langwatch:analytics:lwql:query-failure) lines in window: 0; run-logger 'LangWatchQL failed' lines in window: 0
+
+app log lines in the request window (3 total, 3 relevant; hostname, userId and client addresses masked, time, pid and stacks dropped):
+{"level":"info","hostname":"<masked>","name":"langwatch:analytics:lwql","service":"langwatch-app","traceId":"3a0bdb46a2a8afd73e425d4d19813b0a","spanId":"ea704d86730dc1ee","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","caller":"workbench","queryHash":"6c392e7da843447e","outcome":"ok","projectIds":["project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS"],"tables":["lwql9336_0494144.trace_metrics"],"rowsReturned":1,"rowsRead":2,"elapsedMs":7,"diagnostics":[],"followsTimeWindow":true,"followsGranularity":false,"followsSources":true,"msg":"LangWatchQL executed"}
+{"level":"info","hostname":"<masked>","name":"langwatch:trpc","service":"langwatch-app","traceId":"3a0bdb46a2a8afd73e425d4d19813b0a","spanId":"ea704d86730dc1ee","projectId":"project_0005H9P7BCwYXeWjFQ4yMpIFK4EuS","userId":"<masked>","path":"analytics.lwql.query","type":"mutation","duration":131,"userAgent":"proof-driver/9336","statusCode":null,"msg":"trpc call"}
+{"level":"info","hostname":"<masked>","name":"langwatch:api:hono","service":"langwatch-worker","family":"trpc","client.address":"<masked>","user.id":"<masked>","endpointClass":"dashboard","clientSource":"unknown","method":"POST","url":"/api/trpc/analytics.lwql.query","statusCode":200,"duration":148,"userAgent":"proof-driver/9336","msg":"request handled"}
