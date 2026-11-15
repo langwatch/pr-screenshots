@@ -1,6 +1,6 @@
 # iOS sheet bar screenshots
 
-BEFORE is `1f9343bf7817c87e35dbbaf3d4d0c57065686e63`; AFTER is `403e5e480`. Captures use iPhone 17 Pro on iOS 26 unless marked iPad. All captures use the Mac QA workspace. Each image is cropped to the screen header and nearby edge.
+BEFORE screenshots are from `1f9343bf7817c87e35dbbaf3d4d0c57065686e63`, before the site-card change; AFTER screenshots are from `403e5e480`. Latest origin/main at `4f6cdaf9629a2575198374618f1b7907132cb74e` also built successfully and passed LazeKit plus FeedTests. Its screenshot recapture did not reach a verified Mac QA home screen, so these BEFORE images remain from the earlier main snapshot. Captures use iPhone 17 Pro on iOS 26 unless marked iPad. Each image is cropped to the screen header and nearby edge.
 
 On iPhone sheets, the drawn bar moved from y=62 pt to y=78 pt, a 16 pt inset. The native toolbar sample also began at y=78 pt, 16 pt below the sheet edge. Full screen conversation and thread bars stayed at y=62 pt. The iPad sheet moved down 16 pt as well.
 
