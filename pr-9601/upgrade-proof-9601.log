@@ -1,0 +1,178 @@
+# PR langwatch/langwatch#9601 upgrade proof, worktree head 1819a9d16a5, 2026-11-15T05:13:44Z
+# Trimmed, redacted public copy of the captured proof log (3,337 lines originally).
+# Kept: operator commands, [exit N] lines, upgrade summary, page-batch/page-aggregate lines, step done status, query_log.
+# Redacted: hostname -> localhost, home paths -> <path>, non-synthetic ids -> <id>. Credentials appear only as $PROOF_* names.
+# JSON lines over 300 chars are shortened to their relevant fields (upgrade finished/complete lines only).
+# Ids proof9601_* and trace f0f0...9601 are synthetic, written by the proof's seed script.
+
+$ node <path>/proof/db.mjs create
+[... 2 line(s) dropped]
+[exit 0]
+
+$ CHECKPOINT_DISABLE=1 SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG node_modules/.bin/prisma migrate deploy
+[... 1348 line(s) dropped]
+[exit 0]
+
+$ SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG CLICKHOUSE_URL=$PROOF_CH REDIS_URL=$PROOF_REDIS pnpm task upgrade
+[... 687 line(s) dropped]
+[exit 1]
+
+$ CHECKPOINT_DISABLE=1 node_modules/.bin/prisma generate --config ./prisma.config.ts
+[... 3 line(s) dropped]
+[exit 0]
+
+$ SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG CLICKHOUSE_URL=$PROOF_CH REDIS_URL=$PROOF_REDIS pnpm task upgrade
+[... 781 line(s) dropped]
+{"time":"2026-11-15T05:16:27.295Z","name":"langwatch:upgrade","elapsedMs":29759,"phase":"finished","code":"done","runId":"<id>","msg":"upgrade finished in 29759 ms: upgraded to this image"}
+{"time":"2026-11-15T05:16:27.296Z","name":"langwatch:upgrade","phase":"finished","code":"done","runId":"<id>","msg":"upgraded to this image"}
+{"time":"2026-11-15T05:16:27.296Z","name":"langwatch:upgrade","phase":"finished","msg":"upgrade complete; the UI is at http://localhost:6560 (Upgrades, for platform operators); `pnpm task upgrade status` shows every step and run"}
+[... 4 line(s) dropped]
+[exit 0]
+
+$ SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG CLICKHOUSE_URL=$PROOF_CH REDIS_URL=$PROOF_REDIS pnpm --silent --filter @langwatch/tasks task upgrade status
+[... 68 line(s) dropped]
+Installed:    no release recorded
+Image:        Development build
+Steps:        done 570, pending 70
+Last run:     <id> (upgrade) succeeded, started 2026-11-15T05:15:57.701Z
+[... 3 line(s) dropped]
+[exit 0]
+
+$ SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG CLICKHOUSE_URL=$PROOF_CH REDIS_URL=$PROOF_REDIS pnpm --silent --filter @langwatch/tasks task upgrade old-writers-gone
+old writers before the serving roster asserted gone at 2026-11-15T05:18:28.537Z: steps that wait for old writers run once every live process declares them
+[exit 0]
+
+$ node --experimental-transform-types --disable-warning=ExperimentalWarning <path>/proof/seed.ts 4000 48000
+[... 5 line(s) dropped]
+[exit 0]
+
+$ node <path>/proof/measure.mjs 1073741824 250000000
+[... 3 line(s) dropped]
+cap 250000000: bulk read failed: Code: 241. DB::Exception: Query memory limit exceeded: would use 239
+[... 1 line(s) dropped]
+[exit 0]
+
+$ PROOF_MEMORY_CAP=250000000 node <path>/proof/capcheck.mjs
+[... 2 line(s) dropped]
+[exit 0]
+
+$ node <path>/proof/ledger.mjs trace:replay-trace-analytics-widget-columns
+[... 8 line(s) dropped]
+[exit 0]
+
+$ SKIP_LWQL_PROVISION=1 DATABASE_URL=$PROOF_PG CLICKHOUSE_URL=$PROOF_CH_CAPPED REDIS_URL=$PROOF_REDIS pnpm --filter @langwatch/worker start   # background; PROOF_CH_CAPPED = CLICKHOUSE_URL on database proof_9601 with ?clickhouse_setting_max_memory_usage=250000000
+[... 103 line(s) dropped]
+{"level":"info","time":"2026-11-15T05:20:24.968Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-batch","batch":1,"msg":"Replay pages an aggregate"}
+[... 1 line(s) dropped]
+{"level":"info","time":"2026-11-15T05:20:26.023Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":1,"events":689,"ms":1035,"totalEvents":689,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:26.449Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":1,"events":689,"ms":1350,"totalEvents":689,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:26.708Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":2,"events":689,"ms":685,"totalEvents":1378,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:27.161Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":2,"events":689,"ms":712,"totalEvents":1378,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:27.381Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":3,"events":689,"ms":673,"totalEvents":2067,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:27.932Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":3,"events":689,"ms":771,"totalEvents":2067,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:28.142Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":4,"events":689,"ms":761,"totalEvents":2756,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:28.737Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":4,"events":689,"ms":805,"totalEvents":2756,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:28.876Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":5,"events":689,"ms":734,"totalEvents":3445,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:29.374Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":5,"events":689,"ms":637,"totalEvents":3445,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:29.453Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":6,"events":555,"ms":577,"totalEvents":4000,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:20:29.769Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"spanAnalytics","step":"page-aggregate","page":6,"events":555,"ms":395,"totalEvents":4000,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:00.344Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-batch","batch":1,"msg":"Replay pages an aggregate"}
+{"level":"info","time":"2026-11-15T05:21:01.167Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":1,"events":689,"ms":805,"totalEvents":689,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:01.668Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":2,"events":689,"ms":501,"totalEvents":1378,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:02.211Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":3,"events":689,"ms":543,"totalEvents":2067,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:02.636Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":4,"events":689,"ms":425,"totalEvents":2756,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:03.177Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":5,"events":689,"ms":541,"totalEvents":3445,"msg":"Replay read a page"}
+{"level":"info","time":"2026-11-15T05:21:03.538Z","pid":3990473,"hostname":"localhost","name":"langwatch:event-sourcing:projection-lane-replay","service":"langwatch-app","lane":"traceAnalytics","step":"page-aggregate","page":6,"events":555,"ms":361,"totalEvents":4000,"msg":"Replay read a page"}
+[... 105 line(s) dropped]
+
+$ node <path>/proof/logtail.mjs trace:replay-trace-analytics-widget-columns
+trace:replay-trace-analytics-widget-columns: status done, attempt 1, started 2026-11-15T05:20:24.514Z, finished 2026-11-15T05:20:29.490Z, last_error null
+2026-11-15T05:20:24.515Z info background step started {"resumed":false}
+2026-11-15T05:20:29.49Z info background step done
+[exit 0]
+
+$ node <path>/proof/ledger.mjs trace:replay-trace-analytics-widget-columns
+{
+ "id": "trace:replay-trace-analytics-widget-columns",
+ "status": "done",
+ "kind": "data",
+ "mode": "background",
+ "lastError": null,
+ "report": {
+  "kind": "fold",
+  "lane": "traceAnalytics",
+  "totalEvents": 4000,
+  "replayedSince": "2026-09-14T05:20:22.281Z",
+  "pagedAggregates": {
+   "proof9601_project:trace:f0f0f0f0f0f0f0f0f0f0f0f0f0f09601": 0
+  },
+  "replayedThrough": "2026-11-15T05:15:24.517Z",
+  "aggregatesReplayed": 1
+ }
+}
+[exit 0]
+
+$ node <path>/proof/querylog.mjs 2026-11-15T05:20:00Z
+┌─at───────┬─read──────┬─cap───────┬─type─────────────────────┬─code─┬─would_use──┬─maximum────┬─events─┬─peak_memory─┬──ms─┐
+ 1. │ 05:20:24 │ bulk read │ 250000000 │ ExceptionWhileProcessing │  241 │ 251.88 MiB │ 238.42 MiB │      0 │ 237.46 MiB  │ 380 │
+ 2. │ 05:20:25 │ bulk read │ 250000000 │ ExceptionWhileProcessing │  241 │ 251.87 MiB │ 238.42 MiB │      0 │ 237.46 MiB  │ 377 │
+ 3. │ 05:20:25 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.10 MiB  │ 488 │
+ 4. │ 05:20:26 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.09 MiB  │ 878 │
+ 5. │ 05:20:26 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.92 MiB  │ 413 │
+ 6. │ 05:20:26 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.91 MiB  │ 268 │
+ 7. │ 05:20:27 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.94 MiB  │ 448 │
+ 8. │ 05:20:27 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.93 MiB  │ 322 │
+ 9. │ 05:20:27 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.13 MiB  │ 577 │
+10. │ 05:20:28 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.12 MiB  │ 289 │
+11. │ 05:20:28 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.92 MiB  │ 614 │
+12. │ 05:20:29 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.91 MiB  │ 289 │
+13. │ 05:20:29 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    555 │ 97.68 MiB   │ 505 │
+14. │ 05:20:29 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    555 │ 97.68 MiB   │ 132 │
+15. │ 05:21:00 │ bulk read │ 250000000 │ ExceptionWhileProcessing │  241 │ 251.88 MiB │ 238.42 MiB │      0 │ 237.46 MiB  │ 137 │
+16. │ 05:21:00 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.10 MiB  │ 236 │
+17. │ 05:21:01 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.92 MiB  │ 318 │
+18. │ 05:21:02 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.93 MiB  │ 386 │
+19. │ 05:21:02 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 132.13 MiB  │ 275 │
+20. │ 05:21:02 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    689 │ 130.92 MiB  │ 294 │
+21. │ 05:21:03 │ page load │ 250000000 │ QueryFinish              │    0 │            │            │    555 │ 97.68 MiB   │ 243 │
+    └──────────┴───────────┴───────────┴──────────────────────────┴──────┴────────────┴────────────┴────────┴─────────────┴─────┘
+[exit 0]
+
+$ node <path>/proof/steps.mjs | grep -E 'replay-(trace|span)|by status'
+trace:replay-trace-analytics-widget-columns | done | attempt 1 | 05:20:24 | 05:20:29 | lane traceAnalytics | events 4000 | paged aggregates 1
+trace:replay-span-analytics | done | attempt 1 | 05:20:24 | 05:20:30 | lane spanAnalytics | events 4000 | paged aggregates 1
+trace:replay-trace-evaluation-analytics | done | attempt 1 | 05:21:00 | 05:21:03 | lane traceAnalytics | events 4000 | paged aggregates 1
+background steps by status: done 65, pending 8
+[exit 0]
+
+$ node <path>/proof/rows.mjs
+trace_analytics rows,traces = 1,1
+span_analytics rows,traces = 4000,1
+[exit 0]
+
+$ kill -TERM $(cat <path>/proof/redis.pid); for i in 1 2 3 4 5 6 7 8 9 10; do kill -0 $(cat <path>/proof/redis.pid) 2>/dev/null || break; sleep 1; done; kill -0 $(cat <path>/proof/redis.pid) 2>/dev/null && echo 'redis still running' || echo 'redis pid exited'
+redis pid exited
+[exit 0]
+
+$ ss -ltn | grep -c ':6390 ' || true
+0
+[exit 0]
+
+$ node <path>/proof/db.mjs drop
+postgres databases named proof_9601: 0
+clickhouse databases named proof_9601: 0
+[exit 0]
+
+$ mkdir -p <path>/discarded && mv <path>/proof/redis <path>/discarded/redis-20261115T052307Z && ls -d <path>/discarded/redis-20261115T052307Z
+<path>/discarded/redis-20261115T052307Z
+[exit 0]
+
+$ node <path>/proof/db.mjs list; ss -ltn | grep ':6390 ' || echo 'port 6390: no listener'
+postgres databases named proof_9601: 0
+clickhouse databases named proof_9601: 0
+port 6390: no listener
+[exit 0]
+
+$ kill -TERM <nx daemon pids started by this proof's build>
+nx daemon pids exited
+[exit 0]
