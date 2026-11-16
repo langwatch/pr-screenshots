@@ -1,0 +1,47 @@
+# Local stack only (haven stack lwql-view-pushdown, branch fix/lwql-view-predicate-pushdown @ 8ea9fa35f73), seeded data.
+# Board: stock template "Running costs" in seed project gateway-2 (seed org s1-gateway-1), period 90d, loaded 2026-11-16 16:36:14 UTC.
+# The custom_api_key_hash value is replaced with <redacted>; nothing else is edited.
+
+## 1. ClickHouse system.query_log row for one widget query the api sent (type = QueryFinish)
+$ SELECT event_time, user, query_id, read_rows, result_rows, query FROM system.query_log WHERE query_id = '7c76dac0-a7de-462a-81dd-e8b59abe7d07' AND type = 'QueryFinish' FORMAT JSONEachRow   (fields below printed one per line)
+event_time:  2026-11-16 16:36:20
+user:        langwatch_lwql_main
+query_id:    7c76dac0-a7de-462a-81dd-e8b59abe7d07
+read_rows:   20219
+result_rows: 1
+query:       SELECT sum(TotalCost) AS cost FROM trace_metrics__floor(lwql_floor = toTimeZone(toDateTime64(_CAST(1787071020, 'DateTime'), 3), timezone())) AS trace_metrics WHERE (trace_metrics.Source IN _CAST(['application'], 'Array(String)')) AND ((OccurredAt >= _CAST(1787071020, 'DateTime')) AND (OccurredAt < _CAST(1794847020, 'DateTime'))) LIMIT 10000 SETTINGS custom_api_key_hash = '<redacted>', log_comment = 'lwql:project=local_project_0003QMuBaZUlLrfpaNOyTWdWEyauX' FORMAT JSON
+
+## 2. EXPLAIN indexes = 1 of that same query text (minus FORMAT JSON), run read-only as the local default user
+$ EXPLAIN indexes = 1 SELECT sum(TotalCost) AS cost FROM trace_metrics__floor(lwql_floor = toTimeZone(toDateTime64(_CAST(1787071020, 'DateTime'), 3), timezone())) AS trace_metrics WHERE (trace_metrics.Source IN _CAST(['application'], 'Array(String)')) AND ((OccurredAt >= _CAST(1787071020, 'DateTime')) AND (OccurredAt < _CAST(1794847020, 'DateTime'))) LIMIT 10000 SETTINGS custom_api_key_hash = '<redacted>', log_comment = 'lwql:project=local_project_0003QMuBaZUlLrfpaNOyTWdWEyauX'
+Expression ((Project names + Projection))
+  Limit (preliminary LIMIT (without OFFSET))
+    Aggregating
+      Expression ((Before GROUP BY + (WHERE + (Change column names to column identifiers + (Convert VIEW subquery result to VIEW table structure + (Materialize constants after VIEW subquery + (Project names + (Projection + (Change column names to column identifiers + (Project names + (Projection + (Change column names to column identifiers + Project names))))))))))))
+        Filter (((WHERE + (Change column names to column identifiers + (Convert VIEW subquery result to VIEW table structure + (Materialize constants after VIEW subquery + (Project names + (Projection + (Change column names to column identifiers + (Project names + (Projection + (Change column names to column identifiers + Project names)))))))))))[split])
+          LimitBy
+            Expression (Before LIMIT BY)
+              Sorting (Sorting for ORDER BY)
+                Expression ((Before ORDER BY + Projection))
+                  Expression ((WHERE + Change column names to column identifiers))
+                    ReadFromMergeTree (langwatch.trace_analytics)
+                    Indexes:
+                      MinMax
+                        Keys:
+                          OccurredAt
+                        Condition: (OccurredAt in ['1787071020', +Inf))
+                        Parts: 11/11
+                        Granules: 11/11
+                      Partition
+                        Keys:
+                          toYearWeek(OccurredAt)
+                        Condition: (toYearWeek(OccurredAt) in [202633, +Inf))
+                        Parts: 11/11
+                        Granules: 11/11
+                      PrimaryKey
+                        Keys:
+                          OccurredAt
+                        Condition: (OccurredAt in ['1787071020', +Inf))
+                        Parts: 11/11
+                        Granules: 11/11
+                        Search Algorithm: generic exclusion search
+                      Ranges: 11
