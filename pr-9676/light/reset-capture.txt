@@ -1,0 +1,57 @@
+PR 9676, head a4dbb8304ee9 (lw-timers worktree), real app on local haven stack (private plgproof-* DB), seeded admin, API key created in the UI.
+Source: in-page script (tools/phase1.js, tools/phase2.js) run by 'haven browser eval' in the 'API key created' dialog; button = [data-testid=token-created-copy-key]; state=copied when its text is "Copied".
+Test double: headless Chrome denies clipboard write (NotAllowedError), so navigator.clipboard.writeText is replaced in-page by a stub that resolves. Nothing else is stubbed.
+
+== Run 1: click Copy API key at t=0 and t=1.5s ==
+t=0.0s CLICK #1
+t=0.2s state=copied
+t=0.4s state=copied
+t=0.6s state=copied
+t=0.8s state=copied
+t=1.0s state=copied
+t=1.2s state=copied
+t=1.4s state=copied
+t=1.5s CLICK #2
+t=1.6s state=copied
+t=1.8s state=copied
+t=2.0s state=copied
+t=2.2s state=copied
+t=2.4s state=copied
+t=2.6s state=copied
+t=2.8s state=copied
+t=3.0s state=copied
+t=3.2s state=copied
+t=3.4s state=copied
+t=3.6s state=copy
+t=3.8s state=copy
+t=4.0s state=copy
+t=4.2s state=copy
+t=4.4s state=copy
+t=4.6s state=copy
+console (error/warn/window.onerror/unhandledrejection) captured during run 1: [] (empty)
+Result: still 'copied' at 3.4s (>2s after the FIRST click), back to 'copy' by 3.6s = 1.5s + 2.0s after the LAST click.
+
+== Run 2: click Copy at t=0, close dialog (Done) at t=0.8s, watch 4s ==
+t=0.0s CLICK copy
+t=0.2s state=copied
+t=0.4s state=copied
+t=0.6s state=copied
+t=0.8s CLICK Done (dialog close)
+t=0.8s state=dialog-closed
+t=1.0s state=dialog-closed
+t=1.2s state=dialog-closed
+t=1.4s state=dialog-closed
+t=1.6s state=dialog-closed
+t=1.8s state=dialog-closed
+t=2.0s state=dialog-closed
+t=2.2s state=dialog-closed
+t=2.4s state=dialog-closed
+t=2.6s state=dialog-closed
+t=2.8s state=dialog-closed
+t=3.0s state=dialog-closed
+t=3.2s state=dialog-closed
+t=3.4s state=dialog-closed
+t=3.6s state=dialog-closed
+t=3.8s state=dialog-closed
+t=4.0s state=dialog-closed
+console (error/warn/window.onerror/unhandledrejection) captured during run 2: [] (empty; no 'window is not defined', no React warnings)
