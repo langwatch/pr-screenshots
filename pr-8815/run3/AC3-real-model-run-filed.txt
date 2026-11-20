@@ -1,0 +1,10 @@
+AC3 evidence: real-model daily insights run (read-only SELECTs, captured 2026-11-20)
+
+head:   e39de4870c0 (local merge of b36e5dc641f [this branch] and adb494e4586 [session-key fix])
+model:  openai/gpt-oss-120b
+
+-- run row, as captured (board kind, board key, status, then the counts and timestamp as stored)
+template,breaks,filed,,1,0,1795195792466
+
+-- insights filed by the run, as captured
+insight_run_298e87cc66c74ed854aad4f9329b8d18,curated/breaks,up-errors,run,1795195168243,Error rate spiked to 43% at 16:00 UTC
