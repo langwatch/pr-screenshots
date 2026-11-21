@@ -1,0 +1,143 @@
+# PR 9768 proof captures (AC213 to AC217)
+
+- **Code:** worktree `.worktrees/tasks1187-widget-ui`, branch `tasks1187/widget-ui-fixes`.
+  - The run was at head `c1a70d7`. The only change since `6cd47df` is one line of `dashboards-v2.feature`, so the code is the PR's.
+- **Stack:** private, on 127.0.0.1, run by `setup.sh all`:
+  - ClickHouse 26.8.36.3 on :27123
+  - Redis on :27379
+  - Postgres 15 on :27432
+  - api and worker as one backend process, serving the built UI, on :5800
+  - Torn down with `setup.sh down`.
+- **Seed:** `storage-seed`, renamed to "Demo org", "Demo project" and "Demo user", then `scripts/traffic.mjs` and `scripts/judge.mjs`.
+  - Ten days of synthetic traces, sent through `/api/otel/v1/traces` and `/api/collector`. Every model name is made up (`acme-chat-a`, `-b`, `-c`), so a span is priced only by an explicit cost or an explicit zero rate.
+- **Boards:**
+  - Curated "Where my agent breaks".
+  - "Running costs", "Agent health" and "Tool use", each added from the templates page by clicking "Add to this project".
+  - "Evaluator checks", one custom widget made through REST.
+  - Two copies of the "Is my agent up right now?" card, made by REST. One counts simulations only, the other experiments (playground) only.
+- **Captures:** `scripts/shots.mjs` (Playwright 1.63, headless Chromium, 1280 px wide unless the entry below says otherwise).
+  - Card shots show the app as it rendered.
+  - The one addition is a box labelled in red "native tooltip … drawn by the capture script". Headless Chromium never paints a native `title` tooltip, so the script reads the hovered element's `title` and draws it.
+
+Seed state at capture time, from ClickHouse `trace_summaries` (`logs/cost-state.txt`):
+
+| origin | traces | TotalCost NULL | sum | traces with an unpriced span |
+|---|---|---|---|---|
+| application | 45 | 26 | 0.2857 | 10 |
+| playground | 20 (10 at zero rates, 10 unpriced) | 20 | NULL | 10 |
+| sample | 10 | 0 | 0.04 | 0 |
+| simulation | 20 | 20 | NULL | 20 |
+
+## Files
+
+**ac213.png: AC213, a limited and an unlimited card.**
+- What it shows:
+  - "Running costs" at 2100 px.
+  - On the right, "Which model costs me the most?": its footer ends with one ⓘ line, "This query counts every source, because its SQL does not read the sources setting." (SOURCES_IGNORED).
+  - On the left, "How much of my AI spend goes on testing…": an unlimited card, with no ⓘ line.
+- Seed: the stock template. Its model-cost query does not read the sources placeholder.
+- Notes:
+  - The card's own ellipsis cuts the footer even at 2100 px, because the board caps its width.
+
+**ac213-hover.png: AC213, the full line.**
+- What it shows: the same limited card with its footer hovered. The drawn box is the footer's `title`, the whole line.
+- Notes:
+  - The capture log records `full line has '{': false`.
+  - The ⓘ part names no project and gives no count. "Project: Demo project" is the footer's separate projects line.
+
+**ac214.png: AC214, the Errors per day card.**
+- What it shows: "Which errors does my agent hit each day…" on curated "Where my agent breaks".
+- Seed: 0, 1 or 2 failed traces a day (`ERRORS` in traffic.mjs).
+- Notes: the bar axis reads 0, 1, 2, 3, 4, all whole numbers. The largest day is 2.
+
+**ac215.png: AC215 and AC215d, rows per source.**
+- What it shows: "How much of my AI spend goes on testing, and how much on production?" on "Running costs". Each row is one source:
+
+  | Row | Shows | Scenario | Seed |
+  |---|---|---|---|
+  | Simulations | "Not priced", never "$0.00+" | AC215 | no span priced |
+  | Production | "$0.29+" | AC215d | priced above 0, some unpriced |
+  | Other | "$0.04", no "+" | AC215d | every span priced |
+  | Experiments | "–" | AC215b, see the gaps below | spans priced at 0, plus unpriced spans |
+
+**ac215c.png: AC215c, the loops card.**
+- What it shows: "Does my agent go in circles?" (`up-loops`) reads "Cost of the repeats: $0.00, some spans not priced". It does not read "Not priced" or "$0.00+".
+- Seed: one trace every other day that calls `search_docs` three times with one input, with no cost.
+
+**ac215d.png: AC215d, a card figure.**
+- What it shows: on "Will I stay within my AI budget this month?", "Spent" reads "$0.29+".
+- Seed: production, with priced and unpriced traces.
+
+**ac215-no-priced-span-tile.png: AC215 clause 3, extra, a gap.**
+- What it shows: the "Is my agent up right now?" copy that counts simulations only. Total cost reads "–". It is neither the cost setup view nor "Not priced".
+- Seed: 20 simulation traces, all unpriced.
+- Notes: the copy is drawn at 1700 px, so the fourth tile fits in a half-width card.
+
+**ac215b-zero-priced-tile.png: AC215b, extra, a gap.**
+- What it shows: the same card copy, counting playground only. Total cost reads "–", not "$0.00, some spans not priced".
+- Seed: 10 traces at zero rates and 10 unpriced.
+
+**ac216.png: AC216 at 1280 px, full-width card.**
+- What it shows:
+  - Errors per day, with two dashed markers one day apart (Nov 17 and Nov 18).
+  - No marker label is drawn on the plot or past the right axis. The capture log records that 0 marker names appear as SVG text.
+  - The first marker is hovered: its `title` reads "model acme-chat-b". That is the readable name, not an id.
+  - The box at the left is the chart's own Recharts tooltip.
+- Seed: `acme-chat-a` on every day, `acme-chat-b` from 4 days ago, `acme-chat-c` from 3 days ago.
+
+**ac216-resolved.png: AC216, half-width card.**
+- What it shows: "Does my agent resolve more conversations each day?" (Conversations resolved per day), on "Agent health". The second marker is hovered: "acme-chat-c".
+- Seed: the Conversation Outcome Judge's verdicts from `judge.mjs`.
+
+**ac216-wrong-tool.png: AC216, half-width card.**
+- What it shows: "Does my agent pick the right tool first?" (Wrong tool rate), on "Tool use". The first marker is hovered: "model acme-chat-b".
+- Seed: "Tool choice" evaluations.
+- Notes: no rate line is drawn. Every evaluation lands on one day, likely because the evaluations are dated at ingestion; I did not confirm why. Its footer also carries an AC213 ⓘ line.
+
+**ac217.png: AC217, an evaluations widget.**
+- What it shows: "Which model does each evaluator run on?" shows "Needs model", "None of the evaluations in this period have it." and "Choose a model in the evaluator's settings."
+- Seed: an `evaluation_metrics` query over `Model`. The 64 collector evaluations carry no model.
+
+## What the scenarios could not show here
+
+- **AC215b on a source row or a card figure.**
+  - A trace whose spans are priced at exactly 0 is stored with TotalCost NULL, the same as a trace with no price at all (table above, playground).
+  - So the row and the Total cost tile read "–", not "$0.00, some spans not priced". The only surface that shows it is `up-loops` (ac215c.png). Its JS turns NULL into 0.
+  - This looks like a gap between the PR's `costText` unit tests, which feed `sum: 0`, and real ingestion. It is worth raising with the PR author.
+- **AC215 clause 3, "a card whose figure has no priced span shows the cost setup view instead".**
+  - Not seen. With only unpriced spans in scope, the Total cost tile reads "–" (ac215-no-priced-span-tile.png).
+  - The simulations-only "Spent" figure on a "Running costs" copy also read "–". That was an earlier scratch capture; it is not kept.
+  - I did not trace why the completeness report does not turn this into "Not priced" or the setup view.
+- **AC216's "Span data from" note.** It did not appear on this stack: no span-floor notice is set, so nothing shows where it sits against the axis and legend.
+- **AC216's "narrowest card width".** Only half-width cards at 1280 px (about 490 px) were captured. No narrower viewport was tried.
+- **AC213: SHARE_WINDOW_LIMITED and GRANULARITY_COARSENED.**
+  - Not shown. The first needs a project shared from a date.
+  - The board widens the step itself, so the second rarely fires.
+- **AC214: a chart whose largest value is 0 or 1.** Only largest value 2 was shown. The loops card in ac215c.png has largest value 1 and also has whole-number ticks.
+
+## Setup traps found on this run (fixed in setup.sh)
+
+- ClickHouse needs `<custom_settings_prefixes>custom_</custom_settings_prefixes>`. Without it, the LangWatchQL reconciler fails on `CREATE SETTINGS PROFILE` (UNKNOWN_SETTING).
+- `.env.example` sets `FEATURE_FLAG_FORCE_ENABLE`, so add `release_dashboards,release_lwql_workbench` to that list. A default value would be ignored.
+- The backend serves the UI only from `LANGWATCH_UI_DIST_DIR`. It is a copy of `apps/ui/dist/client.local`, as `dev/scripts/dev-stack.sh` does.
+- `storage-seed` writes the project directly, after the upgrade already ran `analytics:fill-lwql-project-keys` with no projects. So the project has no LangWatchQL key-map row, and every widget reads 0 rows.
+  - setup.sh inserts the row that step would write: the sha256-hex of the project's `lwqlKey`.
+
+## Recapture at a5e6e28
+
+- **HEAD checked:** `git rev-parse HEAD` = `a5e6e28314890c154ccfe42dfe5bf0a37be7eb71` ("show $0.00 on source rows priced at zero").
+- **Run:** `setup.sh` phases preflight to boards, the same seed; ClickHouse cost state matched the table above. The `shots` phase was skipped so the other PNGs stay as captured at c1a70d7.
+  - Only `ac215.png` was recaptured, by `scripts/ac215-only.mjs` (log: `logs/recap-ac215.log`). The old file is `ac215-c1a70d7.png`.
+- **Rows, as read from the card's DOM:**
+
+  | Row | Share | Value |
+  |---|---|---|
+  | Production | 88% | $0.29+ |
+  | Evaluations | – | – |
+  | Simulations | – | Not priced |
+  | Experiments | – | $0.00, some spans not priced |
+  | Other | 12% | $0.04 |
+  | Unpriced | 40 traces, no price | – |
+
+- So AC215b now shows on a source row: Experiments reads "$0.00, some spans not priced", where it read "–" at c1a70d7. The gap noted above for the row is closed; the Total cost tile (ac215b-zero-priced-tile.png) was not recaptured.
+- Torn down with `setup.sh down`: all four lw9768 scopes inactive, recorded pids (`logs/recap-pids.txt`) gone, stack dir removed, dl/ kept.
