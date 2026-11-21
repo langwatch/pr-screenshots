@@ -1,0 +1,78 @@
+# att-change/change on a local seed; period 2026-09-22T00:00:00.000Z to 2026-11-21T00:00:00.000Z (60 days), sources [application], project local-dev-project
+# PR SQL: sql/pr-change.sql (stock-widget-queries.json at the PR head)
+# main SQL: sql/main-change.sql (origin/main's stock-widget-queries.json; equal to the PR's attribution-baseline fixture)
+# Both run on the PR's stack: main's SQL reads the traces view, which the PR does not change.
+
+# warmup-main
+$ jq -n --rawfile sql sql/main-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":907,"rowsRead":2509468,"bytesRead":211057255,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:42.543816', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+1f40183a-f873-442d-8671-8b1c68cca4da	QueryFinish	0	185204609	2509468	910
+
+# warmup-pr
+$ jq -n --rawfile sql sql/pr-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":206,"rowsRead":759467,"bytesRead":67363199,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:43.629478', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+141567cb-6dba-456c-902a-0fc22dc4e1f9	QueryFinish	0	93574755	759467	207
+params the PR warm-up run was bound with: {"period":{"start":"2026-09-22T00:00:00.000Z","end":"2026-11-21T00:00:00.000Z"},"dashboard_context_sources":["application"]}
+
+# main-1
+$ jq -n --rawfile sql sql/main-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":861,"rowsRead":2509468,"bytesRead":211057255,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:44.034529', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+1da66ef5-54b4-4405-a52d-7701809aff92	QueryFinish	0	188614998	2509468	864
+
+# pr-1
+$ jq -n --rawfile sql sql/pr-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":202,"rowsRead":759467,"bytesRead":67363199,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:45.087078', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+26dfad88-933f-43d2-bb4a-d2b10b575d3e	QueryFinish	0	98339606	759467	203
+
+# main-2
+$ jq -n --rawfile sql sql/main-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":936,"rowsRead":2509468,"bytesRead":211057255,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:45.459230', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+89886116-53e8-4c0c-bc8c-100498ce943c	QueryFinish	0	189771081	2509468	939
+
+# pr-2
+$ jq -n --rawfile sql sql/pr-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":243,"rowsRead":759467,"bytesRead":67363199,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:46.584438', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+29d22dc4-2f72-4073-a784-d91fe668e446	QueryFinish	0	99448304	759467	244
+
+# main-3
+$ jq -n --rawfile sql sql/main-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":974,"rowsRead":2509468,"bytesRead":211057255,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:47.023706', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+b9732ea6-5843-4af9-afab-ccded7ca7c5a	QueryFinish	0	189664556	2509468	977
+
+# pr-3
+$ jq -n --rawfile sql sql/pr-change.sql --arg p local-dev-project --arg s 2026-09-22T00:00:00.000Z --arg e 2026-11-21T00:00:00.000Z '{sql: $sql, projectId: $p, sources: ["application"], timeWindow: {start: $s, end: $e}}' > body.json
+$ curl -sS -X POST -H 'Authorization: Bearer $KEY' -H 'Content-Type: application/json' --data-binary @body.json http://localhost:5900/api/v1/query
+HTTP 200; rows: [{"version":"pv-new","changed_at":"2026-11-17 00:00:55.295","previous":"pv-mid"}]; statistics: {"elapsedMs":222,"rowsRead":759467,"bytesRead":67363199,"rowsReturned":1}
+$ clickhouse: SELECT query_id, type, exception_code, memory_usage, read_rows, query_duration_ms FROM system.query_log WHERE log_comment = 'lwql:project=local-dev-project' AND type != 'QueryStart' AND event_time_microseconds >= toDateTime64('2026-11-21 13:13:48.205936', 6) AND query LIKE '%arrayReverseSort%' ORDER BY event_time_microseconds
+query_id	type	exception_code	memory_usage	read_rows	query_duration_ms
+619b3c1d-9314-45d1-8062-4a02c5067b24	QueryFinish	0	99166689	759467	226
+
+# Summary (warm cache; the warm-up runs are not counted)
+side   metric         run1           run2           run3           median
+main   memory_usage   188614998      189771081      189664556      189664556 (180.9 MiB)
+main   read_rows      2509468        2509468        2509468        2509468
+main   duration_ms    864            939            977            939
+pr     memory_usage   98339606       99448304       99166689       99166689 (94.6 MiB)
+pr     read_rows      759467         759467         759467         759467
+pr     duration_ms    203            244            226            226
