@@ -1,0 +1,14 @@
+Prod proof 2026-11-23, Mac QA workspace, Hooks QA agent, CLI 0.1.153 build, release 159eabc0e077
+
+$ laze app screenshot hooks-proof-shot.png --app hooks-proof --channel hooks-proof
+Saved a screenshot of Hooks proof to hooks-proof-shot.png
+
+$ laze browser open https://hooks-proof--mac-qa-6882b4.lazeapps.com --channel hooks-proof
+laze: browser_tab_app_pinned: Hooks proof is already a tab of this conversation. To look at it yourself, run laze app screenshot, or laze browser open <url> --background for a browser only you drive.
+
+$ laze browser open https://hooks-proof--mac-qa-6882b4.lazeapps.com --channel hooks-proof --background
+Opened the background browser ... Nobody sees it and no tab is pinned.
+
+$ laze browser close <background tab>
+$ laze browser tabs --channel hooks-proof
+No browser tabs here.
