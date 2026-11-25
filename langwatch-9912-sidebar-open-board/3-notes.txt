@@ -1,0 +1,10 @@
+PR 9912 proof, head fa0a0703418, local haven stack app.sidebar-open-board.langwatch.localhost
+Setup: .env FEATURE_FLAG_FORCE_ENABLE gained release_dashboards_organization_area and release_dashboards_in_every_product (.env is git-ignored).
+A = "Local Dev Project", B = "proof-8896 boards", same org and team (Local Dev Team).
+Board: "Whoopie" (Project scope, B) /dashboards/dashboard_000000DRoOqAjud4iYL1UE5ZMUIMK
+Path: /local-dev-project/dashboards -> /dashboards (A in view, tab title "Local Dev Project") -> click Whoopie link.
+Result: URL /dashboards/dashboard_000000DRoOqAjud4iYL1UE5ZMUIMK, picker "proof-8896 boards", title "proof-8896 boards",
+sidebar Dashboards: My dashboard, Agent health, Untitled dashboard 1, Whoopie (aria-current=page), Browse templates. Header chip "Project".
+Odd: my "New dashboard" in B as "B board" landed on /dashboards/new then showed "My dashboard" (Only me), no "B board" created; not tested further. Created one extra "My dashboard" (Only me).
+Odd: orb.js CORS console errors (haven dev tooling, unrelated). haven browser needed SSL_CERT_FILE=~/.portless/ca.pem and a manual '{"msg":"backend ready"}' line appended to .haven/logs/<slug>/api.log to open its readiness gate.
+No redirect loop (history length 15 over whole session). Old-behaviour contrast not run.
