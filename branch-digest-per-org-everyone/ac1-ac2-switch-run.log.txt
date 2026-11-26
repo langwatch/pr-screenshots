@@ -1,0 +1,36 @@
+after login http://localhost:6560/
+02-initial full document load: 200 http://localhost:6560/settings/profile
+02-initial checked= true api= 200 {"result":{"data":{"subscribed":true}}}
+db initial [
+ {
+  "userId": "ZLKKvXMP9XMwJXQiitInS",
+  "unsubscribedAt": null,
+  "unsubscribedFromSendId": null,
+  "updatedAt": "2026-11-26T22:12:04.033Z"
+ }
+]
+
+setMyPreference 200 {"result":{"data":{"subscribed":false}}}
+db after off [
+ {
+  "userId": "ZLKKvXMP9XMwJXQiitInS",
+  "unsubscribedAt": "2026-11-26T22:19:44.467Z",
+  "unsubscribedFromSendId": "settings",
+  "updatedAt": "2026-11-26T22:19:44.469Z"
+ }
+]
+
+03-off-after-reload full document load: 200 http://localhost:6560/settings/profile
+03-off-after-reload checked= false api= 200 {"result":{"data":{"subscribed":false}}}
+setMyPreference 200 {"result":{"data":{"subscribed":true}}}
+db after on [
+ {
+  "userId": "ZLKKvXMP9XMwJXQiitInS",
+  "unsubscribedAt": null,
+  "unsubscribedFromSendId": null,
+  "updatedAt": "2026-11-26T22:19:50.922Z"
+ }
+]
+
+04-on-after-reload full document load: 200 http://localhost:6560/settings/profile
+04-on-after-reload checked= true api= 200 {"result":{"data":{"subscribed":true}}}

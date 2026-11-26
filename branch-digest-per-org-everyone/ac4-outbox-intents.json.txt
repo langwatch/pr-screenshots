@@ -1,0 +1,51 @@
+[
+ {
+  "processName": "digestWeeklyPlan",
+  "processKey": "digestWeeklyPlan",
+  "messageKey": "process:digestWeeklyPlan:plan:1795730082633",
+  "intentType": "planWeek",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestWeeklyPlan",
+  "processKey": "digestWeeklyPlan",
+  "messageKey": "process:digestWeeklyPlan:plan:1795731158504",
+  "intentType": "planWeek",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestOrganizationPlan",
+  "processKey": "plan:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "messageKey": "process:plan%3Aorganization_000000DRwE9PlyBnWtS0xsCh0u2fg%3A2026-W47:plan:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "intentType": "planOrganization",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestOrganizationPlan",
+  "processKey": "plan:organization_000000DRwEdWHQtL9rzczRGuhRZjs:2026-W47",
+  "messageKey": "process:plan%3Aorganization_000000DRwEdWHQtL9rzczRGuhRZjs%3A2026-W47:plan:organization_000000DRwEdWHQtL9rzczRGuhRZjs:2026-W47",
+  "intentType": "planOrganization",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestMemberSend",
+  "processKey": "ZLKKvXMP9XMwJXQiitInS:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "messageKey": "process:ZLKKvXMP9XMwJXQiitInS%3Aorganization_000000DRwE9PlyBnWtS0xsCh0u2fg%3A2026-W47:digest:ZLKKvXMP9XMwJXQiitInS:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "intentType": "sendDigest",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestMemberSend",
+  "processKey": "jnlgPAaJEN2X_mUgC8-Qt:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "messageKey": "process:jnlgPAaJEN2X_mUgC8-Qt%3Aorganization_000000DRwE9PlyBnWtS0xsCh0u2fg%3A2026-W47:digest:jnlgPAaJEN2X_mUgC8-Qt:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "intentType": "sendDigest",
+  "status": "dispatched"
+ },
+ {
+  "processName": "digestMemberSend",
+  "processKey": "ZLKKvXMP9XMwJXQiitInS:organization_000000DRwEdWHQtL9rzczRGuhRZjs:2026-W47",
+  "messageKey": "process:ZLKKvXMP9XMwJXQiitInS%3Aorganization_000000DRwEdWHQtL9rzczRGuhRZjs%3A2026-W47:digest:ZLKKvXMP9XMwJXQiitInS:organization_000000DRwEdWHQtL9rzczRGuhRZjs:2026-W47",
+  "intentType": "sendDigest",
+  "status": "dispatched"
+ }
+]

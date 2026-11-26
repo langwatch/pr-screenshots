@@ -1,0 +1,14 @@
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+1. DB before: [ { "userId": "ZLKKvXMP9XMwJXQiitInS", "unsubscribedAt": null, "unsubscribedFromSendId": null } ] 
+2. one-click POST (no cookies) -> 200 <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>You are unsubscribed |
+3. DB after one-click: [ { "userId": "ZLKKvXMP9XMwJXQiitInS", "unsubscribedAt": "2026-11-26T22:19:57.050Z", "unsubscribedFromSendId": "test:2026-W47" } ] 
+4-settings-after-one-click switch checked = false | app read: 200 {"result":{"data":{"subscribed":false}}}
+5. switch on -> setMyPreference 200 {"result":{"data":{"subscribed":true}}}
+6. DB after switch on: [ { "userId": "ZLKKvXMP9XMwJXQiitInS", "unsubscribedAt": null, "unsubscribedFromSendId": null } ] 
+7-settings-after-switch-on switch checked = true | app read: 200 {"result":{"data":{"subscribed":true}}}

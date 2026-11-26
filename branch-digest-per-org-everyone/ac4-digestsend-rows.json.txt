@@ -1,0 +1,57 @@
+## DigestSend rows after the weekly plan ran (isolated DB digestproof, 2026-11-26T22:15:28Z)
+[
+ {
+  "id": "ZLKKvXMP9XMwJXQiitInS:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "email": "browser-test@langwatch.ai",
+  "org": "Acme Digest",
+  "role": "ADMIN",
+  "templateId": "digest-traces-week",
+  "sentAt": "2026-11-26T22:13:39.992Z"
+ },
+ {
+  "id": "jnlgPAaJEN2X_mUgC8-Qt:organization_000000DRwE9PlyBnWtS0xsCh0u2fg:2026-W47",
+  "email": "bob@digest.test",
+  "org": "Acme Digest",
+  "role": "MEMBER",
+  "templateId": "digest-traces-week",
+  "sentAt": "2026-11-26T22:13:40.513Z"
+ },
+ {
+  "id": "ZLKKvXMP9XMwJXQiitInS:organization_000000DRwEdWHQtL9rzczRGuhRZjs:2026-W47",
+  "email": "browser-test@langwatch.ai",
+  "org": "Beta Digest",
+  "role": "ADMIN",
+  "templateId": "digest-traces-week",
+  "sentAt": "2026-11-26T22:15:05.599Z"
+ }
+]
+## DigestSettings
+[
+ {
+  "id": "singleton",
+  "armed": true,
+  "lastPlannedWeek": "2026-W47",
+  "updatedAt": "2026-11-26T22:12:41.687Z"
+ }
+]
+## Projects
+[
+ {
+  "name": "Bob Private Agent",
+  "isPersonal": true,
+  "owner": "bob@digest.test",
+  "org": "Acme Digest"
+ },
+ {
+  "name": "Beta Support Bot",
+  "isPersonal": false,
+  "owner": null,
+  "org": "Beta Digest"
+ },
+ {
+  "name": "Acme Shared Chatbot",
+  "isPersonal": false,
+  "owner": null,
+  "org": "Acme Digest"
+ }
+]
