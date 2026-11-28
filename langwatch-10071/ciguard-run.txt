@@ -1,5 +1,4 @@
-ok  	github.com/langwatch/langwatch/tools/ciguard	9.373s
-ok  	github.com/langwatch/langwatch/pkg/ciscan	(cached)
+ok  	github.com/langwatch/langwatch/tools/ciguard	(cached)
 ✓ lean-checkout
 ✓ go-version
 ✓ pr-review-bot
