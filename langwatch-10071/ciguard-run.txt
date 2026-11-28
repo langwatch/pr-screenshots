@@ -1,9 +1,12 @@
+ok  	github.com/langwatch/langwatch/tools/ciguard	9.373s
+ok  	github.com/langwatch/langwatch/pkg/ciscan	(cached)
 ✓ lean-checkout
 ✓ go-version
 ✓ pr-review-bot
 ✓ pr-workflow
 ✓ static-cloud-keys
 ✓ lambda-workdir
+✓ lambda-extensions
 ✓ publish-shape
 ✓ ecr-skip-gates
 ✓ ecr-dispatch-tags
@@ -16,3 +19,4 @@
 ✓ vitest-transform-flag
 ✓ main-suites
 ✓ upgradelab-trigger
+✓ app-ci-datastores
